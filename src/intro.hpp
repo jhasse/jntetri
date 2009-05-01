@@ -1,0 +1,19 @@
+#pragma once
+
+#include "engine/work.hpp"
+#include "engine/resizegraphics.hpp"
+
+#include <deque>
+#include <string>
+
+class Intro : public Work {
+public:
+    Intro();
+    ~Intro();
+    virtual void Step();
+    virtual void Draw() const;
+private:
+    int blink_;
+    mutable bool finished_;
+    mutable ResizeGraphics resizeGraphics_;
+};

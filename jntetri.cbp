@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="jntetri" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\jntetri" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\jntetri" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="..\clurgrash\include" />
+		</Compiler>
+		<Linker>
+			<Add library="jngl" />
+			<Add library="opengl32" />
+			<Add library="freetype" />
+			<Add library="glu32" />
+			<Add library="Magick++" />
+			<Add library="MagickWand" />
+			<Add library="MagickCore" />
+			<Add library="..\clurgrash\lib\libboost_system-mgw34-1_38.lib" />
+			<Add library="..\clurgrash\lib\libboost_filesystem-mgw34-1_38.lib" />
+			<Add library="z" />
+			<Add library="m" />
+			<Add library="gdi32" />
+			<Add library="png" />
+			<Add directory="..\clurgrash\lib" />
+		</Linker>
+		<Unit filename="src\block.cpp" />
+		<Unit filename="src\block.hpp" />
+		<Unit filename="src\constants.hpp" />
+		<Unit filename="src\engine\fade.cpp" />
+		<Unit filename="src\engine\fade.hpp" />
+		<Unit filename="src\engine\options.cpp" />
+		<Unit filename="src\engine\options.hpp" />
+		<Unit filename="src\engine\paths.cpp" />
+		<Unit filename="src\engine\paths.hpp" />
+		<Unit filename="src\engine\procedure.cpp" />
+		<Unit filename="src\engine\procedure.hpp" />
+		<Unit filename="src\engine\random.hpp" />
+		<Unit filename="src\engine\resizegraphics.cpp" />
+		<Unit filename="src\engine\resizegraphics.hpp" />
+		<Unit filename="src\engine\rgb.cpp" />
+		<Unit filename="src\engine\rgb.hpp" />
+		<Unit filename="src\engine\screen.cpp" />
+		<Unit filename="src\engine\screen.hpp" />
+		<Unit filename="src\engine\singleton.hpp" />
+		<Unit filename="src\engine\work.cpp" />
+		<Unit filename="src\engine\work.hpp" />
+		<Unit filename="src\explosion.cpp" />
+		<Unit filename="src\explosion.hpp" />
+		<Unit filename="src\field.cpp" />
+		<Unit filename="src\field.hpp" />
+		<Unit filename="src\game.cpp" />
+		<Unit filename="src\game.hpp" />
+		<Unit filename="src\gameoverscreen.cpp" />
+		<Unit filename="src\gameoverscreen.hpp" />
+		<Unit filename="src\gametype.hpp" />
+		<Unit filename="src\gui\button.cpp" />
+		<Unit filename="src\gui\button.hpp" />
+		<Unit filename="src\gui\buttonbox.cpp" />
+		<Unit filename="src\gui\buttonbox.hpp" />
+		<Unit filename="src\gui\chooser.cpp" />
+		<Unit filename="src\gui\chooser.hpp" />
+		<Unit filename="src\gui\input.cpp" />
+		<Unit filename="src\gui\input.hpp" />
+		<Unit filename="src\highscore.cpp" />
+		<Unit filename="src\highscore.hpp" />
+		<Unit filename="src\intro.cpp" />
+		<Unit filename="src\intro.hpp" />
+		<Unit filename="src\main.cpp" />
+		<Unit filename="src\menu.cpp" />
+		<Unit filename="src\menu.hpp" />
+		<Unit filename="src\optionsmenu.cpp" />
+		<Unit filename="src\optionsmenu.hpp" />
+		<Unit filename="src\pausemenu.cpp" />
+		<Unit filename="src\pausemenu.hpp" />
+		<Unit filename="src\tetromino.cpp" />
+		<Unit filename="src\tetromino.hpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
