@@ -77,7 +77,8 @@ void Field::Step()
 			while(tetromino_->MoveDown())
 			{
 			}
-			NewTetromino();
+			counter_ = 0;
+			delay_ = true;
 		}
 		if(jngl::KeyDown(jngl::key::Down) && counter_ > 7)
 		{
