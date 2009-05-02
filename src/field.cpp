@@ -77,8 +77,7 @@ void Field::Step()
 			while(tetromino_->MoveDown())
 			{
 			}
-			counter_ = 0;
-			delay_ = true;
+			NewTetromino();
 		}
 		if(jngl::KeyDown(jngl::key::Down) && counter_ > 7)
 		{
@@ -133,6 +132,7 @@ void Field::CheckLines()
 
 void Field::NewTetromino()
 {
+	CheckLines();
 	ResetCounter();
 	score_ += level_;
 	if(tetromino_)
