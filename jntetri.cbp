@@ -94,6 +94,8 @@
 		<Unit filename="src\main.cpp" />
 		<Unit filename="src\menu.cpp" />
 		<Unit filename="src\menu.hpp" />
+		<Unit filename="src\multiplayermenu.cpp" />
+		<Unit filename="src\multiplayermenu.hpp" />
 		<Unit filename="src\optionsmenu.cpp" />
 		<Unit filename="src\optionsmenu.hpp" />
 		<Unit filename="src\pausemenu.cpp" />

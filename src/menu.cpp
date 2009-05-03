@@ -5,6 +5,7 @@
 #include "optionsmenu.hpp"
 #include "engine/screen.hpp"
 #include "game.hpp"
+#include "multiplayermenu.hpp"
 
 #include <jngl.hpp>
 #include <boost/bind.hpp>
@@ -54,7 +55,7 @@ void Menu::FiftyLines() const
 
 void Menu::Multiplayer() const
 {
-	jngl::ErrorMessage("Not implemented yet, sorry!");
+	Procedure::Handle().SetWork(new Fade(new MultiplayerMenu()));
 }
 
 void Menu::OptionsMenuCallback() const
