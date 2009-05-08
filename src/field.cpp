@@ -132,12 +132,12 @@ void Field::CheckLines()
 
 void Field::NewTetromino()
 {
-	CheckLines();
 	ResetCounter();
 	score_ += level_;
 	if(tetromino_)
 	{
 		tetromino_->AttachToField();
+		CheckLines();
 	}
 	tetromino_ = nextTetromino_;
 	nextTetromino_.reset(new Tetromino(Random::Handle()(7), *this));
