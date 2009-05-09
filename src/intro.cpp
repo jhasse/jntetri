@@ -48,7 +48,7 @@ void Intro::Step()
 	{
 		blink_ = 0;
 	}
-	if(jngl::MousePressed() && finished_)
+	if((jngl::MousePressed() || jngl::KeyPressed(jngl::key::Any)) && finished_)
 	{
 		GetProcedure().SetWork(new Fade(new Menu));
 	}

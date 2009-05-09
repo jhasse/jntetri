@@ -37,7 +37,7 @@ void GameOverScreen::Step()
 			{
 				blink_ = 0;
 			}
-			if(jngl::MousePressed())
+			if(jngl::MousePressed() || jngl::KeyPressed(jngl::key::Any))
 			{
 				GetProcedure().SetWork(new Fade(new Menu));
 			}
