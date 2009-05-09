@@ -6,6 +6,7 @@
 #include <Magick++.h>
 #include <jngl.hpp>
 #include <iostream>
+#include <fstream>
 
 ResizeGraphics::ResizeGraphics()
 {
@@ -42,19 +43,33 @@ bool ResizeGraphics::Finished()
 	{
 		return true;
 	}
-	const double factor = static_cast<double>(GetOptions().GetWindowHeight()) / 1200.0;
-	Magick::Image image(filesToResize_[0]);
-	image.zoom(Magick::Geometry(int(image.columns() * factor), int(image.rows() * factor)));
 
 	std::string basedir(GetPaths().Data() + "gfx/x1200");
 	std::string relativeFilename(filesToResize_[0].substr(basedir.size() + 1));
-
-	jngl::SetFontColor(0, 0, 0);
-	GetScreen().PrintCentered(std::string("Loading ") + relativeFilename, 0, 0);
-
 	std::string newFilename = GetPaths().Graphics() + relativeFilename;
-	boost::filesystem::create_directory(newFilename.substr(0, newFilename.find_last_of("/")));
-	image.write(newFilename);
+	std::string writeTimeFilename = newFilename.substr(0, newFilename.find_last_of(".")) + ".txt";
+
+	std::time_t newWriteTime = boost::filesystem::last_write_time(filesToResize_[0]);
+	std::time_t oldWriteTime;
+	{
+		std::ifstream fin(writeTimeFilename.c_str());
+		fin >> oldWriteTime;
+	}
+	if(oldWriteTime != newWriteTime) // Image file has changed
+	{
+		const double factor = static_cast<double>(GetOptions().GetWindowHeight()) / 1200.0;
+		Magick::Image image(filesToResize_[0]);
+		image.zoom(Magick::Geometry(int(image.columns() * factor), int(image.rows() * factor)));
+
+		jngl::SetFontColor(0, 0, 0);
+		GetScreen().PrintCentered(std::string("Loading ") + relativeFilename, 0, 0);
+
+		boost::filesystem::create_directory(newFilename.substr(0, newFilename.find_last_of("/")));
+		image.write(newFilename);
+
+		std::ofstream fout(writeTimeFilename.c_str());
+		fout << boost::filesystem::last_write_time(filesToResize_[0]);
+	}
 
 	filesToResize_.pop_front();
 	return false;
