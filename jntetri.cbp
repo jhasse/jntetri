@@ -47,6 +47,7 @@
 			<Add library="m" />
 			<Add library="gdi32" />
 			<Add library="png" />
+			<Add library="jpeg" />
 			<Add directory="lib" />
 		</Linker>
 		<Unit filename="src\block.cpp" />

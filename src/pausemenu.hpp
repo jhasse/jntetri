@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/work.hpp"
+#include "game.hpp"
 #include "gui/buttonbox.hpp"
 
 #include <boost/shared_ptr.hpp>
@@ -14,6 +14,6 @@ public:
 	void QuitToMenu() const;
 	void QuitEvent();
 private:
-    boost::shared_ptr<Work> work_;
+    boost::shared_ptr<Game> work_;
     ButtonBox buttonBox_;
 };

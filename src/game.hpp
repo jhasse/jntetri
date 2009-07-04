@@ -16,6 +16,8 @@ public:
 	bool GameOverAnimationFinished() const;
 	GameType GetType() const;
 	void DrawTime(int x, int y) const;
+	void StepToRotateScreen();
+	void SetRotateScreen(bool);
 private:
 	Field field_;
 	GameType type_;
@@ -23,4 +25,6 @@ private:
 	double oldNextPosition_;
 	double startTime_;
 	double pauseTime_;
+	bool rotateScreen_;
+	double rotateDegree_;
 };

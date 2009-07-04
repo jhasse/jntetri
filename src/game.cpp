@@ -8,13 +8,24 @@
 #include <boost/lexical_cast.hpp>
 #include <sstream>
 #include <iomanip>
+#include <gl/gl.h>
 
-Game::Game(GameType type) : type_(type), nextPosition_(field_.GetNextPosition()), oldNextPosition_(nextPosition_), startTime_(jngl::Time()), pauseTime_(0)
+Game::Game(GameType type) : type_(type), nextPosition_(field_.GetNextPosition()), oldNextPosition_(nextPosition_), startTime_(jngl::Time()), pauseTime_(0), rotateScreen_(false), rotateDegree_(0)
 {
+}
+
+void Game::SetRotateScreen(bool rotateScreen)
+{
+	rotateScreen_ = rotateScreen;
 }
 
 void Game::Step()
 {
+	StepToRotateScreen();
+	if(jngl::KeyPressed('r'))
+	{
+		rotateScreen_ = !rotateScreen_;
+	}
 	if(field_.GameOver())
 	{
 		pauseTime_ = jngl::Time();
@@ -65,33 +76,53 @@ void Game::DrawTime(const int x, const int y) const
 	GetScreen().Print(sstream.str(), 450, y + 100);
 }
 
-void Game::Draw() const
+void Game::StepToRotateScreen()
 {
-	field_.Draw();
-	jngl::SetFontColor(0, 0, 0);
-	GetScreen().SetFontSize(60);
-	jngl::PushMatrix();
-	GetScreen().Translate(-600, oldNextPosition_);
-	GetScreen().Print("Next:", -100, -75);
-	field_.DrawNextTetromino();
-	jngl::PopMatrix();
-	if(type_ == FIFTYLINES)
+	if(rotateScreen_ && rotateDegree_ < 90)
 	{
-		DrawTime(450, 100);
+		rotateDegree_ += (90 - rotateDegree_) * 0.05;
 	}
 	else
 	{
-		GetScreen().Print("Score: ", 450, 100);
-		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetScore()), 450, 200);
-		DrawTime(450, 820);
+		rotateDegree_ *= 0.95;
 	}
-	GetScreen().Print("Level: ", 450, 340);
-	GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLevel()), 450, 440);
-	GetScreen().Print("Lines: ", 450, 580);
-	GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLines()), 450, 680);
-	if(jngl::KeyPressed('f'))
+}
+
+void Game::Draw() const
+{
+	GetScreen().Translate(0, static_cast<double>(GetScreen().GetHeight()) / 2);
+	jngl::Rotate(rotateDegree_);
+	glScaled(1 + rotateDegree_ / 270, 1 + rotateDegree_ / 270, 0);
+	GetScreen().Translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
+
+	field_.Draw();
+	if(!rotateScreen_)
 	{
-		GetScreen().Print(std::string("FPS: ") + boost::lexical_cast<std::string>(jngl::FPS()), 450, 1060);
+		jngl::SetFontColor(0, 0, 0);
+		GetScreen().SetFontSize(60);
+		jngl::PushMatrix();
+		GetScreen().Translate(-600, oldNextPosition_);
+		GetScreen().Print("Next:", -100, -75);
+		field_.DrawNextTetromino();
+		jngl::PopMatrix();
+		if(type_ == FIFTYLINES)
+		{
+			DrawTime(450, 100);
+		}
+		else
+		{
+			GetScreen().Print("Score: ", 450, 100);
+			GetScreen().Print(boost::lexical_cast<std::string>(field_.GetScore()), 450, 200);
+			DrawTime(450, 820);
+		}
+		GetScreen().Print("Level: ", 450, 340);
+		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLevel()), 450, 440);
+		GetScreen().Print("Lines: ", 450, 580);
+		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLines()), 450, 680);
+		if(jngl::KeyDown('f'))
+		{
+			GetScreen().Print(std::string("FPS: ") + boost::lexical_cast<std::string>(jngl::FPS()), 450, 1060);
+		}
 	}
 }
 
