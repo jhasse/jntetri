@@ -6,8 +6,9 @@
 #include <jngl.hpp>
 #include <stdexcept>
 #include <iostream>
+#include <boost/lexical_cast.hpp>
 
-Procedure::Procedure() : oldTime_(jngl::Time()), needDraw_(true), changeWork_(false), running_(true)
+Procedure::Procedure() : oldTime_(jngl::Time()), needDraw_(true), fps_(0), fpsTemp_(0), changeWork_(false), running_(true), showFps_(false)
 {
 }
 
@@ -31,7 +32,7 @@ void Procedure::SetWork(Work* work)
 
 void Procedure::MainLoop()
 {
-	while (running_)
+	while(running_)
 	{
 		if(jngl::Time() - oldTime_ > 0.5) // Is half a second missing?
 		{
@@ -53,17 +54,39 @@ void Procedure::MainLoop()
 				GetOptions().SetFullscreen(!GetOptions().GetFullscreen());
 				ShowWindow();
 			}
+			if(jngl::KeyPressed(jngl::key::F1))
+			{
+				showFps_ = !showFps_;
+			}
 		}
 		else
 		{
-			if (needDraw_)
+			if(needDraw_ || showFps_)
 			{
 				needDraw_ = false;
 				// This needs to be done when "needDraw" is true
 				jngl::BeginDraw();
 				GetScreen().BeginDraw();
 				currentWork_->Draw();
-				fps_ = jngl::FPS();
+
+				jngl::Reset();
+				fpsTemp_ += jngl::FPS();
+				++fpsCounter_;
+				if(fpsCounter_ == 10)
+				{
+					fps_ = fpsTemp_ / fpsCounter_;
+					fpsText_ = std::string("FPS: ") + boost::lexical_cast<std::string>(int(fps_));
+					fpsCounter_ = 0;
+					fpsTemp_ = 0;
+				}
+				if(showFps_)
+				{
+					jngl::SetColor(100, 255, 100);
+					jngl::SetFontColor(0, 0, 0);
+					jngl::SetFontSize(10);
+					jngl::DrawRect(0, 0, jngl::GetTextWidth(fpsText_) + 5, 15);
+					jngl::Print(fpsText_, 2, 2);
+				}
 				jngl::EndDraw();
 			}
 			else
@@ -78,11 +101,6 @@ void Procedure::MainLoop()
 			currentWork_ = newWork_;
 		}
 	}
-}
-
-double Procedure::FPS()
-{
-	return fps_;
 }
 
 boost::shared_ptr<Work> Procedure::GetWork() const

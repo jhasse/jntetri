@@ -5,10 +5,10 @@
 #include "pausemenu.hpp"
 
 #include <jngl.hpp>
-#include <boost/lexical_cast.hpp>
 #include <sstream>
 #include <iomanip>
 #include <gl/gl.h>
+#include <boost/lexical_cast.hpp>
 
 Game::Game(GameType type) : type_(type), nextPosition_(field_.GetNextPosition()), oldNextPosition_(nextPosition_), startTime_(jngl::Time()), pauseTime_(0), rotateScreen_(false), rotateDegree_(0)
 {
@@ -119,10 +119,6 @@ void Game::Draw() const
 		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLevel()), 450, 440);
 		GetScreen().Print("Lines: ", 450, 580);
 		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLines()), 450, 680);
-		if(jngl::KeyDown('f'))
-		{
-			GetScreen().Print(std::string("FPS: ") + boost::lexical_cast<std::string>(jngl::FPS()), 450, 1060);
-		}
 	}
 }
 
