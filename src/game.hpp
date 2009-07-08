@@ -8,6 +8,7 @@
 class Game : public Work {
 public:
 	Game(GameType);
+	virtual ~Game();
 	void Step();
 	void Draw() const;
 	void QuitEvent();

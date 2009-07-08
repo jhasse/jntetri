@@ -12,4 +12,5 @@ public:
 	void ScanPath(boost::filesystem::path);
 private:
 	std::deque<std::string> filesToResize_;
+	int originalSize_;
 };

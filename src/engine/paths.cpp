@@ -70,13 +70,12 @@ Paths::Paths()
 
 std::string Paths::Graphics()
 {
-	if(GetOptions().GetWindowHeight() == 1200)
-	{
-		return GetPaths().Data() + "gfx/x1200/";
-	}
-	return GetPaths().Config() + "/x" +
-	       boost::lexical_cast<std::string>(GetOptions().GetWindowHeight()) +
-	       "/";
+	return graphics_;
+}
+
+void Paths::SetGraphics(const std::string& graphics)
+{
+	graphics_ = graphics;
 }
 
 std::string Paths::Data()

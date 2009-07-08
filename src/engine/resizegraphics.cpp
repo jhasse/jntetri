@@ -7,10 +7,31 @@
 #include <jngl.hpp>
 #include <iostream>
 #include <fstream>
+#include <boost/lexical_cast.hpp>
 
-ResizeGraphics::ResizeGraphics()
+ResizeGraphics::ResizeGraphics() : originalSize_(0)
 {
-	ScanPath(GetPaths().Data() + "gfx/x1200");
+	boost::filesystem::path path(GetPaths().Data() + "gfx");
+	boost::filesystem::directory_iterator end;
+	for(boost::filesystem::directory_iterator it(path); it != end; ++it)
+	{
+		if(boost::filesystem::is_directory(it->status()))
+		{
+			std::string name = it->path().string(); // e.g. /gfx/x1200
+			try
+			{
+				originalSize_ = boost::lexical_cast<int>(name.substr(name.rfind("/") + 2));
+				std::cout << "Original screen height: " << originalSize_ << std::endl;
+			}
+			catch(...)
+			{
+				// Bad cast, this doesn't seem to be the right directory
+			}
+		}
+	}
+
+	GetPaths().SetGraphics(GetPaths().Config() + "/x" + boost::lexical_cast<std::string>(GetOptions().GetWindowHeight()) + "/");
+	ScanPath(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_));
 }
 
 void ResizeGraphics::ScanPath(boost::filesystem::path path)
@@ -35,8 +56,9 @@ void ResizeGraphics::ScanPath(boost::filesystem::path path)
 
 bool ResizeGraphics::Finished()
 {
-	if(GetOptions().GetWindowHeight() == 1200)
+	if(GetOptions().GetWindowHeight() == originalSize_)
 	{
+		GetPaths().SetGraphics(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/");
 		return true;
 	}
 	if(filesToResize_.empty())
@@ -44,7 +66,7 @@ bool ResizeGraphics::Finished()
 		return true;
 	}
 
-	std::string basedir(GetPaths().Data() + "gfx/x1200");
+	std::string basedir(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_));
 	std::string relativeFilename(filesToResize_[0].substr(basedir.size() + 1));
 	std::string newFilename = GetPaths().Graphics() + relativeFilename;
 	std::string writeTimeFilename = newFilename.substr(0, newFilename.find_last_of(".")) + ".txt";
@@ -57,7 +79,7 @@ bool ResizeGraphics::Finished()
 	}
 	if(oldWriteTime != newWriteTime) // Image file has changed
 	{
-		const double factor = static_cast<double>(GetOptions().GetWindowHeight()) / 1200.0;
+		const double factor = static_cast<double>(GetOptions().GetWindowHeight()) / double(originalSize_);
 		Magick::Image image(filesToResize_[0]);
 		image.zoom(Magick::Geometry(int(image.columns() * factor), int(image.rows() * factor)));
 

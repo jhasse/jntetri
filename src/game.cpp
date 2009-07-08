@@ -12,6 +12,12 @@
 
 Game::Game(GameType type) : type_(type), nextPosition_(field_.GetNextPosition()), oldNextPosition_(nextPosition_), startTime_(jngl::Time()), pauseTime_(0), rotateScreen_(false), rotateDegree_(0)
 {
+	jngl::SetMouseVisible(false);
+}
+
+Game::~Game()
+{
+	jngl::SetMouseVisible(true);
 }
 
 void Game::SetRotateScreen(bool rotateScreen)
