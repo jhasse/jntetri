@@ -16,11 +16,6 @@ void Screen::BeginDraw()
 	jngl::Translate(xCenter_, 0);
 }
 
-void Screen::Draw(const std::string& filename, const double x, const double y)
-{
-	jngl::Draw(GetPaths().Graphics() + filename, x * factor_, y * factor_);
-}
-
 void Screen::DrawCentered(const std::string& filename, const double x, const double y)
 {
 	const std::string filepath = GetPaths().Graphics() + filename;

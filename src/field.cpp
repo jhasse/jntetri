@@ -37,7 +37,6 @@ void Field::ResetCounter()
 	counter_ = 200 / (level_ + 1);
 }
 
-
 void Field::Step()
 {
 	--counter_;
@@ -286,6 +285,7 @@ int Field::GetLevel() const
 void Field::SetPause(bool pause)
 {
 	pause_ = pause;
+	jngl::SetMouseVisible(pause);
 }
 
 bool Field::GameOverAnimationFinished() const

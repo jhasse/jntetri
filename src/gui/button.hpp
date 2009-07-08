@@ -18,11 +18,10 @@ public:
     int GetWidth();
     int GetMousePostiton();
     char ShortCutClicked();
-    void SetPosition(const int xPos, const int yPos);
     void CenterAt(int xCenter, int yCenter);
 private:
     std::string text_;
-    int xPos_, yPos_, mousepos_, textPosition_, mouseoverAlpha_;
+    int xPos_, yPos_, xCenter_, yCenter_, mousepos_, textPosition_, mouseoverAlpha_;
     char shortcut_;
     boost::function<void()> callback_;
     bool clicked_;

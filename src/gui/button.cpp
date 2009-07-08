@@ -24,16 +24,10 @@ void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
 	height_ = GetScreen().GetHeight(texture_);
 }
 
-void Button::SetPosition(const int xPos, const int yPos)
-{
-	xPos_ = xPos;
-	yPos_ = yPos;
-	GetScreen().SetFontSize(fontSize_);
-	textPosition_ = static_cast<int>(xPos_ + width_ / 2 - GetScreen().GetTextWidth(text_) / 2);
-}
-
 void Button::CenterAt(const int xCenter, const int yCenter)
 {
+	xCenter_ = xCenter;
+	yCenter_ = yCenter;
 	xPos_ = xCenter - width_ / 2;
 	yPos_ = yCenter - height_ / 2;
 	GetScreen().SetFontSize(fontSize_);
@@ -42,13 +36,13 @@ void Button::CenterAt(const int xCenter, const int yCenter)
 
 void Button::Draw() const
 {
-	GetScreen().Draw(texture_, xPos_, yPos_);
+	GetScreen().DrawCentered(texture_, xCenter_, yCenter_);
 	jngl::SetSpriteColor(255, 255, 255, mouseoverAlpha_);
-	GetScreen().Draw(textureMouseOver_, xPos_, yPos_);
+	GetScreen().DrawCentered(textureMouseOver_, xCenter_, yCenter_);
 	jngl::SetSpriteColor(255, 255, 255, 255);
     if(clicked_)
     {
-    	GetScreen().Draw(textureClicked_, xPos_, yPos_);
+    	GetScreen().DrawCentered(textureClicked_, xCenter_, yCenter_);
     }
     jngl::SetFontColor(255, 255, 255);
     GetScreen().SetFontSize(fontSize_);

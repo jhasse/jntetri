@@ -19,10 +19,10 @@ void ButtonBox::Add(const std::string& text, boost::function<void()> function, c
 	buttons_.push_back(Button(text, function, shortcut));
 
 	std::vector<Button>::iterator end = buttons_.end();
-	int yPosButton = yCenter_ - (buttons_.size() * (buttons_[0].GetHeight() + spacing_) - spacing_) / 2;
+	int yPosButton = yCenter_ - (buttons_.size() * (buttons_[0].GetHeight() + spacing_) - spacing_) / 2 + buttons_[0].GetHeight() / 2;
 	for(std::vector<Button>::iterator it = buttons_.begin(); it != end; ++it)
 	{
-		it->SetPosition(xCenter_ - it->GetWidth() / 2, yPosButton);
+		it->CenterAt(xCenter_, yPosButton);
 		yPosButton += buttons_[0].GetHeight() + spacing_;
 	}
 }
