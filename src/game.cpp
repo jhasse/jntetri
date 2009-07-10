@@ -7,7 +7,6 @@
 #include <jngl.hpp>
 #include <sstream>
 #include <iomanip>
-#include <gl/gl.h>
 #include <boost/lexical_cast.hpp>
 
 Game::Game(GameType type) : type_(type), nextPosition_(field_.GetNextPosition()), oldNextPosition_(nextPosition_), startTime_(jngl::Time()), pauseTime_(0), rotateScreen_(false), rotateDegree_(0)
@@ -98,7 +97,7 @@ void Game::Draw() const
 {
 	GetScreen().Translate(0, static_cast<double>(GetScreen().GetHeight()) / 2);
 	jngl::Rotate(rotateDegree_);
-	glScaled(1 + rotateDegree_ / 270, 1 + rotateDegree_ / 270, 0);
+	jngl::Scale(1 + rotateDegree_ / 270);
 	GetScreen().Translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
 
 	field_.Draw();
