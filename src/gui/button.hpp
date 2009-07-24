@@ -1,19 +1,21 @@
 #pragma once
 
-#include <boost/function.hpp>
+#include "widget.hpp"
 
+#include <boost/function.hpp>
 #include <string>
 
-class Button
+class Button : public Widget
 {
 public:
     Button(const std::string& text, boost::function<void()> callback, char shortcut = ' ');
     void SetSprites(const std::string& normal, const std::string& mouseOver, const std::string& clicked);
+    void SetText(const std::string&);
     void Draw() const;
     void Step();
     bool Mouseover() const;
-    int GetX();
-    int GetY();
+    int GetX() const;
+    int GetY() const;
     int GetHeight();
     int GetWidth();
     int GetMousePostiton();
@@ -21,7 +23,7 @@ public:
     void CenterAt(int xCenter, int yCenter);
 private:
     std::string text_;
-    int xPos_, yPos_, xCenter_, yCenter_, mousepos_, textPosition_, mouseoverAlpha_;
+    int xPos_, yPos_, mousepos_, mouseoverAlpha_;
     char shortcut_;
     boost::function<void()> callback_;
     bool clicked_;

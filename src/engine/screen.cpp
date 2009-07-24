@@ -55,7 +55,7 @@ void Screen::DrawRect(const int x, const int y, const int width, const int heigh
 
 void Screen::Print(const std::string& text, double x, double y)
 {
-	jngl::Print(text, static_cast<int>(x * factor_), static_cast<int>(y * factor_));
+	jngl::Print(text, static_cast<int>(x * factor_), static_cast<int>((y - jngl::GetFontSize() / 1.5) * factor_));
 }
 
 void Screen::PrintCentered(const std::string& text, double x, double y)

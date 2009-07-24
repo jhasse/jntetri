@@ -9,10 +9,15 @@
 const int Button::fontSize_ = 70;
 
 Button::Button(const std::string& text, boost::function<void()> callback, char shortcut)
-	: text_(text), xPos_(0), yPos_(0), textPosition_(0), mouseoverAlpha_(0),
+	: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0),
 	  shortcut_(shortcut), callback_(callback), clicked_(false)
 {
 	SetSprites("button.png", "button_over.png", "button_clicked.png");
+}
+
+void Button::SetText(const std::string& text)
+{
+	text_ = text;
 }
 
 void Button::SetSprites(const std::string& normal, const std::string& mouseOver, const std::string& clicked)
@@ -26,33 +31,30 @@ void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
 
 void Button::CenterAt(const int xCenter, const int yCenter)
 {
-	xCenter_ = xCenter;
-	yCenter_ = yCenter;
-	xPos_ = xCenter - width_ / 2;
-	yPos_ = yCenter - height_ / 2;
+	xPos_ = xCenter;
+	yPos_ = yCenter;
 	GetScreen().SetFontSize(fontSize_);
-	textPosition_ = static_cast<int>(xPos_ + width_ / 2 - GetScreen().GetTextWidth(text_) / 2);
 }
 
 void Button::Draw() const
 {
-	GetScreen().DrawCentered(texture_, xCenter_, yCenter_);
+	GetScreen().DrawCentered(texture_, xPos_, yPos_);
 	jngl::SetSpriteColor(255, 255, 255, mouseoverAlpha_);
-	GetScreen().DrawCentered(textureMouseOver_, xCenter_, yCenter_);
+	GetScreen().DrawCentered(textureMouseOver_, xPos_, yPos_);
 	jngl::SetSpriteColor(255, 255, 255, 255);
     if(clicked_)
     {
-    	GetScreen().DrawCentered(textureClicked_, xCenter_, yCenter_);
+    	GetScreen().DrawCentered(textureClicked_, xPos_, yPos_);
     }
     jngl::SetFontColor(255, 255, 255);
     GetScreen().SetFontSize(fontSize_);
     if(!clicked_)
     {
-		GetScreen().Print(text_, textPosition_, yPos_ + 60);
+		GetScreen().PrintCentered(text_, xPos_, yPos_);
     }
     else
     {
-    	GetScreen().Print(text_, textPosition_ + 10, yPos_ + 70);
+    	GetScreen().PrintCentered(text_, xPos_ + 5, yPos_ + 5);
     }
 }
 
@@ -91,16 +93,16 @@ void Button::Step()
 
 bool Button::Mouseover() const
 {
-    return (xPos_ <= GetScreen().GetMouseX() && GetScreen().GetMouseX() < (xPos_ + width_)
-            && yPos_ <= GetScreen().GetMouseY() && GetScreen().GetMouseY() < (yPos_ + height_));
+    return (xPos_ - width_ / 2 <= GetScreen().GetMouseX() && GetScreen().GetMouseX() < (xPos_ + width_ / 2)
+            && yPos_ - height_ / 2 <= GetScreen().GetMouseY() && GetScreen().GetMouseY() < (yPos_ + height_ / 2));
 }
 
-int Button::GetX()
+int Button::GetX() const
 {
     return xPos_;
 }
 
-int Button::GetY()
+int Button::GetY() const
 {
     return yPos_;
 }

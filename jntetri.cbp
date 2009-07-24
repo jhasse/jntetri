@@ -48,6 +48,7 @@
 			<Add library="gdi32" />
 			<Add library="png" />
 			<Add library="jpeg" />
+			<Add library="ws2_32" />
 			<Add directory="lib" />
 		</Linker>
 		<Unit filename="src\block.cpp" />
@@ -69,6 +70,8 @@
 		<Unit filename="src\engine\screen.cpp" />
 		<Unit filename="src\engine\screen.hpp" />
 		<Unit filename="src\engine\singleton.hpp" />
+		<Unit filename="src\engine\socket.cpp" />
+		<Unit filename="src\engine\socket.hpp" />
 		<Unit filename="src\engine\work.cpp" />
 		<Unit filename="src\engine\work.hpp" />
 		<Unit filename="src\explosion.cpp" />
@@ -88,10 +91,14 @@
 		<Unit filename="src\gui\chooser.hpp" />
 		<Unit filename="src\gui\input.cpp" />
 		<Unit filename="src\gui\input.hpp" />
+		<Unit filename="src\gui\widget.cpp" />
+		<Unit filename="src\gui\widget.hpp" />
 		<Unit filename="src\highscore.cpp" />
 		<Unit filename="src\highscore.hpp" />
 		<Unit filename="src\intro.cpp" />
 		<Unit filename="src\intro.hpp" />
+		<Unit filename="src\login.cpp" />
+		<Unit filename="src\login.hpp" />
 		<Unit filename="src\main.cpp" />
 		<Unit filename="src\menu.cpp" />
 		<Unit filename="src\menu.hpp" />
