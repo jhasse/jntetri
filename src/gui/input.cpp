@@ -12,10 +12,7 @@ Input::Input(int x, int y) : x_(x), y_(y), password_(false)
 	unicodeChars_.push_back("ü");
 	unicodeChars_.push_back("ß");
 	unicodeChars_.push_back("§");
-	if(focus_ == 0)
-	{
-		focus_ = this;
-	}
+	Focus();
 }
 
 Input::~Input()
@@ -26,13 +23,22 @@ Input::~Input()
 	}
 }
 
+void Input::Focus()
+{
+	focus_ = this;
+}
+
 void Input::SetPassword(bool password)
 {
 	password_ = password;
 }
-
+#include <iostream>
 void Input::Step()
 {
+	if(!sensitive_)
+	{
+		return;
+	}
 	if(focus_ == this)
 	{
 		for(char c = ' '; c < '~' + 1; ++c)
@@ -80,6 +86,14 @@ void Input::Draw() const
 			text_ += "●";
 		}
 	}
+	if(sensitive_)
+	{
+		jngl::SetFontColor(0, 0, 0);
+	}
+	else
+	{
+		jngl::SetFontColor(150, 150, 150);
+	}
 	if(focus_ != this || static_cast<int>(jngl::Time() * 2) % 2)
 	{
 		GetScreen().Print(text_, x_, y_);
@@ -97,4 +111,9 @@ void Input::Draw() const
 std::string Input::GetText() const
 {
 	return text_;
+}
+
+void Input::SetText(const std::string& text)
+{
+	text_ = text;
 }

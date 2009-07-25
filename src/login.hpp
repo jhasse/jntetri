@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/work.hpp"
+#include "engine/socket.hpp"
 #include "multiplayermenu.hpp"
 
 #include <boost/shared_ptr.hpp>
@@ -13,22 +14,21 @@ public:
 	void Draw() const;
 	void HandleConnect();
 	void ProtocolCheck1();
-	void ProtocolCheck2(size_t);
+	void ProtocolCheck2(std::string);
 	void HandleLogin1();
-	void HandleLogin2(size_t);
+	void HandleLogin2(std::string);
 	void OnCancel();
 	void OnError();
 	void Register();
 	void HandleRegister1();
-	void HandleRegister2(size_t);
+	void HandleRegister2(std::string);
+	void GoToLobby();
 private:
 	boost::shared_ptr<MultiplayerMenu> menu_;
 	std::string text_;
 	const static std::string server_;
 	const static int port_;
 	const static std::string protocolVersion_;
-	boost::array<char, 1024> buf_;
 	Button cancel_;
-	boost::asio::io_service io_;
-	boost::asio::ip::tcp::socket socket_;
+	boost::shared_ptr<Socket> socket_;
 };

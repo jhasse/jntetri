@@ -36,7 +36,7 @@ void Menu::Draw() const
 	jngl::SetFontColor(0, 0, 0);
 	GetScreen().Print("Highscores Normal", 0, -90);
 	normalHighscore_.Draw();
-	GetScreen().Translate(   0, 530);
+	GetScreen().Translate(0, 530);
 	jngl::SetFontColor(0, 0, 0);
 	GetScreen().Print("Highscores 50 Lines", 0, -90);
 	fiftyLinesHighscore_.Draw();

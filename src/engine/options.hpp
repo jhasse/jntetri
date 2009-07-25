@@ -2,6 +2,8 @@
 
 #include "singleton.hpp"
 
+#include <string>
+
 class Options : public Singleton<Options>
 {
 public:
@@ -15,12 +17,15 @@ public:
 	int GetStartLevel() const;
 	void SetStartLevel(int);
 	void SetStartJunks(int);
+	void SetLastLoginName(const std::string&);
+	std::string GetLastLoginName() const;
 private:
 	int windowWidth_;
 	int windowHeight_;
 	bool fullscreen_;
 	int startLevel_;
 	int startJunks_;
+	std::string lastLoginName_;
 };
 
 Options& GetOptions(); // Easier access to the singleton

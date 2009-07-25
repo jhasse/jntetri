@@ -18,6 +18,7 @@ int main()
 		jngl::SetAntiAliasing(true);
 		GetProcedure().SetWork(new Intro);
 		GetProcedure().MainLoop();
+		GetOptions().Save();
 	}
 	catch(std::exception& e)
 	{

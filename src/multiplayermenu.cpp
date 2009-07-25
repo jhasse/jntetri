@@ -2,6 +2,7 @@
 #include "engine/screen.hpp"
 #include "engine/procedure.hpp"
 #include "engine/fade.hpp"
+#include "engine/options.hpp"
 #include "menu.hpp"
 #include "login.hpp"
 
@@ -15,6 +16,11 @@ MultiplayerMenu::MultiplayerMenu()
 	back_.CenterAt(-350, 880);
 	login_.CenterAt(350, 880);
 	password_.SetPassword(true);
+	name_.SetText(GetOptions().GetLastLoginName());
+	if(name_.GetText() == "")
+	{
+		name_.Focus();
+	}
 }
 
 void MultiplayerMenu::Step()
@@ -23,6 +29,10 @@ void MultiplayerMenu::Step()
 	name_.Step();
 	password_.Step();
 	login_.Step();
+	if(jngl::KeyPressed(jngl::key::Return))
+	{
+		OnLogin();
+	}
 }
 
 void MultiplayerMenu::Draw() const

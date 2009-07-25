@@ -1,13 +1,16 @@
 #include "login.hpp"
 #include "engine/screen.hpp"
 #include "engine/procedure.hpp"
+#include "engine/fade.hpp"
+#include "engine/options.hpp"
+#include "lobby.hpp"
 
 #include <jngl.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>
 
-const std::string Login::server_("79.237.169.63");
+const std::string Login::server_("tsrom.dyndns.org");
 const int Login::port_ = 7070;
 const std::string Login::protocolVersion_ = "1";
 
@@ -18,28 +21,28 @@ void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callb
 }
 
 Login::Login(boost::shared_ptr<MultiplayerMenu> multiplayerMenu)
-	: menu_(multiplayerMenu), text_("connecting ..."), socket_(io_),
-	  cancel_("Cancel", boost::bind(&Login::OnCancel, this))
+	: menu_(multiplayerMenu), text_("connecting ..."),
+	  cancel_("Cancel", boost::bind(&Login::OnCancel, this)),
+	  socket_(new Socket)
 {
-	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(server_), port_);
-	socket_.async_connect(endpoint, boost::bind(&Login::HandleConnect, this));
+	socket_->Connect(server_, port_, boost::bind(&Login::HandleConnect, this));
 	cancel_.CenterAt(0, 800);
 }
 
 void Login::HandleConnect()
 {
-	text_ = "handshake ...";
-	Send(socket_, protocolVersion_, boost::bind(&Login::ProtocolCheck1, this));
+	text_ = "sending ...";
+	socket_->Send(protocolVersion_, boost::bind(&Login::ProtocolCheck1, this));
 }
 
 void Login::ProtocolCheck1()
 {
-	socket_.async_receive(boost::asio::buffer(buf_), boost::bind(&Login::ProtocolCheck2, this, boost::asio::placeholders::bytes_transferred));
+	text_ = "receiving ...";
+	socket_->Receive(boost::bind(&Login::ProtocolCheck2, this, _1));
 }
 
-void Login::ProtocolCheck2(size_t len)
+void Login::ProtocolCheck2(std::string temp)
 {
-	std::string temp(buf_.begin(), len - 2);
 	if(temp != "ok")
 	{
 		text_ = "Error: ";
@@ -49,22 +52,22 @@ void Login::ProtocolCheck2(size_t len)
 	else
 	{
 		std::stringstream sstream;
-		sstream << "login\n" << menu_->GetName() << "\n" << menu_->GetPassword() << "\r\n";
-		socket_.async_send(boost::asio::buffer(sstream.str()), boost::bind(&Login::HandleLogin1, this));
+		sstream << "login\n" << menu_->GetName() << "\n" << menu_->GetPassword();
+		socket_->Send(sstream.str(), boost::bind(&Login::HandleLogin1, this));
 	}
 }
 
 void Login::HandleLogin1()
 {
-	socket_.async_receive(boost::asio::buffer(buf_), boost::bind(&Login::HandleLogin2, this, boost::asio::placeholders::bytes_transferred));
+	socket_->Receive(boost::bind(&Login::HandleLogin2, this, _1));
 	text_ = "waiting for authentification ...";
 }
 
-void Login::HandleLogin2(size_t len)
+void Login::HandleLogin2(std::string temp)
 {
-	std::string temp(buf_.begin(), len - 2);
 	if(temp == "ok")
 	{
+		GoToLobby();
 	}
 	else if(temp == "unknown name")
 	{
@@ -81,7 +84,9 @@ void Login::HandleLogin2(size_t len)
 	}
 	else
 	{
-		text_ = temp;
+		text_ = "Error: ";
+		text_ += temp;
+		OnError();
 	}
 }
 
@@ -89,7 +94,7 @@ void Login::Register()
 {
 	std::stringstream sstream;
 	sstream << "register\n" << menu_->GetName() << "\n" << menu_->GetPassword() << "\r\n";
-	socket_.async_send(boost::asio::buffer(sstream.str()), boost::bind(&Login::HandleRegister1, this));
+	socket_->Send(sstream.str(), boost::bind(&Login::HandleRegister1, this));
 	cancel_.CenterAt(0, 800);
 	cancel_.SetText("Cancel");
 	widgets_.clear(); // FIXME: Implement RemoveWidget function
@@ -97,16 +102,15 @@ void Login::Register()
 
 void Login::HandleRegister1()
 {
-	socket_.async_receive(boost::asio::buffer(buf_), boost::bind(&Login::HandleRegister2, this, boost::asio::placeholders::bytes_transferred));
+	socket_->Receive(boost::bind(&Login::HandleRegister2, this, _1));
 	text_ = "please wait ...";
 }
 
-void Login::HandleRegister2(size_t len)
+void Login::HandleRegister2(std::string temp)
 {
-	std::string temp(buf_.begin(), len - 2);
 	if(temp == "ok")
 	{
-		text_ = "Success!";
+		GoToLobby();
 	}
 	else
 	{
@@ -118,9 +122,15 @@ void Login::HandleRegister2(size_t len)
 
 void Login::Step()
 {
-	io_.poll();
+	socket_->Step();
 	cancel_.Step();
 	StepWidgets();
+}
+
+void Login::GoToLobby()
+{
+	GetOptions().SetLastLoginName(menu_->GetName());
+	GetProcedure().SetWork(new Fade(new Lobby(socket_)));
 }
 
 void Login::Draw() const

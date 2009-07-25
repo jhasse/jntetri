@@ -11,6 +11,8 @@ Options::Options() : windowWidth_(1024), windowHeight_(768), fullscreen_(false),
 	{
 		std::ifstream fin(filename.c_str());
 		fin >> windowWidth_ >> windowHeight_ >> fullscreen_ >> startLevel_ >> startJunks_;
+		std::getline(fin, lastLoginName_); // Ignore new line after start startJunks_
+		std::getline(fin, lastLoginName_);
 	}
 }
 
@@ -39,8 +41,9 @@ void Options::Save() const
 	std::ofstream fout((GetPaths().Config() + "options.txt").c_str());
 	fout << windowWidth_  << " "
 	     << windowHeight_ << " "
-	     << fullscreen_;
-	fout << std::endl << startLevel_ << " " << startJunks_;
+	     << fullscreen_
+	     << std::endl << startLevel_ << " " << startJunks_
+	     << std::endl << lastLoginName_;
 }
 
 Options& GetOptions()
@@ -66,4 +69,14 @@ void Options::SetStartLevel(int l)
 void Options::SetStartJunks(int j)
 {
 	startJunks_ = j;
+}
+
+void Options::SetLastLoginName(const std::string& name)
+{
+	lastLoginName_ = name;
+}
+
+std::string Options::GetLastLoginName() const
+{
+	return lastLoginName_;
 }

@@ -31,6 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-D_WIN32_WINNT=0x0501" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
@@ -97,6 +98,8 @@
 		<Unit filename="src\highscore.hpp" />
 		<Unit filename="src\intro.cpp" />
 		<Unit filename="src\intro.hpp" />
+		<Unit filename="src\lobby.cpp" />
+		<Unit filename="src\lobby.hpp" />
 		<Unit filename="src\login.cpp" />
 		<Unit filename="src\login.hpp" />
 		<Unit filename="src\main.cpp" />
