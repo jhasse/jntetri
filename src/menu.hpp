@@ -11,6 +11,7 @@ public:
     Menu();
     virtual void Step();
     virtual void Draw() const;
+    void BlinkHighscore(Data);
 
     void Normal() const;
     void FiftyLines() const;

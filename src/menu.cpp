@@ -19,6 +19,12 @@ Menu::Menu() : buttonBox_(-450, 600), normalHighscore_(NORMAL), fiftyLinesHighsc
 	buttonBox_.Add("Quit", boost::bind(&Menu::QuitGame, this), 'q');
 }
 
+void Menu::BlinkHighscore(Data data)
+{
+	normalHighscore_.Blink(data);
+	fiftyLinesHighscore_.Blink(data);
+}
+
 void Menu::Step()
 {
 	buttonBox_.Step();

@@ -27,7 +27,9 @@ void GameOverScreen::Step()
 				data_.name = input_.GetText();
 				highscore_.Add(data_);
 				highscore_.Save();
-				GetProcedure().SetWork(new Fade(new Menu));
+				Menu* menu = new Menu;
+				menu->BlinkHighscore(data_);
+				GetProcedure().SetWork(new Fade(menu));
 			}
 		}
 		else

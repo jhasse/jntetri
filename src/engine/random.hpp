@@ -1,6 +1,7 @@
 #include "singleton.hpp"
 
 #include <boost/random/linear_congruential.hpp>
+#include <ctime>
 
 class Random : public Singleton<Random> {
 public:

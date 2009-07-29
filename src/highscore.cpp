@@ -9,7 +9,16 @@
 #include <iomanip>
 #include <jngl.hpp>
 
-Highscore::Highscore(GameType type) : type_(type)
+Data::Data() : score(0), time(0)
+{
+}
+
+bool operator==(const Data& a, const Data& b)
+{
+	return a.score == b.score && int(a.time * 1000) == int(b.time * 1000) && a.name == b.name;
+}
+
+Highscore::Highscore(GameType type) : type_(type), blink_((Data*)0)
 {
 	if(type == NORMAL)
 	{
@@ -53,7 +62,6 @@ void Highscore::Draw() const
 	assert(highscores_.size() == 5);
 	jngl::PushMatrix();
 	GetScreen().SetFontSize(50);
-	jngl::SetFontColor(0, 0, 0);
 	std::list<Data>::const_iterator end = highscores_.end();
 	int n = 1;
 	for(std::list<Data>::const_iterator it = highscores_.begin(); it != end; ++it)
@@ -72,6 +80,17 @@ void Highscore::Draw() const
 			sstream.fill('0');
 			sstream << minutes << ":" << std::setw(2) << seconds << "." << tenthOfASecond;
 			score = sstream.str();
+		}
+		jngl::SetFontColor(0, 0, 0);
+		if(blink_)
+		{
+			Data a = *blink_;
+			Data b = *it;
+			if(a == b)
+			{
+				int alpha = int(jngl::Time() * 300) % 510;
+				jngl::SetFontColor(0, 0, 0, alpha > 255 ? 510 - alpha : alpha);
+			}
 		}
 		GetScreen().Print(score, 700 - GetScreen().GetTextWidth(score), 0);
 		GetScreen().Print(boost::lexical_cast<std::string>(n) + ". " + it->name, 0, 0);
@@ -125,4 +144,9 @@ void Highscore::Save() const
 	{
 		fout << it->name << std::endl << it->score << " " << it->time << std::endl;
 	}
+}
+
+void Highscore::Blink(Data d)
+{
+	blink_.reset(new Data(d));
 }
