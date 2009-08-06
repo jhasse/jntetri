@@ -42,8 +42,8 @@
 			<Add library="Magick++" />
 			<Add library="MagickWand" />
 			<Add library="MagickCore" />
-			<Add library="lib\libboost_system-mgw34-1_38.lib" />
-			<Add library="lib\libboost_filesystem-mgw34-1_38.lib" />
+			<Add library="lib\libboost_system-mgw44-1_39.lib" />
+			<Add library="lib\libboost_filesystem-mgw44-1_39.lib" />
 			<Add library="z" />
 			<Add library="m" />
 			<Add library="gdi32" />
