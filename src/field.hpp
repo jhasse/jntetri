@@ -3,6 +3,7 @@
 #include "block.hpp"
 #include "tetromino.hpp"
 #include "explosion.hpp"
+#include "control.hpp"
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
@@ -28,6 +29,7 @@ public:
 	void DrawNextTetromino() const;
 	void SetPause(bool pause);
 	bool GameOverAnimationFinished() const;
+	Control& GetControl() const;
 private:
 	void CheckLines();
 	void ResetCounter();
@@ -46,4 +48,5 @@ private:
 	int maxY_;
 	bool pause_;
 	bool delay_;
+	boost::shared_ptr<Control> control_;
 };

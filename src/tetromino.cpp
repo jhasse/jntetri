@@ -104,7 +104,7 @@ void Tetromino::Step()
 	animationY_ *= 0.8;
 	animationX_ *= 0.7;
 	rotation_ *= 0.8;
-	if(jngl::KeyPressed(jngl::key::Left))
+	if(field_.GetControl().Left())
 	{
 		ChangeX(-1);
 		if(Collided())
@@ -112,7 +112,7 @@ void Tetromino::Step()
 			ChangeX(1);
 		}
 	}
-	if(jngl::KeyPressed(jngl::key::Right))
+	if(field_.GetControl().Right())
 	{
 		ChangeX(1);
 		if(Collided())
@@ -120,11 +120,11 @@ void Tetromino::Step()
 			ChangeX(-1);
 		}
 	}
-	if(jngl::KeyPressed(jngl::key::Up))
+	if(field_.GetControl().Rotate())
 	{
 		Rotate(CLOCKWISE);
 	}
-	if(jngl::KeyPressed(jngl::key::ControlR))
+	if(field_.GetControl().RotateCounter())
 	{
 		Rotate(COUNTERCLOCKWISE);
 	}
