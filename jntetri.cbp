@@ -56,6 +56,8 @@
 		<Unit filename="src\block.cpp" />
 		<Unit filename="src\block.hpp" />
 		<Unit filename="src\constants.hpp" />
+		<Unit filename="src\control.cpp" />
+		<Unit filename="src\control.hpp" />
 		<Unit filename="src\engine\fade.cpp" />
 		<Unit filename="src\engine\fade.hpp" />
 		<Unit filename="src\engine\options.cpp" />

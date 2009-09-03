@@ -13,7 +13,7 @@ const int Field::height_ = 19;
 Field::Field()
 	: blockSize_(60), counter_(0), gameOver_(false), score_(0),
 	  level_(GetOptions().GetStartLevel()), lines_(0), maxY_(0),
-	  pause_(false)
+	  pause_(false), control_(new KeyboardControl)
 {
 	NewTetromino();
 	NewTetromino();
@@ -71,14 +71,14 @@ void Field::Step()
 			}
 		}
 		tetromino_->Step();
-		if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return))
+		if(control_->Drop())
 		{
 			while(tetromino_->MoveDown())
 			{
 			}
 			NewTetromino();
 		}
-		if(jngl::KeyDown(jngl::key::Down) && counter_ > 7)
+		if(control_->Down() && counter_ > 7)
 		{
 			counter_ = 7;
 		}
@@ -296,4 +296,9 @@ bool Field::GameOverAnimationFinished() const
 void Field::SetGameOver(bool gameOver)
 {
 	gameOver_ = gameOver;
+}
+
+Control& Field::GetControl() const
+{
+	return *control_;
 }
