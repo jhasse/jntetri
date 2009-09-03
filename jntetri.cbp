@@ -35,6 +35,7 @@
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
+			<Add option="-static" />
 			<Add library="jngl" />
 			<Add library="opengl32" />
 			<Add library="freetype" />
