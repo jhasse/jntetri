@@ -8,13 +8,14 @@
 #include <boost/bind.hpp>
 
 PauseMenu::PauseMenu(boost::shared_ptr<Work> work)
-	: work_(boost::dynamic_pointer_cast<Game>(work))
+	: work_(boost::dynamic_pointer_cast<Game>(work)), buttonBox_(new ButtonBox)
 {
 	assert(work_);
 	work_->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
-	buttonBox_.Add("Resume", boost::bind(&PauseMenu::Continue, this));
-	buttonBox_.Add("Menu", boost::bind(&PauseMenu::QuitToMenu, this));
-	buttonBox_.Add("Quit", boost::bind(&Procedure::Quit, &GetProcedure()));
+	buttonBox_->Add("Resume", boost::bind(&PauseMenu::Continue, this));
+	buttonBox_->Add("Menu", boost::bind(&PauseMenu::QuitToMenu, this));
+	buttonBox_->Add("Quit", boost::bind(&Procedure::Quit, &GetProcedure()));
+	AddWidget(buttonBox_);
 }
 
 void PauseMenu::Step()
@@ -23,7 +24,7 @@ void PauseMenu::Step()
     {
         GetProcedure().SetWork(work_);
     }
-    buttonBox_.Step();
+    StepWidgets();
     work_->StepToRotateScreen();
 }
 
@@ -35,7 +36,7 @@ void PauseMenu::Continue()
 void PauseMenu::Draw() const
 {
 	work_->Draw();
-	buttonBox_.Draw();
+	DrawWidgets();
 }
 
 void PauseMenu::QuitToMenu() const

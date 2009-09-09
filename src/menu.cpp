@@ -10,13 +10,14 @@
 #include <jngl.hpp>
 #include <boost/bind.hpp>
 
-Menu::Menu() : buttonBox_(-450, 600), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES)
+Menu::Menu() : buttonBox_(new ButtonBox(-450, 600)), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES)
 {
-    buttonBox_.Add("Normal", boost::bind(&Menu::Normal, this), 'n');
-	buttonBox_.Add("50 Lines", boost::bind(&Menu::FiftyLines, this), '5');
-    buttonBox_.Add("Multiplayer", boost::bind(&Menu::Multiplayer, this), 'm');
-	buttonBox_.Add("Options", boost::bind(&Menu::OptionsMenuCallback, this), 'o');
-	buttonBox_.Add("Quit", boost::bind(&Menu::QuitGame, this), 'q');
+    buttonBox_->Add("Normal", boost::bind(&Menu::Normal, this), 'n');
+	buttonBox_->Add("50 Lines", boost::bind(&Menu::FiftyLines, this), '5');
+    buttonBox_->Add("Multiplayer", boost::bind(&Menu::Multiplayer, this), 'm');
+	buttonBox_->Add("Options", boost::bind(&Menu::OptionsMenuCallback, this), 'o');
+	buttonBox_->Add("Quit", boost::bind(&Menu::QuitGame, this), 'q');
+	AddWidget(buttonBox_);
 }
 
 void Menu::BlinkHighscore(Data data)
@@ -27,13 +28,13 @@ void Menu::BlinkHighscore(Data data)
 
 void Menu::Step()
 {
-	buttonBox_.Step();
+	StepWidgets();
 }
 
 void Menu::Draw() const
 {
 	jngl::SetBackgroundColor(255, 255, 255);
-	buttonBox_.Draw();
+	DrawWidgets();
 	GetScreen().DrawCentered("box.png", 340, 600);
 
 	jngl::PushMatrix();

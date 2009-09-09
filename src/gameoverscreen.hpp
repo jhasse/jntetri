@@ -18,5 +18,5 @@ private:
 	int blink_;
 	Data data_;
 	Highscore highscore_;
-	Input input_;
+	boost::shared_ptr<Input> input_;
 };

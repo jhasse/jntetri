@@ -10,25 +10,27 @@
 #include <boost/bind.hpp>
 
 MultiplayerMenu::MultiplayerMenu()
-	: back_("Back", boost::bind(&MultiplayerMenu::OnBack, this), 'b'), login_("Login", boost::bind(&MultiplayerMenu::OnLogin, this)),
-	  name_(50, 400), password_(50, 500)
+	: back_(new Button("Back", boost::bind(&MultiplayerMenu::OnBack, this))),
+	  login_(new Button("Login", boost::bind(&MultiplayerMenu::OnLogin, this))),
+	  name_(new Input(50, 400)), password_(new Input(50, 500))
 {
-	back_.CenterAt(-350, 880);
-	login_.CenterAt(350, 880);
-	password_.SetPassword(true);
-	name_.SetText(GetOptions().GetLastLoginName());
-	if(name_.GetText() == "")
+	back_->CenterAt(-350, 880);
+	login_->CenterAt(350, 880);
+	password_->SetPassword(true);
+	name_->SetText(GetOptions().GetLastLoginName());
+	if(name_->GetText() == "")
 	{
-		name_.Focus();
+		name_->SetFocus(true);
 	}
+	AddWidget(name_);
+	AddWidget(password_);
+	AddWidget(login_);
+	AddWidget(back_);
 }
 
 void MultiplayerMenu::Step()
 {
-	back_.Step();
-	name_.Step();
-	password_.Step();
-	login_.Step();
+	StepWidgets();
 	if(jngl::KeyPressed(jngl::key::Return))
 	{
 		OnLogin();
@@ -40,10 +42,7 @@ void MultiplayerMenu::Draw() const
 	jngl::SetFontColor(0, 0, 0);
 	GetScreen().Print("Name:", -500, 400);
 	GetScreen().Print("Password:", -500, 500);
-	name_.Draw();
-	password_.Draw();
-	back_.Draw();
-	login_.Draw();
+	DrawWidgets();
 }
 
 void MultiplayerMenu::OnBack() const
@@ -58,10 +57,10 @@ void MultiplayerMenu::OnLogin()
 
 std::string MultiplayerMenu::GetName() const
 {
-	return name_.GetText();
+	return name_->GetText();
 }
 
 std::string MultiplayerMenu::GetPassword() const
 {
-	return password_.GetText();
+	return password_->GetText();
 }

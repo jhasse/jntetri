@@ -15,5 +15,5 @@ public:
 	void QuitEvent();
 private:
     boost::shared_ptr<Game> work_;
-    ButtonBox buttonBox_;
+    boost::shared_ptr<ButtonBox> buttonBox_;
 };

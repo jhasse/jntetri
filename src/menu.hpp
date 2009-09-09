@@ -19,7 +19,7 @@ public:
     void OptionsMenuCallback() const;
     void QuitGame() const;
 private:
-    ButtonBox buttonBox_;
+    boost::shared_ptr<ButtonBox> buttonBox_;
     Highscore normalHighscore_;
     Highscore fiftyLinesHighscore_;
 };

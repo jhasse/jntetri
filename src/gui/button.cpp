@@ -46,6 +46,11 @@ void Button::Draw() const
     {
     	GetScreen().DrawCentered(textureClicked_, xPos_, yPos_);
     }
+    if(focus_)
+    {
+    	jngl::SetColor(0, 0, 0, 90);
+    	GetScreen().DrawRect(xPos_ - width_ / 2, yPos_ - height_ / 2, width_, height_);
+    }
     jngl::SetFontColor(255, 255, 255);
     GetScreen().SetFontSize(fontSize_);
     if(!clicked_)
@@ -65,6 +70,14 @@ void Button::Step()
 		clicked_ = false;
 	}
 	const int alphaSpeed = 10;
+	if(focus_)
+	{
+		if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return))
+		{
+			clicked_ = true;
+			callback_();
+		}
+	}
 	if(Mouseover())
 	{
 		if(mouseoverAlpha_ < 255)
