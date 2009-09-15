@@ -3,48 +3,47 @@
 
 #include <jngl.hpp>
 
-Input* Input::focus_ = 0;
-
-Input::Input(int x, int y) : x_(x), y_(y), password_(false)
+Input::Input(int x, int y) : x_(x), y_(y), password_(false), displayCursor_(0)
 {
 	unicodeChars_.push_back("ä");
 	unicodeChars_.push_back("ö");
 	unicodeChars_.push_back("ü");
 	unicodeChars_.push_back("ß");
 	unicodeChars_.push_back("§");
-	Focus();
 }
 
 Input::~Input()
 {
-	if(focus_ == this)
-	{
-		focus_ = 0;
-	}
-}
-
-void Input::Focus()
-{
-	focus_ = this;
 }
 
 void Input::SetPassword(bool password)
 {
 	password_ = password;
 }
-#include <iostream>
+
+void Input::OnFocusChanged()
+{
+	displayCursor_ = 50;
+}
+
 void Input::Step()
 {
 	if(!sensitive_)
 	{
 		return;
 	}
-	if(focus_ == this)
+	if(focus_)
 	{
+		--displayCursor_;
+		if(displayCursor_ < -35)
+		{
+			displayCursor_ = 35;
+		}
 		for(char c = ' '; c < '~' + 1; ++c)
 		{
 			if(jngl::KeyPressed(c))
 			{
+				displayCursor_ = 50;
 				text_ += c;
 			}
 		}
@@ -53,11 +52,13 @@ void Input::Step()
 		{
 			if(jngl::KeyPressed(*it))
 			{
+				displayCursor_ = 50;
 				text_ += *it;
 			}
 		}
 		if(jngl::KeyPressed(jngl::key::BackSpace) && !text_.empty())
 		{
+			displayCursor_ = 50;
 			std::string::iterator it = text_.end();
 			--it;
 			while(*it & 0x80 && !(*it & 0x40)) // Unicode character?
@@ -66,10 +67,6 @@ void Input::Step()
 			}
 			text_.erase(it, text_.end());
 		}
-	}
-	else if(jngl::KeyPressed(jngl::key::Tab))
-	{
-		focus_ = this;
 	}
 }
 
@@ -94,13 +91,13 @@ void Input::Draw() const
 	{
 		jngl::SetFontColor(150, 150, 150);
 	}
-	if(focus_ != this || static_cast<int>(jngl::Time() * 2) % 2)
+	if(focus_ && displayCursor_ > 0)
 	{
-		GetScreen().Print(text_, x_, y_);
+		GetScreen().Print(text_ + "|", x_, y_);
 	}
 	else
 	{
-		GetScreen().Print(text_ + "|", x_, y_);
+		GetScreen().Print(text_, x_, y_);
 	}
 	if(password_)
 	{

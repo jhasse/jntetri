@@ -7,11 +7,12 @@
 #include <jngl.hpp>
 
 GameOverScreen::GameOverScreen()
-	: game_(boost::shared_dynamic_cast<Game>(GetProcedure().GetWork())), blink_(0), highscore_(game_->GetType()), input_(-160, 800)
+	: game_(boost::shared_dynamic_cast<Game>(GetProcedure().GetWork())), blink_(0), highscore_(game_->GetType()), input_(new Input(-160, 800))
 {
 	assert(game_);
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
+	AddWidget(input_);
 }
 
 void GameOverScreen::Step()
@@ -21,10 +22,10 @@ void GameOverScreen::Step()
 	{
 		if(highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50))
 		{
-			input_.Step();
+			StepWidgets();
 			if(jngl::KeyPressed(jngl::key::Return))
 			{
-				data_.name = input_.GetText();
+				data_.name = input_->GetText();
 				highscore_.Add(data_);
 				highscore_.Save();
 				Menu* menu = new Menu;
@@ -69,7 +70,7 @@ void GameOverScreen::Draw() const
 			jngl::SetFontColor(0, 0, 0);
 			GetScreen().PrintCentered("You entered the top!", 0, 650);
 			GetScreen().PrintCentered("Enter your name:", 0, 730);
-			input_.Draw();
+			DrawWidgets();
 		}
 		else
 		{

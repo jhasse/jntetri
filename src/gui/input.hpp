@@ -14,11 +14,11 @@ public:
 	void SetText(const std::string&);
 	std::string GetText() const;
 	void SetPassword(bool);
-	void Focus();
+	virtual void OnFocusChanged();
 private:
 	mutable std::string text_;
 	std::vector<std::string> unicodeChars_;
 	int x_, y_;
-	static Input* focus_;
 	bool password_;
+	int displayCursor_;
 };

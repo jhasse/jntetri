@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../gui/widget.hpp"
-
 #include <boost/shared_ptr.hpp>
 #include <vector>
+
+class Widget;
 
 class Work
 {
@@ -17,4 +17,6 @@ public:
 	void AddWidget(boost::shared_ptr<Widget>);
 protected:
 	std::vector<boost::shared_ptr<Widget> > widgets_;
+	boost::shared_ptr<Widget> focusedWidget_;
+	void FocusNext();
 };
