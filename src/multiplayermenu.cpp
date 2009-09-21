@@ -14,18 +14,18 @@ MultiplayerMenu::MultiplayerMenu()
 	  login_(new Button("Login", boost::bind(&MultiplayerMenu::OnLogin, this))),
 	  name_(new Input(50, 400)), password_(new Input(50, 500))
 {
-	back_->CenterAt(-350, 880);
-	login_->CenterAt(350, 880);
-	password_->SetPassword(true);
-	name_->SetText(GetOptions().GetLastLoginName());
-	if(name_->GetText() == "")
-	{
-		name_->SetFocus(true);
-	}
 	AddWidget(name_);
 	AddWidget(password_);
 	AddWidget(login_);
 	AddWidget(back_);
+	back_->CenterAt(-350, 880);
+	login_->CenterAt(350, 880);
+	password_->SetPassword(true);
+	name_->SetText(GetOptions().GetLastLoginName());
+	if(name_->GetText() != "")
+	{
+		FocusNext();
+	}
 }
 
 void MultiplayerMenu::Step()

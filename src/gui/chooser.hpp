@@ -1,10 +1,11 @@
 #pragma once
 
 #include "button.hpp"
+#include "widget.hpp"
 
 #include <list>
 
-class Chooser {
+class Chooser : public Widget {
 public:
 	Chooser(int x, int y);
 	void Step();

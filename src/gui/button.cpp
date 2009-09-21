@@ -38,18 +38,24 @@ void Button::CenterAt(const int xCenter, const int yCenter)
 
 void Button::Draw() const
 {
-	GetScreen().DrawCentered(texture_, xPos_, yPos_);
-	jngl::SetSpriteColor(255, 255, 255, mouseoverAlpha_);
-	GetScreen().DrawCentered(textureMouseOver_, xPos_, yPos_);
+	int alpha = mouseoverAlpha_;
+	if(clicked_)
+	{
+		alpha -= 100;
+	}
+	GetScreen().DrawCenteredScaled(texture_, xPos_, yPos_, 1.0 + (alpha / 6000.0));
+    if(focus_)
+    {
+		GetScreen().DrawCentered(textureMouseOver_, xPos_, yPos_);
+    }
+	jngl::SetSpriteColor(255, 255, 255, alpha);
+	jngl::PushMatrix();
+	GetScreen().DrawCenteredScaled(textureMouseOver_, xPos_, yPos_, 1.0 + (alpha / 6000.0));
+	jngl::PopMatrix();
 	jngl::SetSpriteColor(255, 255, 255, 255);
     if(clicked_)
     {
-    	GetScreen().DrawCentered(textureClicked_, xPos_, yPos_);
-    }
-    if(focus_)
-    {
-    	jngl::SetColor(0, 0, 0, 90);
-    	GetScreen().DrawRect(xPos_ - width_ / 2, yPos_ - height_ / 2, width_, height_);
+    	GetScreen().DrawCenteredScaled(textureClicked_, xPos_, yPos_, 1.0 + (alpha / 6000.0));
     }
     jngl::SetFontColor(255, 255, 255);
     GetScreen().SetFontSize(fontSize_);
@@ -69,7 +75,7 @@ void Button::Step()
 	{
 		clicked_ = false;
 	}
-	const int alphaSpeed = 10;
+	const int alphaSpeed = 20;
 	if(focus_)
 	{
 		if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return))

@@ -25,6 +25,17 @@ void Chooser::Step()
 {
 	previous_.Step();
 	next_.Step();
+	if(focus_)
+	{
+		if(jngl::KeyPressed(jngl::key::Left))
+		{
+			Previous();
+		}
+		if(jngl::KeyPressed(jngl::key::Right))
+		{
+			Next();
+		}
+	}
 }
 
 void Chooser::Draw() const

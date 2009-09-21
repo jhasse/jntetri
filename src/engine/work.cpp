@@ -5,6 +5,10 @@
 #include <jngl.hpp>
 #include <algorithm>
 
+Work::Work()
+{
+}
+
 void Work::QuitEvent()
 {
     GetProcedure().Quit();
@@ -12,6 +16,21 @@ void Work::QuitEvent()
 
 Work::~Work()
 {
+}
+
+void Work::FocusPrevious()
+{
+	focusedWidget_->SetFocus(false);
+	if(focusedWidget_ == widgets_.front())
+	{
+		focusedWidget_ = widgets_.back();
+	}
+	else
+	{
+		std::vector<boost::shared_ptr<Widget> >::iterator it = std::find(widgets_.begin(), widgets_.end(), focusedWidget_);
+		--it;
+		focusedWidget_ = *it;
+	}
 }
 
 void Work::FocusNext()
@@ -31,13 +50,12 @@ void Work::FocusNext()
 
 void Work::StepWidgets()
 {
-	focusedWidget_->SetFocus(true);
 	std::vector<boost::shared_ptr<Widget> >::iterator end = widgets_.end();
 	for(std::vector<boost::shared_ptr<Widget> >::iterator it = widgets_.begin(); it != end; ++it)
 	{
 		(*it)->Step();
 	}
-	if(jngl::KeyPressed(jngl::key::Tab))
+	if(jngl::KeyPressed(jngl::key::Tab) || jngl::KeyPressed(jngl::key::Down))
 	{
 		FocusNext();
 	}
@@ -45,6 +63,15 @@ void Work::StepWidgets()
 	{
 		FocusNext();
 	}
+	if(jngl::KeyPressed(jngl::key::Up))
+	{
+		FocusPrevious();
+		while(!focusedWidget_->GetSensitive())
+		{
+			FocusPrevious();
+		}
+	}
+	focusedWidget_->SetFocus(true);
 }
 
 void Work::DrawWidgets() const
@@ -64,4 +91,5 @@ void Work::AddWidget(boost::shared_ptr<Widget> widget)
 		focusedWidget_ = widget;
 	}
 	widget->OnAdd(*this);
+	StepWidgets();
 }
