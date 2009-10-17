@@ -23,6 +23,8 @@ void Chooser::AddValue(int v)
 
 void Chooser::Step()
 {
+	previous_.SetFocus(focus_);
+	next_.SetFocus(focus_);
 	previous_.Step();
 	next_.Step();
 	if(focus_)
