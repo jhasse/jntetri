@@ -1,3 +1,4 @@
+#ifndef WIZ
 #include "login.hpp"
 #include "engine/screen.hpp"
 #include "engine/procedure.hpp"
@@ -153,3 +154,4 @@ void Login::OnError()
 {
 	cancel_.SetText("OK");
 }
+#endif // WIZ

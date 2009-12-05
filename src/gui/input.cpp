@@ -56,7 +56,7 @@ void Input::Step()
 				text_ += *it;
 			}
 		}
-		if(jngl::KeyPressed(jngl::key::BackSpace) && !text_.empty())
+		if(jngl::KeyPressed(jngl::key::BackSpace) || jngl::KeyPressed(jngl::key::WizA) && !text_.empty())
 		{
 			displayCursor_ = 50;
 			std::string::iterator it = text_.end();

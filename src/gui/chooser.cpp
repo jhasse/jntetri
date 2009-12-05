@@ -29,11 +29,11 @@ void Chooser::Step()
 	next_.Step();
 	if(focus_)
 	{
-		if(jngl::KeyPressed(jngl::key::Left))
+		if(jngl::KeyPressed(jngl::key::Left) || jngl::KeyPressed(jngl::key::WizLeft))
 		{
 			Previous();
 		}
-		if(jngl::KeyPressed(jngl::key::Right))
+		if(jngl::KeyPressed(jngl::key::Right) || jngl::KeyPressed(jngl::key::WizRight))
 		{
 			Next();
 		}

@@ -78,7 +78,7 @@ void Button::Step()
 	const int alphaSpeed = 20;
 	if(focus_)
 	{
-		if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return))
+		if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return) || jngl::KeyPressed(jngl::key::WizB))
 		{
 			clicked_ = true;
 			callback_();

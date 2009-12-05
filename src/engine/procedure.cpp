@@ -5,7 +5,6 @@
 
 #include <jngl.hpp>
 #include <stdexcept>
-#include <iostream>
 #include <boost/lexical_cast.hpp>
 
 Procedure::Procedure() : oldTime_(jngl::Time()), needDraw_(true), fps_(0), fpsTemp_(0), changeWork_(false), running_(true), showFps_(false)
@@ -54,7 +53,7 @@ void Procedure::MainLoop()
 				GetOptions().SetFullscreen(!GetOptions().GetFullscreen());
 				ShowWindow();
 			}
-			if(jngl::KeyPressed(jngl::key::F1))
+			if(jngl::KeyPressed(jngl::key::F1) || jngl::KeyPressed(jngl::key::WizL))
 			{
 				showFps_ = !showFps_;
 			}
@@ -131,7 +130,7 @@ bool Procedure::ShowWindow()
 	}
 	catch(std::runtime_error& err)
 	{
-		std::cerr << err.what() << std::endl;
+		jngl::ErrorMessage(err.what());
 		return false;
 	}
 	return true;

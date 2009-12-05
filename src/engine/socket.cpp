@@ -1,3 +1,4 @@
+#ifndef WIZ
 #include "socket.hpp"
 
 #include <iostream>
@@ -94,3 +95,4 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len, bo
 		onSuccess(temp);
 	}
 }
+#endif // WIZ

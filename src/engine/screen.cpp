@@ -72,12 +72,12 @@ void Screen::DrawScaled(const std::string& filename, const double x, const doubl
 
 int Screen::GetWidth(const std::string& filename) const
 {
-	return jngl::GetWidth(GetPaths().Data() + "gfx/x1200/" + filename);
+	return jngl::GetWidth(GetPaths().Graphics() + filename) / factor_;
 }
 
 int Screen::GetHeight(const std::string& filename) const
 {
-	return jngl::GetHeight(GetPaths().Data() + "gfx/x1200/" + filename);
+	return jngl::GetHeight(GetPaths().Graphics() + filename) / factor_;
 }
 
 int Screen::GetWidth() const

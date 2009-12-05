@@ -1,3 +1,4 @@
+#ifndef WIZ
 #include "lobby.hpp"
 #include "engine/screen.hpp"
 #include "engine/fade.hpp"
@@ -85,3 +86,4 @@ void Lobby::HandleReceive(std::string buf)
 	}
 	socket_->Receive(boost::bind(&Lobby::HandleReceive, this, _1));
 }
+#endif // WIZ

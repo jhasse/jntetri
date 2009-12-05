@@ -1,13 +1,34 @@
-#include "resizegraphics.hpp"
-#include "paths.hpp"
-#include "options.hpp"
-#include "screen.hpp"
+#include "../resizegraphics.hpp"
+#include "../paths.hpp"
+#include "../options.hpp"
+#include "../screen.hpp"
 
 #include <Magick++.h>
 #include <jngl.hpp>
 #include <iostream>
 #include <fstream>
 #include <boost/lexical_cast.hpp>
+#include <boost/filesystem.hpp>
+
+void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResize)
+{
+	boost::filesystem::directory_iterator end;
+	for(boost::filesystem::directory_iterator it(path); it != end; ++it)
+	{
+		if(boost::filesystem::is_directory(it->status()))
+		{
+			ScanPath(it->path(), filesToResize);
+		}
+		else
+		{
+			std::string file = it->path().string();
+			if(file.substr(file.size() - 4) == ".png")
+			{
+				filesToResize.push_back(it->path().string());
+			}
+		}
+	}
+}
 
 ResizeGraphics::ResizeGraphics() : originalSize_(0)
 {
@@ -31,27 +52,7 @@ ResizeGraphics::ResizeGraphics() : originalSize_(0)
 	}
 
 	GetPaths().SetGraphics(GetPaths().Config() + "/x" + boost::lexical_cast<std::string>(GetOptions().GetWindowHeight()) + "/");
-	ScanPath(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_));
-}
-
-void ResizeGraphics::ScanPath(boost::filesystem::path path)
-{
-	boost::filesystem::directory_iterator end;
-	for(boost::filesystem::directory_iterator it(path); it != end; ++it)
-	{
-		if(boost::filesystem::is_directory(it->status()))
-		{
-			ScanPath(it->path());
-		}
-		else
-		{
-			std::string file = it->path().string();
-			if(file.substr(file.size() - 4) == ".png")
-			{
-				filesToResize_.push_back(it->path().string());
-			}
-		}
-	}
+	ScanPath(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
 }
 
 bool ResizeGraphics::Finished()

@@ -27,7 +27,7 @@ void Game::SetRotateScreen(bool rotateScreen)
 void Game::Step()
 {
 	StepToRotateScreen();
-	if(jngl::KeyPressed('r'))
+	if(jngl::KeyPressed(jngl::key::WizR))
 	{
 		rotateScreen_ = !rotateScreen_;
 	}
@@ -52,7 +52,7 @@ void Game::Step()
 		startTime_ += jngl::Time() - pauseTime_;
 		pauseTime_ = 0;
 	}
-	if(jngl::KeyPressed('p'))
+	if(jngl::KeyPressed('p') || jngl::KeyPressed(jngl::key::WizMenu))
 	{
 		QuitEvent(); // Pause
 	}

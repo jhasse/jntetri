@@ -18,12 +18,13 @@ GameOverScreen::GameOverScreen()
 void GameOverScreen::Step()
 {
 	game_->GetField().Step(); // Show GameOver animation
+	game_->StepToRotateScreen();
 	if(game_->GameOverAnimationFinished())
 	{
 		if(highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50))
 		{
 			StepWidgets();
-			if(jngl::KeyPressed(jngl::key::Return))
+			if(jngl::KeyPressed(jngl::key::Return) || jngl::KeyPressed(jngl::key::WizB))
 			{
 				data_.name = input_->GetText();
 				highscore_.Add(data_);

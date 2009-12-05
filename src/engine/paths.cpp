@@ -1,25 +1,3 @@
-/*
-Copyright 2008-2009 Jan Niklas Hasse <jhasse@gmail.com>
-                    Oliver Hoog <boscop@boolsoft.org>
-                    Simon Baar <00anonym00@gmail.com>
-                    Marcel Ernst
-
-This file is part of Clurgrash.
-
-Clurgrash is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Clurgrash is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Clurgrash.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "paths.hpp"
 #include "options.hpp"
 #include "../constants.hpp"
@@ -32,7 +10,9 @@ along with Clurgrash.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 #include <iostream>
 #include <sstream>
+#ifndef WIZ
 #include <boost/filesystem.hpp>
+#endif
 #include <boost/lexical_cast.hpp>
 
 Paths::Paths()
@@ -65,7 +45,11 @@ Paths::Paths()
 	path << szPath << "/" << programShortName << "/";
 	configPath_ = path.str();
 #endif
+#ifdef WIZ
+	configPath_ = prefix_;
+#else
 	boost::filesystem::create_directory(configPath_);
+#endif
 }
 
 std::string Paths::Graphics()

@@ -1,6 +1,5 @@
 #include "engine/procedure.hpp"
 #include "engine/options.hpp"
-
 #include "intro.hpp"
 
 #include <jngl.hpp>

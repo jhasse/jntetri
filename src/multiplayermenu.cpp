@@ -4,7 +4,9 @@
 #include "engine/fade.hpp"
 #include "engine/options.hpp"
 #include "menu.hpp"
+#ifndef WIZ
 #include "login.hpp"
+#endif
 
 #include <jngl.hpp>
 #include <boost/bind.hpp>
@@ -52,7 +54,9 @@ void MultiplayerMenu::OnBack() const
 
 void MultiplayerMenu::OnLogin()
 {
+#ifndef WIZ
 	GetProcedure().SetWork(new Login(boost::dynamic_pointer_cast<MultiplayerMenu>(GetProcedure().GetWork())));
+#endif
 }
 
 std::string MultiplayerMenu::GetName() const

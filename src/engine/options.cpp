@@ -2,18 +2,21 @@
 #include "paths.hpp"
 
 #include <fstream>
-#include <boost/filesystem.hpp>
 
 Options::Options() : windowWidth_(1024), windowHeight_(768), fullscreen_(false), startLevel_(0), startJunks_(0)
 {
 	const std::string filename = GetPaths().Config() + "options.txt";
-	if(boost::filesystem::exists(filename))
+	std::ifstream fin(filename.c_str());
+	if(fin)
 	{
-		std::ifstream fin(filename.c_str());
 		fin >> windowWidth_ >> windowHeight_ >> fullscreen_ >> startLevel_ >> startJunks_;
 		std::getline(fin, lastLoginName_); // Ignore new line after start startJunks_
 		std::getline(fin, lastLoginName_);
 	}
+#ifdef WIZ
+	windowWidth_ = 320;
+	windowHeight_ = 240;
+#endif
 }
 
 int Options::GetWindowWidth() const
