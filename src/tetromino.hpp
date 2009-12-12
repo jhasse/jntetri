@@ -17,6 +17,7 @@ public:
 	void AttachToField();
 	void Rotate(Direction);
 	void RandomRotate();
+	void SetX(int);
 private:
 	void ChangeX(int);
 	void ChangeY(int);

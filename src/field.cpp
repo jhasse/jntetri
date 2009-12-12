@@ -140,10 +140,21 @@ void Field::NewTetromino()
 	}
 	tetromino_ = nextTetromino_;
 	nextTetromino_.reset(new Tetromino(Random::Handle()(7), *this));
-	if(tetromino_ && tetromino_->Collided())
+
+	if(tetromino_)
 	{
+		const int xPositions[] = { 5, 6, 4, 7, 3, 8, 2, 9, 1, 10, 0 };
+		for(int i = 0; i < 11; ++i)
+		{
+			tetromino_->SetX(xPositions[i]);
+			if(!tetromino_->Collided())
+			{
+				return;
+			}
+		}
+		tetromino_->SetX(xPositions[0]);
 		gameOver_ = true;
-		tetromino_->AttachToField();
+		nextTetromino_ = tetromino_;
 		counter_ = 10;
 	}
 }

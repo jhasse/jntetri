@@ -130,6 +130,11 @@ void Tetromino::Step()
 	}
 }
 
+void Tetromino::SetX(const int x)
+{
+	x_ = x;
+}
+
 void Tetromino::ChangeX(int c)
 {
 	x_ += c;
