@@ -78,9 +78,16 @@ void Field::Step()
 			}
 			NewTetromino();
 		}
-		if(control_->Down() && counter_ > 7)
+		if(control_->Down())
 		{
-			counter_ = 7;
+			if(downKeyReleased_ && counter_ > 7)
+			{
+				counter_ = 7;
+			}
+		}
+		else
+		{
+			downKeyReleased_ = true;
 		}
 	}
 
@@ -131,6 +138,8 @@ void Field::CheckLines()
 
 void Field::NewTetromino()
 {
+	downKeyReleased_ = false;
+
 	ResetCounter();
 	score_ += level_;
 	if(tetromino_)

@@ -15,13 +15,18 @@ GameOverScreen::GameOverScreen()
 	AddWidget(input_);
 }
 
+bool GameOverScreen::IsHighscore() const
+{
+	return highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50);
+}
+
 void GameOverScreen::Step()
 {
 	game_->GetField().Step(); // Show GameOver animation
 	game_->StepToRotateScreen();
 	if(game_->GameOverAnimationFinished())
 	{
-		if(highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50))
+		if(IsHighscore())
 		{
 			StepWidgets();
 			if(jngl::KeyPressed(jngl::key::Return) || jngl::KeyPressed(jngl::key::WizB))
@@ -54,6 +59,10 @@ void GameOverScreen::QuitEvent()
 	while(!game_->GameOverAnimationFinished())
 	{
 		game_->GetField().Step();
+	}
+	if(!IsHighscore())
+	{
+		GetProcedure().Quit();
 	}
 }
 

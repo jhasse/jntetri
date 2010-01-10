@@ -49,4 +49,5 @@ private:
 	bool pause_;
 	bool delay_;
 	boost::shared_ptr<Control> control_;
+	bool downKeyReleased_;
 };

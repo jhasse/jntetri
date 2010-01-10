@@ -14,6 +14,7 @@ public:
 	void Draw() const;
 	void QuitEvent();
 private:
+	bool IsHighscore() const;
 	boost::shared_ptr<Game> game_;
 	int blink_;
 	Data data_;

@@ -11,7 +11,7 @@ Work::Work()
 
 void Work::QuitEvent()
 {
-    GetProcedure().Quit();
+	GetProcedure().Quit();
 }
 
 Work::~Work()
@@ -48,13 +48,8 @@ void Work::FocusNext()
 	}
 }
 
-void Work::StepWidgets()
+void Work::StepFocus()
 {
-	std::vector<boost::shared_ptr<Widget> >::iterator end = widgets_.end();
-	for(std::vector<boost::shared_ptr<Widget> >::iterator it = widgets_.begin(); it != end; ++it)
-	{
-		(*it)->Step();
-	}
 	if(jngl::KeyPressed(jngl::key::Down) || jngl::KeyPressed(jngl::key::WizDown) || jngl::KeyPressed(jngl::key::Tab))
 	{
 		FocusNext();
@@ -74,6 +69,16 @@ void Work::StepWidgets()
 	focusedWidget_->SetFocus(true);
 }
 
+void Work::StepWidgets()
+{
+	std::vector<boost::shared_ptr<Widget> >::iterator end = widgets_.end();
+	for(std::vector<boost::shared_ptr<Widget> >::iterator it = widgets_.begin(); it != end; ++it)
+	{
+		(*it)->Step();
+	}
+	StepFocus();
+}
+
 void Work::DrawWidgets() const
 {
 	std::vector<boost::shared_ptr<Widget> >::const_iterator end = widgets_.end();
@@ -91,5 +96,5 @@ void Work::AddWidget(boost::shared_ptr<Widget> widget)
 		focusedWidget_ = widget;
 	}
 	widget->OnAdd(*this);
-	StepWidgets();
+	StepFocus();
 }

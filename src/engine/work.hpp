@@ -19,6 +19,7 @@ public:
 	void FocusNext();
 	void FocusPrevious();
 protected:
+	void StepFocus();
 	std::vector<boost::shared_ptr<Widget> > widgets_;
 	boost::shared_ptr<Widget> focusedWidget_;
 };
