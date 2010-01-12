@@ -36,7 +36,7 @@ void Intro::Draw() const
 
 	jngl::SetFontColor(100, 100, 100, 255);
 	GetScreen().SetFontSize(35);
-	GetScreen().PrintCentered("v0.8.3", 0, 960);
+	GetScreen().PrintCentered("v0.8.4", 0, 960);
 	GetScreen().PrintCentered("http://watteimdocht.de/jntetri", 0, 1030);
 	GetScreen().PrintCentered("Copyright 2009 Jan Niklas Hasse", 0, 1100);
 }
