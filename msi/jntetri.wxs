@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <Product Id="6358C92A-D48B-4AEF-815F-A43A7804CC6A" Name="JNTETRI" Language="1033" Version="0.8.4" Manufacturer="watteimdocht.de" UpgradeCode="0BE24356-5347-4CF7-8BF0-01856A5461D6">
+        <Package Description="JNTETRI Installer"
+		  Comments="JNTETRI is a tetris clone with simple and clear graphics"
+		  Manufacturer="watteimdocht.de"
+		  InstallerVersion="200" Languages="1033" Compressed="yes" />
+        <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder" Name="PFiles">
+                <Directory Id="INSTALLDIR" Name="JNTETRI">
+                    <Directory Id="bin" Name="bin">
+                        <Component Id="jntetri.exe" DiskId="1" Guid="88CDEAB2-68CB-4519-B21D-BB315476298A">
+                            <File Id="jntetri.exe" Name="jntetri.exe" Source="..\bin\jntetri.exe" KeyPath="yes">
+                                <Shortcut Id="desktopShortcut" Directory="DesktopFolder" Name="JNTETRI" WorkingDirectory="INSTALLDIR" Advertise="yes" Icon="icon.exe" IconIndex="0" />
+                                <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="JNTETRI" Advertise="yes" Icon="icon.exe" IconIndex="0" />
+                            </File>
+                        </Component>
+                    </Directory>
+                    <Directory Id="share" Name="share">
+                        <Directory Id="jntetri_1" Name="jntetri">
+                            <Directory Id="gfx" Name="gfx">
+                                <Directory Id="x1200" Name="x1200">
+                                    <Component Id="block.png" DiskId="1" Guid="FC872485-D740-4D45-A774-8749268C7639">
+                                        <File Id="block.png" Name="block.png" Source="..\share\jntetri\gfx\x1200\block.png" />
+                                    </Component>
+                                    <Component Id="box.png" DiskId="1" Guid="89AD21E4-684C-45CA-8985-A4A1057DCB1C">
+                                        <File Id="box.png" Name="box.png" Source="..\share\jntetri\gfx\x1200\box.png" />
+                                    </Component>
+                                    <Component Id="button.png" DiskId="1" Guid="377F6C87-524A-4E4D-994C-588EE4FE08BC">
+                                        <File Id="button.png" Name="button.png" Source="..\share\jntetri\gfx\x1200\button.png" />
+                                    </Component>
+                                    <Component Id="button_clicked.png" DiskId="1" Guid="8EA4B47F-C6BC-4592-A25F-A6341F8F237D">
+                                        <File Id="button_clicked.png" Name="button_clicked.png" Source="..\share\jntetri\gfx\x1200\button_clicked.png" />
+                                    </Component>
+                                    <Component Id="button_over.png" DiskId="1" Guid="9C92CDF3-B33E-4534-AA2C-D205834CC085">
+                                        <File Id="button_over.png" Name="button_over.png" Source="..\share\jntetri\gfx\x1200\button_over.png" />
+                                    </Component>
+                                    <Component Id="chooser.png" DiskId="1" Guid="D7B85B06-96A6-4A9C-B26F-2E94E254BB01">
+                                        <File Id="chooser.png" Name="chooser.png" Source="..\share\jntetri\gfx\x1200\chooser.png" />
+                                    </Component>
+                                    <Component Id="chooser_left.png" DiskId="1" Guid="A624A36B-F7DF-4D97-A3EF-F123B5A94B9B">
+                                        <File Id="chooser_left.png" Name="chooser_left.png" Source="..\share\jntetri\gfx\x1200\chooser_left.png" />
+                                    </Component>
+                                    <Component Id="chooser_left_over.png" DiskId="1" Guid="77834FCB-DFD5-4BA6-96B0-332DC6A7865B">
+                                        <File Id="chooser_left_over.png" Name="chooser_left_over.png" Source="..\share\jntetri\gfx\x1200\chooser_left_over.png" />
+                                    </Component>
+                                    <Component Id="chooser_right.png" DiskId="1" Guid="0560747E-9C2D-47BB-9BCB-8563806801F2">
+                                        <File Id="chooser_right.png" Name="chooser_right.png" Source="..\share\jntetri\gfx\x1200\chooser_right.png" />
+                                    </Component>
+                                    <Component Id="chooser_right_over.png" DiskId="1" Guid="BCAF7835-8778-43B6-B0BF-6077E3ADD51D">
+                                        <File Id="chooser_right_over.png" Name="chooser_right_over.png" Source="..\share\jntetri\gfx\x1200\chooser_right_over.png" />
+                                    </Component>
+                                    <Component Id="explosion.png" DiskId="1" Guid="0A824C66-CA82-4439-832A-6946542BB264">
+                                        <File Id="explosion.png" Name="explosion.png" Source="..\share\jntetri\gfx\x1200\explosion.png" />
+                                    </Component>
+                                    <Component Id="explosion4.png" DiskId="1" Guid="81247EAF-A07C-4A1D-8833-3FC27644138E">
+                                        <File Id="explosion4.png" Name="explosion4.png" Source="..\share\jntetri\gfx\x1200\explosion4.png" />
+                                    </Component>
+                                    <Component Id="field.png" DiskId="1" Guid="35793AC3-AF74-4162-80C6-B26D955C4218">
+                                        <File Id="field.png" Name="field.png" Source="..\share\jntetri\gfx\x1200\field.png" />
+                                    </Component>
+                                    <Component Id="radio.png" DiskId="1" Guid="0C106112-410B-4AF7-896D-7F7CFAC8D97B">
+                                        <File Id="radio.png" Name="radio.png" Source="..\share\jntetri\gfx\x1200\radio.png" />
+                                    </Component>
+                                    <Component Id="radio_active.png" DiskId="1" Guid="50A77725-F51F-4D32-909F-BF3C0D2302D1">
+                                        <File Id="radio_active.png" Name="radio_active.png" Source="..\share\jntetri\gfx\x1200\radio_active.png" />
+                                    </Component>
+                                </Directory>
+                            </Directory>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="DesktopFolder" />
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="ProgramMenuDir" Name="JNTETRI">
+                    <Component Id="StartMenuShortcuts" Guid="6C2D3DB7-99FC-4FED-8EA6-CA2F808AE654">
+                        <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+                        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" />
+                        <util:InternetShortcut Id="WebsiteShortcut" Name="watteimdocht.de" Target="http://www.watteimdocht.de" />
+                    </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+        <Feature Id="DefaultFeature" Title="Main Feature" Level="1" ConfigurableDirectory='INSTALLDIR'>
+            <ComponentRef Id="jntetri.exe" />
+            <ComponentRef Id="block.png" />
+            <ComponentRef Id="box.png" />
+            <ComponentRef Id="button.png" />
+            <ComponentRef Id="button_clicked.png" />
+            <ComponentRef Id="button_over.png" />
+            <ComponentRef Id="chooser.png" />
+            <ComponentRef Id="chooser_left.png" />
+            <ComponentRef Id="chooser_left_over.png" />
+            <ComponentRef Id="chooser_right.png" />
+            <ComponentRef Id="chooser_right_over.png" />
+            <ComponentRef Id="explosion.png" />
+            <ComponentRef Id="explosion4.png" />
+            <ComponentRef Id="field.png" />
+            <ComponentRef Id="radio.png" />
+            <ComponentRef Id="radio_active.png" />
+            <ComponentRef Id="StartMenuShortcuts" />
+        </Feature>
+        <UI />
+        <UIRef Id="WixUI_InstallDir" />
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+		<WixVariable Id="WixUILicenseRtf" Value="gpl3.rtf" />
+		<WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+		<WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+		<Icon Id="icon.exe" SourceFile="../jntetri.ico" />
+		<Property Id="ARPPRODUCTICON" Value="icon.exe" />
+		<Property Id="ALLUSERS" Value="1" />
+    </Product>
+</Wix>

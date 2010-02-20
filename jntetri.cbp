@@ -99,6 +99,9 @@
 		<Unit filename="src\gui\widget.hpp" />
 		<Unit filename="src\highscore.cpp" />
 		<Unit filename="src\highscore.hpp" />
+		<Unit filename="src\icon.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="src\intro.cpp" />
 		<Unit filename="src\intro.hpp" />
 		<Unit filename="src\lobby.cpp" />
