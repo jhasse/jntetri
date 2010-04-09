@@ -32,7 +32,7 @@ source_files = Glob('*.cpp') + \
 
 if wiz:
 	env.ParseConfig('pkg-config --cflags --libs freetype2')
-	env.Append(LIBS=Split("jpeg jngl wizGLES opengles_lite z png dl"))
+	env.Append(LIBS=Split("jpeg jngl glport opengles_lite z png dl openal vorbisfile vorbis ogg"))
 	source_files += Glob('engine/noresize/*.cpp')
 	env.Append(CCFLAGS = '-DWIZ')
 else:

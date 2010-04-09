@@ -3,6 +3,7 @@
 #include "engine/procedure.hpp"
 #include "gameoverscreen.hpp"
 #include "pausemenu.hpp"
+#include "control.hpp"
 
 #include <jngl.hpp>
 #include <sstream>
@@ -22,6 +23,14 @@ Game::~Game()
 void Game::SetRotateScreen(bool rotateScreen)
 {
 	rotateScreen_ = rotateScreen;
+	if(rotateScreen_)
+	{
+		field_.SetControl(new WizControlRotated);
+	}
+	else
+	{
+		field_.SetControl(new WizControl);
+	}
 }
 
 void Game::Step()
@@ -29,7 +38,7 @@ void Game::Step()
 	StepToRotateScreen();
 	if(jngl::KeyPressed(jngl::key::WizR))
 	{
-		rotateScreen_ = !rotateScreen_;
+		SetRotateScreen(!rotateScreen_);
 	}
 	if(field_.GameOver())
 	{

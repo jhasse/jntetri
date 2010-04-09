@@ -29,6 +29,7 @@ public:
 	void DrawNextTetromino() const;
 	void SetPause(bool pause);
 	bool GameOverAnimationFinished() const;
+	void SetControl(Control*);
 	Control& GetControl() const;
 private:
 	void CheckLines();

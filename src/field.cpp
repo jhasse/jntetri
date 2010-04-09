@@ -30,6 +30,9 @@ Field::Field()
 			}
 		}
 	}
+#ifdef WIZ
+	control_.reset(new WizControl);
+#endif
 }
 
 void Field::ResetCounter()
@@ -316,6 +319,11 @@ bool Field::GameOverAnimationFinished() const
 void Field::SetGameOver(bool gameOver)
 {
 	gameOver_ = gameOver;
+}
+
+void Field::SetControl(Control* control)
+{
+	control_.reset(control);
 }
 
 Control& Field::GetControl() const

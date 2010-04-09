@@ -20,3 +20,23 @@ public:
 	bool Rotate();
 	bool RotateCounter();
 };
+
+class WizControl : public Control {
+public:
+	bool Drop();
+	bool Left();
+	bool Right();
+	bool Down();
+	bool Rotate();
+	bool RotateCounter();
+};
+
+class WizControlRotated : public Control {
+public:
+	bool Drop();
+	bool Left();
+	bool Right();
+	bool Down();
+	bool Rotate();
+	bool RotateCounter();
+};
