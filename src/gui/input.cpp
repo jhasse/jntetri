@@ -3,7 +3,7 @@
 
 #include <jngl.hpp>
 
-Input::Input(int x, int y) : x_(x), y_(y), password_(false), displayCursor_(0)
+Input::Input(int x, int y) : x_(x), y_(y), password_(false), displayCursor_(0), letter_('A')
 {
 	unicodeChars_.push_back("ä");
 	unicodeChars_.push_back("ö");
@@ -35,28 +35,32 @@ void Input::Step()
 	if(focus_)
 	{
 		--displayCursor_;
-		if(displayCursor_ < -35)
+		if(displayCursor_ < -50)
 		{
-			displayCursor_ = 35;
+			displayCursor_ = 50;
 		}
-		for(char c = ' '; c < '~' + 1; ++c)
+		if(jngl::KeyPressed(jngl::key::Up))
 		{
-			if(jngl::KeyPressed(c))
-			{
-				displayCursor_ = 50;
-				text_ += c;
-			}
+			--letter_;
 		}
-		std::vector<std::string>::iterator end = unicodeChars_.end();
-		for(std::vector<std::string>::iterator it = unicodeChars_.begin(); it != end; ++it)
+		if(jngl::KeyPressed(jngl::key::Down))
 		{
-			if(jngl::KeyPressed(*it))
-			{
-				displayCursor_ = 50;
-				text_ += *it;
-			}
+			++letter_;
 		}
-		if((jngl::KeyPressed(jngl::key::BackSpace) || jngl::KeyPressed(jngl::key::WizA)) && !text_.empty())
+		if(letter_ == 'A' - 1)
+		{
+			letter_ = 'Z';
+		}
+		if(letter_ == 'Z' + 1)
+		{
+			letter_ = 'A';
+		}
+		if(jngl::KeyPressed(jngl::key::Right))
+		{
+			text_ += letter_;
+		}
+
+		if((jngl::KeyPressed(jngl::key::Left) || jngl::KeyPressed(jngl::key::WizLeft)) && !text_.empty())
 		{
 			displayCursor_ = 50;
 			std::string::iterator it = text_.end();
@@ -91,13 +95,13 @@ void Input::Draw() const
 	{
 		jngl::SetFontColor(150, 150, 150);
 	}
-	if(focus_ && displayCursor_ > 0)
+	GetScreen().Print(text_, x_, y_);
+	if(focus_)
 	{
-		GetScreen().Print(text_ + "|", x_, y_);
-	}
-	else
-	{
-		GetScreen().Print(text_, x_, y_);
+		jngl::SetFontColor(0, 0, 0, displayCursor_ + 150);
+		const int x = x_ + GetScreen().GetTextWidth(text_);
+		char temp[2] = { letter_, 0 };
+		GetScreen().Print(temp, x, y_);
 	}
 	if(password_)
 	{

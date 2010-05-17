@@ -2,16 +2,19 @@
 #include "engine/procedure.hpp"
 #include "engine/screen.hpp"
 #include "engine/fade.hpp"
+#include "engine/options.hpp"
 #include "menu.hpp"
 
 #include <jngl.hpp>
 
 GameOverScreen::GameOverScreen()
-	: game_(boost::shared_dynamic_cast<Game>(GetProcedure().GetWork())), blink_(0), highscore_(game_->GetType()), input_(new Input(-160, 800))
+	: game_(boost::shared_dynamic_cast<Game>(GetProcedure().GetWork())), blink_(0),
+	  highscore_(game_->GetType()), input_(new Input(-160, 800))
 {
 	assert(game_);
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
+	input_->SetText(GetOptions().GetLastHighscoreName());
 	AddWidget(input_);
 }
 
@@ -32,6 +35,7 @@ void GameOverScreen::Step()
 			if(jngl::KeyPressed(jngl::key::Return) || jngl::KeyPressed(jngl::key::WizB))
 			{
 				data_.name = input_->GetText();
+				GetOptions().SetLastHighscoreName(data_.name);
 				highscore_.Add(data_);
 				highscore_.Save();
 				Menu* menu = new Menu;

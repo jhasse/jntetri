@@ -19,6 +19,8 @@ public:
 	void SetStartJunks(int);
 	void SetLastLoginName(const std::string&);
 	std::string GetLastLoginName() const;
+	void SetLastHighscoreName(const std::string&);
+	std::string GetLastHighscoreName() const;
 private:
 	int windowWidth_;
 	int windowHeight_;
@@ -26,6 +28,7 @@ private:
 	int startLevel_;
 	int startJunks_;
 	std::string lastLoginName_;
+	std::string lastHighscoreName_;
 };
 
 Options& GetOptions(); // Easier access to the singleton
