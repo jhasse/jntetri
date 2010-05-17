@@ -39,11 +39,11 @@ void Input::Step()
 		{
 			displayCursor_ = 50;
 		}
-		if(jngl::KeyPressed(jngl::key::Up))
+		if(jngl::KeyPressed(jngl::key::WizUp))
 		{
 			--letter_;
 		}
-		if(jngl::KeyPressed(jngl::key::Down))
+		if(jngl::KeyPressed(jngl::key::WizDown))
 		{
 			++letter_;
 		}
@@ -55,12 +55,12 @@ void Input::Step()
 		{
 			letter_ = 'A';
 		}
-		if(jngl::KeyPressed(jngl::key::Right))
+		if(jngl::KeyPressed(jngl::key::WizRight))
 		{
 			text_ += letter_;
 		}
 
-		if((jngl::KeyPressed(jngl::key::Left) || jngl::KeyPressed(jngl::key::WizLeft)) && !text_.empty())
+		if(jngl::KeyPressed(jngl::key::WizLeft) && !text_.empty())
 		{
 			displayCursor_ = 50;
 			std::string::iterator it = text_.end();
