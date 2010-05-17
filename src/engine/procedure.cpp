@@ -123,7 +123,7 @@ bool Procedure::ShowWindow()
 	try
 	{
 		jngl::HideWindow();
-		jngl::ShowWindow(programShortName,
+		jngl::ShowWindow(programDisplayName + " " + programVersion,
 						 options.GetWindowWidth(),
 						 options.GetWindowHeight(),
 						 options.GetFullscreen());

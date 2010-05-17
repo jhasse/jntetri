@@ -51,6 +51,7 @@
 			<Add library="png" />
 			<Add library="jpeg" />
 			<Add library="ws2_32" />
+			<Add library="dl" />
 			<Add directory="lib" />
 		</Linker>
 		<Unit filename="src\block.cpp" />
