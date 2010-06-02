@@ -41,6 +41,7 @@ void Procedure::MainLoop()
 		{
 			// This stuff needs to be done 100 times per second
 			oldTime_ += timePerStep_;
+			jngl::UpdateKeyStates();
 			currentWork_->Step();
 			needDraw_ = true;
 			if(jngl::KeyPressed(jngl::key::Escape) || !jngl::Running())
