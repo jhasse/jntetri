@@ -53,13 +53,25 @@ namespace MagickCore
 
 //
 // Provide appropriate DLL imports/exports for Visual C++,
-// Borland C++Builder and MinGW builds
+// Borland C++Builder and MinGW builds.
 //
 #if defined(WIN32) && !defined(__CYGWIN__) && !defined(__MINGW32__)
 # define MagickCplusPlusDLLSupported
 #endif
 #if defined(MagickCplusPlusDLLSupported)
-#  if defined(_MT) && defined(_DLL) && !defined(_LIB)
+#  if defined(_MT) && defined(_DLL) && !defined(_LIB) && !defined(STATIC_MAGICK)
+//
+// In a native Windows build, the following defines are used:
+//
+//   _MT         = Multithreaded
+//   _DLL        = Using code is part of a DLL
+//   _LIB        = Using code is being built as a library.
+//   _MAGICKMOD_ = Build uses loadable modules (Magick++ does not care about this)
+//
+// In the case where ImageMagick is built as a static library but the
+// using code is dynamic, STATIC_MAGICK may be defined in the project to
+// override triggering dynamic library behavior.
+//
 #    define MagickDLLBuild
 #    if defined(_VISUALC_)
 #      pragma warning( disable: 4273 )  /* Disable the stupid dll linkage warnings */
@@ -214,11 +226,30 @@ namespace Magick
   using MagickCore::RLECompression;
   using MagickCore::ZipCompression;
 
+  // Dispose methods
   using MagickCore::DisposeType;
   using MagickCore::UndefinedDispose;
   using MagickCore::NoneDispose;
   using MagickCore::BackgroundDispose;
   using MagickCore::PreviousDispose;
+
+  // Distort methods
+  using MagickCore::DistortImageMethod;
+  using MagickCore::UndefinedDistortion;
+  using MagickCore::AffineDistortion;
+  using MagickCore::AffineProjectionDistortion;
+  using MagickCore::ScaleRotateTranslateDistortion;
+  using MagickCore::PerspectiveDistortion;
+  using MagickCore::PerspectiveProjectionDistortion;
+  using MagickCore::BilinearDistortion;
+  using MagickCore::PolynomialDistortion;
+  using MagickCore::ArcDistortion;
+  using MagickCore::PolarDistortion;
+  using MagickCore::DePolarDistortion;
+  using MagickCore::BarrelDistortion;
+  using MagickCore::BarrelInverseDistortion;
+  using MagickCore::ShepardsDistortion;
+  using MagickCore::SentinelDistortion;
 
   // Endian options
   using MagickCore::EndianType;
@@ -424,6 +455,15 @@ namespace Magick
   // IndexPacket type
   using MagickCore::IndexPacket;
 
+  // Sparse Color methods
+  using MagickCore::SparseColorMethod;
+  using MagickCore::UndefinedColorInterpolate;
+  using MagickCore::BarycentricColorInterpolate;
+  using MagickCore::BilinearColorInterpolate;
+  using MagickCore::PolynomialColorInterpolate;
+  using MagickCore::ShepardsColorInterpolate;
+  using MagickCore::VoronoiColorInterpolate;
+
   // StorageType type
   using MagickCore::StorageType;
   using MagickCore::CharPixel;
@@ -459,22 +499,47 @@ namespace Magick
   using MagickCore::OverlineDecoration;
   using MagickCore::LineThroughDecoration;
 
+  // Virtual pixel methods
+  using MagickCore::VirtualPixelMethod;
+  using MagickCore::UndefinedVirtualPixelMethod;
+  using MagickCore::BackgroundVirtualPixelMethod;
+  using MagickCore::DitherVirtualPixelMethod;
+  using MagickCore::EdgeVirtualPixelMethod;
+  using MagickCore::MirrorVirtualPixelMethod;
+  using MagickCore::RandomVirtualPixelMethod;
+  using MagickCore::TileVirtualPixelMethod;
+  using MagickCore::TransparentVirtualPixelMethod;
+  using MagickCore::MaskVirtualPixelMethod;
+  using MagickCore::BlackVirtualPixelMethod;
+  using MagickCore::GrayVirtualPixelMethod;
+  using MagickCore::WhiteVirtualPixelMethod;
+  using MagickCore::HorizontalTileVirtualPixelMethod;
+  using MagickCore::VerticalTileVirtualPixelMethod;
+  using MagickCore::HorizontalTileEdgeVirtualPixelMethod;
+  using MagickCore::VerticalTileEdgeVirtualPixelMethod;
+  using MagickCore::CheckerTileVirtualPixelMethod;
+
 #if defined(MAGICKCORE_IMPLEMENTATION)
   //
   // ImageMagick symbols used in implementation code
   //
-  using MagickCore::AcquireCacheViewPixels;
-  using MagickCore::AcquireImagePixels;
+  using MagickCore::AcquireCacheView;
+  using MagickCore::AcquireExceptionInfo;
+  using MagickCore::GetCacheViewVirtualPixels;
+  using MagickCore::AcquireImage;
+  using MagickCore::GetVirtualPixels;
+  using MagickCore::AcquireIndexes;
+  using MagickCore::AcquireKernelInfo;
   using MagickCore::AcquireMagickMemory;
   using MagickCore::AcquireQuantumInfo;
   using MagickCore::AcquireString;
-	using MagickCore::AcquireStringInfo;
+  using MagickCore::AcquireStringInfo;
   using MagickCore::AdaptiveBlurImage;
   using MagickCore::AdaptiveThresholdImage;
   using MagickCore::AddNoiseImage;
+  using MagickCore::AddNoiseImageChannel;
   using MagickCore::AffineMatrix;
   using MagickCore::AffineTransformImage;
-  using MagickCore::AcquireImage;
   using MagickCore::AnnotateImage;
   using MagickCore::AspectValue;
   using MagickCore::Base64Decode;
@@ -485,6 +550,7 @@ namespace Magick
   using MagickCore::BlobToImage;
   using MagickCore::BlobWarning;
   using MagickCore::BlurImage;
+  using MagickCore::BlurImageChannel;
   using MagickCore::BorderImage;
   using MagickCore::CacheError;
   using MagickCore::CacheFatalError;
@@ -496,11 +562,12 @@ namespace Magick
   using MagickCore::CloneImage;
   using MagickCore::CloneImageInfo;
   using MagickCore::CloneQuantizeInfo;
-  using MagickCore::DestroyCacheView;
   using MagickCore::CoderError;
   using MagickCore::CoderFatalError;
   using MagickCore::CoderWarning;
+  using MagickCore::ColorDecisionListImage;
   using MagickCore::ColorizeImage;
+  using MagickCore::ColorMatrixImage;
   using MagickCore::ColorPacket;
   using MagickCore::CompositeImage;
   using MagickCore::ConfigureError;
@@ -508,6 +575,8 @@ namespace Magick
   using MagickCore::ConfigureWarning;
   using MagickCore::ConstituteImage;
   using MagickCore::ContrastImage;
+  using MagickCore::ConvertHSLToRGB;
+  using MagickCore::ConvertRGBToHSL;
   using MagickCore::ConvolveImage;
   using MagickCore::CopyMagickString;
   using MagickCore::CorruptImageError;
@@ -521,17 +590,20 @@ namespace Magick
   using MagickCore::DeleteImageOption;
   using MagickCore::DeleteImageRegistry;
   using MagickCore::DespeckleImage;
+  using MagickCore::DestroyCacheView;
   using MagickCore::DestroyDrawInfo;
   using MagickCore::DestroyDrawingWand;
   using MagickCore::DestroyExceptionInfo;
   using MagickCore::DestroyImageInfo;
   using MagickCore::DestroyImageList;
+  using MagickCore::DestroyKernelInfo;
   using MagickCore::DestroyMagickWand;
   using MagickCore::DestroyPixelWand;
   using MagickCore::DestroyQuantizeInfo;
   using MagickCore::DestroyQuantumInfo;
   using MagickCore::DestroyStringInfo;
   using MagickCore::DisplayImages;
+  using MagickCore::DistortImage;
   using MagickCore::DrawAffine;
   using MagickCore::DrawAllocateWand;
   using MagickCore::DrawAnnotation;
@@ -575,11 +647,9 @@ namespace Magick
   using MagickCore::DrawPolyline;
   using MagickCore::DrawPopClipPath;
   using MagickCore::DrawPopDefs;
-  using MagickCore::PopDrawingWand;
   using MagickCore::DrawPopPattern;
   using MagickCore::DrawPushClipPath;
   using MagickCore::DrawPushDefs;
-  using MagickCore::PushDrawingWand;
   using MagickCore::DrawPushPattern;
   using MagickCore::DrawRectangle;
   using MagickCore::DrawRender;
@@ -589,8 +659,8 @@ namespace Magick
   using MagickCore::DrawSetClipPath;
   using MagickCore::DrawSetClipRule;
   using MagickCore::DrawSetClipUnits;
-  using MagickCore::DrawSetFillOpacity;
   using MagickCore::DrawSetFillColor;
+  using MagickCore::DrawSetFillOpacity;
   using MagickCore::DrawSetFillPatternURL;
   using MagickCore::DrawSetFillRule;
   using MagickCore::DrawSetFont;
@@ -600,7 +670,6 @@ namespace Magick
   using MagickCore::DrawSetFontStyle;
   using MagickCore::DrawSetFontWeight;
   using MagickCore::DrawSetGravity;
-  using MagickCore::DrawSetStrokeOpacity;
   using MagickCore::DrawSetStrokeAntialias;
   using MagickCore::DrawSetStrokeColor;
   using MagickCore::DrawSetStrokeDashArray;
@@ -608,6 +677,7 @@ namespace Magick
   using MagickCore::DrawSetStrokeLineCap;
   using MagickCore::DrawSetStrokeLineJoin;
   using MagickCore::DrawSetStrokeMiterLimit;
+  using MagickCore::DrawSetStrokeOpacity;
   using MagickCore::DrawSetStrokePatternURL;
   using MagickCore::DrawSetStrokeWidth;
   using MagickCore::DrawSetTextAntialias;
@@ -629,36 +699,45 @@ namespace Magick
   using MagickCore::ExceptionType;
   using MagickCore::ExportImagePixels;
   using MagickCore::ExportQuantumPixels;
+  using MagickCore::ExtentImage;
   using MagickCore::FileOpenError;
   using MagickCore::FileOpenFatalError;
   using MagickCore::FileOpenWarning;
   using MagickCore::FlipImage;
+  using MagickCore::FloodfillPaintImage;
   using MagickCore::FlopImage;
   using MagickCore::FormatMagickString;
+  using MagickCore::ForwardFourierTransformImage;
   using MagickCore::FrameImage;
   using MagickCore::FrameInfo;
+  using MagickCore::FxImageChannel;
   using MagickCore::GammaImage;
   using MagickCore::GammaImage;
   using MagickCore::GaussianBlurImage;
+  using MagickCore::GaussianBlurImageChannel;
   using MagickCore::GetAffineMatrix;
+  using MagickCore::GetAuthenticIndexQueue;
   using MagickCore::GetBlobSize;
-  using MagickCore::GetCacheViewPixels;
-  using MagickCore::GetCacheViewIndexes;
-  using MagickCore::GetImageChannelMean;
-  using MagickCore::GetImageChannelRange;
-  using MagickCore::GetImageClipMask;
+  using MagickCore::GetCacheViewException;
+  using MagickCore::GetCacheViewAuthenticIndexQueue;
+  using MagickCore::GetCacheViewAuthenticPixels;
   using MagickCore::GetColorTuple;
   using MagickCore::GetDrawInfo;
   using MagickCore::GetExceptionInfo;
   using MagickCore::GetGeometry;
   using MagickCore::GetImageBoundingBox;
   using MagickCore::GetImageChannelDepth;
+  using MagickCore::GetImageChannelMean;
+  using MagickCore::GetImageChannelKurtosis;
+  using MagickCore::GetImageChannelRange;
+  using MagickCore::GetImageClipMask;
   using MagickCore::GetImageDepth;
   using MagickCore::GetImageInfo;
+  using MagickCore::GetImageInfoFile;
   using MagickCore::GetImageOption;
-  using MagickCore::GetImagePixels;
-  using MagickCore::GetImageProperty;
+  using MagickCore::GetAuthenticPixels;
   using MagickCore::GetImageProfile;
+  using MagickCore::GetImageProperty;
   using MagickCore::GetImageQuantizeError;
   using MagickCore::GetImageType;
   using MagickCore::GetIndexes;
@@ -671,9 +750,12 @@ namespace Magick
   using MagickCore::GetStringInfoDatum;
   using MagickCore::GetStringInfoLength;
   using MagickCore::GetTypeMetrics;
+  using MagickCore::GetVirtualIndexQueue;
+  using MagickCore::GetImageVirtualPixelMethod;
   using MagickCore::GlobExpression;
+  using MagickCore::GravityAdjustGeometry;
   using MagickCore::GreaterValue;
-  using MagickCore::ConvertHSLToRGB;
+  using MagickCore::HaldClutImage;
   using MagickCore::HeightValue;
   using MagickCore::ImageError;
   using MagickCore::ImageFatalError;
@@ -683,10 +765,12 @@ namespace Magick
   using MagickCore::ImageWarning;
   using MagickCore::ImplodeImage;
   using MagickCore::ImportQuantumPixels;
+  using MagickCore::InverseFourierTransformImage;
   using MagickCore::InvokeDynamicImageFilter;
   using MagickCore::IsEventLogging;
   using MagickCore::IsGeometry;
   using MagickCore::IsImagesEqual;
+  using MagickCore::KernelInfo;
   using MagickCore::LessValue;
   using MagickCore::LevelImage;
   using MagickCore::LevelImageChannel;
@@ -713,38 +797,40 @@ namespace Magick
   using MagickCore::MonitorFatalError;
   using MagickCore::MonitorWarning;
   using MagickCore::MontageInfo;
+  using MagickCore::MotionBlurImage;
   using MagickCore::NegateImage;
-  using MagickCore::NewPixelWand;
   using MagickCore::NewMagickWandFromImage;
-  using MagickCore::NoValue;
+  using MagickCore::NewPixelWand;
   using MagickCore::NoiseType;
   using MagickCore::NormalizeImage;
+  using MagickCore::NoValue;
   using MagickCore::OilPaintImage;
-  using MagickCore::AcquireCacheView;
+  using MagickCore::OpaquePaintImage;
   using MagickCore::OptionError;
   using MagickCore::OptionFatalError;
   using MagickCore::OptionWarning;
-  using MagickCore::FloodfillPaintImage;
   using MagickCore::ParseMetaGeometry;
   using MagickCore::PercentValue;
-  using MagickCore::OpaquePaintImage;
-  using MagickCore::TransparentPaintImage;
   using MagickCore::PingBlob;
   using MagickCore::PingImage;
   using MagickCore::PixelSetQuantumColor;
 	using MagickCore::PixelWand;
   using MagickCore::PointInfo;
+  using MagickCore::PopDrawingWand;
   using MagickCore::ProfileImage;
   using MagickCore::ProfileInfo;
+  using MagickCore::PushDrawingWand;
   using MagickCore::QuantizeImage;
   using MagickCore::QuantizeInfo;
   using MagickCore::QuantumInfo;
   using MagickCore::QueryColorDatabase;
   using MagickCore::QueryMagickColor;
-  using MagickCore::RGBTransformImage;
+  using MagickCore::QueueAuthenticPixels;
+  using MagickCore::QueueCacheViewAuthenticPixels;
   using MagickCore::RaiseImage;
+  using MagickCore::RandomThresholdImageChannel;
   using MagickCore::ReadImage;
-  using MagickCore::RectangleInfo;
+  using MagickCore::RecolorImage;
   using MagickCore::RectangleInfo;
   using MagickCore::ReduceNoiseImage;
   using MagickCore::RegisterMagickInfo;
@@ -753,43 +839,49 @@ namespace Magick
   using MagickCore::RegistryType;
   using MagickCore::RegistryWarning;
   using MagickCore::RelinquishMagickMemory;
+  using MagickCore::RemapImage;
   using MagickCore::ResizeImage;
   using MagickCore::ResizeMagickMemory;
   using MagickCore::ResourceLimitError;
   using MagickCore::ResourceLimitFatalError;
   using MagickCore::ResourceLimitWarning;
+  using MagickCore::RGBTransformImage;
   using MagickCore::RollImage;
   using MagickCore::RotateImage;
   using MagickCore::SampleImage;
   using MagickCore::ScaleImage;
   using MagickCore::SegmentImage;
   using MagickCore::SeparateImageChannel;
-  using MagickCore::SetCacheView;
   using MagickCore::SetClientName;
+  using MagickCore::SetGeometry;
   using MagickCore::SetImageBackgroundColor;
   using MagickCore::SetImageChannelDepth;
   using MagickCore::SetImageClipMask;
   using MagickCore::SetImageDepth;
   using MagickCore::SetImageExtent;
   using MagickCore::SetImageInfo;
+  using MagickCore::SetImageInfoFile;
   using MagickCore::SetImageOpacity;
   using MagickCore::SetImageOption;
-  using MagickCore::SetImagePixels;
   using MagickCore::SetImageProfile;
   using MagickCore::SetImageProperty;
+  using MagickCore::SetImageRegistry;
   using MagickCore::SetImageType;
   using MagickCore::SetLogEventMask;
   using MagickCore::SetMagickInfo;
-  using MagickCore::SetImageRegistry;
   using MagickCore::SetMagickResourceLimit;
   using MagickCore::SetStringInfoDatum;
+  using MagickCore::SetImageVirtualPixelMethod;
   using MagickCore::ShadeImage;
   using MagickCore::SharpenImage;
+  using MagickCore::SharpenImageChannel;
   using MagickCore::ShaveImage;
   using MagickCore::ShearImage;
   using MagickCore::SigmoidalContrastImageChannel;
   using MagickCore::SignatureImage;
   using MagickCore::SolarizeImage;
+  using MagickCore::SparseColorImage;
+  using MagickCore::SpliceImage;
   using MagickCore::SpreadImage;
   using MagickCore::SteganoImage;
   using MagickCore::StereoImage;
@@ -798,14 +890,15 @@ namespace Magick
   using MagickCore::StreamWarning;
   using MagickCore::StringInfo;
   using MagickCore::SwirlImage;
-  using MagickCore::SyncCacheView;
+  using MagickCore::SyncCacheViewAuthenticPixels;
   using MagickCore::SyncImage;
-  using MagickCore::SyncImagePixels;
+  using MagickCore::SyncAuthenticPixels;
   using MagickCore::TextureImage;
   using MagickCore::ThrowException;
-  using MagickCore::ConvertRGBToHSL;
   using MagickCore::TransformImage;
   using MagickCore::TransformRGBImage;
+  using MagickCore::TransparentPaintImage;
+  using MagickCore::TransparentPaintImageChroma;
   using MagickCore::TrimImage;
   using MagickCore::TypeError;
   using MagickCore::TypeFatalError;
@@ -814,7 +907,8 @@ namespace Magick
   using MagickCore::UndefinedRegistryType;
   using MagickCore::UnregisterMagickInfo;
   using MagickCore::UnsharpMaskImage;
-  using MagickCore::ViewInfo;
+  using MagickCore::UnsharpMaskImageChannel;
+  using MagickCore::CacheView;
   using MagickCore::WaveImage;
   using MagickCore::WidthValue;
   using MagickCore::WriteImage;

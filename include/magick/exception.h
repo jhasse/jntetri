@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ typedef enum
   StreamWarning = 340,
   CacheWarning = 345,
   CoderWarning = 350,
+  FilterWarning = 352,
   ModuleWarning = 355,
   DrawWarning = 360,
   ImageWarning = 365,
@@ -49,6 +50,7 @@ typedef enum
   MonitorWarning = 385,
   RegistryWarning = 390,
   ConfigureWarning = 395,
+  PolicyWarning = 399,
   ErrorException = 400,
   ResourceLimitError = 400,
   TypeError = 405,
@@ -61,6 +63,7 @@ typedef enum
   StreamError = 440,
   CacheError = 445,
   CoderError = 450,
+  FilterError = 452,
   ModuleError = 455,
   DrawError = 460,
   ImageError = 465,
@@ -70,6 +73,7 @@ typedef enum
   MonitorError = 485,
   RegistryError = 490,
   ConfigureError = 495,
+  PolicyError = 499,
   FatalErrorException = 700,
   ResourceLimitFatalError = 700,
   TypeFatalError = 705,
@@ -82,6 +86,7 @@ typedef enum
   StreamFatalError = 740,
   CacheFatalError = 745,
   CoderFatalError = 750,
+  FilterFatalError = 752,
   ModuleFatalError = 755,
   DrawFatalError = 760,
   ImageFatalError = 765,
@@ -90,7 +95,8 @@ typedef enum
   XServerFatalError = 780,
   MonitorFatalError = 785,
   RegistryFatalError = 790,
-  ConfigureFatalError = 795
+  ConfigureFatalError = 795,
+  PolicyFatalError = 799
 } ExceptionType;
 
 struct _ExceptionInfo
@@ -114,7 +120,7 @@ struct _ExceptionInfo
   SemaphoreInfo
     *semaphore;
 
-  unsigned long
+  size_t
     signature;
 };
 
@@ -146,11 +152,11 @@ extern MagickExport FatalErrorHandler
 extern MagickExport MagickBooleanType
   ThrowException(ExceptionInfo *,const ExceptionType,const char *,
     const char *),
-  ThrowMagickException(ExceptionInfo *,const char *,const char *,
-    const unsigned long,const ExceptionType,const char *,const char *,...)
+  ThrowMagickException(ExceptionInfo *,const char *,const char *,const size_t,
+    const ExceptionType,const char *,const char *,...)
     magick_attribute((format (printf,7,8))),
   ThrowMagickExceptionList(ExceptionInfo *,const char *,const char *,
-    const unsigned long,const ExceptionType,const char *,const char *,va_list)
+    const size_t,const ExceptionType,const char *,const char *,va_list)
     magick_attribute((format (printf,7,0)));
 
 extern MagickExport void

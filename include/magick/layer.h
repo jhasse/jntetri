@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -48,7 +48,8 @@ typedef enum
   CompositeLayer,
   MergeLayer,
   FlattenLayer,
-  MosaicLayer
+  MosaicLayer,
+  TrimBoundsLayer
 } ImageLayerMethod;
 
 extern MagickExport Image
@@ -56,13 +57,13 @@ extern MagickExport Image
   *DisposeImages(const Image *,ExceptionInfo *),
   *CompareImageLayers(const Image *,const ImageLayerMethod,ExceptionInfo *),
   *DeconstructImages(const Image *,ExceptionInfo *),
-  *MergeImageLayers(const Image *,const ImageLayerMethod,ExceptionInfo *),
+  *MergeImageLayers(Image *,const ImageLayerMethod,ExceptionInfo *),
   *OptimizeImageLayers(const Image *,ExceptionInfo *),
   *OptimizePlusImageLayers(const Image *,ExceptionInfo *);
 
 extern MagickExport void
-  CompositeLayers(Image *,const CompositeOperator,Image *,const long,const long,
-    ExceptionInfo *),
+  CompositeLayers(Image *,const CompositeOperator,Image *,const ssize_t,
+    const ssize_t,ExceptionInfo *),
   OptimizeImageTransparency(const Image *,ExceptionInfo *),
   RemoveDuplicateLayers(Image **,ExceptionInfo *),
   RemoveZeroDelayLayers(Image **,ExceptionInfo *);

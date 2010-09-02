@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -33,11 +33,11 @@ MagickExport MagickProgressMonitor
 static inline MagickBooleanType QuantumTick(const MagickOffsetType offset,
   const MagickSizeType span)
 {
-  if (span < 100)
-    return(MagickTrue);
-  if ((offset % ((span-1)/100)) == 0)
+  if (span <= 100)
     return(MagickTrue);
   if (offset == (MagickOffsetType) (span-1))
+    return(MagickTrue);
+  if ((offset % (span/100)) == 0)
     return(MagickTrue);
   return(MagickFalse);
 }

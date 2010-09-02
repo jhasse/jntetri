@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -22,9 +22,6 @@
 extern "C" {
 #endif
 
-#if defined(_OPENMP)
-# include <omp.h>
-#endif
 #include "magick/pixel.h"
 
 typedef enum
@@ -43,87 +40,61 @@ typedef enum
   GrayVirtualPixelMethod,
   WhiteVirtualPixelMethod,
   HorizontalTileVirtualPixelMethod,
-  VerticalTileVirtualPixelMethod
+  VerticalTileVirtualPixelMethod,
+  HorizontalTileEdgeVirtualPixelMethod,
+  VerticalTileEdgeVirtualPixelMethod,
+  CheckerTileVirtualPixelMethod
 } VirtualPixelMethod;
 
-typedef struct _ViewInfo
-  ViewInfo;
-
-extern MagickExport const PixelPacket
-  *AcquireCacheViewPixels(const ViewInfo *,const long,const long,
-    const unsigned long,const unsigned long,ExceptionInfo *);
+typedef struct _CacheView
+  CacheView;
 
 extern MagickExport ClassType
-  GetCacheViewStorageClass(const ViewInfo *);
+  GetCacheViewStorageClass(const CacheView *);
 
 extern MagickExport ColorspaceType
-  GetCacheViewColorspace(const ViewInfo *);
+  GetCacheViewColorspace(const CacheView *);
 
 extern MagickExport const IndexPacket
-  *AcquireCacheViewIndexes(const ViewInfo *);
+  *GetCacheViewVirtualIndexQueue(const CacheView *);
+
+extern MagickExport const PixelPacket
+  *GetCacheViewVirtualPixels(const CacheView *,const ssize_t,const ssize_t,
+    const size_t,const size_t,ExceptionInfo *),
+  *GetCacheViewVirtualPixelQueue(const CacheView *);
 
 extern MagickExport ExceptionInfo
-  *GetCacheViewException(const ViewInfo *);
+  *GetCacheViewException(const CacheView *);
 
 extern MagickExport IndexPacket
-  *GetCacheViewIndexes(const ViewInfo *);
+  *GetCacheViewAuthenticIndexQueue(CacheView *);
 
 extern MagickExport MagickBooleanType
-  SetCacheViewStorageClass(ViewInfo *,const ClassType),
-  SetCacheViewVirtualPixelMethod(ViewInfo *,const VirtualPixelMethod),
-  SyncCacheView(ViewInfo *);
-
-extern MagickExport PixelPacket
-  AcquireOneCacheViewPixel(const ViewInfo *,const long,const long,
+  GetOneCacheViewVirtualPixel(const CacheView *,const ssize_t,const ssize_t,
+    PixelPacket *,ExceptionInfo *),
+  GetOneCacheViewVirtualMethodPixel(const CacheView *,
+    const VirtualPixelMethod,const ssize_t,const ssize_t,PixelPacket *,
     ExceptionInfo *),
-  AcquireOneCacheViewVirtualPixel(const ViewInfo *,const VirtualPixelMethod,
-    const long,const long,ExceptionInfo *),
-  *GetCacheViewPixels(ViewInfo *,const long,const long,const unsigned long,
-    const unsigned long),
-  GetOneCacheViewPixel(const ViewInfo *,const long,const long),
-  *SetCacheViewPixels(ViewInfo *,const long,const long,const unsigned long,
-    const unsigned long);
+  GetOneCacheViewAuthenticPixel(const CacheView *,const ssize_t,const ssize_t,
+    PixelPacket *,ExceptionInfo *),
+  SetCacheViewStorageClass(CacheView *,const ClassType),
+  SetCacheViewVirtualPixelMethod(CacheView *,const VirtualPixelMethod),
+  SyncCacheViewAuthenticPixels(CacheView *,ExceptionInfo *);
 
-extern MagickExport ViewInfo
-  *AcquireCacheView(const Image *),
-  **AcquireCacheViewThreadSet(const Image *),
-  *CloneCacheView(const ViewInfo *),
-  *DestroyCacheView(ViewInfo *),
-  **DestroyCacheViewThreadSet(ViewInfo **);
+extern MagickExport MagickSizeType
+  GetCacheViewExtent(const CacheView *);
 
-/*
-  Deprecated.
-*/
 extern MagickExport PixelPacket
-  *SetCacheView(ViewInfo *,const long,const long,const unsigned long,
-    const unsigned long);
+  *GetCacheViewAuthenticPixelQueue(CacheView *),
+  *GetCacheViewAuthenticPixels(CacheView *,const ssize_t,const ssize_t,
+    const size_t,const size_t,ExceptionInfo *),
+  *QueueCacheViewAuthenticPixels(CacheView *,const ssize_t,const ssize_t,
+    const size_t,const size_t,ExceptionInfo *);
 
-/*
-  Inline methods.
-*/
-static inline unsigned long GetCacheViewMaximumThreads(void)
-{
-#if defined(_OPENMP)
-  return(omp_get_max_threads());
-#endif
-  return(1);
-}
-
-static inline long GetCacheViewThreadId(void)
-{
-#if defined(_OPENMP)
-  return(omp_get_thread_num());
-#endif
-  return(0);
-}
-
-static inline void SetCacheViewMaximumThreads(const unsigned long threads)
-{
-#if defined(_OPENMP)
-  omp_set_num_threads(threads);
-#endif
-  (void) threads;
-}
+extern MagickExport CacheView
+  *AcquireCacheView(const Image *),
+  *CloneCacheView(const CacheView *),
+  *DestroyCacheView(CacheView *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

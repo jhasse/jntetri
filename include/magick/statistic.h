@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 
-  MagickCore image methods.
+  MagickCore statistical methods.
 */
 #ifndef _MAGICKCORE_STATISTIC_H
 #define _MAGICKCORE_STATISTIC_H
@@ -24,40 +24,92 @@ extern "C" {
 
 typedef struct _ChannelStatistics
 {
-  unsigned long
+  size_t
     depth;
 
   double
     minima,
     maxima,
+    sum,
+    sum_squared,
+    sum_cubed,
+    sum_fourth_power,
     mean,
-    standard_deviation;
+    variance,
+    standard_deviation,
+    kurtosis,
+    skewness;
 } ChannelStatistics;
+
+typedef enum
+{
+  UndefinedEvaluateOperator,
+  AddEvaluateOperator,
+  AndEvaluateOperator,
+  DivideEvaluateOperator,
+  LeftShiftEvaluateOperator,
+  MaxEvaluateOperator,
+  MinEvaluateOperator,
+  MultiplyEvaluateOperator,
+  OrEvaluateOperator,
+  RightShiftEvaluateOperator,
+  SetEvaluateOperator,
+  SubtractEvaluateOperator,
+  XorEvaluateOperator,
+  PowEvaluateOperator,
+  LogEvaluateOperator,
+  ThresholdEvaluateOperator,
+  ThresholdBlackEvaluateOperator,
+  ThresholdWhiteEvaluateOperator,
+  GaussianNoiseEvaluateOperator,
+  ImpulseNoiseEvaluateOperator,
+  LaplacianNoiseEvaluateOperator,
+  MultiplicativeNoiseEvaluateOperator,
+  PoissonNoiseEvaluateOperator,
+  UniformNoiseEvaluateOperator,
+  CosineEvaluateOperator,
+  SineEvaluateOperator,
+  AddModulusEvaluateOperator,
+  MeanEvaluateOperator,
+  AbsEvaluateOperator
+} MagickEvaluateOperator;
+
+typedef enum
+{
+  UndefinedFunction,
+  PolynomialFunction,
+  SinusoidFunction,
+  ArcsinFunction,
+  ArctanFunction
+} MagickFunction;
 
 extern MagickExport ChannelStatistics
   *GetImageChannelStatistics(const Image *,ExceptionInfo *);
 
+extern MagickExport Image
+  *EvaluateImages(const Image *,const MagickEvaluateOperator,ExceptionInfo *);
+
 extern MagickExport MagickBooleanType
-  GetImageChannelExtrema(const Image *,const ChannelType,unsigned long *,
-    unsigned long *,ExceptionInfo *),
+  EvaluateImage(Image *,const MagickEvaluateOperator,const double,
+    ExceptionInfo *),
+  EvaluateImageChannel(Image *,const ChannelType,const MagickEvaluateOperator,
+    const double,ExceptionInfo *),
+  FunctionImage(Image *,const MagickFunction,const size_t,const double *,
+    ExceptionInfo *),
+  FunctionImageChannel(Image *,const ChannelType,const MagickFunction,
+    const size_t,const double *,ExceptionInfo *),
+  GetImageChannelExtrema(const Image *,const ChannelType,size_t *,size_t *,
+    ExceptionInfo *),
   GetImageChannelMean(const Image *,const ChannelType,double *,double *,
+    ExceptionInfo *),
+  GetImageChannelKurtosis(const Image *,const ChannelType,double *,double *,
     ExceptionInfo *),
   GetImageChannelRange(const Image *,const ChannelType,double *,double *,
     ExceptionInfo *),
-  GetImageExtrema(const Image *,unsigned long *,unsigned long *,
-    ExceptionInfo *),
+  GetImageExtrema(const Image *,size_t *,size_t *,ExceptionInfo *),
   GetImageRange(const Image *,double *,double *,ExceptionInfo *),
   GetImageMean(const Image *,double *,double *,ExceptionInfo *),
-  SetImageChannelDepth(Image *,const ChannelType,const unsigned long),
-  SetImageDepth(Image *,const unsigned long);
-
-extern MagickExport RectangleInfo
-  GetImageBoundingBox(const Image *,ExceptionInfo *exception);
-
-extern MagickExport unsigned long
-  GetImageChannelDepth(const Image *,const ChannelType,ExceptionInfo *),
-  GetImageDepth(const Image *,ExceptionInfo *),
-  GetImageQuantumDepth(const Image *,const MagickBooleanType);
+  GetImageKurtosis(const Image *,double *,double *,ExceptionInfo *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

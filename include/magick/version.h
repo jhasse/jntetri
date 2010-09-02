@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -26,10 +26,18 @@ extern "C" {
   Define declarations.
 */
 #define MagickPackageName "ImageMagick"
-#define MagickCopyright  "Copyright (C) 1999-2008 ImageMagick Studio LLC"
-#define MagickLibVersion  0x642
-#define MagickLibVersionText  "6.4.2"
-#define MagickLibVersionNumber  6,4,2,6
+#define MagickCopyright  "Copyright (C) 1999-2010 ImageMagick Studio LLC"
+#define MagickLibVersion  0x663
+#define MagickLibVersionText  "6.6.3"
+#define MagickLibVersionNumber  4,0,0
+#define MagickLibAddendum  "-10"
+#define MagickLibInterface  4
+#define MagickLibMinInterface  4
+#define MagickReleaseDate  "2010-09-02"
+#define MagickChangeDate   "20100823"
+#define MagickAuthoritativeURL  "http://www.imagemagick.org"
+#define MagickFeatures  ""
+#define MagickHomeURL  "file:///mingw/share/doc/ImageMagick-6.6.3/index.html"
 #if (MAGICKCORE_QUANTUM_DEPTH == 8)
 #define MagickQuantumDepth  "Q8"
 #define MagickQuantumRange  "255"
@@ -46,33 +54,21 @@ extern "C" {
 #define MagickQuantumDepth  "Q?"
 #define MagickQuantumRange  "?"
 #endif
-#define MagickReleaseDate  "Sun Feb 08 2009"
-#if !defined(MAGICKCORE_HDRI_SUPPORT)
-#define MagickHDRISupport ""
-#else
-#define MagickHDRISupport "HDRI "
-#endif
-#if !defined(_OPENMP)
-#define MagickOPENMPSupport ""
-#else
-#define MagickOPENMPSupport "OpenMP "
-#endif
-#define MagickSupport MagickHDRISupport MagickOPENMPSupport
-#define MagickVersion MagickPackageName " " MagickLibVersionText " " \
-  MagickReleaseDate " " MagickQuantumDepth " " MagickSupport \
-  "http://www.imagemagick.org"
-#define MagickHomeURL  "file:///mingw/share/doc/ImageMagick-6.4.2/index.html"
+#define MagickVersion  \
+  MagickPackageName " " MagickLibVersionText MagickLibAddendum " " \
+  MagickReleaseDate " " MagickQuantumDepth " " MagickAuthoritativeURL
 
 extern MagickExport char
   *GetMagickHomeURL(void);
 
 extern MagickExport const char
   *GetMagickCopyright(void),
+  *GetMagickFeatures(void),
   *GetMagickPackageName(void),
-  *GetMagickQuantumDepth(unsigned long *),
-  *GetMagickQuantumRange(unsigned long *),
+  *GetMagickQuantumDepth(size_t *),
+  *GetMagickQuantumRange(size_t *),
   *GetMagickReleaseDate(void),
-  *GetMagickVersion(unsigned long *);
+  *GetMagickVersion(size_t *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -37,7 +37,12 @@ typedef enum
   LosslessJPEGCompression,
   LZWCompression,
   RLECompression,
-  ZipCompression
+  ZipCompression,
+  ZipSCompression,
+  PizCompression,
+  Pxr24Compression,
+  B44Compression,
+  B44ACompression
 } CompressionType;
 
 typedef struct _Ascii85Info
@@ -45,8 +50,7 @@ typedef struct _Ascii85Info
 
 extern MagickExport MagickBooleanType
   HuffmanDecodeImage(Image *),
-  HuffmanEncodeImage(const ImageInfo *,Image *),
-  Huffman2DEncodeImage(const ImageInfo *,Image *),
+  HuffmanEncodeImage(const ImageInfo *,Image *,Image *),
   LZWEncodeImage(Image *,const size_t,unsigned char *),
   PackbitsEncodeImage(Image *,const size_t,unsigned char *),
   ZLIBEncodeImage(Image *,const size_t,unsigned char *);

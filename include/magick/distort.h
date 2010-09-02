@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -22,18 +22,15 @@
 extern "C" {
 #endif
 
-#include <magick/draw.h>
+/*
+  These two enum are linked, with common enumerated values.  Both
+  DistortImages() and SparseColor() often share code to determine functional
+  coefficients for common methods.
 
-/* These two enum are linked, with common enumeriated values.
- * this because both DistortImages() and SparseColorInterpolate()
- * will often share code for determine functional coefficients for
- * common methods.
- * 
- * Caution should be taken to ensure that only the common methods
- * contain the same enumerated value, while all others remain unique
- * across both enumerations.
- *
- */
+  Caution should be taken to ensure that only the common methods contain the
+  same enumerated value, while all others remain unique across both
+  enumerations.
+*/
 typedef enum
 {
   UndefinedDistortion,
@@ -42,32 +39,37 @@ typedef enum
   ScaleRotateTranslateDistortion,
   PerspectiveDistortion,
   PerspectiveProjectionDistortion,
-  BilinearDistortion,
+  BilinearForwardDistortion,
+  BilinearDistortion = BilinearForwardDistortion,
+  BilinearReverseDistortion,
   PolynomialDistortion,
   ArcDistortion,
   PolarDistortion,
   DePolarDistortion,
   BarrelDistortion,
+  BarrelInverseDistortion,
   ShepardsDistortion,
-  SentinelDistortion  /* End of methods for DistortImage() */
+  SentinelDistortion
 } DistortImageMethod;
 
 typedef enum
 {
   UndefinedColorInterpolate = UndefinedDistortion,
   BarycentricColorInterpolate = AffineDistortion,
-  BilinearColorInterpolate = BilinearDistortion,
+  BilinearColorInterpolate = BilinearReverseDistortion,
   PolynomialColorInterpolate = PolynomialDistortion,
   ShepardsColorInterpolate = ShepardsDistortion,
-  /* Methods unique to SparseColorInterpolate() from here */
+  /*
+    Methods unique to SparseColor().
+  */
   VoronoiColorInterpolate = SentinelDistortion
-} SparseColorInterpolateMethod;
+} SparseColorMethod;
 
 extern MagickExport Image
-  *DistortImage(Image *image,const DistortImageMethod,const unsigned long,
+  *DistortImage(const Image *,const DistortImageMethod,const size_t,
     const double *,MagickBooleanType,ExceptionInfo *exception),
-  *SparseColorInterpolate(Image *image,const SparseColorInterpolateMethod,
-    const unsigned long,const double *,ExceptionInfo *exception);
+  *SparseColorImage(const Image *,const ChannelType,const SparseColorMethod,
+    const size_t,const double *,ExceptionInfo *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

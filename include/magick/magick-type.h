@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ extern "C" {
 #define MAGICKCORE_QUANTUM_DEPTH  16
 #endif
 
-#if defined(__WINDOWS__) && !defined(__MINGW32__)
+#if defined(MAGICKCORE_WINDOWS_SUPPORT) && !defined(__MINGW32__)
 #  define MagickLLConstant(c)  (MagickOffsetType) (c ## i64)
 #  define MagickULLConstant(c)  (MagickSizeType) (c ## ui64)
 #else
@@ -42,17 +42,16 @@ extern "C" {
 #define MaxColormapSize  256UL
 #define MaxMap  255UL
 
-typedef float MagickRealType;
+typedef double MagickRealType;
 #if defined(MAGICKCORE_HDRI_SUPPORT)
-#define QuantumRange  255.0
 typedef float Quantum;
+#define QuantumRange  255.0
 #define QuantumFormat  "%g"
 #else
-#define QuantumRange  255UL
 typedef unsigned char Quantum;
+#define QuantumRange  255UL
 #define QuantumFormat  "%u"
 #endif
-typedef unsigned long QuantumAny;
 #elif (MAGICKCORE_QUANTUM_DEPTH == 16)
 #define MagickEpsilon  1.0e-10
 #define MagickHuge     1.0e12
@@ -61,56 +60,44 @@ typedef unsigned long QuantumAny;
 
 typedef double MagickRealType;
 #if defined(MAGICKCORE_HDRI_SUPPORT)
-#define QuantumRange  65535.0
 typedef float Quantum;
+#define QuantumRange  65535.0
 #define QuantumFormat  "%g"
 #else
-#define QuantumRange  65535UL
 typedef unsigned short Quantum;
+#define QuantumRange  65535UL
 #define QuantumFormat  "%u"
 #endif
-typedef unsigned long QuantumAny;
 #elif (MAGICKCORE_QUANTUM_DEPTH == 32)
 #define MagickEpsilon  1.0e-10
 #define MagickHuge     1.0e12
 #define MaxColormapSize  65536UL
 #define MaxMap  65535UL
 
-#if defined(MAGICKCORE_HAVE_LONG_DOUBLE)
-#define QuantumRange  4294967295.0
-typedef long double MagickRealType;
-#else
-#define QuantumRange  4294967295UL
 typedef double MagickRealType;
-#endif
 #if defined(MAGICKCORE_HDRI_SUPPORT)
 typedef float Quantum;
+#define QuantumRange  4294967295.0
 #define QuantumFormat  "%g"
 #else
 typedef unsigned int Quantum;
+#define QuantumRange  4294967295UL
 #define QuantumFormat  "%u"
 #endif
-typedef unsigned long QuantumAny;
-#elif (MAGICKCORE_QUANTUM_DEPTH == 64) && defined(MAGICKCORE_HAVE_LONG_DOUBLE)
+#elif (MAGICKCORE_QUANTUM_DEPTH == 64) && defined(MAGICKCORE_HAVE_LONG_DOUBLE_WIDER)
 #define MagickEpsilon  1.0e-10
 #define MagickHuge     1.0e12
 #define MaxColormapSize  65536UL
 #define MaxMap  65535UL
 
+#define MAGICKCORE_HDRI_SUPPORT  1
 typedef long double MagickRealType;
-#if defined(MAGICKCORE_HDRI_SUPPORT)
-#define QuantumRange  18446744073709551615.0
 typedef double Quantum;
+#define QuantumRange  18446744073709551615.0
 #define QuantumFormat  "%g"
 #else
-#define QuantumRange  MagickULLConstant(18446744073709551615)
-typedef unsigned long long Quantum;
-#define QuantumFormat  "%llu"
-#endif
-typedef unsigned long long QuantumAny;
-#else
 #if !defined(_CH_)
-# error "Specified value of MAGICKCORE_QUANTUM_DEPTH is not supported"
+# error "MAGICKCORE_QUANTUM_DEPTH must be one of 8, 16, 32, or 64"
 #endif
 #endif
 #define MaxRGB  QuantumRange  /* deprecated */
@@ -119,20 +106,29 @@ typedef unsigned long long QuantumAny;
   Typedef declarations.
 */
 typedef unsigned int MagickStatusType;
-#if !defined(__WINDOWS__)
+#if !defined(MAGICKCORE_WINDOWS_SUPPORT)
 #if (MAGICKCORE_SIZEOF_UNSIGNED_LONG_LONG == 8)
 typedef long long MagickOffsetType;
 typedef unsigned long long MagickSizeType;
-#define MagickSizeFormat  "%10llu"
+#define MagickOffsetFormat  "lld"
+#define MagickSizeFormat  "llu"
 #else
-typedef long MagickOffsetType;
-typedef unsigned long MagickSizeType;
-#define MagickSizeFormat  "%10lu"
+typedef ssize_t MagickOffsetType;
+typedef size_t MagickSizeType;
+#define MagickOffsetFormat  "ld"
+#define MagickSizeFormat  "lu"
 #endif
 #else
 typedef __int64 MagickOffsetType;
 typedef unsigned __int64 MagickSizeType;
-#define MagickSizeFormat  "%10llu"
+#define MagickOffsetFormat  "I64i"
+#define MagickSizeFormat  "I64u"
+#endif
+
+#if defined(_MSC_VER) && (_MSC_VER == 1200)
+typedef MagickOffsetType QuantumAny;
+#else
+typedef MagickSizeType QuantumAny;
 #endif
 
 #if defined(macintosh)
@@ -154,8 +150,13 @@ typedef enum
   MatteChannel = 0x0008,  /* deprecated */
   BlackChannel = 0x0020,
   IndexChannel = 0x0020,
-  AllChannels = 0xff,
-  DefaultChannels = (AllChannels &~ OpacityChannel)
+  AllChannels = 0x002F,
+  /* special channel types */
+  TrueAlphaChannel = 0x0040, /* extract actual alpha channel from opacity */
+  RGBChannels = 0x0080,      /* set alpha from  grayscale mask in RGB */
+  GrayChannels = 0x0080,
+  SyncChannels = 0x0100,     /* channels should be modified equally */
+  DefaultChannels = ( (AllChannels | SyncChannels) &~ OpacityChannel)
 } ChannelType;
 
 typedef enum

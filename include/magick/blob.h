@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ extern "C" {
 #include "magick/image.h"
 #include "magick/stream.h"
 
-#define MagickMaxBufferSize  262144
+#define MagickMaxBufferExtent  0x3c005L
 
 typedef enum
 {
@@ -46,7 +46,8 @@ extern MagickExport MagickBooleanType
   FileToImage(Image *,const char *),
   GetBlobError(const Image *),
   ImageToFile(Image *,char *,ExceptionInfo *),
-  InjectImageBlob(const ImageInfo *,Image *,const char *),
+  InjectImageBlob(const ImageInfo *,Image *,Image *,const char *,
+    ExceptionInfo *),
   IsBlobExempt(const Image *),
   IsBlobSeekable(const Image *),
   IsBlobTemporary(const Image *);
@@ -65,6 +66,7 @@ extern MagickExport unsigned char
 
 extern MagickExport void
   DestroyBlob(Image *),
+  DuplicateBlob(Image *,const Image *),
   SetBlobExempt(Image *,const MagickBooleanType);
 
 #if defined(__cplusplus) || defined(c_plusplus)

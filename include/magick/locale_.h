@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -38,29 +38,30 @@ typedef struct _LocaleInfo
     *previous,
     *next;  /* deprecated, use GetLocaleInfoList() */
 
-  unsigned long
+  size_t
     signature;
 } LocaleInfo;
 
 extern MagickExport char
-  **GetLocaleList(const char *,unsigned long *,ExceptionInfo *);
+  **GetLocaleList(const char *,size_t *,ExceptionInfo *);
 
 extern MagickExport const char
   *GetLocaleMessage(const char *);
 
 extern MagickExport const LocaleInfo
   *GetLocaleInfo_(const char *,ExceptionInfo *),
-  **GetLocaleInfoList(const char *,unsigned long *,ExceptionInfo *);
+  **GetLocaleInfoList(const char *,size_t *,ExceptionInfo *);
 
 extern MagickExport LinkedListInfo
   *DestroyLocaleOptions(LinkedListInfo *),
   *GetLocaleOptions(const char *,ExceptionInfo *);
 
 extern MagickExport MagickBooleanType
-  ListLocaleInfo(FILE *,ExceptionInfo *);
+  ListLocaleInfo(FILE *,ExceptionInfo *),
+  LocaleComponentGenesis(void);
 
 extern MagickExport void
-  DestroyLocaleList(void);
+  LocaleComponentTerminus(void);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

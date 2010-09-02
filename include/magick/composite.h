@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ typedef enum
 {
   UndefinedCompositeOp,
   NoCompositeOp,
-  AddCompositeOp,
+  ModulusAddCompositeOp,
   AtopCompositeOp,
   BlendCompositeOp,
   BumpmapCompositeOp,
@@ -76,17 +76,30 @@ typedef enum
   SrcInCompositeOp,
   SrcOutCompositeOp,
   SrcOverCompositeOp,
-  SubtractCompositeOp,
+  ModulusSubtractCompositeOp,
   ThresholdCompositeOp,
   XorCompositeOp,
-  DivideCompositeOp
+  DivideCompositeOp,
+  DistortCompositeOp,
+  BlurCompositeOp,
+  PegtopLightCompositeOp,
+  VividLightCompositeOp,
+  PinLightCompositeOp,
+  LinearDodgeCompositeOp,
+  LinearBurnCompositeOp,
+  MathematicsCompositeOp
 } CompositeOperator;
 
+/* Depreciated Method Names for backward compatibility */
+#define AddCompositeOp       ModulusAddCompositeOp
+#define SubtractCompositeOp  ModulusSubtractCompositeOp
+
 extern MagickExport MagickBooleanType
-  CompositeImage(Image *,const CompositeOperator,const Image *,const long,
-    const long),
+  CompositeImage(Image *,const CompositeOperator,const Image *,const ssize_t,
+    const ssize_t),
   CompositeImageChannel(Image *,const ChannelType,const CompositeOperator,
-    const Image *,const long,const long);
+    const Image *,const ssize_t,const ssize_t),
+  TextureImage(Image *,const Image *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }
