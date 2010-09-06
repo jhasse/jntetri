@@ -4,13 +4,14 @@
 #include "field.hpp"
 #include "block.hpp"
 #include "gametype.hpp"
+#include "replayrecorder.hpp"
 
 class Game : public Work {
 public:
-	Game(GameType);
+	Game(GameType, int seed);
 	virtual ~Game();
-	void Step();
-	void Draw() const;
+	virtual void Step();
+	virtual void Draw() const;
 	void QuitEvent();
 	Field& GetField();
 	double GetTime() const;
@@ -19,7 +20,7 @@ public:
 	void DrawTime(int x, int y) const;
 	void StepToRotateScreen();
 	void SetRotateScreen(bool);
-private:
+protected:
 	Field field_;
 	GameType type_;
 	double nextPosition_;
@@ -28,4 +29,5 @@ private:
 	double pauseTime_;
 	bool rotateScreen_;
 	double rotateDegree_;
+	ReplayRecorder replayRecorder_;
 };

@@ -4,13 +4,15 @@
 #include "tetromino.hpp"
 #include "explosion.hpp"
 #include "control.hpp"
+#include "engine/random.hpp"
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
+#include <boost/noncopyable.hpp>
 
-class Field {
+class Field : boost::noncopyable {
 public:
-	Field();
+	Field(int seed);
 	void Step();
 	void Draw() const;
 	void DrawBlock(int x, int y) const;
@@ -31,6 +33,7 @@ public:
 	bool GameOverAnimationFinished() const;
 	void SetControl(Control*);
 	Control& GetControl() const;
+	Random& GetRandom();
 private:
 	void CheckLines();
 	void ResetCounter();
@@ -51,4 +54,5 @@ private:
 	bool delay_;
 	boost::shared_ptr<Control> control_;
 	bool downKeyReleased_;
+	Random random_;
 };

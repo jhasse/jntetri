@@ -6,9 +6,11 @@
 #include "engine/screen.hpp"
 #include "game.hpp"
 #include "multiplayermenu.hpp"
+#include "replayplayer.hpp"
 
 #include <jngl.hpp>
 #include <boost/bind.hpp>
+#include <ctime>
 
 Menu::Menu() : buttonBox_(new ButtonBox(-450, 600)), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES)
 {
@@ -52,12 +54,12 @@ void Menu::Draw() const
 
 void Menu::Normal() const
 {
-	Procedure::Handle().SetWork(new Fade(new Game(NORMAL)));
+	Procedure::Handle().SetWork(new Fade(new Game(NORMAL, static_cast<int>(time(0)))));
 }
 
 void Menu::FiftyLines() const
 {
-	Procedure::Handle().SetWork(new Fade(new Game(FIFTYLINES)));
+	Procedure::Handle().SetWork(new Fade(new ReplayPlayer("test.jtr")));
 }
 
 void Menu::Multiplayer() const

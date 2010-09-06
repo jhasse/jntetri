@@ -2,96 +2,92 @@
 
 #include <jngl.hpp>
 
+using namespace control;
+
 Control::~Control()
 {
 }
 
-bool KeyboardControl::Drop()
-{
-	return jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return) || jngl::KeyPressed(jngl::key::WizX);
+void Control::Set(ControlType e) {
+	bits_.set(e);
 }
 
-bool KeyboardControl::Down()
-{
-	return jngl::KeyDown(jngl::key::Down) || jngl::KeyDown(jngl::key::WizDown);
+bool Control::Check(ControlType e) {
+	return bits_.test(e);
 }
 
-bool KeyboardControl::Left()
-{
-	return jngl::KeyPressed(jngl::key::Left) || jngl::KeyPressed(jngl::key::WizLeft);
+void Control::ForEach(const boost::function<void(ControlType)>& f) {
+	for(size_t i = 0; i < bits_.size(); ++i) {
+		if(bits_.test(i)) {
+			f(static_cast<control::ControlType>(i));
+		}
+	}
 }
 
-bool KeyboardControl::Right()
-{
-	return jngl::KeyPressed(jngl::key::Right) || jngl::KeyPressed(jngl::key::WizRight);
+
+void KeyboardControl::Step() {
+	bits_.reset();
+	if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return)) {
+		Set(Drop);
+	}
+	if(jngl::KeyDown(jngl::key::Down)) {
+		Set(Down);
+	}
+	if(jngl::KeyPressed(jngl::key::Left)) {
+		Set(Left);
+	}
+	if(jngl::KeyPressed(jngl::key::Right)) {
+		Set(Right);
+	}
+	if(jngl::KeyPressed(jngl::key::Up)) {
+		Set(Rotate);
+	}
+	if(jngl::KeyPressed(jngl::key::ControlR)) {
+		Set(RotateCounter);
+	}
 }
 
-bool KeyboardControl::Rotate()
+void WizControl::Step()
 {
-	return jngl::KeyPressed(jngl::key::Up) || jngl::KeyPressed(jngl::key::WizUp) || jngl::KeyPressed(jngl::key::WizB);
+	bits_.reset();
+	if(jngl::KeyPressed(jngl::key::WizX)) {
+		Set(Drop);
+	}
+	if(jngl::KeyDown(jngl::key::WizDown)) {
+		Set(Down);
+	}
+	if(jngl::KeyPressed(jngl::key::WizLeft)) {
+		Set(Left);
+	}
+	if(jngl::KeyPressed(jngl::key::WizRight)) {
+		Set(Right);
+	}
+	if(jngl::KeyPressed(jngl::key::WizUp) || jngl::KeyPressed(jngl::key::WizB)) {
+		Set(Rotate);
+	}
+	if(jngl::KeyPressed(jngl::key::WizA)) {
+		Set(RotateCounter);
+	}
 }
 
-bool KeyboardControl::RotateCounter()
-{
-	return jngl::KeyPressed(jngl::key::ControlR) || jngl::KeyPressed(jngl::key::WizA);
-}
-
-bool WizControl::Drop()
-{
-	return jngl::KeyPressed(jngl::key::WizX);
-}
-
-bool WizControl::Down()
-{
-	return jngl::KeyDown(jngl::key::WizDown);
-}
-
-bool WizControl::Left()
-{
-	return jngl::KeyPressed(jngl::key::WizLeft);
-}
-
-bool WizControl::Right()
-{
-	return jngl::KeyPressed(jngl::key::WizRight);
-}
-
-bool WizControl::Rotate()
-{
-	return jngl::KeyPressed(jngl::key::WizUp) || jngl::KeyPressed(jngl::key::WizB);
-}
-
-bool WizControl::RotateCounter()
-{
-	return jngl::KeyPressed(jngl::key::WizA);
-}
-
-bool WizControlRotated::Drop()
-{
-	return jngl::KeyPressed(jngl::key::WizA);
-}
-
-bool WizControlRotated::Down()
-{
-	return jngl::KeyDown(jngl::key::WizLeft);
-}
-
-bool WizControlRotated::Left()
-{
-	return jngl::KeyPressed(jngl::key::WizUp);
-}
-
-bool WizControlRotated::Right()
-{
-	return jngl::KeyPressed(jngl::key::WizDown);
-}
-
-bool WizControlRotated::Rotate()
-{
-	return jngl::KeyPressed(jngl::key::WizRight) || jngl::KeyPressed(jngl::key::WizX);
-}
-
-bool WizControlRotated::RotateCounter()
-{
-	return jngl::KeyPressed(jngl::key::WizY);
+void WizControlRotated::Step() {
+	bits_.reset();
+	if(jngl::KeyPressed(jngl::key::WizA)) {
+		Set(Drop);
+	}
+	if(jngl::KeyDown(jngl::key::WizLeft))  {
+		Set(Down);
+	}
+	if(jngl::KeyPressed(jngl::key::WizUp)) {
+		Set(Left);
+	}
+	if(jngl::KeyPressed(jngl::key::WizDown)) {
+		Set(Right);
+	}
+	if(jngl::KeyPressed(jngl::key::WizRight) || jngl::KeyPressed(jngl::key::WizX)) {
+		Set(Rotate);
+	}
+	if(jngl::KeyPressed(jngl::key::WizY)) {
+		Set(RotateCounter);
+	}
 }

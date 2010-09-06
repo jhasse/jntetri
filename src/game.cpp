@@ -10,7 +10,10 @@
 #include <iomanip>
 #include <boost/lexical_cast.hpp>
 
-Game::Game(GameType type) : type_(type), nextPosition_(field_.GetNextPosition()), oldNextPosition_(nextPosition_), startTime_(jngl::Time()), pauseTime_(0), rotateScreen_(false), rotateDegree_(0)
+Game::Game(GameType type, int seed)
+	: field_(seed), type_(type), nextPosition_(field_.GetNextPosition()),
+	  oldNextPosition_(nextPosition_), startTime_(jngl::Time()), pauseTime_(0),
+	  rotateScreen_(false), rotateDegree_(0), replayRecorder_(field_)
 {
 	jngl::SetMouseVisible(false);
 }
@@ -49,6 +52,7 @@ void Game::Step()
 	{
 		field_.SetPause(false);
 		field_.Step();
+		replayRecorder_.Step();
 		if(type_ == FIFTYLINES && field_.GetLines() >= 50)
 		{
 			field_.SetGameOver(true);

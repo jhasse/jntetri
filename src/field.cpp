@@ -2,6 +2,7 @@
 #include "engine/screen.hpp"
 #include "engine/random.hpp"
 #include "engine/options.hpp"
+#include "replaycontrol.hpp"
 
 #include <jngl.hpp>
 #include <map>
@@ -10,22 +11,23 @@
 const int Field::width_ = 11;
 const int Field::height_ = 19;
 
-Field::Field()
+Field::Field(int seed)
 	: blockSize_(60), counter_(0), gameOver_(false), score_(0),
 	  level_(GetOptions().GetStartLevel()), lines_(0), maxY_(0),
 	  pause_(false), control_(new KeyboardControl)
 {
+	random_.SetSeed(seed);
 	NewTetromino();
 	NewTetromino();
 	score_ = 0;
 	for(int i = 0; i < GetOptions().GetStartJunks(); ++i)
 	{
-		int leaveOut = Random::Handle()(width_);
+		int leaveOut = random_(width_);
 		for(int x = 0; x < width_; ++x)
 		{
 			if(x != leaveOut)
 			{
-				RGB color(Random::Handle()(255), Random::Handle()(255), Random::Handle()(255));
+				RGB color(RandomNumber(255), RandomNumber(255), RandomNumber(255));
 				AddBlock(Block(x, i, color));
 			}
 		}
@@ -42,11 +44,12 @@ void Field::ResetCounter()
 
 void Field::Step()
 {
+	control_->Step();
 	--counter_;
 	if(gameOver_ && counter_ <= 0 && !blocks_.empty())
 	{
 		counter_ = 5;
-		std::vector<Block>::iterator randomBlock = blocks_.begin() + Random::Handle()(blocks_.size());
+		std::vector<Block>::iterator randomBlock = blocks_.begin() + RandomNumber(blocks_.size());
 		explosions_.push_back(Explosion(*randomBlock, 1));
 		blocks_.erase(randomBlock);
 	}
@@ -74,14 +77,14 @@ void Field::Step()
 			}
 		}
 		tetromino_->Step();
-		if(control_->Drop())
+		if(control_->Check(control::Drop))
 		{
 			while(tetromino_->MoveDown())
 			{
 			}
 			NewTetromino();
 		}
-		if(control_->Down())
+		if(control_->Check(control::Down))
 		{
 			if(downKeyReleased_ && counter_ > 7)
 			{
@@ -151,7 +154,7 @@ void Field::NewTetromino()
 		CheckLines();
 	}
 	tetromino_ = nextTetromino_;
-	nextTetromino_.reset(new Tetromino(Random::Handle()(7), *this));
+	nextTetromino_.reset(new Tetromino(random_(7), *this));
 
 	if(tetromino_)
 	{
@@ -329,4 +332,8 @@ void Field::SetControl(Control* control)
 Control& Field::GetControl() const
 {
 	return *control_;
+}
+
+Random& Field::GetRandom() {
+	return random_;
 }

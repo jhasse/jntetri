@@ -87,7 +87,7 @@ Tetromino::Tetromino(int type, Field& field)
 			rotationCenterY_.push_back( 0);
 		break;}
 	}
-	int numberOfRotations = Random::Handle()(4);
+	int numberOfRotations = field_.GetRandom()(4);
 	for(int i = 0; i < numberOfRotations; ++i)
 	{
 		Rotate(CLOCKWISE);
@@ -104,7 +104,7 @@ void Tetromino::Step()
 	animationY_ *= 0.8;
 	animationX_ *= 0.7;
 	rotation_ *= 0.8;
-	if(field_.GetControl().Left())
+	if(field_.GetControl().Check(control::Left))
 	{
 		ChangeX(-1);
 		if(Collided())
@@ -112,7 +112,7 @@ void Tetromino::Step()
 			ChangeX(1);
 		}
 	}
-	if(field_.GetControl().Right())
+	if(field_.GetControl().Check(control::Right))
 	{
 		ChangeX(1);
 		if(Collided())
@@ -120,11 +120,11 @@ void Tetromino::Step()
 			ChangeX(-1);
 		}
 	}
-	if(field_.GetControl().Rotate())
+	if(field_.GetControl().Check(control::Rotate))
 	{
 		Rotate(CLOCKWISE);
 	}
-	if(field_.GetControl().RotateCounter())
+	if(field_.GetControl().Check(control::RotateCounter))
 	{
 		Rotate(COUNTERCLOCKWISE);
 	}
