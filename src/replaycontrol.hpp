@@ -10,6 +10,6 @@ public:
 	ReplayControl(std::ifstream&);
 	void Step();
 private:
-	unsigned int time_;
+	int time_;
 	std::queue<std::pair<unsigned char, control::ControlType> > data_;
 };
