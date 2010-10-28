@@ -26,6 +26,7 @@ Game::~Game()
 void Game::SetRotateScreen(bool rotateScreen)
 {
 	rotateScreen_ = rotateScreen;
+#ifdef WIZ
 	if(rotateScreen_)
 	{
 		field_.SetControl(new WizControlRotated);
@@ -34,6 +35,7 @@ void Game::SetRotateScreen(bool rotateScreen)
 	{
 		field_.SetControl(new WizControl);
 	}
+#endif
 }
 
 void Game::Step()
