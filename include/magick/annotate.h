@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ extern "C" {
 
 #include "magick/draw.h"
 
-extern MagickExport long
-  FormatMagickCaption(Image *,DrawInfo *,char *,TypeMetric *);
-
 extern MagickExport MagickBooleanType
   AnnotateImage(Image *,const DrawInfo *),
   GetMultilineTypeMetrics(Image *,const DrawInfo *,TypeMetric *),
   GetTypeMetrics(Image *,const DrawInfo *,TypeMetric *);
+
+extern MagickExport ssize_t
+  FormatMagickCaption(Image *,DrawInfo *,TypeMetric *,char **);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

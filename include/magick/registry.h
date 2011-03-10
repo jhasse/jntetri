@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -33,17 +33,16 @@ typedef enum
 extern MagickExport char
   *GetNextImageRegistry(void);
 
-extern MagickExport const void
-  *GetImageRegistry(const RegistryType,const char *,ExceptionInfo *);
-
 extern MagickExport MagickBooleanType
   DefineImageRegistry(const RegistryType,const char *,ExceptionInfo *),
   DeleteImageRegistry(const char *),
+  RegistryComponentGenesis(void),
   SetImageRegistry(const RegistryType,const char *,const void *,
     ExceptionInfo *);
 
 extern MagickExport void
-  DestroyImageRegistry(void),
+  *GetImageRegistry(const RegistryType,const char *,ExceptionInfo *),
+  RegistryComponentTerminus(void),
   *RemoveImageRegistry(const char *),
   ResetImageRegistryIterator(void);
 

@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -24,12 +24,20 @@ extern "C" {
 
 #include "magick/colorspace.h"
 
+typedef enum
+{
+  UndefinedDitherMethod,
+  NoDitherMethod,
+  RiemersmaDitherMethod,
+  FloydSteinbergDitherMethod
+} DitherMethod;
+
 typedef struct _QuantizeInfo
 {
-  unsigned long
+  size_t
     number_colors;
 
-  unsigned long
+  size_t
     tree_depth;
 
   MagickBooleanType
@@ -41,18 +49,21 @@ typedef struct _QuantizeInfo
   MagickBooleanType
     measure_error;
 
-  unsigned long
+  size_t
     signature;
+
+  DitherMethod
+    dither_method;
 } QuantizeInfo;
 
 extern MagickExport MagickBooleanType
   CompressImageColormap(Image *),
   GetImageQuantizeError(Image *),
-  MapImage(Image *,const Image *,const MagickBooleanType),
-  MapImages(Image *,const Image *,const MagickBooleanType),
-  PosterizeImage(Image *,const unsigned long,const MagickBooleanType),
+  PosterizeImage(Image *,const size_t,const MagickBooleanType),
   QuantizeImage(const QuantizeInfo *,Image *),
-  QuantizeImages(const QuantizeInfo *,Image *);
+  QuantizeImages(const QuantizeInfo *,Image *),
+  RemapImage(const QuantizeInfo *,Image *,const Image *),
+  RemapImages(const QuantizeInfo *,Image *,const Image *);
 
 extern MagickExport QuantizeInfo
   *AcquireQuantizeInfo(const ImageInfo *),

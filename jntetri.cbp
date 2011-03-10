@@ -22,6 +22,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -43,8 +44,8 @@
 			<Add library="Magick++" />
 			<Add library="MagickWand" />
 			<Add library="MagickCore" />
-			<Add library="lib\libboost_system-mgw44-1_39.lib" />
-			<Add library="lib\libboost_filesystem-mgw44-1_39.lib" />
+			<Add library="lib\libboost_system-mgw44-1_44.a" />
+			<Add library="lib\libboost_filesystem-mgw44-1_44.a" />
 			<Add library="z" />
 			<Add library="m" />
 			<Add library="gdi32" />
@@ -67,6 +68,7 @@
 		<Unit filename="src\engine\paths.hpp" />
 		<Unit filename="src\engine\procedure.cpp" />
 		<Unit filename="src\engine\procedure.hpp" />
+		<Unit filename="src\engine\random.cpp" />
 		<Unit filename="src\engine\random.hpp" />
 		<Unit filename="src\engine\resize\resizegraphics.cpp" />
 		<Unit filename="src\engine\resizegraphics.hpp" />
@@ -118,6 +120,12 @@
 		<Unit filename="src\optionsmenu.hpp" />
 		<Unit filename="src\pausemenu.cpp" />
 		<Unit filename="src\pausemenu.hpp" />
+		<Unit filename="src\replaycontrol.cpp" />
+		<Unit filename="src\replaycontrol.hpp" />
+		<Unit filename="src\replayplayer.cpp" />
+		<Unit filename="src\replayplayer.hpp" />
+		<Unit filename="src\replayrecorder.cpp" />
+		<Unit filename="src\replayrecorder.hpp" />
 		<Unit filename="src\tetromino.cpp" />
 		<Unit filename="src\tetromino.hpp" />
 		<Extensions>

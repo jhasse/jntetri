@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -22,11 +22,9 @@
 extern "C" {
 #endif
 
-extern MagickExport MagickPixelPacket
-  GetImageDynamicThreshold(const Image *,const double,const double,
-    ExceptionInfo *);
-
 extern MagickExport MagickBooleanType
+  GetImageDynamicThreshold(const Image *,const double,const double,
+    MagickPixelPacket *,ExceptionInfo *),
   SegmentImage(Image *,const ColorspaceType,const MagickBooleanType,
     const double,const double);
 

@@ -1,20 +1,21 @@
-#include "singleton.hpp"
+#pragma once
 
-#include <boost/random/linear_congruential.hpp>
-#include <ctime>
+#include <boost/noncopyable.hpp>
 
-class Random : public Singleton<Random> {
+namespace boost {
+	class rand48;
+}
+
+class Random : boost::noncopyable {
 public:
-	Random()
-	{
-		r.seed(static_cast<int>(time(0)));
-	}
-	int operator() (int n)
-	{
-		return static_cast<int>(
-			static_cast<unsigned long long>(n) * r() / std::numeric_limits<int>::max()
-		);
-	}
+	Random();
+	~Random();
+	int operator() (int);
+	int GetSeed() const;
+	void SetSeed(int);
 private:
-	boost::rand48 r;
+	boost::rand48* r_;
+	int seed_;
 };
+
+int RandomNumber(int);

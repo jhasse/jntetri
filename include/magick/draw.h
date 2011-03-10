@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -51,6 +51,13 @@ typedef enum
   OverlineDecoration,
   LineThroughDecoration
 } DecorationType;
+
+typedef enum
+{
+  UndefinedDirection,
+  RightToLeftDirection,
+  LeftToRightDirection
+} DirectionType;
 
 typedef enum
 {
@@ -127,6 +134,13 @@ typedef enum
   RepeatSpread
 } SpreadMethod;
 
+typedef struct _PointInfo
+{ 
+  double
+    x,
+    y;
+} PointInfo;
+
 typedef struct _StopInfo
 {
   MagickPixelPacket
@@ -150,7 +164,7 @@ typedef struct _GradientInfo
   StopInfo
     *stops;
 
-  unsigned long
+  size_t
     number_stops;
 
   SpreadMethod
@@ -159,8 +173,14 @@ typedef struct _GradientInfo
   MagickBooleanType
     debug;
 
-  unsigned long
+  size_t
     signature;
+
+  PointInfo
+    center;
+
+  MagickRealType
+    radius;
 } GradientInfo;
 
 typedef struct _ElementReference
@@ -174,7 +194,7 @@ typedef struct _ElementReference
   GradientInfo
     gradient;
 
-  unsigned long
+  size_t
     signature;
 
   struct _ElementReference
@@ -225,7 +245,7 @@ typedef struct _DrawInfo
   LineJoin
     linejoin;
 
-  unsigned long
+  size_t
     miterlimit;
 
   double
@@ -240,7 +260,7 @@ typedef struct _DrawInfo
   char
     *text;
 
-  unsigned long
+  size_t
     face;
 
   char
@@ -254,7 +274,7 @@ typedef struct _DrawInfo
   StretchType
     stretch;
 
-  unsigned long
+  size_t
     weight;
 
   char
@@ -300,23 +320,24 @@ typedef struct _DrawInfo
   MagickBooleanType
     debug;
 
-  unsigned long
+  size_t
     signature;
-} DrawInfo;
 
-typedef struct _PointInfo
-{ 
   double
-    x,
-    y;
-} PointInfo;
+    kerning,
+    interword_spacing,
+    interline_spacing;
+
+  DirectionType
+    direction;
+} DrawInfo;
 
 typedef struct _PrimitiveInfo
 {
   PointInfo
     point;
 
-  unsigned long
+  size_t
     coordinates;
 
   PrimitiveType

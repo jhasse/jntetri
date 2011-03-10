@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ extern "C" {
 #include <time.h>
 #include "magick/version.h"
 
-#define MagickImageCoderSignature  ((unsigned long) \
+#define MagickImageCoderSignature  ((size_t) \
   (((MagickLibVersion) << 8) | MAGICKCORE_QUANTUM_DEPTH))
-#define MagickImageFilterSignature  ((unsigned long) \
+#define MagickImageFilterSignature  ((size_t) \
   (((MagickLibVersion) << 8) | MAGICKCORE_QUANTUM_DEPTH))
 
 typedef enum
@@ -46,11 +46,11 @@ typedef struct _ModuleInfo
     *handle,
     (*unregister_module)(void);
 
-  unsigned long
+  size_t
     (*register_module)(void);
 
   time_t
-    load_time;
+    timestamp;
 
   MagickBooleanType
     stealth;
@@ -59,31 +59,34 @@ typedef struct _ModuleInfo
     *previous,
     *next;  /* deprecated, use GetModuleInfoList() */
 
-  unsigned long
+  size_t
     signature;
 } ModuleInfo;
 
-typedef ModuleExport unsigned long
-  ImageFilterHandler(Image **,const int,char **,ExceptionInfo *);
+typedef ModuleExport size_t
+  ImageFilterHandler(Image **,const int,const char **,ExceptionInfo *);
 
 extern MagickExport char
-  **GetModuleList(const char *,unsigned long *,ExceptionInfo *);
+  **GetModuleList(const char *,const MagickModuleType,size_t *,ExceptionInfo *);
 
 extern MagickExport const ModuleInfo
-  *GetModuleInfo(const char *,ExceptionInfo *),
-  **GetModuleInfoList(const char *,unsigned long *,ExceptionInfo *);
+  **GetModuleInfoList(const char *,size_t *,ExceptionInfo *);
 
 extern MagickExport MagickBooleanType
-  InvokeDynamicImageFilter(const char *,Image **,const int,char **,
-    ExceptionInfo *),
-  InvokeStaticImageFilter(const char *,Image **,const int,char **,
+  InitializeModuleList(ExceptionInfo *),
+  InvokeDynamicImageFilter(const char *,Image **,const int,const char **,
     ExceptionInfo *),
   ListModuleInfo(FILE *,ExceptionInfo *),
+  ModuleComponentGenesis(void),
   OpenModule(const char *,ExceptionInfo *),
   OpenModules(ExceptionInfo *);
 
+extern MagickExport ModuleInfo
+  *GetModuleInfo(const char *,ExceptionInfo *);
+
 extern MagickExport void
   DestroyModuleList(void),
+  ModuleComponentTerminus(void),
   RegisterStaticModules(void),
   UnregisterStaticModules(void);
 

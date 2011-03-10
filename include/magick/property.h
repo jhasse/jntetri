@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -28,7 +28,8 @@ extern MagickExport char
   *RemoveImageProperty(Image *,const char *);
 
 extern MagickExport const char
-  *GetImageProperty(const Image *,const char *);
+  *GetImageProperty(const Image *,const char *),
+  *GetMagickProperty(const ImageInfo *,Image *,const char *);
 
 extern MagickExport MagickBooleanType
   CloneImageProperties(Image *,const Image *),

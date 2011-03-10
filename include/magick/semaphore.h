@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -26,18 +26,18 @@ typedef struct SemaphoreInfo
   SemaphoreInfo;
 
 extern MagickExport MagickBooleanType
-  LockSemaphoreInfo(SemaphoreInfo *),
-  UnlockSemaphoreInfo(SemaphoreInfo *);
+  SemaphoreComponentGenesis(void);
 
 extern MagickExport SemaphoreInfo
   *AllocateSemaphoreInfo(void);
 
 extern MagickExport void
   AcquireSemaphoreInfo(SemaphoreInfo **),
-  DestroySemaphore(void),
   DestroySemaphoreInfo(SemaphoreInfo **),
-  InitializeSemaphore(void),
-  RelinquishSemaphoreInfo(SemaphoreInfo *);
+  LockSemaphoreInfo(SemaphoreInfo *),
+  RelinquishSemaphoreInfo(SemaphoreInfo *),
+  SemaphoreComponentTerminus(void),
+  UnlockSemaphoreInfo(SemaphoreInfo *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

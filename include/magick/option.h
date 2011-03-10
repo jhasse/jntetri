@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -31,35 +31,54 @@ typedef enum
   MagickChannelOptions,
   MagickClassOptions,
   MagickClipPathOptions,
+  MagickCoderOptions,
+  MagickColorOptions,
   MagickColorspaceOptions,
   MagickCommandOptions,
   MagickComposeOptions,
   MagickCompressOptions,
+  MagickConfigureOptions,
   MagickDataTypeOptions,
   MagickDebugOptions,
   MagickDecorateOptions,
+  MagickDelegateOptions,
+  MagickDirectionOptions,
   MagickDisposeOptions,
   MagickDistortOptions,
+  MagickDitherOptions,
   MagickEndianOptions,
   MagickEvaluateOptions,
   MagickFillRuleOptions,
   MagickFilterOptions,
+  MagickFontOptions,
   MagickFontsOptions,
+  MagickFormatOptions,
+  MagickFunctionOptions,
   MagickGravityOptions,
+  MagickImageListOptions,
   MagickIntentOptions,
   MagickInterlaceOptions,
   MagickInterpolateOptions,
+  MagickKernelOptions,
   MagickLayerOptions,
   MagickLineCapOptions,
   MagickLineJoinOptions,
   MagickListOptions,
+  MagickLocaleOptions,
   MagickLogEventOptions,
-  MagickMetricOptions,
+  MagickLogOptions,
+  MagickMagicOptions,
   MagickMethodOptions,
+  MagickMetricOptions,
+  MagickMimeOptions,
   MagickModeOptions,
-  MagickMogrifyOptions,
+  MagickModuleOptions,
+  MagickMorphologyOptions,
   MagickNoiseOptions,
   MagickOrientationOptions,
+  MagickPolicyOptions,
+  MagickPolicyDomainOptions,
+  MagickPolicyRightsOptions,
   MagickPreviewOptions,
   MagickPrimitiveOptions,
   MagickQuantumFormatOptions,
@@ -69,30 +88,34 @@ typedef enum
   MagickStorageOptions,
   MagickStretchOptions,
   MagickStyleOptions,
+  MagickThresholdOptions,
   MagickTypeOptions,
-  MagickVirtualPixelOptions,
-
-  MagickCoderOptions,
-  MagickColorOptions,
-  MagickConfigureOptions,
-  MagickDelegateOptions,
-  MagickFontOptions,
-  MagickFormatOptions,
-  MagickMimeOptions,
-  MagickLocaleOptions,
-  MagickLogOptions,
-  MagickMagicOptions,
-  MagickModuleOptions,
-
-  MagickThresholdOptions
+  MagickValidateOptions,
+  MagickVirtualPixelOptions
 } MagickOption;
+
+typedef enum
+{
+  UndefinedValidate,
+  NoValidate = 0x00000,
+  CompareValidate = 0x00001,
+  CompositeValidate = 0x00002,
+  ConvertValidate = 0x00004,
+  FormatsInMemoryValidate = 0x00008,
+  FormatsOnDiskValidate = 0x00010,
+  IdentifyValidate = 0x00020,
+  ImportExportValidate = 0x00040,
+  MontageValidate = 0x00080,
+  StreamValidate = 0x00100,
+  AllValidate = 0x7fffffff
+} ValidateType;
 
 typedef struct _OptionInfo
 {
   const char
     *mnemonic;
 
-  long
+  ssize_t
     type;
 
   MagickBooleanType
@@ -106,11 +129,7 @@ extern MagickExport char
 
 extern MagickExport const char
   *GetImageOption(const ImageInfo *,const char *),
-  *MagickOptionToMnemonic(const MagickOption,const long);
-
-extern MagickExport long
-  ParseChannelOption(const char *),
-  ParseMagickOption(const MagickOption,const MagickBooleanType,const char *);
+  *MagickOptionToMnemonic(const MagickOption,const ssize_t);
 
 extern MagickExport MagickBooleanType
   CloneImageOptions(ImageInfo *,const ImageInfo *),
@@ -118,11 +137,15 @@ extern MagickExport MagickBooleanType
   DeleteImageOption(ImageInfo *,const char *),
   IsMagickOption(const char *),
   ListMagickOptions(FILE *,const MagickOption,ExceptionInfo *),
-  SetImageOption(ImageInfo *,const char *,const char *),
-  SyncImageOptions(const ImageInfo *,Image *);
+  SetImageOption(ImageInfo *,const char *,const char *);
+
+extern MagickExport ssize_t
+  ParseChannelOption(const char *),
+  ParseMagickOption(const MagickOption,const MagickBooleanType,const char *);
 
 extern MagickExport void
   DestroyImageOptions(ImageInfo *),
+  ResetImageOptions(const ImageInfo *),
   ResetImageOptionIterator(const ImageInfo *);
 
 #if defined(__cplusplus) || defined(c_plusplus)

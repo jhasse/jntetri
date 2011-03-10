@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -26,6 +26,33 @@ extern "C" {
 
 typedef enum
 {
+  UndefinedFilter,
+  PointFilter,
+  BoxFilter,
+  TriangleFilter,
+  HermiteFilter,
+  HanningFilter,
+  HammingFilter,
+  BlackmanFilter,
+  GaussianFilter,
+  QuadraticFilter,
+  CubicFilter,
+  CatromFilter,
+  MitchellFilter,
+  LanczosFilter,
+  BesselFilter,
+  SincFilter,
+  KaiserFilter,
+  WelshFilter,
+  ParzenFilter,
+  LagrangeFilter,
+  BohmanFilter,
+  BartlettFilter,
+  SentinelFilter  /* a count of all the filters, not a real filter */
+} FilterTypes;
+
+typedef enum
+{
   UndefinedInterpolatePixel,
   AverageInterpolatePixel,
   BicubicInterpolatePixel,
@@ -41,6 +68,8 @@ typedef struct _ResampleFilter
   ResampleFilter;
 
 extern MagickExport MagickBooleanType
+  ResamplePixelColor(ResampleFilter *,const double,const double,
+    MagickPixelPacket *),
   SetResampleFilterInterpolateMethod(ResampleFilter *,
     const InterpolatePixelMethod),
   SetResampleFilterVirtualPixelMethod(ResampleFilter *,
@@ -52,10 +81,8 @@ extern MagickExport ResampleFilter
 
 extern MagickExport void
   ScaleResampleFilter(ResampleFilter *,const double,const double,const double,
-    const double);
-
-extern MagickExport MagickPixelPacket
-  ResamplePixelColor(ResampleFilter *,const double,const double);
+    const double),
+  SetResampleFilter(ResampleFilter *,const FilterTypes,const double);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

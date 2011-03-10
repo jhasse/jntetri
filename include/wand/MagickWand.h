@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -46,36 +46,13 @@ extern "C" {
 #include <stdlib.h>
 #include <sys/types.h>
 
-#if defined(__CYGWIN32__)
-#  if !defined(__CYGWIN__)
-#    define __CYGWIN__ __CYGWIN32__
-#  endif
-#endif
-#if defined(_WIN32) || defined(WIN32)
-#  if !defined(__WINDOWS__)
-#    if defined(_WIN32)
-#      define __WINDOWS__ _WIN32
-#    else
-#      if defined(WIN32)
-#        define __WINDOWS__ WIN32
-#      endif
-#    endif
-#  endif
-#endif
+#if defined(WIN32) || defined(WIN64)
+#  define MAGICKCORE_WINDOWS_SUPPORT
+#else
+#  define MAGICKCORE_POSIX_SUPPORT
+#endif 
 
-#if defined(_WIN64) || defined(WIN64)
-#  if !defined(__WINDOWS__)
-#    if defined(_WIN64)
-#      define __WINDOWS__ _WIN64
-#    else
-#      if defined(WIN64)
-#        define __WINDOWS__ WIN64
-#      endif
-#    endif
-#  endif
-#endif
-
-#if defined(__WINDOWS__)
+#if defined(MAGICKCORE_WINDOWS_SUPPORT) && !defined(__CYGWIN__) && !defined(__MINGW32__)
 # if defined(_MT) && defined(_DLL) && !defined(_MAGICKDLL_) && !defined(_LIB)
 #  define _MAGICKDLL_
 # endif
@@ -120,6 +97,7 @@ extern "C" {
 #  pragma warning(disable : 4142)
 #  pragma warning(disable : 4800)
 #  pragma warning(disable : 4786)
+#  pragma warning(disable : 4996)
 # endif
 #else
 # define WandExport
@@ -161,6 +139,7 @@ typedef struct _MagickWand
 #include "wand/pixel-iterator.h"
 #include "wand/pixel-wand.h"
 #include "wand/stream.h"
+#include "wand/wand-view.h"
 
 extern WandExport char
   *MagickGetException(const MagickWand *,ExceptionType *);
@@ -168,19 +147,19 @@ extern WandExport char
 extern WandExport ExceptionType
   MagickGetExceptionType(const MagickWand *);
 
-extern WandExport long
-  MagickGetIteratorIndex(MagickWand *);
-
 extern WandExport MagickBooleanType
   IsMagickWand(const MagickWand *),
   MagickClearException(MagickWand *),
-  MagickSetIteratorIndex(MagickWand *,const long);
+  MagickSetIteratorIndex(MagickWand *,const ssize_t);
 
 extern WandExport MagickWand
   *CloneMagickWand(const MagickWand *),
   *DestroyMagickWand(MagickWand *),
   *NewMagickWand(void),
-	*NewMagickWandFromImage(const Image *);
+  *NewMagickWandFromImage(const Image *);
+
+extern WandExport ssize_t
+  MagickGetIteratorIndex(MagickWand *);
 
 extern WandExport void
   ClearMagickWand(MagickWand *),

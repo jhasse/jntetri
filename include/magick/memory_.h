@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -28,16 +28,20 @@ typedef void
   *(*ResizeMemoryHandler)(void *,size_t);
 
 extern MagickExport void
-  *AcquireMagickMemory(const size_t),
-  *AcquireQuantumMemory(const size_t,const size_t),
-  *CopyMagickMemory(void *,const void *,const size_t),
+  *AcquireAlignedMemory(const size_t,const size_t) magick_attribute((malloc)),
+  *AcquireMagickMemory(const size_t) magick_attribute((malloc)),
+  *AcquireQuantumMemory(const size_t,const size_t) magick_attribute((malloc)),
+  *CopyMagickMemory(void *,const void *,const size_t)
+    magick_attribute((nonnull)),
   DestroyMagickMemory(void),
   GetMagickMemoryMethods(AcquireMemoryHandler *,ResizeMemoryHandler *,
     DestroyMemoryHandler *),
+  *RelinquishAlignedMemory(void *),
   *RelinquishMagickMemory(void *),
   *ResetMagickMemory(void *,int,const size_t),
-  *ResizeMagickMemory(void *,const size_t),
-  *ResizeQuantumMemory(void *,const size_t,const size_t),
+  *ResizeMagickMemory(void *,const size_t) magick_attribute((malloc)),
+  *ResizeQuantumMemory(void *,const size_t,const size_t)
+    magick_attribute((malloc)),
   SetMagickMemoryMethods(AcquireMemoryHandler,ResizeMemoryHandler,
     DestroyMemoryHandler);
 
