@@ -2,7 +2,7 @@
 #include "options.hpp"
 #include "../constants.hpp"
 
-#ifdef linux
+#ifdef __linux__
 #include "linux/binreloc.h"
 #else
 #include <windows.h>
@@ -10,14 +10,12 @@
 #endif
 #include <iostream>
 #include <sstream>
-#ifndef WIZ
 #include <boost/filesystem.hpp>
-#endif
 #include <boost/lexical_cast.hpp>
 
 Paths::Paths()
 {
-#ifdef linux
+#ifdef __linux__
 	BrInitError error;
 	if(br_init(&error) == 0 && error != BR_INIT_ERROR_DISABLED)
 	{
@@ -45,11 +43,7 @@ Paths::Paths()
 	path << szPath << "/" << programShortName << "/";
 	configPath_ = path.str();
 #endif
-#ifdef WIZ
-	configPath_ = prefix_;
-#else
 	boost::filesystem::create_directory(configPath_);
-#endif
 }
 
 std::string Paths::Graphics()
@@ -80,4 +74,14 @@ std::string Paths::Prefix()
 Paths& GetPaths()
 {
 	return Paths::Handle();
+}
+
+std::string Paths::OriginalGfx() const
+{
+	return originalGfx_;
+}
+
+void Paths::SetOriginalGfx(const std::string& originalGfx)
+{
+	originalGfx_ = originalGfx;
 }

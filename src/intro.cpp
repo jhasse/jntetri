@@ -8,7 +8,7 @@
 
 #include <jngl.hpp>
 #include <boost/shared_ptr.hpp>
-#include <iostream>
+#include <boost/lexical_cast.hpp>
 
 Intro::Intro() : blink_(0), finished_(false)
 {
@@ -24,14 +24,19 @@ void Intro::Draw() const
 	jngl::SetFontColor(0, 0, 0);
 	GetScreen().PrintCentered("JNTETRI", 0, 350);
 	GetScreen().SetFontSize(60);
-	jngl::SetFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
 
 	jngl::PushMatrix();
 	GetScreen().Translate(0, 750);
-	if(resizeGraphics_.Finished())
+	double percentage;
+	if(resizeGraphics_.Finished(percentage))
 	{
 		finished_ = true;
+		jngl::SetFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
 		GetScreen().PrintCentered("Press any key to continue", 0, 0);
+	}
+	else
+	{
+		GetScreen().PrintCentered(boost::lexical_cast<std::string>(int(percentage)) + " %", 0, 0);
 	}
 	jngl::PopMatrix();
 

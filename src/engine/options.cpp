@@ -30,6 +30,11 @@ int Options::GetWindowHeight() const
 	return windowHeight_;
 }
 
+Vector2d Options::GetWindowVector() const
+{
+	return Vector2d(windowWidth_, windowHeight_);
+}
+
 bool Options::GetFullscreen() const
 {
 	return fullscreen_;

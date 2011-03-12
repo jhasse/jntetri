@@ -1,6 +1,7 @@
 #pragma once
 
 #include "singleton.hpp"
+#include "vector2d.hpp"
 
 #include <string>
 
@@ -12,6 +13,7 @@ public:
 	void SetFullscreen(bool);
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
+	Vector2d GetWindowVector() const;
 	void Save() const;
 	int GetStartJunks() const;
 	int GetStartLevel() const;
