@@ -10,8 +10,9 @@ Options::Options() : windowWidth_(1024), windowHeight_(768), fullscreen_(false),
 	if(fin)
 	{
 		fin >> windowWidth_ >> windowHeight_ >> fullscreen_ >> startLevel_ >> startJunks_;
-		std::getline(fin, lastLoginName_); // Ignore new line after start startJunks_
+		std::getline(fin, lastLoginName_); // Ignore new line after startJunks_
 		std::getline(fin, lastLoginName_);
+		std::getline(fin, lastHighscoreName_);
 	}
 #ifdef WIZ
 	windowWidth_ = 320;
@@ -27,6 +28,11 @@ int Options::GetWindowWidth() const
 int Options::GetWindowHeight() const
 {
 	return windowHeight_;
+}
+
+Vector2d Options::GetWindowVector() const
+{
+	return Vector2d(windowWidth_, windowHeight_);
 }
 
 bool Options::GetFullscreen() const
@@ -46,7 +52,8 @@ void Options::Save() const
 	     << windowHeight_ << " "
 	     << fullscreen_
 	     << std::endl << startLevel_ << " " << startJunks_
-	     << std::endl << lastLoginName_;
+	     << std::endl << lastLoginName_
+	     << std::endl << lastHighscoreName_;
 }
 
 Options& GetOptions()
@@ -82,4 +89,14 @@ void Options::SetLastLoginName(const std::string& name)
 std::string Options::GetLastLoginName() const
 {
 	return lastLoginName_;
+}
+
+void Options::SetLastHighscoreName(const std::string& name)
+{
+	lastHighscoreName_ = name;
+}
+
+std::string Options::GetLastHighscoreName() const
+{
+	return lastHighscoreName_;
 }

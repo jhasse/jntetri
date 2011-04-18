@@ -79,6 +79,8 @@
 		<Unit filename="src\engine\singleton.hpp" />
 		<Unit filename="src\engine\socket.cpp" />
 		<Unit filename="src\engine\socket.hpp" />
+		<Unit filename="src\engine\vector2d.cpp" />
+		<Unit filename="src\engine\vector2d.hpp" />
 		<Unit filename="src\engine\work.cpp" />
 		<Unit filename="src\engine\work.hpp" />
 		<Unit filename="src\explosion.cpp" />

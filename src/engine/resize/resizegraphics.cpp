@@ -30,7 +30,7 @@ void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResi
 	}
 }
 
-ResizeGraphics::ResizeGraphics() : originalSize_(0)
+ResizeGraphics::ResizeGraphics() : originalSize_(-1)
 {
 	boost::filesystem::path path(GetPaths().Data() + "gfx");
 	boost::filesystem::directory_iterator end;
@@ -41,22 +41,35 @@ ResizeGraphics::ResizeGraphics() : originalSize_(0)
 			std::string name = it->path().string(); // e.g. /gfx/x1200
 			try
 			{
-				originalSize_ = boost::lexical_cast<int>(name.substr(name.rfind("/") + 2));
+				originalSize_ = boost::lexical_cast<int>(name.substr(name.rfind("x") + 1));
 				std::cout << "Original screen height: " << originalSize_ << std::endl;
 			}
-			catch(...)
+			catch(boost::bad_lexical_cast&)
 			{
 				// Bad cast, this doesn't seem to be the right directory
 			}
 		}
 	}
 
-	GetPaths().SetGraphics(GetPaths().Config() + "/x" + boost::lexical_cast<std::string>(GetOptions().GetWindowHeight()) + "/");
+
+	GetScreen().SetFactor(double(GetOptions().GetWindowHeight()) / originalSize_);
+	GetPaths().SetOriginalGfx(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/");
+	GetPaths().SetGraphics(GetPaths().Config() + "x" + boost::lexical_cast<std::string>(GetOptions().GetWindowHeight()) + "/");
 	ScanPath(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
 }
 
-bool ResizeGraphics::Finished()
+bool ResizeGraphics::Finished(double& percentage)
 {
+	static int numberOfImages = filesToResize_.size();
+	percentage = 100 - filesToResize_.size() * 100 / numberOfImages;
+
+	// Don't do anything in the first frame in order to draw the loading screen for the first time
+	static bool firstFrame = true;
+	if(firstFrame) {
+		firstFrame = false;
+		return false;
+	}
+
 	if(GetOptions().GetWindowHeight() == originalSize_)
 	{
 		GetPaths().SetGraphics(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/");
@@ -84,14 +97,29 @@ bool ResizeGraphics::Finished()
 		Magick::Image image(filesToResize_[0]);
 		image.zoom(Magick::Geometry(int(image.columns() * factor), int(image.rows() * factor)));
 
-		jngl::SetFontColor(0, 0, 0);
-		GetScreen().PrintCentered(std::string("Loading ") + relativeFilename, 0, 0);
-
-		boost::filesystem::create_directory(newFilename.substr(0, newFilename.find_last_of("/")));
+		boost::filesystem::create_directory(boost::filesystem::path(newFilename).remove_leaf());
 		image.write(newFilename);
 
 		std::ofstream fout(writeTimeFilename.c_str());
 		fout << boost::filesystem::last_write_time(filesToResize_[0]);
+
+		fout << std::endl;
+		for(std::size_t y = 0; y < image.size().height(); ++y)
+		{
+			for(std::size_t x = 0; x < image.size().width(); ++x)
+			{
+				Magick::Color pixel = image.pixelColor(x, y);
+				if(pixel.alphaQuantum() > MaxRGB / 2)
+				{
+					fout << "0 ";
+				}
+				else
+				{
+					fout << "1 ";
+				}
+			}
+			fout << std::endl;
+		}
 	}
 
 	filesToResize_.pop_front();

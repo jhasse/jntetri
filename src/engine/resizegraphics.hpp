@@ -7,7 +7,7 @@ class ResizeGraphics
 {
 public:
 	ResizeGraphics();
-	bool Finished();
+	bool Finished(double& percentage);
 private:
 	std::deque<std::string> filesToResize_;
 	int originalSize_;
