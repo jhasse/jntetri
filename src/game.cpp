@@ -48,7 +48,7 @@ void Game::Step()
 	if(field_.GameOver())
 	{
 		pauseTime_ = jngl::Time();
-		GetProcedure().SetWork(new GameOverScreen);
+		GetProcedure().SetWork(new GameOverScreen(this));
 	}
 	else
 	{

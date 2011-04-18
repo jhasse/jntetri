@@ -9,15 +9,16 @@
 
 class GameOverScreen : public Work {
 public:
-	GameOverScreen();
+	GameOverScreen(Game*);
 	void Step();
 	void Draw() const;
 	void QuitEvent();
 private:
 	bool IsHighscore() const;
-	boost::shared_ptr<Game> game_;
+	Game* const game_;
 	int blink_;
 	Data data_;
 	Highscore highscore_;
 	boost::shared_ptr<Input> input_;
+	boost::shared_ptr<Work> work_;
 };

@@ -19,13 +19,13 @@ ReplayControl::ReplayControl(std::ifstream& fin) : time_(0) {
 void ReplayControl::Step() {
 	static int line = 2;
 	bits_.reset();
-	if(data_.empty()) {
-		return;
-	}
-	while(time_ == data_.front().first) {
+	while(!data_.empty() && time_ == data_.front().first) {
 		Set(data_.front().second);
 		++line;
 		data_.pop();
+	}
+	if(data_.empty()) {
+		return;
 	}
 
 	if(time_ == 255) {

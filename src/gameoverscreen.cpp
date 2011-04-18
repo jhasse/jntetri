@@ -4,14 +4,14 @@
 #include "engine/fade.hpp"
 #include "engine/options.hpp"
 #include "menu.hpp"
+#include "replayplayer.hpp"
 
 #include <jngl.hpp>
 
-GameOverScreen::GameOverScreen()
-	: game_(boost::shared_dynamic_cast<Game>(GetProcedure().GetWork())), blink_(0),
-	  highscore_(game_->GetType()), input_(new Input(-160, 800))
+GameOverScreen::GameOverScreen(Game* game)
+	: game_(game), blink_(0), highscore_(game_->GetType()), input_(new Input(-160, 800)),
+	  work_(GetProcedure().GetWork())
 {
-	assert(game_);
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
 	input_->SetText(GetOptions().GetLastHighscoreName());

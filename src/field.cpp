@@ -113,11 +113,10 @@ void Field::Step()
 	for(std::vector<Explosion>::iterator it = explosions_.begin(); it != end2; ++it)
 	{
 		it->Step();
-		if(it->Finished())
-		{
-			it = explosions_.erase(it);
-		}
 	}
+	explosions_.erase(std::remove_if(explosions_.begin(), explosions_.end(), [](const Explosion& e) {
+		return e.Finished();
+	}), explosions_.end());
 }
 
 void Field::CheckLines()
