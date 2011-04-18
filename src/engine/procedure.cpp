@@ -136,3 +136,5 @@ bool Procedure::ShowWindow()
 	}
 	return true;
 }
+
+const double Procedure::timePerStep_ = 0.01; // 100 FPS

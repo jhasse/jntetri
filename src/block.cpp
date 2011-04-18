@@ -30,7 +30,9 @@ double Block::GetAnimation() const
 
 void Block::Draw() const
 {
-	jngl::SetSpriteColor(color_.GetRed() + flash_, color_.GetGreen() + flash_, color_.GetBlue() + flash_);
+	jngl::SetSpriteColor(static_cast<unsigned char>(color_.GetRed() + flash_),
+		                 static_cast<unsigned char>(color_.GetGreen() + flash_),
+						 static_cast<unsigned char>(color_.GetBlue() + flash_));
 	GetScreen().DrawCentered("block.png", x_ * size_, -(y_ + animation_) * size_);
 	jngl::SetSpriteColor(255, 255, 255);
 }

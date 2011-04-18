@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -60,12 +60,25 @@ extern "C" {
 #define GetCyanPixelComponent(p) ((p)->red)
 #define GetMagentaPixelComponent(p) ((p)->green)
 #define GetYellowPixelComponent(p) ((p)->blue)
-#define GetBlackPixelComponent(x) (indexes[x])
+#define GetBlackPixelComponent(p,x) (p[x])
 
 #define SetCyanPixelComponent(q,value) ((q)->red=(value))
 #define SetMagentaPixelComponent(q,value) ((q)->green=(value))
 #define SetYellowPixelComponent(q,value) ((q)->blue=(value))
-#define SetBlackPixelComponent(x,value) (indexes[x]=(value))
+#define SetBlackPixelComponent(p,x,value) (p[x]=(value))
+
+typedef enum
+{
+  UndefinedInterpolatePixel,
+  AverageInterpolatePixel,
+  BicubicInterpolatePixel,
+  BilinearInterpolatePixel,
+  FilterInterpolatePixel,
+  IntegerInterpolatePixel,
+  MeshInterpolatePixel,
+  NearestNeighborInterpolatePixel,
+  SplineInterpolatePixel
+} InterpolatePixelMethod;
 
 typedef struct _DoublePixelPacket
 {
@@ -133,11 +146,17 @@ typedef struct _PixelPacket
 #endif
 } PixelPacket;
 
+typedef struct _CacheView
+  CacheView_;
+
 extern MagickExport MagickBooleanType
   ExportImagePixels(const Image *,const ssize_t,const ssize_t,const size_t,
     const size_t,const char *,const StorageType,void *,ExceptionInfo *),
   ImportImagePixels(Image *,const ssize_t,const ssize_t,const size_t,
-    const size_t,const char *,const StorageType,const void *);
+    const size_t,const char *,const StorageType,const void *),
+  InterpolateMagickPixelPacket(const Image *,const CacheView_ *,
+    const InterpolatePixelMethod,const double,const double,MagickPixelPacket *,
+    ExceptionInfo *);
 
 extern MagickExport void
   GetMagickPixelPacket(const Image *,MagickPixelPacket *);

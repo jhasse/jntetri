@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0501
+#endif
+
 #include "engine/work.hpp"
 #include "engine/socket.hpp"
 #include "multiplayermenu.hpp"

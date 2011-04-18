@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ typedef enum
   BarrelDistortion,
   BarrelInverseDistortion,
   ShepardsDistortion,
+  ResizeDistortion,
   SentinelDistortion
 } DistortImageMethod;
 
@@ -68,6 +69,7 @@ typedef enum
 extern MagickExport Image
   *DistortImage(const Image *,const DistortImageMethod,const size_t,
     const double *,MagickBooleanType,ExceptionInfo *exception),
+  *DistortResizeImage(const Image *,const size_t,const size_t,ExceptionInfo *),
   *SparseColorImage(const Image *,const ChannelType,const SparseColorMethod,
     const size_t,const double *,ExceptionInfo *);
 

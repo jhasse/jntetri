@@ -17,7 +17,7 @@
 
 Paths::Paths()
 {
-#ifdef linux
+#ifdef __linux__
 	BrInitError error;
 	if(br_init(&error) == 0 && error != BR_INIT_ERROR_DISABLED)
 	{
@@ -33,8 +33,8 @@ Paths::Paths()
 	char filename[MAX_PATH];
 	int newSize = GetModuleFileName(NULL, filename, MAX_PATH);
 	assert(newSize != 0 && newSize < MAX_PATH);
-	std::string prefix(filename);
-	prefix_ = prefix.substr(0, prefix.find("\\bin") + 1);
+	boost::filesystem::path prefix(filename);
+	prefix_ = prefix.remove_leaf().parent_path().string() + "/";
 
 	TCHAR szPath[MAX_PATH];
 	if(!SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, szPath)))
@@ -45,11 +45,7 @@ Paths::Paths()
 	path << szPath << "/" << programShortName << "/";
 	configPath_ = path.str();
 #endif
-#ifdef WIZ
-	configPath_ = prefix_;
-#else
 	boost::filesystem::create_directory(configPath_);
-#endif
 }
 
 std::string Paths::Graphics()

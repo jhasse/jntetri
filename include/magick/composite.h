@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ typedef enum
   LightenCompositeOp,
   LinearLightCompositeOp,
   LuminizeCompositeOp,
-  MinusCompositeOp,
+  MinusDstCompositeOp,
   ModulateCompositeOp,
   MultiplyCompositeOp,
   OutCompositeOp,
@@ -79,7 +79,11 @@ typedef enum
   ModulusSubtractCompositeOp,
   ThresholdCompositeOp,
   XorCompositeOp,
-  DivideCompositeOp,
+  /* These are new operators, added after the above was last sorted.
+   * The list should be re-sorted only when a new library version is
+   * created.
+   */
+  DivideDstCompositeOp,
   DistortCompositeOp,
   BlurCompositeOp,
   PegtopLightCompositeOp,
@@ -87,12 +91,20 @@ typedef enum
   PinLightCompositeOp,
   LinearDodgeCompositeOp,
   LinearBurnCompositeOp,
-  MathematicsCompositeOp
+  MathematicsCompositeOp,
+  DivideSrcCompositeOp,
+  MinusSrcCompositeOp,
+  DarkenIntensityCompositeOp,
+  LightenIntensityCompositeOp
 } CompositeOperator;
 
-/* Depreciated Method Names for backward compatibility */
+/* Depreciated (renamed) Method Names for backward compatibility
+ * However the CompositeOp value has not changed, just renamed.
+ */
 #define AddCompositeOp       ModulusAddCompositeOp
 #define SubtractCompositeOp  ModulusSubtractCompositeOp
+#define MinusCompositeOp     MinusDstCompositeOp
+#define DivideCompositeOp    DivideDstCompositeOp
 
 extern MagickExport MagickBooleanType
   CompositeImage(Image *,const CompositeOperator,const Image *,const ssize_t,

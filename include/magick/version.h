@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -26,18 +26,34 @@ extern "C" {
   Define declarations.
 */
 #define MagickPackageName "ImageMagick"
-#define MagickCopyright  "Copyright (C) 1999-2010 ImageMagick Studio LLC"
-#define MagickLibVersion  0x663
-#define MagickLibVersionText  "6.6.3"
-#define MagickLibVersionNumber  4,0,0
-#define MagickLibAddendum  "-10"
+#define MagickCopyright  "Copyright (C) 1999-2011 ImageMagick Studio LLC"
+#define MagickSVNRevision  "4207"
+#define MagickLibVersion  0x669
+#define MagickLibVersionText  "6.6.9"
+#define MagickLibVersionNumber  4,0,1
+#define MagickLibAddendum  "-5"
 #define MagickLibInterface  4
 #define MagickLibMinInterface  4
-#define MagickReleaseDate  "2010-09-02"
-#define MagickChangeDate   "20100823"
+#define MagickReleaseDate  "2011-04-13"
+#define MagickChangeDate   "20110409"
 #define MagickAuthoritativeURL  "http://www.imagemagick.org"
-#define MagickFeatures  ""
-#define MagickHomeURL  "file:///mingw/share/doc/ImageMagick-6.6.3/index.html"
+#if defined(MAGICKCORE_OPENMP_SUPPORT)
+#define MagickOpenMPFeature  "OpenMP "
+#else
+#define MagickOpenMPFeature  " "
+#endif
+#if defined(MAGICKCORE_OPENCL_SUPPORT)
+#define MagickOpenCLFeature  "OpenCL "
+#else
+#define MagickOpenCLFeature  " "
+#endif
+#if defined(MAGICKCORE_HDRI_SUPPORT)
+#define MagickHDRIFeature  "HDRI "
+#else
+#define MagickHDRIFeature  " "
+#endif
+#define MagickFeatures MagickOpenMPFeature MagickOpenCLFeature MagickHDRIFeature
+#define MagickHomeURL  "file:///usr/local/share/doc/ImageMagick-6.6.9//index.html"
 #if (MAGICKCORE_QUANTUM_DEPTH == 8)
 #define MagickQuantumDepth  "Q8"
 #define MagickQuantumRange  "255"

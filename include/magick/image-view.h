@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -73,7 +73,8 @@ extern MagickExport RectangleInfo
   GetImageViewExtent(const ImageView *);
 
 extern MagickExport void
-  SetImageViewDescription(ImageView *,const char *);
+  SetImageViewDescription(ImageView *,const char *),
+  SetImageViewThreads(ImageView *,const size_t);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -906,6 +906,7 @@ extern "C" {
 #define RegisterJP2Image  PrependMagickMethod(RegisterJP2Image)
 #define RegisterJPEGImage  PrependMagickMethod(RegisterJPEGImage)
 #define RegisterLABELImage  PrependMagickMethod(RegisterLABELImage)
+#define RegisterMCPImage  PrependMagickMethod(RegisterMACImage)
 #define RegisterMAGICKImage  PrependMagickMethod(RegisterMAGICKImage)
 #define RegisterMagickInfo  PrependMagickMethod(RegisterMagickInfo)
 #define RegisterMAPImage  PrependMagickMethod(RegisterMAPImage)
@@ -1235,6 +1236,7 @@ extern "C" {
 #define UnregisterJP2Image  PrependMagickMethod(UnregisterJP2Image)
 #define UnregisterJPEGImage  PrependMagickMethod(UnregisterJPEGImage)
 #define UnregisterLABELImage  PrependMagickMethod(UnregisterLABELImage)
+#define UnregisterMACImage  PrependMagickMethod(UnregisterMACImage)
 #define UnregisterMAGICKImage  PrependMagickMethod(UnregisterMAGICKImage)
 #define UnregisterMagickInfo  PrependMagickMethod(UnregisterMagickInfo)
 #define UnregisterMAPImage  PrependMagickMethod(UnregisterMAPImage)

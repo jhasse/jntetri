@@ -23,7 +23,7 @@ private:
 	double fpsTemp_;
 	int fpsCounter_;
 	std::string fpsText_;
-	const static double timePerStep_ = 0.01; // 100 FPS
+	const static double timePerStep_;
 	boost::shared_ptr<Work> currentWork_;
 	bool changeWork_;
 	boost::shared_ptr<Work> newWork_;

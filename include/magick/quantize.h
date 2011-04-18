@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -60,6 +60,8 @@ extern MagickExport MagickBooleanType
   CompressImageColormap(Image *),
   GetImageQuantizeError(Image *),
   PosterizeImage(Image *,const size_t,const MagickBooleanType),
+  PosterizeImageChannel(Image *,const ChannelType,const size_t,
+    const MagickBooleanType),
   QuantizeImage(const QuantizeInfo *,Image *),
   QuantizeImages(const QuantizeInfo *,Image *),
   RemapImage(const QuantizeInfo *,Image *,const Image *),

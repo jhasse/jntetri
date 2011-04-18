@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -90,7 +90,6 @@ typedef unsigned int Quantum;
 #define MaxColormapSize  65536UL
 #define MaxMap  65535UL
 
-#define MAGICKCORE_HDRI_SUPPORT  1
 typedef long double MagickRealType;
 typedef double Quantum;
 #define QuantumRange  18446744073709551615.0
@@ -100,7 +99,6 @@ typedef double Quantum;
 # error "MAGICKCORE_QUANTUM_DEPTH must be one of 8, 16, 32, or 64"
 #endif
 #endif
-#define MaxRGB  QuantumRange  /* deprecated */
 
 /*
   Typedef declarations.

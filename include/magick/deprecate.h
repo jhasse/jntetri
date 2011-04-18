@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2010 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -52,6 +52,7 @@ extern "C" {
 #define LiberateMagickResource(resource)  RelinquishMagickResource(resource)
 #define LiberateSemaphore(semaphore)  RelinquishSemaphore(semaphore)
 #define QuantumDepth  MAGICKCORE_QUANTUM_DEPTH
+#define MaxRGB  QuantumRange  /* deprecated */
 #define RunlengthEncodedCompression  RLECompression
 #define Upscale(value)  ScaleCharToQuantum(value)
 #define XDownscale(value)  ScaleShortToQuantum(value)
@@ -127,14 +128,19 @@ extern MagickExport Image
   *GetPreviousImage(const Image *) magick_attribute((deprecated)),
   *FlattenImages(Image *,ExceptionInfo *) magick_attribute((deprecated)),
   *MaximumImages(const Image *,ExceptionInfo *),
+  *MedianFilterImage(const Image *,const double,ExceptionInfo *),
+  *ModeImage(const Image *,const double,ExceptionInfo *),
   *MinimumImages(const Image *,ExceptionInfo *),
   *MosaicImages(Image *,ExceptionInfo *) magick_attribute((deprecated)),
   *PopImageList(Image **) magick_attribute((deprecated)),
   *RecolorImage(const Image *,const size_t,const double *,ExceptionInfo *)
     magick_attribute((deprecated)),
+  *ReduceNoiseImage(const Image *,const double,ExceptionInfo *),
   *ShiftImageList(Image **) magick_attribute((deprecated)),
   *SpliceImageList(Image *,const ssize_t,const size_t,const Image *,
-    ExceptionInfo *) magick_attribute((deprecated));
+    ExceptionInfo *) magick_attribute((deprecated)),
+  *ZoomImage(const Image *,const size_t,const size_t,ExceptionInfo *)
+    magick_attribute((deprecated));
 
 extern MagickExport IndexPacket
   *GetCacheViewIndexes(CacheView *) magick_attribute((deprecated)),
@@ -287,6 +293,7 @@ extern MagickExport void
   *AcquireMemory(const size_t) magick_attribute((deprecated)),
   AllocateNextImage(const ImageInfo *,Image *) magick_attribute((deprecated)),
   *CloneMemory(void *,const void *,const size_t) magick_attribute((deprecated)),
+  DestroyConstitute(void),
   DestroyImageAttributes(Image *) magick_attribute((deprecated)),
   DestroyImages(Image *) magick_attribute((deprecated)),
   DestroyMagick(void) magick_attribute((deprecated)),
