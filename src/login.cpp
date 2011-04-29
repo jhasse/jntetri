@@ -130,7 +130,7 @@ void Login::Step()
 
 void Login::GoToLobby()
 {
-	GetOptions().SetLastLoginName(menu_->GetName());
+	GetOptions().Set("lastLoginName", menu_->GetName());
 	GetProcedure().SetWork(new Fade(new Lobby(socket_)));
 }
 

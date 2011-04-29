@@ -23,7 +23,7 @@ MultiplayerMenu::MultiplayerMenu()
 	back_->CenterAt(-350, 880);
 	login_->CenterAt(350, 880);
 	password_->SetPassword(true);
-	name_->SetText(GetOptions().GetLastLoginName());
+	name_->SetText(GetOptions().Get<std::string>("lastLoginName"));
 	if(name_->GetText() != "")
 	{
 		FocusNext();

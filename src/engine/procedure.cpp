@@ -51,7 +51,7 @@ void Procedure::MainLoop()
 			}
 			if(jngl::KeyPressed(jngl::key::F11))
 			{
-				GetOptions().SetFullscreen(!GetOptions().GetFullscreen());
+				GetOptions().Set("fullscreen", !GetOptions().Get<int>("fullscreen"));
 				ShowWindow();
 			}
 			if(jngl::KeyPressed(jngl::key::F1) || jngl::KeyPressed(jngl::key::WizL))
@@ -125,9 +125,9 @@ bool Procedure::ShowWindow()
 	{
 		jngl::HideWindow();
 		jngl::ShowWindow(programDisplayName + " " + programVersion,
-						 options.GetWindowWidth(),
-						 options.GetWindowHeight(),
-						 options.GetFullscreen());
+						 options.Get<int>("windowWidth"),
+						 options.Get<int>("windowHeight"),
+						 options.Get<int>("fullscreen"));
 	}
 	catch(std::runtime_error& err)
 	{

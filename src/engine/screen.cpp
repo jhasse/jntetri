@@ -6,7 +6,7 @@
 
 Screen::Screen()
 {
-	xCenter_ = double(GetOptions().GetWindowWidth()) / 2;
+	xCenter_ = double(GetOptions().Get<int>("windowWidth")) / 2;
 	yCenter_ = 0;
 }
 
@@ -124,12 +124,12 @@ int Screen::GetHeight(const std::string& filename) const
 
 int Screen::GetWidth() const
 {
-	return static_cast<int>(double(GetOptions().GetWindowWidth()) / factor_);
+	return static_cast<int>(double(GetOptions().Get<int>("windowWidth")) / factor_);
 }
 
 int Screen::GetHeight() const
 {
-	return static_cast<int>(double(GetOptions().GetWindowHeight()) / factor_);
+	return static_cast<int>(double(GetOptions().Get<int>("windowHeight")) / factor_);
 }
 
 void Screen::Translate(double x, double y)
@@ -162,9 +162,13 @@ Vector2d Screen::GetAbsoluteMousePos() const
 	return GetMousePos() + cameraPosition_;
 }
 
+Vector2d GetWindowVector() {
+	return Vector2d(GetOptions().Get<int>("windowWidth"), GetOptions().Get<int>("windowHeight"));
+}
+
 void Screen::MoveCamera(const Vector2d& position)
 {
-	targetCameraPosition_ = position + (Vector2d(jngl::GetMouseX(), jngl::GetMouseY()) - GetOptions().GetWindowVector() / 2);
+	targetCameraPosition_ = position + (Vector2d(jngl::GetMouseX(), jngl::GetMouseY()) - GetWindowVector() / 2);
 }
 
 void Screen::CenterCameraPosition(const Vector2d& position)

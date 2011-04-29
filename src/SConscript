@@ -38,9 +38,9 @@ if wiz:
 else:
 	env.ParseConfig("pkg-config jngl ImageMagick++ --cflags --libs")
 	source_files += Glob('engine/resize/*.cpp')
-	env.Append(LIBS = 'boost_filesystem-mt')
+	env.Append(LIBS = Split('boost_filesystem-mt boost_serialization-mt'))
 
-env.Append(CCFLAGS = '-DENABLE_BINRELOC')
+env.Append(CCFLAGS = '-DENABLE_BINRELOC', CPPFLAGS='-std=c++0x')
 
 env.Program(target = "../jntetri",
             source = source_files)

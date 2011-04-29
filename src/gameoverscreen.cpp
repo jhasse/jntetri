@@ -14,7 +14,7 @@ GameOverScreen::GameOverScreen(Game* game)
 {
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
-	input_->SetText(GetOptions().GetLastHighscoreName());
+	input_->SetText(GetOptions().Get<std::string>("lastHighscoreName"));
 	AddWidget(input_);
 }
 
@@ -35,7 +35,7 @@ void GameOverScreen::Step()
 			if(jngl::KeyPressed(jngl::key::Return) || jngl::KeyPressed(jngl::key::WizB))
 			{
 				data_.name = input_->GetText();
-				GetOptions().SetLastHighscoreName(data_.name);
+				GetOptions().Set("lastHighscoreName", data_.name);
 				highscore_.Add(data_);
 				highscore_.Save();
 				Menu* menu = new Menu;

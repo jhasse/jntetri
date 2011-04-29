@@ -9,10 +9,17 @@ int main()
 {
 	try
 	{
-		if(!GetProcedure().ShowWindow() && GetOptions().GetFullscreen())
+		GetOptions().SetFallback("windowWidth", jngl::GetDesktopWidth());
+		GetOptions().SetFallback("windowHeight", jngl::GetDesktopHeight());
+		GetOptions().SetFallback("fullscreen", 1);
+		GetOptions().SetFallback("startJunks", 0);
+		GetOptions().SetFallback("startLevel", 0);
+		GetOptions().SetFallback("lastHighscoreName", "");
+		GetOptions().SetFallback("lastLoginName", "");
+		if(!GetProcedure().ShowWindow() && GetOptions().Get<int>("fullscreen"))
 		{
 			// Try again without fullscreen
-			GetOptions().SetFullscreen(false);
+			GetOptions().Set("fullscreen", 0);
 			GetProcedure().ShowWindow();
 		}
 		jngl::SetAntiAliasing(true);

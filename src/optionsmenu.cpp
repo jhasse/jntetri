@@ -14,7 +14,7 @@ OptionsMenu::OptionsMenu() : startLevel_(new Chooser(0, 300)), startJunks_(new C
 	{
 		startLevel_->AddValue(i);
 	}
-	for(int i = 0; i < GetOptions().GetStartLevel(); ++i)
+	for(int i = 0; i < GetOptions().Get<int>("startLevel"); ++i)
 	{
 		startLevel_->Next();
 	}
@@ -22,7 +22,7 @@ OptionsMenu::OptionsMenu() : startLevel_(new Chooser(0, 300)), startJunks_(new C
 	{
 		startJunks_->AddValue(i * 2);
 	}
-	for(int i = 0; i < GetOptions().GetStartJunks() / 2; ++i)
+	for(int i = 0; i < GetOptions().Get<int>("startJunks") / 2; ++i)
 	{
 		startJunks_->Next();
 	}
@@ -47,8 +47,8 @@ void OptionsMenu::Draw() const
 
 void OptionsMenu::OnBack() const
 {
-	GetOptions().SetStartLevel(startLevel_->GetValue());
-	GetOptions().SetStartJunks(startJunks_->GetValue());
+	GetOptions().Set("startLevel", startLevel_->GetValue());
+	GetOptions().Set("startJunks", startJunks_->GetValue());
 	GetOptions().Save();
 	GetProcedure().SetWork(new Fade(new Menu));
 }

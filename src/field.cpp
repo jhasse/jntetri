@@ -13,14 +13,14 @@ const int Field::height_ = 19;
 
 Field::Field(int seed)
 	: blockSize_(60), counter_(0), gameOver_(false), score_(0),
-	  level_(GetOptions().GetStartLevel()), lines_(0), maxY_(0),
+	  level_(GetOptions().Get<int>("startLevel")), lines_(0), maxY_(0),
 	  pause_(false), control_(new KeyboardControl)
 {
 	random_.SetSeed(seed);
 	NewTetromino();
 	NewTetromino();
 	score_ = 0;
-	for(int i = 0; i < GetOptions().GetStartJunks(); ++i)
+	for(int i = 0; i < GetOptions().Get<int>("startJunks"); ++i)
 	{
 		int leaveOut = random_(width_);
 		for(int x = 0; x < width_; ++x)

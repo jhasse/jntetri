@@ -52,9 +52,9 @@ ResizeGraphics::ResizeGraphics() : originalSize_(-1)
 	}
 
 
-	GetScreen().SetFactor(double(GetOptions().GetWindowHeight()) / originalSize_);
+	GetScreen().SetFactor(double(GetOptions().Get<int>("windowHeight")) / originalSize_);
 	GetPaths().SetOriginalGfx(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/");
-	GetPaths().SetGraphics(GetPaths().Config() + "x" + boost::lexical_cast<std::string>(GetOptions().GetWindowHeight()) + "/");
+	GetPaths().SetGraphics(GetPaths().Config() + "x" + boost::lexical_cast<std::string>(GetOptions().Get<int>("windowHeight")) + "/");
 	ScanPath(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
 }
 
@@ -70,7 +70,7 @@ bool ResizeGraphics::Finished(double& percentage)
 		return false;
 	}
 
-	if(GetOptions().GetWindowHeight() == originalSize_)
+	if(GetOptions().Get<int>("windowHeight") == originalSize_)
 	{
 		GetPaths().SetGraphics(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/");
 		return true;
@@ -93,7 +93,7 @@ bool ResizeGraphics::Finished(double& percentage)
 	}
 	if(oldWriteTime != newWriteTime) // Image file has changed
 	{
-		const double factor = static_cast<double>(GetOptions().GetWindowHeight()) / double(originalSize_);
+		const double factor = GetScreen().GetFactor();
 		Magick::Image image(filesToResize_[0]);
 		image.zoom(Magick::Geometry(int(image.columns() * factor), int(image.rows() * factor)));
 
