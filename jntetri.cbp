@@ -30,6 +30,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add option="-D_WIN32_WINNT=0x0501" />
@@ -44,8 +45,8 @@
 			<Add library="Magick++" />
 			<Add library="MagickWand" />
 			<Add library="MagickCore" />
-			<Add library="lib\libboost_system-mgw44-1_44.a" />
-			<Add library="lib\libboost_filesystem-mgw44-1_44.a" />
+			<Add library="lib\libboost_system-mgw45-1_46_1.a" />
+			<Add library="lib\libboost_filesystem-mgw45-1_46_1.a" />
 			<Add library="z" />
 			<Add library="m" />
 			<Add library="gdi32" />
@@ -53,6 +54,7 @@
 			<Add library="jpeg" />
 			<Add library="ws2_32" />
 			<Add library="dl" />
+			<Add library="lib\libboost_serialization-mgw45-1_46_1.a" />
 			<Add directory="lib" />
 		</Linker>
 		<Unit filename="src\block.cpp" />
