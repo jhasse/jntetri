@@ -25,7 +25,7 @@ void Screen::Draw(const std::string& filename, const double x, const double y)
 	jngl::Draw(GetPaths().Graphics() + filename, x * factor_, y * factor_);
 }
 
-void Screen::DrawScaled(const std::string& filename, const double x, const double y, const double xfactor, const double yfactor)
+void Screen::DrawScaled(const std::string& filename, const double x, const double y, const float xfactor, const float yfactor)
 {
 	jngl::DrawScaled(GetPaths().Graphics() + filename, x * factor_, y * factor_, xfactor, yfactor);
 }
@@ -43,7 +43,7 @@ void Screen::DrawCentered(const std::string& filename, const Vector2d& position)
 	GetScreen().DrawCentered(filename, position.X(), position.Y());
 }
 
-void Screen::DrawCenteredScaled(const std::string& filename, const double x, const double y, const double factor)
+void Screen::DrawCenteredScaled(const std::string& filename, const double x, const double y, const float factor)
 {
 	const std::string filepath = GetPaths().Graphics() + filename;
 	jngl::DrawScaled(filepath,
@@ -52,7 +52,7 @@ void Screen::DrawCenteredScaled(const std::string& filename, const double x, con
 					 factor);
 }
 
-void Screen::DrawCenteredScaled(const std::string& filename, const double x, const double y, const double xfactor, const double yfactor)
+void Screen::DrawCenteredScaled(const std::string& filename, const double x, const double y, const float xfactor, const float yfactor)
 {
 	const std::string filepath = GetPaths().Graphics() + filename;
 	jngl::DrawScaled(filepath,
@@ -107,7 +107,7 @@ void Screen::PrintCentered(const std::string& text, double x, double y)
 	            static_cast<int>(y * factor_) - jngl::GetFontSize() / 2);
 }
 
-void Screen::DrawScaled(const std::string& filename, const double x, const double y, const double factor)
+void Screen::DrawScaled(const std::string& filename, const double x, const double y, const float factor)
 {
 	jngl::DrawScaled(GetPaths().Graphics() + filename, x * factor_, y * factor_, factor);
 }

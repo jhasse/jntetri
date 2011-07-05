@@ -11,14 +11,13 @@
 #include <jngl.hpp>
 #include <boost/bind.hpp>
 
-MultiplayerMenu::MultiplayerMenu()
-	: back_(new Button("Back", boost::bind(&MultiplayerMenu::OnBack, this))),
-	  login_(new Button("Login", boost::bind(&MultiplayerMenu::OnLogin, this))),
-	  name_(new Input(50, 400)), password_(new Input(50, 500))
+MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, 400)), password_(new Input(50, 500))
 {
 	AddWidget(name_);
 	AddWidget(password_);
+	login_.reset(new Button("Login", boost::bind(&MultiplayerMenu::OnLogin, this)));
 	AddWidget(login_);
+	back_.reset(new Button("Back", boost::bind(&MultiplayerMenu::OnBack, this)));
 	AddWidget(back_);
 	back_->CenterAt(-350, 880);
 	login_->CenterAt(350, 880);

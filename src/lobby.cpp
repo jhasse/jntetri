@@ -10,10 +10,10 @@
 #include <jngl.hpp>
 
 Lobby::Lobby(boost::shared_ptr<Socket> socket)
-	: socket_(socket), chatText_(""), input_(new Input(-700, 1100)),
-	  logout_(new Button("Logout", boost::bind(&Lobby::OnLogout, this))),
-	  play_(new Button("Play!™", boost::bind(&Lobby::OnPlay, this)))
+	: socket_(socket), chatText_(""), input_(new Input(-700, 1100))
 {
+	logout_.reset(new Button("Logout", boost::bind(&Lobby::OnLogout, this)));
+	play_.reset(new Button("Play!™", boost::bind(&Lobby::OnPlay, this)));
 	HandleReceive("");
 	AddWidget(input_);
 	AddWidget(logout_);

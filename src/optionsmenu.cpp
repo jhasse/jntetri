@@ -8,8 +8,9 @@
 #include <boost/bind.hpp>
 #include <jngl.hpp>
 
-OptionsMenu::OptionsMenu() : startLevel_(new Chooser(0, 300)), startJunks_(new Chooser(0, 700)), back_(new Button("Back", boost::bind(&OptionsMenu::OnBack, this)))
+OptionsMenu::OptionsMenu() : startLevel_(new Chooser(0, 300)), startJunks_(new Chooser(0, 700))
 {
+	back_.reset(new Button("Back", boost::bind(&OptionsMenu::OnBack, this)));
 	for(int i = 0; i < 10; ++i)
 	{
 		startLevel_->AddValue(i);

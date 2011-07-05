@@ -8,6 +8,12 @@
 
 const int Button::fontSize_ = 70;
 
+Button::Button(const std::string& text)
+	: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0), clicked_(false)
+{
+	SetSprites("button.png", "button_over.png", "button_clicked.png");
+}
+
 Button::Button(const std::string& text, boost::function<void()> callback, char shortcut)
 	: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0),
 	  shortcut_(shortcut), callback_(callback), clicked_(false)
@@ -43,19 +49,19 @@ void Button::Draw() const
 	{
 		alpha -= 100;
 	}
-	GetScreen().DrawCenteredScaled(texture_, xPos_, yPos_, 1.0 + (alpha / 6000.0));
+	GetScreen().DrawCenteredScaled(texture_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
     if(focus_)
     {
 		GetScreen().DrawCentered(textureMouseOver_, xPos_, yPos_);
     }
 	jngl::SetSpriteColor(255, 255, 255, alpha);
 	jngl::PushMatrix();
-	GetScreen().DrawCenteredScaled(textureMouseOver_, xPos_, yPos_, 1.0 + (alpha / 6000.0));
+	GetScreen().DrawCenteredScaled(textureMouseOver_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
 	jngl::PopMatrix();
 	jngl::SetSpriteColor(255, 255, 255, 255);
     if(clicked_)
     {
-    	GetScreen().DrawCenteredScaled(textureClicked_, xPos_, yPos_, 1.0 + (alpha / 6000.0));
+    	GetScreen().DrawCenteredScaled(textureClicked_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
     }
     jngl::SetFontColor(255, 255, 255);
     GetScreen().SetFontSize(fontSize_);
@@ -139,4 +145,9 @@ int Button::GetWidth()
 char Button::ShortCutClicked()
 {
     return jngl::KeyDown(shortcut_);
+}
+
+void Button::Connect(boost::function<void()> callback)
+{
+	callback_ = callback;
 }

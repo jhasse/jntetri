@@ -25,6 +25,9 @@
     <Filter Include="Header Files\engine">
       <UniqueIdentifier>{7edfe245-8a3b-4274-a743-5fb742c19198}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui">
+      <UniqueIdentifier>{223cc06c-3d54-47c1-acba-485745801b40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\block.cpp">
@@ -140,21 +143,6 @@
     <ClInclude Include="src\engine\work.hpp">
       <Filter>Source Files\engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\button.hpp">
-      <Filter>Source Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\buttonbox.hpp">
-      <Filter>Source Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\chooser.hpp">
-      <Filter>Source Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\input.hpp">
-      <Filter>Source Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\widget.hpp">
-      <Filter>Source Files\gui</Filter>
-    </ClInclude>
     <ClInclude Include="src\block.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -244,6 +232,21 @@
     </ClInclude>
     <ClInclude Include="src\engine\socket.hpp">
       <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\button.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\buttonbox.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\chooser.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\input.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widget.hpp">
+      <Filter>Header Files\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

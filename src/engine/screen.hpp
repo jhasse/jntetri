@@ -14,14 +14,14 @@ public:
 	void Draw(const std::string& filename, double x, double y);
 	void DrawCentered(const std::string& filename, double x, double y);
 	void DrawCentered(const std::string& filename, const Vector2d& position);
-	void DrawScaled(const std::string& filename, double x, double y, double xfactor, double yfactor);
-	void DrawCenteredScaled(const std::string& filename, double x, double y, double factor);
-	void DrawCenteredScaled(const std::string& filename, double x, double y, double xfactor, double yfactor);
+	void DrawScaled(const std::string& filename, double x, double y, float xfactor, float yfactor);
+	void DrawCenteredScaled(const std::string& filename, double x, double y, float factor);
+	void DrawCenteredScaled(const std::string& filename, double x, double y, float xfactor, float yfactor);
 	void DrawLine(double xstart, double ystart, double xend, double yend);
 	void DrawLine(const Vector2d& start, const Vector2d& end);
 	void DrawCircle(double x, double y, double radius);
 	void DrawCircle(const Vector2d& position, double radius);
-	void DrawScaled(const std::string& filename, double x, double y, double factor);
+	void DrawScaled(const std::string& filename, double x, double y, float factor);
 	int GetMouseX() const;
 	int GetMouseY() const;
 	void SetFontSize(int size);

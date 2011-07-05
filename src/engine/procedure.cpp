@@ -127,7 +127,7 @@ bool Procedure::ShowWindow()
 		jngl::ShowWindow(programDisplayName + " " + programVersion,
 						 options.Get<int>("windowWidth"),
 						 options.Get<int>("windowHeight"),
-						 options.Get<int>("fullscreen"));
+						 options.Get<int>("fullscreen") != 0);
 	}
 	catch(std::runtime_error& err)
 	{

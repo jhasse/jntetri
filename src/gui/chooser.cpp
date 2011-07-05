@@ -6,11 +6,13 @@
 #include <jngl.hpp>
 
 Chooser::Chooser(int x, int y)
-	: previous_("", boost::bind(&Chooser::Previous, this)),
-	  next_("", boost::bind(&Chooser::Next, this)), sprite_("chooser.png"), x_(x), y_(y)
+	: previous_(""),
+	  next_(""), sprite_("chooser.png"), x_(x), y_(y)
 {
+	previous_.Connect(boost::bind(&Chooser::Previous, this));
 	previous_.SetSprites("chooser_left.png", "chooser_left_over.png", "chooser_left_over.png");
 	previous_.CenterAt(x - GetScreen().GetWidth(sprite_) / 2 - previous_.GetWidth() / 2, y);
+	next_.Connect(boost::bind(&Chooser::Next, this));
 	next_.SetSprites("chooser_right.png", "chooser_right_over.png", "chooser_right_over.png");
 	next_.CenterAt(x + GetScreen().GetWidth(sprite_) / 2 + next_.GetWidth() / 2, y);
 }
