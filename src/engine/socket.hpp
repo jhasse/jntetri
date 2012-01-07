@@ -3,6 +3,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/asio.hpp>
 #include <boost/function.hpp>
+#include <boost/array.hpp>
 
 class Socket : boost::noncopyable {
 public:

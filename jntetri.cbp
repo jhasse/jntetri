@@ -30,9 +30,9 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-std=gnu++0x" />
 			<Add option="-D_WIN32_WINNT=0x0501" />
 			<Add directory="include" />
 		</Compiler>
@@ -55,6 +55,7 @@
 			<Add library="ws2_32" />
 			<Add library="dl" />
 			<Add library="lib\libboost_serialization-mgw45-1_46_1.a" />
+			<Add library="glew32.dll" />
 			<Add directory="lib" />
 		</Linker>
 		<Unit filename="src\block.cpp" />
