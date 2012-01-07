@@ -1,10 +1,8 @@
 #pragma once
 
+#include <ctime>
 #include <boost/noncopyable.hpp>
-
-namespace boost {
-	class rand48;
-}
+#include <boost/random/linear_congruential.hpp>
 
 class Random : boost::noncopyable {
 public:

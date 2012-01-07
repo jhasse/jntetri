@@ -9,6 +9,7 @@ int main()
 {
 	try
 	{
+		system("echo $PWD");
 		GetOptions().SetFallback("windowWidth", jngl::GetDesktopWidth());
 		GetOptions().SetFallback("windowHeight", jngl::GetDesktopHeight());
 		GetOptions().SetFallback("fullscreen", 1);

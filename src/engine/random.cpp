@@ -1,8 +1,5 @@
 #include "random.hpp"
 
-#include <boost/random/linear_congruential.hpp>
-#include <ctime>
-
 Random::Random() : r_(0) {
 	SetSeed(static_cast<int>(time(0)));
 }

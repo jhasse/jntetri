@@ -42,6 +42,10 @@ void Field::ResetCounter()
 	counter_ = 200 / (level_ + 1);
 }
 
+bool explosionFinished(const Explosion& e) {
+	return e.Finished();
+}
+
 void Field::Step()
 {
 	control_->Step();
@@ -114,9 +118,7 @@ void Field::Step()
 	{
 		it->Step();
 	}
-	explosions_.erase(std::remove_if(explosions_.begin(), explosions_.end(), [](const Explosion& e) {
-		return e.Finished();
-	}), explosions_.end());
+	explosions_.erase(std::remove_if(explosions_.begin(), explosions_.end(), explosionFinished), explosions_.end());
 }
 
 void Field::CheckLines()
