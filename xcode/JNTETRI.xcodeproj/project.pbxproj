@@ -22,6 +22,7 @@
 		C93186C114A89C3C00880537 /* field.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A314A89BFB00880537 /* field.png */; };
 		C93186C214A89C3C00880537 /* radio.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A414A89BFB00880537 /* radio.png */; };
 		C93186C314A89C3C00880537 /* radio_active.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A514A89BFB00880537 /* radio_active.png */; };
+		C93A319814BBBB0A00B6DBC8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93A319714BBBB0A00B6DBC8 /* Carbon.framework */; };
 		C949897F14AE173700732560 /* JNGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C949897E14AE173700732560 /* JNGL.framework */; };
 		C9AE781214A8886A004359EF /* block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE77C014A8886A004359EF /* block.cpp */; };
 		C9AE781314A8886A004359EF /* control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE77C314A8886A004359EF /* control.cpp */; };
@@ -104,6 +105,7 @@
 		C93186A314A89BFB00880537 /* field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = field.png; sourceTree = "<group>"; };
 		C93186A414A89BFB00880537 /* radio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio.png; sourceTree = "<group>"; };
 		C93186A514A89BFB00880537 /* radio_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_active.png; sourceTree = "<group>"; };
+		C93A319714BBBB0A00B6DBC8 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		C949897E14AE173700732560 /* JNGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JNGL.framework; path = Library/Frameworks/JNGL.framework; sourceTree = SDKROOT; };
 		C981F23414A8882800E03124 /* JNTETRI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = JNTETRI; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AE77C014A8886A004359EF /* block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = block.cpp; path = ../src/block.cpp; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C93A319814BBBB0A00B6DBC8 /* Carbon.framework in Frameworks */,
 				C949897F14AE173700732560 /* JNGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,6 +315,7 @@
 		C981F22914A8882800E03124 = {
 			isa = PBXGroup;
 			children = (
+				C93A319714BBBB0A00B6DBC8 /* Carbon.framework */,
 				C949897E14AE173700732560 /* JNGL.framework */,
 				C931869114A89BFB00880537 /* share */,
 				C9AE77BE14A88859004359EF /* Source Files */,

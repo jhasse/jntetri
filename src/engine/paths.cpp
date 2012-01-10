@@ -6,6 +6,7 @@
 #include "linux/binreloc.h"
 #elif defined (__APPLE__)
 #include <mach-o/dyld.h>
+#include <CoreServices/CoreServices.h>
 #else
 #include <windows.h>
 #include <shlobj.h>
@@ -37,9 +38,14 @@ Paths::Paths()
 	prefix_.assign(tmp.begin(), tmp.end());
 	boost::filesystem::path prefix(prefix_);
 	prefix_ = prefix.normalize().remove_leaf().parent_path().string() + "/";
-	std::stringstream path;
-	path << getenv("HOME") << "/.config/" << programShortName << "/";
-	configPath_ = path.str();
+	
+	FSRef ref;
+    FSFindFolder(kUserDomain, kApplicationSupportFolderType, kCreateFolder, &ref);
+    char path[PATH_MAX];
+    FSRefMakePath(&ref, (UInt8*)&path, PATH_MAX);
+	boost::filesystem::path applicationSupportFolder(path);
+	applicationSupportFolder /= programDisplayName;
+	configPath_ = applicationSupportFolder.string() + "/";
 #else
 	char filename[MAX_PATH];
 	int newSize = GetModuleFileName(NULL, filename, MAX_PATH);
