@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 env = Environment()
+env.SetOption('num_jobs', 4)
 debug = ARGUMENTS.get('debug', 0)
 profile = ARGUMENTS.get('profile', 0)
 autopackage = ARGUMENTS.get('autopackage', 0)
@@ -38,7 +39,7 @@ if wiz:
 else:
 	env.ParseConfig("pkg-config jngl ImageMagick++ --cflags --libs")
 	source_files += Glob('engine/resize/*.cpp')
-	env.Append(LIBS = Split('boost_filesystem-mt boost_serialization-mt'))
+	env.Append(LIBS = Split('boost_filesystem-mt boost_serialization-mt boost_system-mt'))
 
 env.Append(CCFLAGS = '-DENABLE_BINRELOC', CPPFLAGS='-std=c++0x')
 

@@ -2,6 +2,7 @@
 #include "options.hpp"
 #include "screen.hpp"
 #include "../constants.hpp"
+#include "../intro.hpp"
 
 #include <jngl.hpp>
 #include <stdexcept>
@@ -41,7 +42,7 @@ void Procedure::MainLoop()
 		{
 			// This stuff needs to be done 100 times per second
 			oldTime_ += timePerStep_;
-			jngl::UpdateKeyStates();
+			jngl::UpdateInput();
 			currentWork_->Step();
 			needDraw_ = true;
 			if(jngl::KeyPressed(jngl::key::Escape) || !jngl::Running())
@@ -58,6 +59,16 @@ void Procedure::MainLoop()
 			{
 				showFps_ = !showFps_;
 			}
+			if (jngl::KeyPressed('r')) {
+				jngl::UnloadAll();
+				SetWork(new Intro());
+			}
+#ifndef NDEBUG
+			std::stringstream sstream;
+			sstream << programDisplayName << " " << programVersion << " x=" << GetScreen().GetMouseX() << " y="
+			<< GetScreen().GetMouseY();
+			jngl::SetTitle(sstream.str());
+#endif
 		}
 		else
 		{
@@ -65,7 +76,6 @@ void Procedure::MainLoop()
 			{
 				needDraw_ = false;
 				// This needs to be done when "needDraw" is true
-				jngl::BeginDraw();
 				GetScreen().BeginDraw();
 				currentWork_->Draw();
 
@@ -84,10 +94,13 @@ void Procedure::MainLoop()
 					jngl::SetColor(100, 255, 100);
 					jngl::SetFontColor(0, 0, 0);
 					jngl::SetFontSize(10);
+					std::string tmp = jngl::GetFont();
+					jngl::SetFontByName("sans");
 					jngl::DrawRect(0, 0, jngl::GetTextWidth(fpsText_) + 5, 15);
 					jngl::Print(fpsText_, 2, 2);
+					jngl::SetFont(tmp);
 				}
-				jngl::EndDraw();
+				jngl::SwapBuffers();
 			}
 			else
 			{
@@ -137,4 +150,4 @@ bool Procedure::ShowWindow()
 	return true;
 }
 
-const double Procedure::timePerStep_ = 0.01; // 100 FPS
+const double Procedure::timePerStep_ = 1.0/100.0;
