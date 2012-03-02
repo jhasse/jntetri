@@ -180,7 +180,6 @@
 		C9AE780E14A8886A004359EF /* replayrecorder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = replayrecorder.hpp; path = ../src/replayrecorder.hpp; sourceTree = "<group>"; };
 		C9AE781014A8886A004359EF /* tetromino.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tetromino.cpp; path = ../src/tetromino.cpp; sourceTree = "<group>"; };
 		C9AE781114A8886A004359EF /* tetromino.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tetromino.hpp; path = ../src/tetromino.hpp; sourceTree = "<group>"; };
-		C9AE783714A88882004359EF /* JNGL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JNGL2.framework; path = Library/Frameworks/JNGL2.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,7 +319,6 @@
 				C931869114A89BFB00880537 /* share */,
 				C9AE77BE14A88859004359EF /* Source Files */,
 				C931868E14A899A200880537 /* Header Files */,
-				C9AE783714A88882004359EF /* JNGL2.framework */,
 				C981F23514A8882800E03124 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -427,7 +425,7 @@
 		C981F22B14A8882800E03124 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = C981F22E14A8882800E03124 /* Build configuration list for PBXProject "JNTETRI" */;
 			compatibilityVersion = "Xcode 3.2";

@@ -30,16 +30,16 @@ void KeyboardControl::Step() {
 	if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return)) {
 		Set(Drop);
 	}
-	if(jngl::KeyDown(jngl::key::Down)) {
+	if(jngl::KeyDown(jngl::key::Down) || jngl::KeyDown('k')) {
 		Set(Down);
 	}
-	if(jngl::KeyPressed(jngl::key::Left)) {
+	if(jngl::KeyPressed(jngl::key::Left) || jngl::KeyPressed('j')) {
 		Set(Left);
 	}
-	if(jngl::KeyPressed(jngl::key::Right)) {
+	if(jngl::KeyPressed(jngl::key::Right) || jngl::KeyPressed('l')) {
 		Set(Right);
 	}
-	if(jngl::KeyPressed(jngl::key::Up)) {
+	if(jngl::KeyPressed(jngl::key::Up) || jngl::KeyPressed('i')) {
 		Set(Rotate);
 	}
 	if(jngl::KeyPressed(jngl::key::ControlR)) {
