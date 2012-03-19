@@ -42,7 +42,6 @@
 			<Add library="opengl32" />
 			<Add library="freetype" />
 			<Add library="glu32" />
-			<Add library="Magick++" />
 			<Add library="MagickWand" />
 			<Add library="MagickCore" />
 			<Add library="lib\libboost_system-mgw45-1_46_1.a" />
@@ -137,6 +136,15 @@
 			<code_completion />
 			<debugger />
 			<envvars />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

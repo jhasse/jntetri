@@ -1,10 +1,13 @@
 #include "replayrecorder.hpp"
 #include "field.hpp"
+#include "engine/options.hpp"
 
 #include <boost/bind.hpp>
 
 ReplayRecorder::ReplayRecorder(Field& field) : fout("testReplay.jtr"), field_(field), time_(0) {
-	fout << field_.GetRandom().GetSeed() << std::endl;
+	fout << field_.GetRandom().GetSeed() << " "
+	     << GetOptions().Get<int>("startLevel") << " "
+	     << GetOptions().Get<int>("startJunks") << std::endl;
 }
 
 void ReplayRecorder::Step() {

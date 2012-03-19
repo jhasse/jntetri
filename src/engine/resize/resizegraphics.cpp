@@ -3,12 +3,12 @@
 #include "../options.hpp"
 #include "../screen.hpp"
 
-#include <Magick++.h>
 #include <jngl.hpp>
 #include <iostream>
 #include <fstream>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
+#include <wand/magick_wand.h>
 
 void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResize)
 {
@@ -32,6 +32,7 @@ void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResi
 
 ResizeGraphics::ResizeGraphics() : originalSize_(-1)
 {
+	MagickWandGenesis();
 	boost::filesystem::path path(GetPaths().Data() + "gfx");
 	boost::filesystem::directory_iterator end;
 	for(boost::filesystem::directory_iterator it(path); it != end; ++it)
@@ -56,6 +57,10 @@ ResizeGraphics::ResizeGraphics() : originalSize_(-1)
 	GetPaths().SetOriginalGfx(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/");
 	GetPaths().SetGraphics(GetPaths().Config() + "x" + boost::lexical_cast<std::string>(GetOptions().Get<int>("windowHeight")) + "/");
 	ScanPath(GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
+}
+
+ResizeGraphics::~ResizeGraphics() {
+	MagickWandTerminus();
 }
 
 bool ResizeGraphics::Finished(double& percentage)
@@ -94,32 +99,18 @@ bool ResizeGraphics::Finished(double& percentage)
 	if(oldWriteTime != newWriteTime) // Image file has changed
 	{
 		const double factor = GetScreen().GetFactor();
-		Magick::Image image(filesToResize_[0]);
-		image.zoom(Magick::Geometry(int(image.columns() * factor), int(image.rows() * factor)));
+		MagickWand* wand = NewMagickWand();
+		MagickReadImage(wand, filesToResize_[0].c_str());
+		int width = MagickGetImageWidth(wand);
+		int height = MagickGetImageHeight(wand);
+		MagickResizeImage(wand, int(width * factor), int(height * factor), LanczosFilter, 1);
 
 		boost::filesystem::create_directory(boost::filesystem::path(newFilename).remove_leaf());
-		image.write(newFilename);
+		MagickWriteImage(wand, newFilename.c_str());
+		DestroyMagickWand(wand);
 
 		std::ofstream fout(writeTimeFilename.c_str());
 		fout << boost::filesystem::last_write_time(filesToResize_[0]);
-
-		fout << std::endl;
-		for(std::size_t y = 0; y < image.size().height(); ++y)
-		{
-			for(std::size_t x = 0; x < image.size().width(); ++x)
-			{
-				Magick::Color pixel = image.pixelColor(x, y);
-				if(pixel.alphaQuantum() > MaxRGB / 2)
-				{
-					fout << "0 ";
-				}
-				else
-				{
-					fout << "1 ";
-				}
-			}
-			fout << std::endl;
-		}
 	}
 
 	filesToResize_.pop_front();
