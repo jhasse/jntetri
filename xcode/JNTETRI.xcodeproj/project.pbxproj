@@ -24,6 +24,9 @@
 		C93186C314A89C3C00880537 /* radio_active.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A514A89BFB00880537 /* radio_active.png */; };
 		C93A319814BBBB0A00B6DBC8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93A319714BBBB0A00B6DBC8 /* Carbon.framework */; };
 		C949897F14AE173700732560 /* JNGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C949897E14AE173700732560 /* JNGL.framework */; };
+		C97CA50B1517F7580046C42D /* libboost_filesystem-libc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */; };
+		C97CA50C1517F7580046C42D /* libboost_serialization-libc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97CA5091517F7580046C42D /* libboost_serialization-libc++.a */; };
+		C97CA50D1517F7580046C42D /* libboost_system-libc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97CA50A1517F7580046C42D /* libboost_system-libc++.a */; };
 		C9AE781214A8886A004359EF /* block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE77C014A8886A004359EF /* block.cpp */; };
 		C9AE781314A8886A004359EF /* control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE77C314A8886A004359EF /* control.cpp */; };
 		C9AE781414A8886A004359EF /* fade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE77C614A8886A004359EF /* fade.cpp */; };
@@ -107,6 +110,9 @@
 		C93186A514A89BFB00880537 /* radio_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_active.png; sourceTree = "<group>"; };
 		C93A319714BBBB0A00B6DBC8 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		C949897E14AE173700732560 /* JNGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JNGL.framework; path = Library/Frameworks/JNGL.framework; sourceTree = SDKROOT; };
+		C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-libc++.a"; path = "../lib/libboost_filesystem-libc++.a"; sourceTree = "<group>"; };
+		C97CA5091517F7580046C42D /* libboost_serialization-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_serialization-libc++.a"; path = "../lib/libboost_serialization-libc++.a"; sourceTree = "<group>"; };
+		C97CA50A1517F7580046C42D /* libboost_system-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-libc++.a"; path = "../lib/libboost_system-libc++.a"; sourceTree = "<group>"; };
 		C981F23414A8882800E03124 /* JNTETRI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = JNTETRI; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AE77C014A8886A004359EF /* block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = block.cpp; path = ../src/block.cpp; sourceTree = "<group>"; };
 		C9AE77C114A8886A004359EF /* block.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = block.hpp; path = ../src/block.hpp; sourceTree = "<group>"; };
@@ -187,6 +193,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C97CA50B1517F7580046C42D /* libboost_filesystem-libc++.a in Frameworks */,
+				C97CA50C1517F7580046C42D /* libboost_serialization-libc++.a in Frameworks */,
+				C97CA50D1517F7580046C42D /* libboost_system-libc++.a in Frameworks */,
 				C93A319814BBBB0A00B6DBC8 /* Carbon.framework in Frameworks */,
 				C949897F14AE173700732560 /* JNGL.framework in Frameworks */,
 			);
@@ -314,6 +323,9 @@
 		C981F22914A8882800E03124 = {
 			isa = PBXGroup;
 			children = (
+				C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */,
+				C97CA5091517F7580046C42D /* libboost_serialization-libc++.a */,
+				C97CA50A1517F7580046C42D /* libboost_system-libc++.a */,
 				C93A319714BBBB0A00B6DBC8 /* Carbon.framework */,
 				C949897E14AE173700732560 /* JNGL.framework */,
 				C931869114A89BFB00880537 /* share */,
@@ -539,18 +551,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/bin/$(EFFECTIVE_PLATFORM_NAME)";
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include/ImageMagick,
 					/opt/local/include,
 				);
-				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					"\"$(SRCROOT)/../lib\"",
+				);
 				OTHER_LDFLAGS = (
-					"-lboost_serialization",
-					"-lboost_filesystem",
-					"-lboost_system",
-					"-lMagick++",
+					"-lMagickWand",
 					"-lMagickCore",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -561,18 +573,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/bin/$(EFFECTIVE_PLATFORM_NAME)";
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include/ImageMagick,
 					/opt/local/include,
 				);
-				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					"\"$(SRCROOT)/../lib\"",
+				);
 				OTHER_LDFLAGS = (
-					"-lboost_serialization",
-					"-lboost_filesystem",
-					"-lboost_system",
-					"-lMagick++",
+					"-lMagickWand",
 					"-lMagickCore",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
