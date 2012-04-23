@@ -14,8 +14,8 @@
 class Login : public Work {
 public:
 	Login(boost::shared_ptr<MultiplayerMenu>);
-	void Step();
-	void Draw() const;
+	void step();
+	void draw() const;
 	void HandleConnect();
 	void ProtocolCheck1();
 	void ProtocolCheck2(std::string);

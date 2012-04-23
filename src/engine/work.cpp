@@ -9,11 +9,6 @@ Work::Work()
 {
 }
 
-void Work::QuitEvent()
-{
-	GetProcedure().Quit();
-}
-
 Work::~Work()
 {
 }

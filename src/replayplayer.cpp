@@ -20,10 +20,10 @@ ReplayPlayer::~ReplayPlayer() {
 	GetOptions().Set("startJunk", oldStartJunk);	
 }
 
-void ReplayPlayer::Step() {
-	game_->Step();
+void ReplayPlayer::step() {
+	game_->step();
 }
 
-void ReplayPlayer::Draw() const {
-	game_->Draw();
+void ReplayPlayer::draw() const {
+	game_->draw();
 }

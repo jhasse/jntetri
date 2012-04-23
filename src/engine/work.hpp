@@ -2,16 +2,16 @@
 
 #include <boost/shared_ptr.hpp>
 #include <vector>
+#include <jngl.hpp>
 
 class Widget;
 
-class Work
+class Work : public jngl::Work
 {
 public:
 	Work();
-	virtual void Step() = 0;
-	virtual void Draw() const = 0;
-	virtual void QuitEvent();
+	virtual void step() = 0;
+	virtual void draw() const = 0;
 	virtual ~Work();
 	void StepWidgets();
 	void DrawWidgets() const;

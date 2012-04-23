@@ -11,10 +11,6 @@ class Procedure : public Singleton<Procedure>
 public:
 	Procedure();
 	void MainLoop();
-	void SetWork(Work*); // Take ownership
-	void SetWork(boost::shared_ptr<Work>);
-	boost::shared_ptr<Work> GetWork() const;
-	void Quit();
 	bool ShowWindow();
 private:
 	double oldTime_;

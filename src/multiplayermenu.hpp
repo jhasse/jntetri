@@ -9,8 +9,8 @@
 class MultiplayerMenu : public Work {
 public:
 	MultiplayerMenu();
-	void Step();
-	void Draw() const;
+	void step();
+	void draw() const;
 	void OnBack() const;
 	void OnLogin();
 	std::string GetName() const;

@@ -29,7 +29,7 @@ MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, 400)), password_(new In
 	}
 }
 
-void MultiplayerMenu::Step()
+void MultiplayerMenu::step()
 {
 	StepWidgets();
 	if(jngl::KeyPressed(jngl::key::Return))
@@ -38,7 +38,7 @@ void MultiplayerMenu::Step()
 	}
 }
 
-void MultiplayerMenu::Draw() const
+void MultiplayerMenu::draw() const
 {
 	jngl::SetFontColor(0, 0, 0);
 	GetScreen().Print("Name:", -500, 400);
@@ -48,13 +48,13 @@ void MultiplayerMenu::Draw() const
 
 void MultiplayerMenu::OnBack() const
 {
-	GetProcedure().SetWork(new Fade(new Menu));
+	jngl::SetWork(new Fade(new Menu));
 }
 
 void MultiplayerMenu::OnLogin()
 {
 #ifndef WIZ
-	GetProcedure().SetWork(new Login(boost::dynamic_pointer_cast<MultiplayerMenu>(GetProcedure().GetWork())));
+	jngl::SetWork(new Login(boost::dynamic_pointer_cast<MultiplayerMenu>(jngl::GetWork())));
 #endif
 }
 

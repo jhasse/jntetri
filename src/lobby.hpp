@@ -10,8 +10,8 @@
 class Lobby : public Work {
 public:
 	Lobby(boost::shared_ptr<Socket>);
-	void Step();
-	void Draw() const;
+	void step();
+	void draw() const;
 	void HandleReceive(std::string);
 	void OnMessageSent();
 	void OnLogout();

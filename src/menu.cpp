@@ -12,7 +12,7 @@
 #include <boost/bind.hpp>
 #include <ctime>
 
-Menu::Menu() : buttonBox_(new ButtonBox(-450, 600)), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES)
+Menu::Menu() : buttonBox_(new ButtonBox(-450, 0)), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES)
 {
     buttonBox_->Add("Normal", boost::bind(&Menu::Normal, this), 'n');
 	buttonBox_->Add("50 Lines", boost::bind(&Menu::FiftyLines, this), '5');
@@ -28,19 +28,19 @@ void Menu::BlinkHighscore(Data data)
 	fiftyLinesHighscore_.Blink(data);
 }
 
-void Menu::Step()
+void Menu::step()
 {
 	StepWidgets();
 }
 
-void Menu::Draw() const
+void Menu::draw() const
 {
 	jngl::SetBackgroundColor(255, 255, 255);
 	DrawWidgets();
-	GetScreen().DrawCentered("box.png", 340, 600);
+	GetScreen().DrawCentered("box.png", 340, 0);
 
 	jngl::PushMatrix();
-	GetScreen().Translate(-20, 200);
+	GetScreen().Translate(-20, -400);
 	GetScreen().SetFontSize(50);
 	jngl::SetFontColor(0, 0, 0);
 	GetScreen().Print("Highscores Normal", 0, -90);
@@ -54,25 +54,25 @@ void Menu::Draw() const
 
 void Menu::Normal() const
 {
-	Procedure::Handle().SetWork(new Fade(new Game(NORMAL, static_cast<int>(time(0)))));
+	jngl::SetWork(new Fade(new Game(NORMAL, static_cast<int>(time(0)))));
 }
 
 void Menu::FiftyLines() const
 {
-	Procedure::Handle().SetWork(new Fade(new ReplayPlayer("test.jtr")));
+	jngl::SetWork(new Fade(new ReplayPlayer("test.jtr")));
 }
 
 void Menu::Multiplayer() const
 {
-	Procedure::Handle().SetWork(new Fade(new MultiplayerMenu()));
+	jngl::SetWork(new Fade(new MultiplayerMenu()));
 }
 
 void Menu::OptionsMenuCallback() const
 {
-	Procedure::Handle().SetWork(new Fade(new OptionsMenu));
+	jngl::SetWork(new Fade(new OptionsMenu));
 }
 
 void Menu::QuitGame() const
 {
-    GetProcedure().Quit();
+	jngl::Quit();
 }

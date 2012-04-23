@@ -5,36 +5,36 @@
 
 #include <jngl.hpp>
 
-Fade::Fade(Work* work, int speed) : work_(work), oldWork_(GetProcedure().GetWork()), fadeCount_(0), speed_(speed)
+Fade::Fade(Work* work, int speed) : work_(work), oldWork_(jngl::GetWork()), fadeCount_(0), speed_(speed)
 {
 }
 
-void Fade::Step()
+void Fade::step()
 {
 	const int maxAlpha = 255;
 	fadeCount_ += speed_;
 	if(fadeCount_ >= 2 * maxAlpha) // Finished?
 	{
-		GetProcedure().SetWork(work_);
+		jngl::SetWork(work_);
 	}
 }
 
-void Fade::Draw() const
+void Fade::draw() const
 {
 	const int maxAlpha = 255;
 	if(fadeCount_ < maxAlpha)
 	{
 		if(!dynamic_cast<Fade*>(oldWork_.get()))
 		{
-			oldWork_->Draw();
+			oldWork_->draw();
 		}
 	}
 	else
 	{
-		work_->Draw();
+		work_->draw();
 	}
 	const int alpha = static_cast<int>(fadeCount_ > maxAlpha ? 2 * maxAlpha - fadeCount_ : fadeCount_);
 	jngl::SetColor(255, 255, 255, alpha);
-	GetScreen().DrawRect(-GetScreen().GetWidth() / 2, 0, GetScreen().GetWidth(), GetScreen().GetHeight());
+	GetScreen().DrawRect(-GetScreen().GetWidth() / 2, -GetScreen().GetHeight() / 2, GetScreen().GetWidth(), GetScreen().GetHeight());
 	jngl::SetColor(255, 255, 255, 255);
 }

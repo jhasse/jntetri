@@ -122,7 +122,7 @@ void Login::HandleRegister2(std::string temp)
 	}
 }
 
-void Login::Step()
+void Login::step()
 {
 	socket_->Step();
 	cancel_.Step();
@@ -132,12 +132,12 @@ void Login::Step()
 void Login::GoToLobby()
 {
 	GetOptions().Set("lastLoginName", menu_->GetName());
-	GetProcedure().SetWork(new Fade(new Lobby(socket_)));
+	jngl::SetWork(new Fade(new Lobby(socket_)));
 }
 
-void Login::Draw() const
+void Login::draw() const
 {
-	menu_->Draw();
+	menu_->draw();
 	jngl::SetColor(255, 255, 255, 220);
 	GetScreen().DrawRect(-GetScreen().GetWidth() / 2, 0, GetScreen().GetWidth(), GetScreen().GetHeight());
 	jngl::SetFontColor(0, 0, 0);
@@ -148,7 +148,7 @@ void Login::Draw() const
 
 void Login::OnCancel()
 {
-	GetProcedure().SetWork(menu_);
+	jngl::SetWork(menu_);
 }
 
 void Login::OnError()

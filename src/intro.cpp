@@ -18,15 +18,15 @@ Intro::~Intro()
 {
 }
 
-void Intro::Draw() const
+void Intro::draw() const
 {
 	GetScreen().SetFontSize(250);
 	jngl::SetFontColor(0, 0, 0);
-	GetScreen().PrintCentered("JNTETRI", 0, 350);
+	GetScreen().PrintCentered("JNTETRI", 0, -250);
 	GetScreen().SetFontSize(60);
 
 	jngl::PushMatrix();
-	GetScreen().Translate(0, 750);
+	GetScreen().Translate(0, 150);
 	double percentage;
 	if(resizeGraphics_.Finished(percentage))
 	{
@@ -42,12 +42,12 @@ void Intro::Draw() const
 
 	jngl::SetFontColor(100, 100, 100, 255);
 	GetScreen().SetFontSize(35);
-	GetScreen().PrintCentered(programVersion, 0, 960);
-	GetScreen().PrintCentered("http://watteimdocht.de/jntetri", 0, 1030);
-	GetScreen().PrintCentered("Copyright 2009-2010 watteimdocht.de", 0, 1100);
+	GetScreen().PrintCentered(programVersion, 0, 360);
+	GetScreen().PrintCentered("http://watteimdocht.de/jntetri", 0, 430);
+	GetScreen().PrintCentered("Copyright 2009-2012 watteimdocht.de", 0, 500);
 }
 
-void Intro::Step()
+void Intro::step()
 {
 	blink_ += 4;
 	if(blink_ > 2 * 255)
@@ -56,6 +56,6 @@ void Intro::Step()
 	}
 	if((jngl::MousePressed() || jngl::KeyPressed(jngl::key::Any)) && finished_)
 	{
-		GetProcedure().SetWork(new Fade(new Menu));
+		jngl::SetWork(new Fade(new Menu));
 	}
 }

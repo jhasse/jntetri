@@ -7,11 +7,11 @@
 class Fade : public Work {
 public:
 	Fade(Work*, int speed = 6);
-	virtual void Step();
-	virtual void Draw() const;
+	virtual void step();
+	virtual void draw() const;
 private:
 	Work* work_;
-	boost::shared_ptr<Work> oldWork_;
+	boost::shared_ptr<jngl::Work> oldWork_;
 	double fadeCount_;
 	int speed_;
 };

@@ -10,8 +10,8 @@ class Intro : public Work {
 public:
     Intro();
     ~Intro();
-    virtual void Step();
-    virtual void Draw() const;
+    virtual void step();
+    virtual void draw() const;
 private:
     int blink_;
     mutable bool finished_;

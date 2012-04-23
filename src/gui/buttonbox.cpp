@@ -14,7 +14,7 @@ ButtonBox::ButtonBox(const int xCenter, const int yCenter)
 }
 
 ButtonBox::ButtonBox()
-	: xCenter_(0), yCenter_(GetScreen().GetHeight() / 2)
+	: xCenter_(0), yCenter_(0)
 {
 	SetSensitive(false);
 }

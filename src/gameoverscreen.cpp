@@ -9,8 +9,8 @@
 #include <jngl.hpp>
 
 GameOverScreen::GameOverScreen(Game* game)
-	: game_(game), blink_(0), highscore_(game_->GetType()), input_(new Input(-160, 800)),
-	  work_(GetProcedure().GetWork())
+	: game_(game), blink_(0), highscore_(game_->GetType()), input_(new Input(-160, 200)),
+	  work_(jngl::GetWork())
 {
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
@@ -23,7 +23,7 @@ bool GameOverScreen::IsHighscore() const
 	return highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50);
 }
 
-void GameOverScreen::Step()
+void GameOverScreen::step()
 {
 	game_->GetField().Step(); // Show GameOver animation
 	game_->StepToRotateScreen();
@@ -40,7 +40,7 @@ void GameOverScreen::Step()
 				highscore_.Save();
 				Menu* menu = new Menu;
 				menu->BlinkHighscore(data_);
-				GetProcedure().SetWork(new Fade(menu));
+				jngl::SetWork(new Fade(menu));
 			}
 		}
 		else
@@ -52,13 +52,13 @@ void GameOverScreen::Step()
 			}
 			if(jngl::MousePressed() || jngl::KeyPressed(jngl::key::Any))
 			{
-				GetProcedure().SetWork(new Fade(new Menu));
+				jngl::SetWork(new Fade(new Menu));
 			}
 		}
 	}
 }
 
-void GameOverScreen::QuitEvent()
+void GameOverScreen::onQuitEvent()
 {
 	while(!game_->GameOverAnimationFinished())
 	{
@@ -66,30 +66,30 @@ void GameOverScreen::QuitEvent()
 	}
 	if(!IsHighscore())
 	{
-		GetProcedure().Quit();
+		jngl::Quit();
 	}
 }
 
-void GameOverScreen::Draw() const
+void GameOverScreen::draw() const
 {
-	game_->Draw();
+	game_->draw();
 	GetScreen().SetFontSize(80);
 	jngl::SetFontColor(0, 0, 0);
-	GetScreen().PrintCentered("GAMEOVER", 0, 500);
+	GetScreen().PrintCentered("GAMEOVER", 0, -100);
 	if(game_->GameOverAnimationFinished())
 	{
 		GetScreen().SetFontSize(50);
 		if(highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50))
 		{
 			jngl::SetFontColor(0, 0, 0);
-			GetScreen().PrintCentered("You entered the top!", 0, 650);
-			GetScreen().PrintCentered("Enter your name:", 0, 730);
+			GetScreen().PrintCentered("You entered the top!", 0, 50);
+			GetScreen().PrintCentered("Enter your name:", 0, 130);
 			DrawWidgets();
 		}
 		else
 		{
 			jngl::SetFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
-			GetScreen().PrintCentered("Press any key", 0, 700);
+			GetScreen().PrintCentered("Press any key", 0, 100);
 		}
 	}
 }

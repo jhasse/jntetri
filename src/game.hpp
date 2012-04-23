@@ -10,9 +10,9 @@ class Game : public Work {
 public:
 	Game(GameType, int seed);
 	virtual ~Game();
-	virtual void Step();
-	virtual void Draw() const;
-	void QuitEvent();
+	virtual void step();
+	virtual void draw() const;
+	void onQuitEvent();
 	Field& GetField();
 	double GetTime() const;
 	bool GameOverAnimationFinished() const;

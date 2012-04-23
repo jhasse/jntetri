@@ -24,8 +24,8 @@ int main()
 		}
 		jngl::SetAntiAliasing(true);
 		jngl::SetIcon(GetPaths().Prefix() + "share/icons/jntetri.png");
-		GetProcedure().SetWork(new Intro);
-		GetProcedure().MainLoop();
+		jngl::SetWork(new Intro);
+		jngl::MainLoop();
 		GetOptions().Save();
 	}
 	catch(std::exception& e)

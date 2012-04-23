@@ -7,17 +7,12 @@
 Screen::Screen()
 {
 	xCenter_ = double(GetOptions().Get<int>("windowWidth")) / 2;
-	yCenter_ = 0;
+	yCenter_ = double(GetOptions().Get<int>("windowHeight")) / 2;
 }
 
 void Screen::StepCamera()
 {
 	cameraPosition_ += (targetCameraPosition_ - cameraPosition_) / 30.0;
-}
-
-void Screen::BeginDraw()
-{
-	jngl::Translate(xCenter_, yCenter_);
 }
 
 void Screen::Draw(const std::string& filename, const double x, const double y)

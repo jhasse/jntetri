@@ -9,8 +9,8 @@
 class OptionsMenu : public Work {
 public:
 	OptionsMenu();
-	void Step();
-	void Draw() const;
+	void step();
+	void draw() const;
 	void OnBack() const;
 private:
 	boost::shared_ptr<Chooser> startLevel_;

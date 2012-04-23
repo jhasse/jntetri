@@ -10,7 +10,6 @@ class Screen : public Singleton<Screen>
 {
 public:
 	Screen();
-	void BeginDraw();
 	void Draw(const std::string& filename, double x, double y);
 	void DrawCentered(const std::string& filename, double x, double y);
 	void DrawCentered(const std::string& filename, const Vector2d& position);

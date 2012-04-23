@@ -38,7 +38,7 @@ void Game::SetRotateScreen(bool rotateScreen)
 #endif
 }
 
-void Game::Step()
+void Game::step()
 {
 	StepToRotateScreen();
 	if(jngl::KeyPressed(jngl::key::WizR))
@@ -48,7 +48,7 @@ void Game::Step()
 	if(field_.GameOver())
 	{
 		pauseTime_ = jngl::Time();
-		GetProcedure().SetWork(new GameOverScreen(this));
+		jngl::SetWork(new GameOverScreen(this));
 	}
 	else
 	{
@@ -69,18 +69,18 @@ void Game::Step()
 	}
 	if(jngl::KeyPressed('p') || jngl::KeyPressed(jngl::key::WizMenu))
 	{
-		QuitEvent(); // Pause
+		onQuitEvent(); // Pause
 	}
 }
 
-void Game::QuitEvent()
+void Game::onQuitEvent()
 {
 	static double lastPauseTime = 0;
 	if(jngl::Time() - lastPauseTime > 1) // Don't allow pausing the game more then one time per second
 	{
 		lastPauseTime = pauseTime_ = jngl::Time();
 		field_.SetPause(true);
-		GetProcedure().SetWork(new PauseMenu(GetProcedure().GetWork()));
+		jngl::SetWork(new PauseMenu(jngl::GetWork()));
 	}
 }
 
@@ -108,9 +108,9 @@ void Game::StepToRotateScreen()
 	}
 }
 
-void Game::Draw() const
+void Game::draw() const
 {
-	GetScreen().Translate(0, static_cast<double>(GetScreen().GetHeight()) / 2);
+	jngl::PushMatrix();
 	jngl::Rotate(rotateDegree_);
 	jngl::Scale(1 + rotateDegree_ / 270);
 	GetScreen().Translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
@@ -140,6 +140,7 @@ void Game::Draw() const
 		GetScreen().Print("Lines: ", 450, 580);
 		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLines()), 450, 680);
 	}
+	jngl::PopMatrix();
 }
 
 Field& Game::GetField()

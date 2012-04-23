@@ -24,7 +24,7 @@ Lobby::Lobby(boost::shared_ptr<Socket> socket)
 
 void Lobby::OnLogout()
 {
-	GetProcedure().SetWork(new Fade(new MultiplayerMenu));
+	jngl::SetWork(new Fade(new MultiplayerMenu));
 }
 
 void Lobby::OnPlay()
@@ -32,7 +32,7 @@ void Lobby::OnPlay()
 	//waiting = true;
 }
 
-void Lobby::Step()
+void Lobby::step()
 {
 	socket_->Step();
 	if(jngl::KeyPressed(jngl::key::Return))
@@ -49,7 +49,7 @@ void Lobby::OnMessageSent()
 	input_->SetSensitive(true);
 }
 
-void Lobby::Draw() const
+void Lobby::draw() const
 {
 	jngl::SetFontColor(0, 0, 0);
 	jngl::SetFontSize(35);

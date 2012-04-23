@@ -9,8 +9,8 @@
 class Menu : public Work {
 public:
     Menu();
-    virtual void Step();
-    virtual void Draw() const;
+    virtual void step();
+    virtual void draw() const;
     void BlinkHighscore(Data);
 
     void Normal() const;
