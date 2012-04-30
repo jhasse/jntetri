@@ -39,7 +39,7 @@ Field::Field(int seed)
 
 void Field::ResetCounter()
 {
-	counter_ = 200 / (level_ + 1);
+	counter_ = 200 / (level_ * 1.5 + 1);
 }
 
 bool explosionFinished(const Explosion& e) {

@@ -6,7 +6,7 @@
 
 class Fade : public Work {
 public:
-	Fade(Work*, int speed = 6);
+	Fade(Work*, int speed = 15);
 	virtual void step();
 	virtual void draw() const;
 private:

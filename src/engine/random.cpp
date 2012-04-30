@@ -11,8 +11,7 @@ Random::~Random() {
 }
 
 int Random::operator() (int n) {
-	int r = static_cast<int>(static_cast<unsigned long long>(n) * (*r_)() / std::numeric_limits<int>::max());
-	return r;
+	return (*r_)()%n;
 }
 
 int Random::GetSeed() const {
