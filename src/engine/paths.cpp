@@ -5,8 +5,10 @@
 #if defined (__linux__)
 #include "linux/binreloc.h"
 #elif defined (__APPLE__)
+#ifndef __IPHONE_OS_VERSION_MIN_REQUIRED
 #include <mach-o/dyld.h>
 #include <CoreServices/CoreServices.h>
+#endif
 #else
 #include <windows.h>
 #include <shlobj.h>
@@ -15,9 +17,11 @@
 #include <sstream>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
+#include <jngl.hpp>
 
 Paths::Paths()
 {
+#ifndef __IPHONE_OS_VERSION_MIN_REQUIRED
 #if defined(__linux__)
 	BrInitError error;
 	if(br_init(&error) == 0 && error != BR_INIT_ERROR_DISABLED)
@@ -40,16 +44,15 @@ Paths::Paths()
 	prefix_ = prefix.normalize().remove_leaf().parent_path().string() + "/";
 	
 	FSRef ref;
-    FSFindFolder(kUserDomain, kApplicationSupportFolderType, kCreateFolder, &ref);
-    char path[PATH_MAX];
-    FSRefMakePath(&ref, (UInt8*)&path, PATH_MAX);
+	FSFindFolder(kUserDomain, kApplicationSupportFolderType, kCreateFolder, &ref);
+	char path[PATH_MAX];
+	FSRefMakePath(&ref, (UInt8*)&path, PATH_MAX);
 	boost::filesystem::path applicationSupportFolder(path);
 	applicationSupportFolder /= programDisplayName;
 	configPath_ = applicationSupportFolder.string() + "/";
 #else
 	char filename[MAX_PATH];
-	int newSize = GetModuleFileName(NULL, filename, MAX_PATH);
-	assert(newSize != 0 && newSize < MAX_PATH);
+	GetModuleFileName(NULL, filename, MAX_PATH);
 	std::string prefix(filename);
 	prefix_ = prefix.substr(0, prefix.find("\\bin") + 1);
 	
@@ -63,6 +66,9 @@ Paths::Paths()
 	configPath_ = path.str();
 #endif
 	boost::filesystem::create_directory(configPath_);
+#else
+	configPath_ = jngl::getConfigPath();
+#endif
 }
 
 std::string Paths::Graphics()
@@ -77,7 +83,11 @@ void Paths::SetGraphics(const std::string& graphics)
 
 std::string Paths::Data()
 {
+#ifdef __IPHONE_OS_VERSION_MIN_REQUIRED
+	return "";
+#else
 	return prefix_ + "share/" + programShortName + "/";
+#endif
 }
 
 std::string Paths::Config()
@@ -103,4 +113,8 @@ std::string Paths::OriginalGfx() const
 void Paths::SetOriginalGfx(const std::string& originalGfx)
 {
 	originalGfx_ = originalGfx;
+}
+
+void Paths::SetPrefix(const std::string& p) {
+	prefix_ = p + "/";
 }

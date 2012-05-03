@@ -5,6 +5,7 @@
 #include "explosion.hpp"
 #include "control.hpp"
 #include "engine/random.hpp"
+#include "shadow.hpp"
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
@@ -19,6 +20,7 @@ public:
 	void AddBlock(const Block&);
 	void Translate(double x, double y) const;
 	int GetBlockSize() const;
+	Block* getBlock(int x, int y);
 	bool CheckCollision(int x, int y) const;
 	void NewTetromino();
 	void RemoveLine(int y, int numberOfLines);
@@ -34,11 +36,14 @@ public:
 	void SetControl(Control*);
 	Control& GetControl() const;
 	Random& GetRandom();
+	void addShadow(int x, int y);
+	void clearShadows();
 private:
 	void CheckLines();
 	void ResetCounter();
 	std::vector<Block> blocks_;
 	std::vector<Explosion> explosions_;
+	std::vector<Shadow> shadows;
 	boost::shared_ptr<Tetromino> nextTetromino_;
 	boost::shared_ptr<Tetromino> tetromino_;
 	const static int width_;

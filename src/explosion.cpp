@@ -30,8 +30,8 @@ void Explosion::Draw() const
 			filename = "explosion.png";
 	}
 	GetScreen().DrawCenteredScaled(filename,
-	                               block_.GetX() * block_.GetSize(),
-	                               -(block_.GetY() - double(255 - countdown_) / 510 * numberOfLines_) * block_.GetSize(),
+	                               block_.getX() * block_.getSize(),
+	                               -(block_.getY() - double(255 - countdown_) / 510 * numberOfLines_) * block_.getSize(),
 	                               float(510 - countdown_) / 510);
 	jngl::SetSpriteColor(255, 255, 255);
 }

@@ -10,23 +10,24 @@ enum Direction {
 class Block {
 public:
 	Block(int x, int y, RGB color);
-	void Step();
-	void Draw() const;
-	int GetX() const;
-	int GetY() const;
-	void SetX(int);
-	void SetY(int);
-	void Rotate(Direction, double rotationCenterX, double rotationCenterY);
-	void SetAnimation(double);
-	double GetAnimation() const;
-	int GetSize() const;
-	RGB GetColor() const;
-	void Flash();
+	void step();
+	void draw() const;
+	int getX() const;
+	int getY() const;
+	void setX(int);
+	void setY(int);
+	void rotate(Direction, double rotationCenterX, double rotationCenterY);
+	void setAnimation(double);
+	double getAnimation() const;
+	int getSize() const;
+	RGB getColor() const;
+	void flash();
+	
+	const static int size;
 private:
-	bool exists_;
-	int x_, y_;
-	const static int size_;
-	double animation_;
-	RGB color_;
-	double flash_;
+	bool exists;
+	int x, y;
+	double animation;
+	RGB color;
+	double flashAnimation;
 };

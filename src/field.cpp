@@ -104,7 +104,7 @@ void Field::Step()
 	std::vector<Block>::iterator end = blocks_.end();
 	for(std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it)
 	{
-		it->Step();
+		it->step();
 	}
 	CheckLines();
 
@@ -128,9 +128,9 @@ void Field::CheckLines()
 	std::vector<Block>::const_iterator end = blocks_.end();
 	for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
 	{
-		if(++blocksInLine[it->GetY()] == width_)
+		if(++blocksInLine[it->getY()] == width_)
 		{
-			linesToRemove.insert(it->GetY());
+			linesToRemove.insert(it->getY());
 		}
 	}
 	score_ += linesToRemove.size() * linesToRemove.size() * (level_ + 1) * (level_ + 1);
@@ -214,12 +214,16 @@ void Field::Draw() const
 		std::vector<Block>::const_iterator end = blocks_.end();
 		for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
 		{
-			it->Draw();
+			it->draw();
 		}
 		std::vector<Explosion>::const_iterator end2 = explosions_.end();
 		for(std::vector<Explosion>::const_iterator it = explosions_.begin(); it != end2; ++it)
 		{
 			it->Draw();
+		}
+		auto end3 = shadows.end();
+		for (auto it = shadows.begin(); it != end3; ++it) {
+			it->draw();
 		}
 		jngl::PopMatrix();
 		if(!gameOver_)
@@ -229,16 +233,28 @@ void Field::Draw() const
 	}
 }
 
+Block* Field::getBlock(int x, int y) {
+	auto end = blocks_.end();
+	for(auto it = blocks_.begin(); it != end; ++it)
+	{
+		if(x == it->getX() && y == it->getY())
+		{
+			return &(*it);
+		}
+	}
+	return nullptr;
+}
+
 bool Field::CheckCollision(const int x, const int y) const
 {
 	if(x < 0 || x >= width_ || y < 0)
 	{
 		return true;
 	}
-	std::vector<Block>::const_iterator end = blocks_.end();
-	for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
+	auto end = blocks_.end();
+	for(auto it = blocks_.begin(); it != end; ++it)
 	{
-		if(x == it->GetX() && y == it->GetY())
+		if(x == it->getX() && y == it->getY())
 		{
 			return true;
 		}
@@ -249,18 +265,18 @@ bool Field::CheckCollision(const int x, const int y) const
 void Field::AddBlock(const Block& block)
 {
 	blocks_.push_back(block);
-	if(blocks_.back().GetY() > maxY_)
+	if(blocks_.back().getY() > maxY_)
 	{
-		maxY_ = blocks_.back().GetY();
+		maxY_ = blocks_.back().getY();
 	}
 
 	// Let's look if we need to copy the current animation
 	std::vector<Block>::const_iterator end = blocks_.end();
 	for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
 	{
-		if(it->GetAnimation() > 0.0001)
+		if(it->getAnimation() > 0.0001)
 		{
-			blocks_.back().SetAnimation(it->GetAnimation());
+			blocks_.back().setAnimation(it->getAnimation());
 		}
 	}
 }
@@ -275,7 +291,7 @@ void Field::RemoveLine(const int y, const int numberOfLines)
 	std::vector<Block>::iterator end = blocks_.end();
 	for(std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it)
 	{
-		if(it->GetY() == y)
+		if(it->getY() == y)
 		{
 			explosions_.push_back(Explosion(*it, numberOfLines));
 			blocks_.erase(it);
@@ -284,10 +300,10 @@ void Field::RemoveLine(const int y, const int numberOfLines)
 	}
 	for(std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it)
 	{
-		if(it->GetY() > y)
+		if(it->getY() > y)
 		{
-			it->SetY(it->GetY() - 1);
-			it->SetAnimation(it->GetAnimation() + 1);
+			it->setY(it->getY() - 1);
+			it->setAnimation(it->getAnimation() + 1);
 		}
 	}
 	++lines_;
@@ -337,4 +353,12 @@ Control& Field::GetControl() const
 
 Random& Field::GetRandom() {
 	return random_;
+}
+
+void Field::addShadow(int x, int y) {
+	shadows.emplace_back(x, y, getBlock(x, y-1));
+}
+
+void Field::clearShadows() {
+	shadows.clear();
 }

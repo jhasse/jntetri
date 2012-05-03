@@ -7,21 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C93186B514A89C3B00880537 /* block.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869714A89BFB00880537 /* block.png */; };
-		C93186B614A89C3B00880537 /* box.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869814A89BFB00880537 /* box.png */; };
-		C93186B714A89C3B00880537 /* button.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869914A89BFB00880537 /* button.png */; };
-		C93186B814A89C3B00880537 /* button_clicked.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869A14A89BFB00880537 /* button_clicked.png */; };
-		C93186B914A89C3B00880537 /* button_over.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869B14A89BFB00880537 /* button_over.png */; };
-		C93186BA14A89C3B00880537 /* chooser.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869C14A89BFB00880537 /* chooser.png */; };
-		C93186BB14A89C3B00880537 /* chooser_left.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869D14A89BFB00880537 /* chooser_left.png */; };
-		C93186BC14A89C3B00880537 /* chooser_left_over.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869E14A89BFB00880537 /* chooser_left_over.png */; };
-		C93186BD14A89C3B00880537 /* chooser_right.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C931869F14A89BFB00880537 /* chooser_right.png */; };
-		C93186BE14A89C3C00880537 /* chooser_right_over.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A014A89BFB00880537 /* chooser_right_over.png */; };
-		C93186BF14A89C3C00880537 /* explosion.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A114A89BFB00880537 /* explosion.png */; };
-		C93186C014A89C3C00880537 /* explosion4.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A214A89BFB00880537 /* explosion4.png */; };
-		C93186C114A89C3C00880537 /* field.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A314A89BFB00880537 /* field.png */; };
-		C93186C214A89C3C00880537 /* radio.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A414A89BFB00880537 /* radio.png */; };
-		C93186C314A89C3C00880537 /* radio_active.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = C93186A514A89BFB00880537 /* radio_active.png */; };
+		C92C66A7154ECE73001C8E5A /* shadow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C92C66A6154ECE73001C8E5A /* shadow.cpp */; };
 		C93A319814BBBB0A00B6DBC8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93A319714BBBB0A00B6DBC8 /* Carbon.framework */; };
 		C949897F14AE173700732560 /* JNGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C949897E14AE173700732560 /* JNGL.framework */; };
 		C97CA50B1517F7580046C42D /* libboost_filesystem-libc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */; };
@@ -68,30 +54,17 @@
 		C981F23214A8882800E03124 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = ../share/jntetri/gfx/x1200;
+			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				C93186B514A89C3B00880537 /* block.png in CopyFiles */,
-				C93186B614A89C3B00880537 /* box.png in CopyFiles */,
-				C93186B714A89C3B00880537 /* button.png in CopyFiles */,
-				C93186B814A89C3B00880537 /* button_clicked.png in CopyFiles */,
-				C93186B914A89C3B00880537 /* button_over.png in CopyFiles */,
-				C93186BA14A89C3B00880537 /* chooser.png in CopyFiles */,
-				C93186BB14A89C3B00880537 /* chooser_left.png in CopyFiles */,
-				C93186BC14A89C3B00880537 /* chooser_left_over.png in CopyFiles */,
-				C93186BD14A89C3B00880537 /* chooser_right.png in CopyFiles */,
-				C93186BE14A89C3C00880537 /* chooser_right_over.png in CopyFiles */,
-				C93186BF14A89C3C00880537 /* explosion.png in CopyFiles */,
-				C93186C014A89C3C00880537 /* explosion4.png in CopyFiles */,
-				C93186C114A89C3C00880537 /* field.png in CopyFiles */,
-				C93186C214A89C3C00880537 /* radio.png in CopyFiles */,
-				C93186C314A89C3C00880537 /* radio_active.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C92C66A5154EC6C1001C8E5A /* shadow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = shadow.hpp; path = ../src/shadow.hpp; sourceTree = "<group>"; };
+		C92C66A6154ECE73001C8E5A /* shadow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shadow.cpp; path = ../src/shadow.cpp; sourceTree = "<group>"; };
 		C931869314A89BFB00880537 /* jntetri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jntetri.png; sourceTree = "<group>"; };
 		C931869714A89BFB00880537 /* block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = block.png; sourceTree = "<group>"; };
 		C931869814A89BFB00880537 /* box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = box.png; sourceTree = "<group>"; };
@@ -228,6 +201,7 @@
 				C9AE780A14A8886A004359EF /* replaycontrol.hpp */,
 				C9AE780C14A8886A004359EF /* replayplayer.hpp */,
 				C9AE780E14A8886A004359EF /* replayrecorder.hpp */,
+				C92C66A5154EC6C1001C8E5A /* shadow.hpp */,
 				C9AE781114A8886A004359EF /* tetromino.hpp */,
 			);
 			name = "Header Files";
@@ -346,14 +320,14 @@
 		C9AE77BE14A88859004359EF /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
-				C9AE77C514A8886A004359EF /* engine */,
 				C9AE77C014A8886A004359EF /* block.cpp */,
 				C9AE77C314A8886A004359EF /* control.cpp */,
+				C9AE77C514A8886A004359EF /* engine */,
 				C9AE77E314A8886A004359EF /* explosion.cpp */,
 				C9AE77E514A8886A004359EF /* field.cpp */,
 				C9AE77E714A8886A004359EF /* game.cpp */,
-				C9AE77EC14A8886A004359EF /* gui */,
 				C9AE77E914A8886A004359EF /* gameoverscreen.cpp */,
+				C9AE77EC14A8886A004359EF /* gui */,
 				C9AE77F714A8886A004359EF /* highscore.cpp */,
 				C9AE77FA14A8886A004359EF /* intro.cpp */,
 				C9AE77FC14A8886A004359EF /* lobby.cpp */,
@@ -366,6 +340,7 @@
 				C9AE780914A8886A004359EF /* replaycontrol.cpp */,
 				C9AE780B14A8886A004359EF /* replayplayer.cpp */,
 				C9AE780D14A8886A004359EF /* replayrecorder.cpp */,
+				C92C66A6154ECE73001C8E5A /* shadow.cpp */,
 				C9AE781014A8886A004359EF /* tetromino.cpp */,
 			);
 			name = "Source Files";
@@ -496,6 +471,7 @@
 				C9AE783414A8886A004359EF /* replayplayer.cpp in Sources */,
 				C9AE783514A8886A004359EF /* replayrecorder.cpp in Sources */,
 				C9AE783614A8886A004359EF /* tetromino.cpp in Sources */,
+				C92C66A7154ECE73001C8E5A /* shadow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

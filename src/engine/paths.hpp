@@ -15,6 +15,7 @@ public:
 	std::string OriginalGfx() const;
 	void SetGraphics(const std::string&);
 	void SetOriginalGfx(const std::string&);
+	void SetPrefix(const std::string&);
 private:
 	std::string prefix_;
 	std::string configPath_; // %AppData% or $HOME

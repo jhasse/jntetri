@@ -3,90 +3,82 @@
 
 #include <jngl.hpp>
 
-const int Block::size_ = 60;
+const int Block::size = 60;
 
-Block::Block(int x, int y, RGB color) : x_(x), y_(y), animation_(0), color_(color), flash_(0)
+Block::Block(int x, int y, RGB color) : x(x), y(y), animation(0), color(color), flashAnimation(0)
 {
 }
 
-void Block::Step()
+void Block::step()
 {
-	animation_ *= 0.95;
-	if(flash_ > 0)
+	animation *= 0.95;
+	if(flashAnimation > 0)
 	{
-		flash_ *= 0.96;
+		flashAnimation *= 0.96;
 	}
 }
 
-void Block::SetAnimation(double animation)
-{
-	animation_ = animation;
+void Block::setAnimation(double a) {
+	animation = a;
 }
 
-double Block::GetAnimation() const
+double Block::getAnimation() const
 {
-	return animation_;
+	return animation;
 }
 
-void Block::Draw() const
+void Block::draw() const
 {
-	jngl::SetSpriteColor(static_cast<unsigned char>(color_.GetRed() + flash_),
-		                 static_cast<unsigned char>(color_.GetGreen() + flash_),
-						 static_cast<unsigned char>(color_.GetBlue() + flash_));
-	GetScreen().DrawCentered("block.png", x_ * size_, -(y_ + animation_) * size_);
+	jngl::SetSpriteColor(static_cast<unsigned char>(color.GetRed() + flashAnimation),
+		                 static_cast<unsigned char>(color.GetGreen() + flashAnimation),
+						 static_cast<unsigned char>(color.GetBlue() + flashAnimation));
+	GetScreen().DrawCentered("block.png", x * size, -(y + animation) * size);
 	jngl::SetSpriteColor(255, 255, 255);
 }
 
-void Block::Rotate(Direction direction, double rotationCenterX, double rotationCenterY)
+void Block::rotate(Direction direction, double rotationCenterX, double rotationCenterY)
 {
 	double tempX, tempY;
-	double x = x_ - rotationCenterX;
-	double y = y_ - rotationCenterY;
+	double xRot = x - rotationCenterX;
+	double yRot = y - rotationCenterY;
 	if(direction == CLOCKWISE)
 	{
-		tempX =  y;
-		tempY = -x;
+		tempX =  yRot;
+		tempY = -xRot;
 	}
 	else
 	{
-		tempX = -y;
-		tempY =  x;
+		tempX = -yRot;
+		tempY =  xRot;
 	}
-	x_ = static_cast<int>(tempX + rotationCenterX);
-	y_ = static_cast<int>(tempY + rotationCenterY);
+	x = static_cast<int>(tempX + rotationCenterX);
+	y = static_cast<int>(tempY + rotationCenterY);
 }
 
-int Block::GetX() const
-{
-	return x_;
+int Block::getX() const {
+	return x;
 }
 
-int Block::GetY() const
-{
-	return y_;
+int Block::getY() const {
+	return y;
 }
 
-void Block::SetX(const int x)
-{
-	x_ = x;
+void Block::setX(const int x) {
+	this->x = x;
 }
 
-void Block::SetY(const int y)
-{
-	y_ = y;
+void Block::setY(const int y) {
+	this->y = y;
 }
 
-int Block::GetSize() const
-{
-	return size_;
+int Block::getSize() const {
+	return size;
 }
 
-RGB Block::GetColor() const
-{
-	return color_;
+RGB Block::getColor() const {
+	return color;
 }
 
-void Block::Flash()
-{
-	flash_ = 50;
+void Block::flash() {
+	flashAnimation = 50;
 }

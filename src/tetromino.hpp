@@ -21,6 +21,8 @@ public:
 private:
 	void ChangeX(int);
 	void ChangeY(int);
+	void updateShadow();
+	
 	std::vector<Block> blocks_;
 	Field& field_;
 	int x_, y_;
@@ -31,4 +33,5 @@ private:
 	std::deque<int> positionTweaksY_; // in nearly all Tetris versions it isn't a real rotation.
 	std::deque<double> rotationCenterX_;
 	std::deque<double> rotationCenterY_;
+	bool recreateShadow;
 };

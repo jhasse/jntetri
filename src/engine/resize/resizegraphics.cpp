@@ -22,6 +22,7 @@ void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResi
 		else
 		{
 			std::string file = it->path().string();
+			std::cout << file << std::endl;
 			if(file.substr(file.size() - 4) == ".png")
 			{
 				filesToResize.push_back(it->path().string());

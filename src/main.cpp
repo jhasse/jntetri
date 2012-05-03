@@ -5,10 +5,13 @@
 
 #include <jngl.hpp>
 
-int main()
+int main(int argc, char** argv)
 {
 	try
 	{
+		if (argc == 2) {
+			GetPaths().SetPrefix(argv[1]);
+		}
 		GetOptions().SetFallback("windowWidth", jngl::GetDesktopWidth());
 		GetOptions().SetFallback("windowHeight", jngl::GetDesktopHeight());
 		GetOptions().SetFallback("fullscreen", 1);
