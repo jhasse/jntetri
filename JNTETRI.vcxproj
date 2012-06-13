@@ -55,7 +55,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libvorbis_static.lib;jpeg.lib;alut.lib;ogg.lib;OpenAL32.lib;vorbisfile.lib;opengl32.lib;glu32.lib;freetype.lib;libpng.lib;zlib.lib;CORE_RL_magick_.lib;CORE_RL_Magick++_.lib;CORE_RL_wand_.lib;jngl-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;libvorbis_static.lib;jpeg.lib;alut.lib;ogg.lib;OpenAL32.lib;vorbisfile.lib;opengl32.lib;glu32.lib;freetype.lib;libpng.lib;zlib.lib;CORE_RL_magick_.lib;CORE_RL_Magick++_.lib;CORE_RL_wand_.lib;jngl-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -72,7 +72,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libvorbis_static.lib;jpeg.lib;alut.lib;ogg.lib;OpenAL32.lib;vorbisfile.lib;opengl32.lib;glu32.lib;freetype.lib;libpng.lib;zlib.lib;jngl.lib;CORE_RL_magick_.lib;CORE_RL_Magick++_.lib;CORE_RL_wand_.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;libvorbis_static.lib;jpeg.lib;alut.lib;ogg.lib;OpenAL32.lib;vorbisfile.lib;opengl32.lib;glu32.lib;freetype.lib;libpng.lib;zlib.lib;jngl.lib;CORE_RL_magick_.lib;CORE_RL_Magick++_.lib;CORE_RL_wand_.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -110,6 +110,7 @@
     <ClCompile Include="src\replaycontrol.cpp" />
     <ClCompile Include="src\replayplayer.cpp" />
     <ClCompile Include="src\replayrecorder.cpp" />
+    <ClCompile Include="src\shadow.cpp" />
     <ClCompile Include="src\tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +150,7 @@
     <ClInclude Include="src\replaycontrol.hpp" />
     <ClInclude Include="src\replayplayer.hpp" />
     <ClInclude Include="src\replayrecorder.hpp" />
+    <ClInclude Include="src\shadow.hpp" />
     <ClInclude Include="src\tetromino.hpp" />
   </ItemGroup>
   <ItemGroup>

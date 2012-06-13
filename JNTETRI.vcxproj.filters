@@ -135,6 +135,9 @@
     <ClCompile Include="src\engine\vector2d.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\shadow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\resizegraphics.hpp">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="src\gui\widget.hpp">
       <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shadow.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
