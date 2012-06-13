@@ -8,6 +8,10 @@
 #include <fstream>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
+
+#ifdef _MSC_VER
+typedef size_t ssize_t;
+#endif
 #include <wand/magick_wand.h>
 
 void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResize)
