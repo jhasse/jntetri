@@ -21,6 +21,21 @@ ReplayPlayer::~ReplayPlayer() {
 }
 
 void ReplayPlayer::step() {
+	if (jngl::KeyDown('f')) {
+		for (int i = 0; i < 19; ++i) {
+			game_->step();
+		}
+	}
+	if (jngl::KeyDown('s')) {
+		for (int i = 0; i < 60; ++i) {
+			game_->step();
+		}
+	}
+	if (jngl::KeyPressed('e')) {
+		while (!game_->gameOver()) {
+			game_->step();
+		}
+	}
 	game_->step();
 }
 

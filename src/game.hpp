@@ -20,6 +20,7 @@ public:
 	void DrawTime(int x, int y) const;
 	void StepToRotateScreen();
 	void SetRotateScreen(bool);
+	bool gameOver() const;
 protected:
 	Field field_;
 	GameType type_;
