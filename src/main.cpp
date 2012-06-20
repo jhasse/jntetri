@@ -7,8 +7,10 @@
 
 int main(int argc, char** argv)
 {
+#ifdef NDEBUG
 	try
 	{
+#endif
 		if (argc == 2) {
 			GetPaths().SetPrefix(argv[1]);
 		}
@@ -30,9 +32,11 @@ int main(int argc, char** argv)
 		jngl::SetWork(new Intro);
 		jngl::MainLoop();
 		GetOptions().Save();
+#ifdef NDEBUG
 	}
 	catch(std::exception& e)
 	{
 		jngl::ErrorMessage(e.what());
 	}
+#endif
 }

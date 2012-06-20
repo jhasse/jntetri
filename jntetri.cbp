@@ -44,8 +44,8 @@
 			<Add library="glu32" />
 			<Add library="MagickWand" />
 			<Add library="MagickCore" />
-			<Add library="lib\libboost_system-mgw45-1_46_1.a" />
-			<Add library="lib\libboost_filesystem-mgw45-1_46_1.a" />
+			<Add library="lib\libboost_system-mgw47-mt-1_49.a" />
+			<Add library="lib\libboost_filesystem-mgw47-mt-1_49.a" />
 			<Add library="z" />
 			<Add library="m" />
 			<Add library="gdi32" />
@@ -53,7 +53,7 @@
 			<Add library="jpeg" />
 			<Add library="ws2_32" />
 			<Add library="dl" />
-			<Add library="lib\libboost_serialization-mgw45-1_46_1.a" />
+			<Add library="lib\libboost_serialization-mgw47-mt-1_49.a" />
 			<Add library="glew32.dll" />
 			<Add directory="lib" />
 		</Linker>

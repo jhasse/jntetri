@@ -8,16 +8,16 @@ ReplayPlayer::ReplayPlayer(const std::string& filename) : fin_(filename.c_str())
 	int seed, startLevel, startJunk;
 	fin_ >> seed >> startLevel >> startJunk;
 	oldStartLevel = GetOptions().Get<int>("startLevel");
-	oldStartJunk = GetOptions().Get<int>("startJunk");
+	oldStartJunk = GetOptions().Get<int>("startJunks");
 	GetOptions().Set("startLevel", startLevel);
-	GetOptions().Set("startJunk", startJunk);
+	GetOptions().Set("startJunks", startJunk);
 	game_.reset(new Game(NORMAL, seed));
 	game_->GetField().SetControl(new ReplayControl(fin_));
 }
 
 ReplayPlayer::~ReplayPlayer() {
 	GetOptions().Set("startLevel", oldStartLevel);
-	GetOptions().Set("startJunk", oldStartJunk);	
+	GetOptions().Set("startJunks", oldStartJunk);	
 }
 
 void ReplayPlayer::step() {
