@@ -169,3 +169,7 @@ GameType Game::GetType() const
 {
 	return type_;
 }
+
+bool Game::gameOver() const {
+	return field_.GameOver();
+}

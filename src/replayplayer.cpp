@@ -8,7 +8,7 @@ ReplayPlayer::ReplayPlayer(const std::string& filename) : fin_(filename.c_str())
 	int seed, startLevel, startJunk;
 	fin_ >> seed >> startLevel >> startJunk;
 	oldStartLevel = GetOptions().Get<int>("startLevel");
-	oldStartJunk = GetOptions().Get<int>("startJunk");
+	oldStartJunk = GetOptions().Get<int>("startJunks");
 	GetOptions().Set("startLevel", startLevel);
 	GetOptions().Set("startJunk", startJunk);
 	game_.reset(new Game(NORMAL, seed));
@@ -21,6 +21,21 @@ ReplayPlayer::~ReplayPlayer() {
 }
 
 void ReplayPlayer::step() {
+	if (jngl::KeyDown('f')) {
+		for (int i = 0; i < 19; ++i) {
+			game_->step();
+		}
+	}
+	if (jngl::KeyDown('s')) {
+		for (int i = 0; i < 60; ++i) {
+			game_->step();
+		}
+	}
+	if (jngl::KeyPressed('e')) {
+		while (!game_->gameOver()) {
+			game_->step();
+		}
+	}
 	game_->step();
 }
 
