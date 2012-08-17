@@ -140,9 +140,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\resizegraphics.hpp">
-      <Filter>Source Files\engine</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\work.hpp">
       <Filter>Source Files\engine</Filter>
     </ClInclude>
@@ -253,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="src\shadow.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\resizegraphics.hpp">
+      <Filter>Header Files\engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
