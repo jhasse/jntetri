@@ -54,16 +54,16 @@ void Button::Draw() const
     {
 		GetScreen().DrawCentered(textureMouseOver_, xPos_, yPos_);
     }
-	jngl::SetSpriteColor(255, 255, 255, alpha);
-	jngl::PushMatrix();
+	jngl::setSpriteColor(255, 255, 255, alpha);
+	jngl::pushMatrix();
 	GetScreen().DrawCenteredScaled(textureMouseOver_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
-	jngl::PopMatrix();
-	jngl::SetSpriteColor(255, 255, 255, 255);
+	jngl::popMatrix();
+	jngl::setSpriteColor(255, 255, 255, 255);
     if(clicked_)
     {
     	GetScreen().DrawCenteredScaled(textureClicked_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
     }
-    jngl::SetFontColor(255, 255, 255);
+    jngl::setFontColor(255, 255, 255);
     GetScreen().SetFontSize(fontSize_);
     if(!clicked_)
     {
@@ -77,14 +77,14 @@ void Button::Draw() const
 
 void Button::Step()
 {
-	if(!jngl::MouseDown())
+	if(!jngl::mouseDown())
 	{
 		clicked_ = false;
 	}
 	const int alphaSpeed = 20;
 	if(focus_)
 	{
-		if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return) || jngl::KeyPressed(jngl::key::WizB))
+		if(jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return) || jngl::keyPressed(jngl::key::WizB))
 		{
 			clicked_ = true;
 			callback_();
@@ -96,7 +96,7 @@ void Button::Step()
 		{
 			mouseoverAlpha_ += alphaSpeed;
 		}
-		if(jngl::MousePressed())
+		if(jngl::mousePressed())
 		{
 			clicked_ = true;
 			callback_();
@@ -144,7 +144,7 @@ int Button::GetWidth()
 
 char Button::ShortCutClicked()
 {
-    return jngl::KeyDown(shortcut_);
+    return jngl::keyDown(shortcut_);
 }
 
 void Button::Connect(boost::function<void()> callback)

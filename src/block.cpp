@@ -29,11 +29,11 @@ double Block::getAnimation() const
 
 void Block::draw() const
 {
-	jngl::SetSpriteColor(static_cast<unsigned char>(color.GetRed() + flashAnimation),
+	jngl::setSpriteColor(static_cast<unsigned char>(color.GetRed() + flashAnimation),
 		                 static_cast<unsigned char>(color.GetGreen() + flashAnimation),
 						 static_cast<unsigned char>(color.GetBlue() + flashAnimation));
 	GetScreen().DrawCentered("block.png", x * size, -(y + animation) * size);
-	jngl::SetSpriteColor(255, 255, 255);
+	jngl::setSpriteColor(255, 255, 255);
 }
 
 void Block::rotate(Direction direction, double rotationCenterX, double rotationCenterY)

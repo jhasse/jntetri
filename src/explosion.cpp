@@ -19,7 +19,7 @@ bool Explosion::Finished() const
 
 void Explosion::Draw() const
 {
-	jngl::SetSpriteColor(255, 255, 255, countdown_);
+	jngl::setSpriteColor(255, 255, 255, countdown_);
 	std::string filename;
 	switch(numberOfLines_)
 	{
@@ -33,5 +33,5 @@ void Explosion::Draw() const
 	                               block_.getX() * block_.getSize(),
 	                               -(block_.getY() - double(255 - countdown_) / 510 * numberOfLines_) * block_.getSize(),
 	                               float(510 - countdown_) / 510);
-	jngl::SetSpriteColor(255, 255, 255);
+	jngl::setSpriteColor(255, 255, 255);
 }

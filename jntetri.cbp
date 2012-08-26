@@ -55,6 +55,7 @@
 			<Add library="dl" />
 			<Add library="lib\libboost_serialization-mgw47-mt-1_49.a" />
 			<Add library="glew32.dll" />
+			<Add library="webp" />
 			<Add directory="lib" />
 		</Linker>
 		<Unit filename="src\block.cpp" />

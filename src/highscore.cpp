@@ -60,7 +60,7 @@ Highscore::Highscore(GameType type) : type_(type), blink_((Data*)0)
 void Highscore::Draw() const
 {
 	assert(highscores_.size() == 5);
-	jngl::PushMatrix();
+	jngl::pushMatrix();
 	GetScreen().SetFontSize(50);
 	std::list<Data>::const_iterator end = highscores_.end();
 	int n = 1;
@@ -81,15 +81,15 @@ void Highscore::Draw() const
 			sstream << minutes << ":" << std::setw(2) << seconds << "." << tenthOfASecond;
 			score = sstream.str();
 		}
-		jngl::SetFontColor(0, 0, 0);
+		jngl::setFontColor(0, 0, 0);
 		if(blink_)
 		{
 			Data a = *blink_;
 			Data b = *it;
 			if(a == b)
 			{
-				int alpha = int(jngl::Time() * 300) % 510;
-				jngl::SetFontColor(0, 0, 0, alpha > 255 ? 510 - alpha : alpha);
+				int alpha = int(jngl::getTime() * 300) % 510;
+				jngl::setFontColor(0, 0, 0, alpha > 255 ? 510 - alpha : alpha);
 			}
 		}
 		GetScreen().Print(score, 700 - GetScreen().GetTextWidth(score), 0);
@@ -97,7 +97,7 @@ void Highscore::Draw() const
 		GetScreen().Translate(0, 80);
 		++n;
 	}
-	jngl::PopMatrix();
+	jngl::popMatrix();
 }
 
 bool CompareScore(const Data& lhs, const Data& rhs)

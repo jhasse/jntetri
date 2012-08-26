@@ -10,7 +10,7 @@
 
 GameOverScreen::GameOverScreen(Game* game)
 	: game_(game), blink_(0), highscore_(game_->GetType()), input_(new Input(-160, 200)),
-	  work_(jngl::GetWork())
+	  work_(jngl::getWork())
 {
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
@@ -32,7 +32,7 @@ void GameOverScreen::step()
 		if(IsHighscore())
 		{
 			StepWidgets();
-			if(jngl::KeyPressed(jngl::key::Return) || jngl::KeyPressed(jngl::key::WizB))
+			if(jngl::keyPressed(jngl::key::Return) || jngl::keyPressed(jngl::key::WizB))
 			{
 				data_.name = input_->GetText();
 				GetOptions().Set("lastHighscoreName", data_.name);
@@ -40,7 +40,7 @@ void GameOverScreen::step()
 				highscore_.Save();
 				Menu* menu = new Menu;
 				menu->BlinkHighscore(data_);
-				jngl::SetWork(new Fade(menu));
+				jngl::setWork(new Fade(menu));
 			}
 		}
 		else
@@ -50,9 +50,9 @@ void GameOverScreen::step()
 			{
 				blink_ = 0;
 			}
-			if(jngl::MousePressed() || jngl::KeyPressed(jngl::key::Any))
+			if(jngl::mousePressed() || jngl::keyPressed(jngl::key::Any))
 			{
-				jngl::SetWork(new Fade(new Menu));
+				jngl::setWork(new Fade(new Menu));
 			}
 		}
 	}
@@ -66,7 +66,7 @@ void GameOverScreen::onQuitEvent()
 	}
 	if(!IsHighscore())
 	{
-		jngl::Quit();
+		jngl::quit();
 	}
 }
 
@@ -74,21 +74,21 @@ void GameOverScreen::draw() const
 {
 	game_->draw();
 	GetScreen().SetFontSize(80);
-	jngl::SetFontColor(0, 0, 0);
+	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered("GAMEOVER", 0, -100);
 	if(game_->GameOverAnimationFinished())
 	{
 		GetScreen().SetFontSize(50);
 		if(highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50))
 		{
-			jngl::SetFontColor(0, 0, 0);
+			jngl::setFontColor(0, 0, 0);
 			GetScreen().PrintCentered("You entered the top!", 0, 50);
 			GetScreen().PrintCentered("Enter your name:", 0, 130);
 			DrawWidgets();
 		}
 		else
 		{
-			jngl::SetFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
+			jngl::setFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
 			GetScreen().PrintCentered("Press any key", 0, 100);
 		}
 	}

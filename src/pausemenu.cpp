@@ -14,15 +14,15 @@ PauseMenu::PauseMenu(boost::shared_ptr<jngl::Work> work)
 	work_->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
 	buttonBox_->Add("Resume", boost::bind(&PauseMenu::Continue, this));
 	buttonBox_->Add("Menu", boost::bind(&PauseMenu::QuitToMenu, this));
-	buttonBox_->Add("Quit", jngl::Quit);
+	buttonBox_->Add("Quit", jngl::quit);
 	AddWidget(buttonBox_);
 }
 
 void PauseMenu::step()
 {
-    if(jngl::KeyPressed(jngl::key::Escape))
+    if(jngl::keyPressed(jngl::key::Escape))
     {
-		jngl::SetWork(work_);
+		jngl::setWork(work_);
     }
     StepWidgets();
     work_->StepToRotateScreen();
@@ -30,7 +30,7 @@ void PauseMenu::step()
 
 void PauseMenu::Continue()
 {
-	jngl::SetWork(work_);
+	jngl::setWork(work_);
 }
 
 void PauseMenu::draw() const
@@ -41,7 +41,7 @@ void PauseMenu::draw() const
 
 void PauseMenu::QuitToMenu() const
 {
-	jngl::SetWork(new Fade(new Menu));
+	jngl::setWork(new Fade(new Menu));
 }
 
 void PauseMenu::onQuitEvent()

@@ -24,7 +24,7 @@ Lobby::Lobby(boost::shared_ptr<Socket> socket)
 
 void Lobby::OnLogout()
 {
-	jngl::SetWork(new Fade(new MultiplayerMenu));
+	jngl::setWork(new Fade(new MultiplayerMenu));
 }
 
 void Lobby::OnPlay()
@@ -35,7 +35,7 @@ void Lobby::OnPlay()
 void Lobby::step()
 {
 	socket_->Step();
-	if(jngl::KeyPressed(jngl::key::Return))
+	if(jngl::keyPressed(jngl::key::Return))
 	{
 		socket_->Send(std::string("c") + input_->GetText(), boost::bind(&Lobby::OnMessageSent, this));
 		input_->SetSensitive(false);
@@ -51,8 +51,8 @@ void Lobby::OnMessageSent()
 
 void Lobby::draw() const
 {
-	jngl::SetFontColor(0, 0, 0);
-	jngl::SetFontSize(35);
+	jngl::setFontColor(0, 0, 0);
+	jngl::setFontSize(35);
 	GetScreen().Print(chatText_, -700, 350);
 	DrawWidgets();
 }

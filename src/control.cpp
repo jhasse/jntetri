@@ -27,22 +27,22 @@ void Control::ForEach(const boost::function<void(ControlType)>& f) {
 
 void KeyboardControl::Step() {
 	bits_.reset();
-	if(jngl::KeyPressed(jngl::key::Space) || jngl::KeyPressed(jngl::key::Return)) {
+	if(jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
 		Set(Drop);
 	}
-	if(jngl::KeyDown(jngl::key::Down) || jngl::KeyDown('k')) {
+	if(jngl::keyDown(jngl::key::Down) || jngl::keyDown('k')) {
 		Set(Down);
 	}
-	if(jngl::KeyPressed(jngl::key::Left) || jngl::KeyPressed('j')) {
+	if(jngl::keyPressed(jngl::key::Left) || jngl::keyPressed('j')) {
 		Set(Left);
 	}
-	if(jngl::KeyPressed(jngl::key::Right) || jngl::KeyPressed('l')) {
+	if(jngl::keyPressed(jngl::key::Right) || jngl::keyPressed('l')) {
 		Set(Right);
 	}
-	if(jngl::KeyPressed(jngl::key::Up) || jngl::KeyPressed('i')) {
+	if(jngl::keyPressed(jngl::key::Up) || jngl::keyPressed('i')) {
 		Set(Rotate);
 	}
-	if(jngl::KeyPressed(jngl::key::ControlR)) {
+	if(jngl::keyPressed(jngl::key::ControlR)) {
 		Set(RotateCounter);
 	}
 }
@@ -50,44 +50,44 @@ void KeyboardControl::Step() {
 void WizControl::Step()
 {
 	bits_.reset();
-	if(jngl::KeyPressed(jngl::key::WizX)) {
+	if(jngl::keyPressed(jngl::key::WizX)) {
 		Set(Drop);
 	}
-	if(jngl::KeyDown(jngl::key::WizDown)) {
+	if(jngl::keyDown(jngl::key::WizDown)) {
 		Set(Down);
 	}
-	if(jngl::KeyPressed(jngl::key::WizLeft)) {
+	if(jngl::keyPressed(jngl::key::WizLeft)) {
 		Set(Left);
 	}
-	if(jngl::KeyPressed(jngl::key::WizRight)) {
+	if(jngl::keyPressed(jngl::key::WizRight)) {
 		Set(Right);
 	}
-	if(jngl::KeyPressed(jngl::key::WizUp) || jngl::KeyPressed(jngl::key::WizB)) {
+	if(jngl::keyPressed(jngl::key::WizUp) || jngl::keyPressed(jngl::key::WizB)) {
 		Set(Rotate);
 	}
-	if(jngl::KeyPressed(jngl::key::WizA)) {
+	if(jngl::keyPressed(jngl::key::WizA)) {
 		Set(RotateCounter);
 	}
 }
 
 void WizControlRotated::Step() {
 	bits_.reset();
-	if(jngl::KeyPressed(jngl::key::WizA)) {
+	if(jngl::keyPressed(jngl::key::WizA)) {
 		Set(Drop);
 	}
-	if(jngl::KeyDown(jngl::key::WizLeft))  {
+	if(jngl::keyDown(jngl::key::WizLeft))  {
 		Set(Down);
 	}
-	if(jngl::KeyPressed(jngl::key::WizUp)) {
+	if(jngl::keyPressed(jngl::key::WizUp)) {
 		Set(Left);
 	}
-	if(jngl::KeyPressed(jngl::key::WizDown)) {
+	if(jngl::keyPressed(jngl::key::WizDown)) {
 		Set(Right);
 	}
-	if(jngl::KeyPressed(jngl::key::WizRight) || jngl::KeyPressed(jngl::key::WizX)) {
+	if(jngl::keyPressed(jngl::key::WizRight) || jngl::keyPressed(jngl::key::WizX)) {
 		Set(Rotate);
 	}
-	if(jngl::KeyPressed(jngl::key::WizY)) {
+	if(jngl::keyPressed(jngl::key::WizY)) {
 		Set(RotateCounter);
 	}
 }

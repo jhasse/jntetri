@@ -21,26 +21,26 @@ Intro::~Intro()
 void Intro::draw() const
 {
 	GetScreen().SetFontSize(250);
-	jngl::SetFontColor(0, 0, 0);
+	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered("JNTETRI", 0, -250);
 	GetScreen().SetFontSize(60);
 
-	jngl::PushMatrix();
+	jngl::pushMatrix();
 	GetScreen().Translate(0, 150);
 	double percentage;
 	if(resizeGraphics_.Finished(percentage))
 	{
 		finished_ = true;
-		jngl::SetFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
+		jngl::setFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
 		GetScreen().PrintCentered("Press any key to continue", 0, 0);
 	}
 	else
 	{
 		GetScreen().PrintCentered(boost::lexical_cast<std::string>(int(percentage)) + " %", 0, 0);
 	}
-	jngl::PopMatrix();
+	jngl::popMatrix();
 
-	jngl::SetFontColor(100, 100, 100, 255);
+	jngl::setFontColor(100, 100, 100, 255);
 	GetScreen().SetFontSize(35);
 	GetScreen().PrintCentered(programVersion, 0, 360);
 	GetScreen().PrintCentered("http://watteimdocht.de/jntetri", 0, 430);
@@ -54,8 +54,8 @@ void Intro::step()
 	{
 		blink_ = 0;
 	}
-	if((jngl::MousePressed() || jngl::KeyPressed(jngl::key::Any)) && finished_)
+	if((jngl::mousePressed() || jngl::keyPressed(jngl::key::Any)) && finished_)
 	{
-		jngl::SetWork(new Fade(new Menu));
+		jngl::setWork(new Fade(new Menu));
 	}
 }

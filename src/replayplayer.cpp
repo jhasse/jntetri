@@ -17,21 +17,21 @@ ReplayPlayer::ReplayPlayer(const std::string& filename) : fin_(filename.c_str())
 
 ReplayPlayer::~ReplayPlayer() {
 	GetOptions().Set("startLevel", oldStartLevel);
-	GetOptions().Set("startJunks", oldStartJunk);	
+	GetOptions().Set("startJunks", oldStartJunk);
 }
 
 void ReplayPlayer::step() {
-	if (jngl::KeyDown('f')) {
+	if (jngl::keyDown('f')) {
 		for (int i = 0; i < 19; ++i) {
 			game_->step();
 		}
 	}
-	if (jngl::KeyDown('s')) {
+	if (jngl::keyDown('s')) {
 		for (int i = 0; i < 60; ++i) {
 			game_->step();
 		}
 	}
-	if (jngl::KeyPressed('e')) {
+	if (jngl::keyPressed('e')) {
 		while (!game_->gameOver()) {
 			game_->step();
 		}

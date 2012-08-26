@@ -41,7 +41,7 @@ void OptionsMenu::step()
 void OptionsMenu::draw() const
 {
 	DrawWidgets();
-	jngl::SetFontColor(0, 0, 0);
+	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered("Start Level", 0, -500);
 	GetScreen().PrintCentered("Start Junks", 0, -100);
 }
@@ -51,5 +51,5 @@ void OptionsMenu::OnBack() const
 	GetOptions().Set("startLevel", startLevel_->GetValue());
 	GetOptions().Set("startJunks", startJunks_->GetValue());
 	GetOptions().Save();
-	jngl::SetWork(new Fade(new Menu));
+	jngl::setWork(new Fade(new Menu));
 }

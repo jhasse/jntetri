@@ -118,7 +118,7 @@ bool ResizeGraphics::Finished(double& percentage)
 		fout << boost::filesystem::last_write_time(filesToResize_[0]);
 	}
 
-	jngl::Load(newFilename);
+	jngl::load(newFilename);
 	filesToResize_.pop_front();
 	return false;
 }

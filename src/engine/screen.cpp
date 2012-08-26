@@ -17,20 +17,20 @@ void Screen::StepCamera()
 
 void Screen::Draw(const std::string& filename, const double x, const double y)
 {
-	jngl::Draw(GetPaths().Graphics() + filename, x * factor_, y * factor_);
+	jngl::draw(GetPaths().Graphics() + filename, x * factor_, y * factor_);
 }
 
 void Screen::DrawScaled(const std::string& filename, const double x, const double y, const float xfactor, const float yfactor)
 {
-	jngl::DrawScaled(GetPaths().Graphics() + filename, x * factor_, y * factor_, xfactor, yfactor);
+	jngl::drawScaled(GetPaths().Graphics() + filename, x * factor_, y * factor_, xfactor, yfactor);
 }
 
 void Screen::DrawCentered(const std::string& filename, const double x, const double y)
 {
 	const std::string filepath = GetPaths().Graphics() + filename;
-	jngl::Draw(filepath,
-	           x*factor_ - jngl::GetWidth(filepath) / 2.0,
-	           y*factor_ - jngl::GetHeight(filepath) / 2.0);
+	jngl::draw(filepath,
+	           x*factor_ - jngl::getWidth(filepath) / 2.0,
+	           y*factor_ - jngl::getHeight(filepath) / 2.0);
 }
 
 void Screen::DrawCentered(const std::string& filename, const Vector2d& position)
@@ -41,25 +41,25 @@ void Screen::DrawCentered(const std::string& filename, const Vector2d& position)
 void Screen::DrawCenteredScaled(const std::string& filename, const double x, const double y, const float factor)
 {
 	const std::string filepath = GetPaths().Graphics() + filename;
-	jngl::DrawScaled(filepath,
-	                 x*factor_ - jngl::GetWidth(filepath) / 2.0 * factor,
-					 y*factor_ - jngl::GetHeight(filepath) / 2.0 * factor,
+	jngl::drawScaled(filepath,
+	                 x*factor_ - jngl::getWidth(filepath) / 2.0 * factor,
+					 y*factor_ - jngl::getHeight(filepath) / 2.0 * factor,
 					 factor);
 }
 
 void Screen::DrawCenteredScaled(const std::string& filename, const double x, const double y, const float xfactor, const float yfactor)
 {
 	const std::string filepath = GetPaths().Graphics() + filename;
-	jngl::DrawScaled(filepath,
-	                 x*factor_ - jngl::GetWidth(filepath) / 2.0 * xfactor,
-					 y*factor_ - jngl::GetHeight(filepath) / 2.0 * yfactor,
+	jngl::drawScaled(filepath,
+	                 x*factor_ - jngl::getWidth(filepath) / 2.0 * xfactor,
+					 y*factor_ - jngl::getHeight(filepath) / 2.0 * yfactor,
 					 xfactor,
 					 yfactor);
 }
 
 void Screen::DrawLine(const double xstart, const double ystart, const double xend, const double yend)
 {
-	jngl::DrawLine(xstart * factor_, ystart * factor_, xend * factor_, yend * factor_);
+	jngl::drawLine(xstart * factor_, ystart * factor_, xend * factor_, yend * factor_);
 }
 
 void Screen::DrawLine(const Vector2d& start, const Vector2d& end) {
@@ -73,17 +73,17 @@ Screen& GetScreen()
 
 void Screen::SetFontSize(const int size)
 {
-	jngl::SetFontSize(static_cast<int>(size * factor_ + 0.5));
+	jngl::setFontSize(static_cast<int>(size * factor_ + 0.5));
 }
 
 void Screen::DrawRect(const int x, const int y, const int width, const int height)
 {
-	jngl::DrawRect(x * factor_, y * factor_, width * factor_, height * factor_);
+	jngl::drawRect(x * factor_, y * factor_, width * factor_, height * factor_);
 }
 
 void Screen::DrawCircle(const double x, const double y, const double radius)
 {
-	jngl::DrawEllipse(x * factor_, y * factor_, radius * factor_, radius * factor_);
+	jngl::drawEllipse(x * factor_, y * factor_, radius * factor_, radius * factor_);
 }
 
 void Screen::DrawCircle(const Vector2d& position, const double radius) {
@@ -92,29 +92,29 @@ void Screen::DrawCircle(const Vector2d& position, const double radius) {
 
 void Screen::Print(const std::string& text, double x, double y)
 {
-	jngl::Print(text, static_cast<int>(x * factor_), static_cast<int>(y * factor_));
+	jngl::print(text, static_cast<int>(x * factor_), static_cast<int>(y * factor_));
 }
 
 void Screen::PrintCentered(const std::string& text, double x, double y)
 {
-	jngl::Print(text,
+	jngl::print(text,
 	            static_cast<int>((x - GetTextWidth(text) / 2) * factor_),
-	            static_cast<int>(y * factor_) - jngl::GetFontSize() / 2);
+	            static_cast<int>(y * factor_) - jngl::getFontSize() / 2);
 }
 
 void Screen::DrawScaled(const std::string& filename, const double x, const double y, const float factor)
 {
-	jngl::DrawScaled(GetPaths().Graphics() + filename, x * factor_, y * factor_, factor);
+	jngl::drawScaled(GetPaths().Graphics() + filename, x * factor_, y * factor_, factor);
 }
 
 int Screen::GetWidth(const std::string& filename) const
 {
-	return jngl::GetWidth(GetPaths().OriginalGfx() + filename);
+	return jngl::getWidth(GetPaths().OriginalGfx() + filename);
 }
 
 int Screen::GetHeight(const std::string& filename) const
 {
-	return jngl::GetHeight(GetPaths().OriginalGfx() + filename);
+	return jngl::getHeight(GetPaths().OriginalGfx() + filename);
 }
 
 int Screen::GetWidth() const
@@ -129,22 +129,22 @@ int Screen::GetHeight() const
 
 void Screen::Translate(double x, double y)
 {
-	jngl::Translate(x * factor_, y * factor_);
+	jngl::translate(x * factor_, y * factor_);
 }
 
 int Screen::GetMouseX() const
 {
-	return static_cast<int>((jngl::GetMouseX() - xCenter_) / factor_);
+	return static_cast<int>((jngl::getMouseX() - xCenter_) / factor_);
 }
 
 int Screen::GetMouseY() const
 {
-	return static_cast<int>((jngl::GetMouseY() - yCenter_) / factor_);
+	return static_cast<int>((jngl::getMouseY() - yCenter_) / factor_);
 }
 
 double Screen::GetTextWidth(const std::string& text) const
 {
-	return jngl::GetTextWidth(text) / factor_;
+	return jngl::getTextWidth(text) / factor_;
 }
 
 Vector2d Screen::GetMousePos() const
@@ -163,7 +163,7 @@ Vector2d GetWindowVector() {
 
 void Screen::MoveCamera(const Vector2d& position)
 {
-	targetCameraPosition_ = position + (Vector2d(jngl::GetMouseX(), jngl::GetMouseY()) - GetWindowVector() / 2);
+	targetCameraPosition_ = position + (Vector2d(jngl::getMouseX(), jngl::getMouseY()) - GetWindowVector() / 2);
 }
 
 void Screen::CenterCameraPosition(const Vector2d& position)

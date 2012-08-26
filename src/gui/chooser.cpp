@@ -31,11 +31,11 @@ void Chooser::Step()
 	next_.Step();
 	if(focus_)
 	{
-		if(jngl::KeyPressed(jngl::key::Left) || jngl::KeyPressed(jngl::key::WizLeft))
+		if(jngl::keyPressed(jngl::key::Left) || jngl::keyPressed(jngl::key::WizLeft))
 		{
 			Previous();
 		}
-		if(jngl::KeyPressed(jngl::key::Right) || jngl::KeyPressed(jngl::key::WizRight))
+		if(jngl::keyPressed(jngl::key::Right) || jngl::keyPressed(jngl::key::WizRight))
 		{
 			Next();
 		}
@@ -46,7 +46,7 @@ void Chooser::Draw() const
 {
 	GetScreen().DrawCentered(sprite_, x_, y_);
 	GetScreen().SetFontSize(70);
-	jngl::SetFontColor(255, 255, 255);
+	jngl::setFontColor(255, 255, 255);
 	GetScreen().PrintCentered(boost::lexical_cast<std::string>(*activeValue_), x_, y_);
 	previous_.Draw();
 	next_.Draw();

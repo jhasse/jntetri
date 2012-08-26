@@ -35,44 +35,44 @@ void Menu::step()
 
 void Menu::draw() const
 {
-	jngl::SetBackgroundColor(255, 255, 255);
+	jngl::setBackgroundColor(255, 255, 255);
 	DrawWidgets();
 	GetScreen().DrawCentered("box.png", 340, 0);
 
-	jngl::PushMatrix();
+	jngl::pushMatrix();
 	GetScreen().Translate(-20, -400);
 	GetScreen().SetFontSize(50);
-	jngl::SetFontColor(0, 0, 0);
+	jngl::setFontColor(0, 0, 0);
 	GetScreen().Print("Highscores Normal", 0, -90);
 	normalHighscore_.Draw();
 	GetScreen().Translate(0, 530);
-	jngl::SetFontColor(0, 0, 0);
+	jngl::setFontColor(0, 0, 0);
 	GetScreen().Print("Highscores 50 Lines", 0, -90);
 	fiftyLinesHighscore_.Draw();
-	jngl::PopMatrix();
+	jngl::popMatrix();
 }
 
 void Menu::Normal() const
 {
-	jngl::SetWork(new Fade(new Game(NORMAL, static_cast<int>(time(0)))));
+	jngl::setWork(new Fade(new Game(NORMAL, static_cast<int>(time(0)))));
 }
 
 void Menu::FiftyLines() const
 {
-	jngl::SetWork(new Fade(new ReplayPlayer("test.jtr")));
+	jngl::setWork(new Fade(new ReplayPlayer("test.jtr")));
 }
 
 void Menu::Multiplayer() const
 {
-	jngl::SetWork(new Fade(new MultiplayerMenu()));
+	jngl::setWork(new Fade(new MultiplayerMenu()));
 }
 
 void Menu::OptionsMenuCallback() const
 {
-	jngl::SetWork(new Fade(new OptionsMenu));
+	jngl::setWork(new Fade(new OptionsMenu));
 }
 
 void Menu::QuitGame() const
 {
-	jngl::Quit();
+	jngl::quit();
 }

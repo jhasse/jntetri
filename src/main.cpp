@@ -14,8 +14,8 @@ int main(int argc, char** argv)
 		if (argc == 2) {
 			GetPaths().SetPrefix(argv[1]);
 		}
-		GetOptions().SetFallback("windowWidth", jngl::GetDesktopWidth());
-		GetOptions().SetFallback("windowHeight", jngl::GetDesktopHeight());
+		GetOptions().SetFallback("windowWidth", jngl::getDesktopWidth());
+		GetOptions().SetFallback("windowHeight", jngl::getDesktopHeight());
 		GetOptions().SetFallback("fullscreen", 1);
 		GetOptions().SetFallback("startJunks", 0);
 		GetOptions().SetFallback("startLevel", 0);
@@ -27,16 +27,16 @@ int main(int argc, char** argv)
 			GetOptions().Set("fullscreen", 0);
 			GetProcedure().ShowWindow();
 		}
-		jngl::SetAntiAliasing(true);
-		jngl::SetIcon(GetPaths().Prefix() + "share/icons/jntetri.png");
-		jngl::SetWork(new Intro);
-		jngl::MainLoop();
+		jngl::setAntiAliasing(true);
+		jngl::setIcon(GetPaths().Prefix() + "share/icons/jntetri.png");
+		jngl::setWork(new Intro);
+		jngl::mainLoop();
 		GetOptions().Save();
 #ifdef NDEBUG
 	}
 	catch(std::exception& e)
 	{
-		jngl::ErrorMessage(e.what());
+		jngl::errorMessage(e.what());
 	}
 #endif
 }

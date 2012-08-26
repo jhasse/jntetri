@@ -209,7 +209,7 @@ void Field::Draw() const
 	GetScreen().DrawCentered("field.png", 0, 600);
 	if(!pause_)
 	{
-		jngl::PushMatrix();
+		jngl::pushMatrix();
 		Translate(0, 0);
 		std::vector<Block>::const_iterator end = blocks_.end();
 		for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
@@ -225,7 +225,7 @@ void Field::Draw() const
 		for (auto it = shadows.begin(); it != end3; ++it) {
 			it->draw();
 		}
-		jngl::PopMatrix();
+		jngl::popMatrix();
 		if(!gameOver_)
 		{
 			tetromino_->Draw();
@@ -328,7 +328,7 @@ int Field::GetLevel() const
 void Field::SetPause(bool pause)
 {
 	pause_ = pause;
-	jngl::SetMouseVisible(pause);
+	jngl::setMouseVisible(pause);
 }
 
 bool Field::GameOverAnimationFinished() const

@@ -87,7 +87,7 @@ Tetromino::Tetromino(int type, Field& field)
 			rotationCenterY_.push_back( 0);
 		break;}
 	}
-	
+
 	int numberOfRotations = field_.GetRandom()(4);
 	for(int i = 0; i < numberOfRotations; ++i)
 	{
@@ -272,19 +272,19 @@ bool Tetromino::MoveDown()
 
 void Tetromino::Draw() const
 {
-	jngl::PushMatrix();
+	jngl::pushMatrix();
 	field_.Translate(x_ + animationX_, y_ + animationY_);
 
 	if(rotation_ < 0) // Clockwise
 	{
 		GetScreen().Translate( rotationCenterX_.back() * field_.GetBlockSize(), -rotationCenterY_.back() * field_.GetBlockSize());
-		jngl::Rotate(rotation_);
+		jngl::rotate(rotation_);
 		GetScreen().Translate(-rotationCenterX_.back() * field_.GetBlockSize(),  rotationCenterY_.back() * field_.GetBlockSize());
 	}
 	else
 	{
 		GetScreen().Translate( rotationCenterX_.front() * field_.GetBlockSize(), -rotationCenterY_.front() * field_.GetBlockSize());
-		jngl::Rotate(rotation_);
+		jngl::rotate(rotation_);
 		GetScreen().Translate(-rotationCenterX_.front() * field_.GetBlockSize(),  rotationCenterY_.front() * field_.GetBlockSize());
 	}
 
@@ -293,7 +293,7 @@ void Tetromino::Draw() const
 	{
 		it->draw();
 	}
-	jngl::PopMatrix();
+	jngl::popMatrix();
 }
 
 bool Tetromino::Collided() const

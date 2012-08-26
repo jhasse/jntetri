@@ -12,15 +12,15 @@
 
 Game::Game(GameType type, int seed)
 	: field_(seed), type_(type), nextPosition_(field_.GetNextPosition()),
-	  oldNextPosition_(nextPosition_), startTime_(jngl::Time()), pauseTime_(0),
+	  oldNextPosition_(nextPosition_), startTime_(jngl::getTime()), pauseTime_(0),
 	  rotateScreen_(false), rotateDegree_(0), replayRecorder_(field_)
 {
-	jngl::SetMouseVisible(false);
+	jngl::setMouseVisible(false);
 }
 
 Game::~Game()
 {
-	jngl::SetMouseVisible(true);
+	jngl::setMouseVisible(true);
 }
 
 void Game::SetRotateScreen(bool rotateScreen)
@@ -41,14 +41,14 @@ void Game::SetRotateScreen(bool rotateScreen)
 void Game::step()
 {
 	StepToRotateScreen();
-	if(jngl::KeyPressed(jngl::key::WizR))
+	if(jngl::keyPressed(jngl::key::WizR))
 	{
 		SetRotateScreen(!rotateScreen_);
 	}
 	if(field_.GameOver())
 	{
-		pauseTime_ = jngl::Time();
-		jngl::SetWork(new GameOverScreen(this));
+		pauseTime_ = jngl::getTime();
+		jngl::setWork(new GameOverScreen(this));
 	}
 	else
 	{
@@ -64,10 +64,10 @@ void Game::step()
 	oldNextPosition_ = (nextPosition_ - oldNextPosition_) * 0.01 + oldNextPosition_;
 	if(pauseTime_ > 0.0001 && !field_.GameOver())
 	{
-		startTime_ += jngl::Time() - pauseTime_;
+		startTime_ += jngl::getTime() - pauseTime_;
 		pauseTime_ = 0;
 	}
-	if(jngl::KeyPressed('p') || jngl::KeyPressed(jngl::key::WizMenu))
+	if(jngl::keyPressed('p') || jngl::keyPressed(jngl::key::WizMenu))
 	{
 		onQuitEvent(); // Pause
 	}
@@ -76,11 +76,11 @@ void Game::step()
 void Game::onQuitEvent()
 {
 	static double lastPauseTime = 0;
-	if(jngl::Time() - lastPauseTime > 1) // Don't allow pausing the game more then one time per second
+	if(jngl::getTime() - lastPauseTime > 1) // Don't allow pausing the game more then one time per second
 	{
-		lastPauseTime = pauseTime_ = jngl::Time();
+		lastPauseTime = pauseTime_ = jngl::getTime();
 		field_.SetPause(true);
-		jngl::SetWork(new PauseMenu(jngl::GetWork()));
+		jngl::setWork(new PauseMenu(jngl::getWork()));
 	}
 }
 
@@ -110,21 +110,21 @@ void Game::StepToRotateScreen()
 
 void Game::draw() const
 {
-	jngl::PushMatrix();
-	jngl::Rotate(rotateDegree_);
-	jngl::Scale(1 + rotateDegree_ / 270);
+	jngl::pushMatrix();
+	jngl::rotate(rotateDegree_);
+	jngl::scale(1 + rotateDegree_ / 270);
 	GetScreen().Translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
 
 	field_.Draw();
 	if(!rotateScreen_)
 	{
-		jngl::SetFontColor(0, 0, 0);
+		jngl::setFontColor(0, 0, 0);
 		GetScreen().SetFontSize(60);
-		jngl::PushMatrix();
+		jngl::pushMatrix();
 		GetScreen().Translate(-600, oldNextPosition_);
 		GetScreen().Print("Next:", -100, -75);
 		field_.DrawNextTetromino();
-		jngl::PopMatrix();
+		jngl::popMatrix();
 		if(type_ == FIFTYLINES)
 		{
 			DrawTime(450, 100);
@@ -140,7 +140,7 @@ void Game::draw() const
 		GetScreen().Print("Lines: ", 450, 580);
 		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLines()), 450, 680);
 	}
-	jngl::PopMatrix();
+	jngl::popMatrix();
 }
 
 Field& Game::GetField()
@@ -156,7 +156,7 @@ double Game::GetTime() const
 	}
 	else
 	{
-		return jngl::Time() - startTime_;
+		return jngl::getTime() - startTime_;
 	}
 }
 

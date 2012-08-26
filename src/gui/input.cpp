@@ -41,7 +41,7 @@ void Input::Step()
 		}
 		for(char c = ' '; c < '~' + 1; ++c)
 		{
-			if(jngl::KeyPressed(c))
+			if(jngl::keyPressed(c))
 			{
 				displayCursor_ = 50;
 				text_ += c;
@@ -50,13 +50,13 @@ void Input::Step()
 		std::vector<std::string>::iterator end = unicodeChars_.end();
 		for(std::vector<std::string>::iterator it = unicodeChars_.begin(); it != end; ++it)
 		{
-			if(jngl::KeyPressed(*it))
+			if(jngl::keyPressed(*it))
 			{
 				displayCursor_ = 50;
 				text_ += *it;
 			}
 		}
-		if((jngl::KeyPressed(jngl::key::BackSpace) || jngl::KeyPressed(jngl::key::WizA)) && !text_.empty())
+		if((jngl::keyPressed(jngl::key::BackSpace) || jngl::keyPressed(jngl::key::WizA)) && !text_.empty())
 		{
 			displayCursor_ = 50;
 			std::string::iterator it = text_.end();
@@ -85,11 +85,11 @@ void Input::Draw() const
 	}
 	if(sensitive_)
 	{
-		jngl::SetFontColor(0, 0, 0);
+		jngl::setFontColor(0, 0, 0);
 	}
 	else
 	{
-		jngl::SetFontColor(150, 150, 150);
+		jngl::setFontColor(150, 150, 150);
 	}
 	if(focus_ && displayCursor_ > 0)
 	{

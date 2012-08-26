@@ -45,7 +45,7 @@ void Work::FocusNext()
 
 void Work::StepFocus()
 {
-	if(jngl::KeyPressed(jngl::key::Down) || jngl::KeyPressed(jngl::key::WizDown) || jngl::KeyPressed(jngl::key::Tab))
+	if(jngl::keyPressed(jngl::key::Down) || jngl::keyPressed(jngl::key::WizDown) || jngl::keyPressed(jngl::key::Tab))
 	{
 		FocusNext();
 	}
@@ -53,7 +53,7 @@ void Work::StepFocus()
 	{
 		FocusNext();
 	}
-	if(jngl::KeyPressed(jngl::key::Up) || jngl::KeyPressed(jngl::key::WizUp))
+	if(jngl::keyPressed(jngl::key::Up) || jngl::keyPressed(jngl::key::WizUp))
 	{
 		FocusPrevious();
 		while(!focusedWidget_->GetSensitive())

@@ -132,15 +132,15 @@ void Login::step()
 void Login::GoToLobby()
 {
 	GetOptions().Set("lastLoginName", menu_->GetName());
-	jngl::SetWork(new Fade(new Lobby(socket_)));
+	jngl::setWork(new Fade(new Lobby(socket_)));
 }
 
 void Login::draw() const
 {
 	menu_->draw();
-	jngl::SetColor(255, 255, 255, 220);
+	jngl::setColor(255, 255, 255, 220);
 	GetScreen().DrawRect(-GetScreen().GetWidth() / 2, 0, GetScreen().GetWidth(), GetScreen().GetHeight());
-	jngl::SetFontColor(0, 0, 0);
+	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered(text_, 0, 420);
 	cancel_.Draw();
 	DrawWidgets();
@@ -148,7 +148,7 @@ void Login::draw() const
 
 void Login::OnCancel()
 {
-	jngl::SetWork(menu_);
+	jngl::setWork(menu_);
 }
 
 void Login::OnError()
