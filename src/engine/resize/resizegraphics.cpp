@@ -70,7 +70,7 @@ ResizeGraphics::~ResizeGraphics() {
 
 bool ResizeGraphics::Finished(double& percentage)
 {
-	static int numberOfImages = filesToResize_.size();
+	static size_t numberOfImages = filesToResize_.size();
 	percentage = 100 - filesToResize_.size() * 100 / numberOfImages;
 
 	// Don't do anything in the first frame in order to draw the loading screen for the first time
@@ -106,8 +106,8 @@ bool ResizeGraphics::Finished(double& percentage)
 		const double factor = GetScreen().GetFactor();
 		MagickWand* wand = NewMagickWand();
 		MagickReadImage(wand, filesToResize_[0].c_str());
-		int width = MagickGetImageWidth(wand);
-		int height = MagickGetImageHeight(wand);
+		auto width = MagickGetImageWidth(wand);
+		auto height = MagickGetImageHeight(wand);
 		MagickResizeImage(wand, int(width * factor), int(height * factor), LanczosFilter, 1);
 
 		boost::filesystem::create_directory(boost::filesystem::path(newFilename).remove_leaf());

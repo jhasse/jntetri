@@ -157,7 +157,7 @@ Vector2d Screen::GetAbsoluteMousePos() const
 	return GetMousePos() + cameraPosition_;
 }
 
-Vector2d GetWindowVector() {
+inline Vector2d GetWindowVector() {
 	return Vector2d(GetOptions().Get<int>("windowWidth"), GetOptions().Get<int>("windowHeight"));
 }
 

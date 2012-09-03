@@ -464,7 +464,7 @@
 		C981F22B14A8882800E03124 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = C981F22E14A8882800E03124 /* Build configuration list for PBXProject "JNTETRI" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -552,6 +552,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "dummy/dummy-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -565,6 +566,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "dummy/dummy-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
