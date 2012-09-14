@@ -37,7 +37,7 @@ if wiz:
 	source_files += Glob('engine/noresize/*.cpp')
 	env.Append(CCFLAGS = '-DWIZ')
 else:
-	env.ParseConfig("pkg-config jngl ImageMagick++ --cflags --libs")
+	env.ParseConfig("pkg-config jngl MagickWand --cflags --libs")
 	source_files += Glob('engine/resize/*.cpp')
 	env.Append(LIBS = Split('boost_filesystem-mt boost_serialization-mt boost_system-mt'))
 
