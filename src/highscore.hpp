@@ -14,7 +14,6 @@ struct Data {
 };
 
 bool operator==(const Data& a, const Data& b);
-bool operator<(const Data& a, const Data& b);
 
 class Highscore {
 public:
