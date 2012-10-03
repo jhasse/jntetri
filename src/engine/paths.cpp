@@ -17,7 +17,7 @@
 #include <sstream>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 Paths::Paths()
 {

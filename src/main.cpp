@@ -3,7 +3,7 @@
 #include "engine/paths.hpp"
 #include "intro.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 int main(int argc, char** argv)
 {

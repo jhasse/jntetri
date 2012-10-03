@@ -631,7 +631,7 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/bin/$(EFFECTIVE_PLATFORM_NAME)";
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include/ImageMagick,
-					/opt/local/include,
+					"../../boost-libs/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -653,7 +653,7 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/bin/$(EFFECTIVE_PLATFORM_NAME)";
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include/ImageMagick,
-					/opt/local/include,
+					"../../boost-libs/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,

@@ -3,7 +3,7 @@
 #include "../options.hpp"
 #include "../screen.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <iostream>
 #include <fstream>
 #include <boost/lexical_cast.hpp>

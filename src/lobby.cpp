@@ -7,7 +7,7 @@
 #include "engine/procedure.hpp"
 #include "multiplayermenu.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 Lobby::Lobby(boost::shared_ptr<Socket> socket)
 	: socket_(socket), chatText_(""), input_(new Input(-700, 1100))

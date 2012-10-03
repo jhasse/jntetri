@@ -6,7 +6,7 @@
 #include "menu.hpp"
 #include "replayplayer.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 GameOverScreen::GameOverScreen(Game* game)
 	: game_(game), blink_(0), highscore_(game_->GetType()), input_(new Input(-160, 200)),

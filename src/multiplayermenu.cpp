@@ -8,7 +8,7 @@
 #include "login.hpp"
 #endif
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <boost/bind.hpp>
 
 MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, 400)), password_(new Input(50, 500))

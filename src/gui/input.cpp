@@ -1,7 +1,7 @@
 #include "input.hpp"
 #include "../engine/screen.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 Input::Input(int x, int y) : x_(x), y_(y), password_(false), displayCursor_(0)
 {
@@ -76,10 +76,9 @@ void Input::Draw() const
 	if(password_)
 	{
 		temp = text_;
-		int size = text_.size();
+		size_t size = text_.size();
 		text_.clear();
-		for(int i = 0; i < size; ++i)
-		{
+		for (size_t i = 0; i < size; ++i) {
 			text_ += "●";
 		}
 	}

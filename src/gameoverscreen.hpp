@@ -6,7 +6,10 @@
 #include "highscore.hpp"
 
 #include <boost/shared_ptr.hpp>
-#include <jngl.hpp>
+
+namespace jngl {
+	class Work;
+}
 
 class GameOverScreen : public Work {
 public:

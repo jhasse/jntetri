@@ -2,7 +2,7 @@
 #include "paths.hpp"
 #include "options.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 Screen::Screen()
 {

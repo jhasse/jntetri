@@ -3,7 +3,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 Chooser::Chooser(int x, int y)
 	: previous_(""),

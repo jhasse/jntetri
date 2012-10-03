@@ -5,7 +5,7 @@
 #include "pausemenu.hpp"
 #include "control.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <sstream>
 #include <iomanip>
 #include <boost/lexical_cast.hpp>
@@ -67,8 +67,7 @@ void Game::step()
 		startTime_ += jngl::getTime() - pauseTime_;
 		pauseTime_ = 0;
 	}
-	if(jngl::keyPressed('p') || jngl::keyPressed(jngl::key::WizMenu))
-	{
+	if (jngl::keyPressed('p') || jngl::keyPressed(jngl::key::Escape)) {
 		onQuitEvent(); // Pause
 	}
 }

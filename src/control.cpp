@@ -1,6 +1,6 @@
 #include "control.hpp"
 
-#include <jngl.hpp>
+#include <jngl/input.hpp>
 
 using namespace control;
 

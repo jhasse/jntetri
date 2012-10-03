@@ -2,8 +2,8 @@
 #include "procedure.hpp"
 #include "../gui/widget.hpp"
 
-#include <jngl.hpp>
 #include <algorithm>
+#include <jngl/input.hpp>
 
 Work::Work()
 {

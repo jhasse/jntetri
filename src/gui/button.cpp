@@ -2,7 +2,7 @@
 #include "../engine/paths.hpp"
 #include "../engine/screen.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <string>
 #include <boost/function.hpp>
 

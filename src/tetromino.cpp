@@ -3,7 +3,7 @@
 #include "engine/screen.hpp"
 #include "engine/random.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 Tetromino::Tetromino(int type, Field& field)
 	: field_(field), recreateShadow(true)

@@ -2,7 +2,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <vector>
-#include <jngl.hpp>
+#include <jngl/work.hpp>
 
 class Widget;
 

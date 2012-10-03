@@ -1,7 +1,7 @@
 #include "explosion.hpp"
 #include "engine/screen.hpp"
 
-#include <jngl.hpp>
+#include <jngl/sprite.hpp>
 
 Explosion::Explosion(const Block& block, const int numberOfLines) : block_(block), countdown_(255), numberOfLines_(numberOfLines)
 {
@@ -19,7 +19,7 @@ bool Explosion::Finished() const
 
 void Explosion::Draw() const
 {
-	jngl::setSpriteColor(255, 255, 255, countdown_);
+	jngl::setSpriteAlpha(countdown_);
 	std::string filename;
 	switch(numberOfLines_)
 	{
@@ -33,5 +33,5 @@ void Explosion::Draw() const
 	                               block_.getX() * block_.getSize(),
 	                               -(block_.getY() - double(255 - countdown_) / 510 * numberOfLines_) * block_.getSize(),
 	                               float(510 - countdown_) / 510);
-	jngl::setSpriteColor(255, 255, 255);
+	jngl::setSpriteAlpha(255);
 }

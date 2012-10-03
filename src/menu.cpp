@@ -8,7 +8,7 @@
 #include "multiplayermenu.hpp"
 #include "replayplayer.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <boost/bind.hpp>
 #include <ctime>
 

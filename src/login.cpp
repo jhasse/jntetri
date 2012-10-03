@@ -6,7 +6,7 @@
 #include "engine/options.hpp"
 #include "lobby.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>

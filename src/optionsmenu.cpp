@@ -6,7 +6,7 @@
 #include "engine/options.hpp"
 
 #include <boost/bind.hpp>
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 OptionsMenu::OptionsMenu() : startLevel_(new Chooser(0, -300)), startJunks_(new Chooser(0, 100))
 {

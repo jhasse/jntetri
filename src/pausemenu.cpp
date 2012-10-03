@@ -4,7 +4,7 @@
 #include "menu.hpp"
 #include "engine/fade.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <boost/bind.hpp>
 
 PauseMenu::PauseMenu(boost::shared_ptr<jngl::Work> work)

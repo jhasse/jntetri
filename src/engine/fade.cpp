@@ -3,7 +3,7 @@
 #include "options.hpp"
 #include "screen.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 Fade::Fade(Work* work, int speed) : work_(work), oldWork_(jngl::getWork()), fadeCount_(0), speed_(speed)
 {

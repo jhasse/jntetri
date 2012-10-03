@@ -6,7 +6,7 @@
 #include "engine/screen.hpp"
 #include "constants.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
 

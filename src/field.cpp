@@ -4,9 +4,9 @@
 #include "engine/options.hpp"
 #include "replaycontrol.hpp"
 
-#include <jngl.hpp>
 #include <map>
 #include <set>
+#include <jngl/all.hpp>
 
 const int Field::width_ = 11;
 const int Field::height_ = 19;

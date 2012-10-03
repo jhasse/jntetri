@@ -7,7 +7,7 @@
 #include <cassert>
 #include <boost/lexical_cast.hpp>
 #include <iomanip>
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 
 Data::Data() : score(0), time(0)
 {

@@ -4,6 +4,10 @@
 
 #include <boost/shared_ptr.hpp>
 
+namespace jngl {
+	class Work;
+}
+
 class Fade : public Work {
 public:
 	Fade(Work*, int speed = 15);

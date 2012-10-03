@@ -3,6 +3,8 @@
 #include "game.hpp"
 #include "engine/options.hpp"
 
+#include <jngl/input.hpp>
+
 ReplayPlayer::ReplayPlayer(const std::string& filename) : fin_(filename.c_str()) {
 	assert(fin_);
 	int seed, startLevel, startJunk;

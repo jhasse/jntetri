@@ -4,7 +4,7 @@
 #include "../constants.hpp"
 #include "../intro.hpp"
 
-#include <jngl.hpp>
+#include <jngl/all.hpp>
 #include <stdexcept>
 #include <boost/lexical_cast.hpp>
 
