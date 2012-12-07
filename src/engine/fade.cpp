@@ -35,6 +35,6 @@ void Fade::draw() const
 	}
 	const int alpha = static_cast<int>(fadeCount_ > maxAlpha ? 2 * maxAlpha - fadeCount_ : fadeCount_);
 	jngl::setColor(0, 0, 0, alpha);
-	GetScreen().DrawRect(-GetScreen().GetWidth() / 2, -GetScreen().GetHeight() / 2, GetScreen().GetWidth(), GetScreen().GetHeight());
+	jngl::drawRect(-GetScreen().GetWidth() / 2, -GetScreen().GetHeight() / 2, GetScreen().GetWidth(), GetScreen().GetHeight());
 	jngl::setColor(255, 255, 255, 255);
 }

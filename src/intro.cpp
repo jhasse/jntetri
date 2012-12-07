@@ -20,15 +20,15 @@ Intro::~Intro()
 
 void Intro::draw() const
 {
-	GetScreen().SetFontSize(250);
+	jngl::setFontSize(250);
 	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered("JNTETRI", 0, -250);
-	GetScreen().SetFontSize(60);
+	jngl::setFontSize(60);
 
 	jngl::pushMatrix();
-	GetScreen().Translate(0, 150);
-	double percentage;
-	if(resizeGraphics_.Finished(percentage))
+	jngl::translate(0, 150);
+	float percentage;
+	if(resizeGraphics_.isFinished(percentage))
 	{
 		finished_ = true;
 		jngl::setFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
@@ -41,7 +41,7 @@ void Intro::draw() const
 	jngl::popMatrix();
 
 	jngl::setFontColor(100, 100, 100, 255);
-	GetScreen().SetFontSize(35);
+	jngl::setFontSize(35);
 	GetScreen().PrintCentered(programVersion, 0, 360);
 	GetScreen().PrintCentered("http://watteimdocht.de/jntetri", 0, 430);
 	GetScreen().PrintCentered("Copyright 2009-2012 watteimdocht.de", 0, 500);

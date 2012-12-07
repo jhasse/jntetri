@@ -5,11 +5,9 @@
 
 #include <jngl/all.hpp>
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 #ifdef NDEBUG
-	try
-	{
+	try {
 #endif
 		if (argc == 2) {
 			GetPaths().SetPrefix(argv[1]);
@@ -28,14 +26,12 @@ int main(int argc, char** argv)
 			GetProcedure().ShowWindow();
 		}
 		jngl::setAntiAliasing(true);
-		jngl::setIcon(GetPaths().Prefix() + "share/icons/jntetri.png");
+		jngl::setIcon(GetPaths().Prefix() + "share/icons/jntetri");
 		jngl::setWork(new Intro);
 		jngl::mainLoop();
 		GetOptions().Save();
 #ifdef NDEBUG
-	}
-	catch(std::exception& e)
-	{
+	} catch(std::exception& e) {
 		jngl::errorMessage(e.what());
 	}
 #endif

@@ -73,12 +73,12 @@ void GameOverScreen::onQuitEvent()
 void GameOverScreen::draw() const
 {
 	game_->draw();
-	GetScreen().SetFontSize(80);
+	jngl::setFontSize(80);
 	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered("GAMEOVER", 0, -100);
 	if(game_->GameOverAnimationFinished())
 	{
-		GetScreen().SetFontSize(50);
+		jngl::setFontSize(50);
 		if(highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50))
 		{
 			jngl::setFontColor(0, 0, 0);

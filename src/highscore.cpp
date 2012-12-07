@@ -61,7 +61,7 @@ void Highscore::Draw() const
 {
 	assert(highscores_.size() == 5);
 	jngl::pushMatrix();
-	GetScreen().SetFontSize(50);
+	jngl::setFontSize(50);
 	std::list<Data>::const_iterator end = highscores_.end();
 	int n = 1;
 	for(std::list<Data>::const_iterator it = highscores_.begin(); it != end; ++it)
@@ -92,9 +92,9 @@ void Highscore::Draw() const
 				jngl::setFontColor(0, 0, 0, alpha > 255 ? 510 - alpha : alpha);
 			}
 		}
-		GetScreen().Print(score, 700 - GetScreen().GetTextWidth(score), 0);
-		GetScreen().Print(boost::lexical_cast<std::string>(n) + ". " + it->name, 0, 0);
-		GetScreen().Translate(0, 80);
+		jngl::print(score, 700 - jngl::getTextWidth(score), 0);
+		jngl::print(boost::lexical_cast<std::string>(n) + ". " + it->name, 0, 0);
+		jngl::translate(0, 80);
 		++n;
 	}
 	jngl::popMatrix();

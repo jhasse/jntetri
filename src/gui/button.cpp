@@ -11,14 +11,14 @@ const int Button::fontSize_ = 70;
 Button::Button(const std::string& text)
 	: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0), clicked_(false)
 {
-	SetSprites("button.png", "button_over.png", "button_clicked.png");
+	SetSprites("button", "button_over", "button_clicked");
 }
 
 Button::Button(const std::string& text, boost::function<void()> callback, char shortcut)
 	: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0),
 	  shortcut_(shortcut), callback_(callback), clicked_(false)
 {
-	SetSprites("button.png", "button_over.png", "button_clicked.png");
+	SetSprites("button", "button_over", "button_clicked");
 }
 
 void Button::SetText(const std::string& text)
@@ -31,15 +31,15 @@ void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
 	texture_ = normal;
 	textureMouseOver_ = mouseOver;
 	textureClicked_ = clicked;
-	width_ = GetScreen().GetWidth(texture_);
-	height_ = GetScreen().GetHeight(texture_);
+	width_ = jngl::getWidth(GetPaths().Graphics() + texture_);
+	height_ = jngl::getHeight(GetPaths().Graphics() + texture_);
 }
 
 void Button::CenterAt(const int xCenter, const int yCenter)
 {
 	xPos_ = xCenter;
 	yPos_ = yCenter;
-	GetScreen().SetFontSize(fontSize_);
+	jngl::setFontSize(fontSize_);
 }
 
 void Button::Draw() const
@@ -64,7 +64,7 @@ void Button::Draw() const
     	GetScreen().DrawCenteredScaled(textureClicked_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
     }
     jngl::setFontColor(255, 255, 255);
-    GetScreen().SetFontSize(fontSize_);
+    jngl::setFontSize(fontSize_);
     if(!clicked_)
     {
 		GetScreen().PrintCentered(text_, xPos_, yPos_);

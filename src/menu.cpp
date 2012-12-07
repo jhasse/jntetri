@@ -37,17 +37,17 @@ void Menu::draw() const
 {
 	jngl::setBackgroundColor(255, 255, 255);
 	DrawWidgets();
-	GetScreen().DrawCentered("box.png", 340, 0);
+	GetScreen().DrawCentered("box", 340, 0);
 
 	jngl::pushMatrix();
-	GetScreen().Translate(-20, -400);
-	GetScreen().SetFontSize(50);
+	jngl::translate(-20, -400);
+	jngl::setFontSize(50);
 	jngl::setFontColor(0, 0, 0);
-	GetScreen().Print("Highscores Normal", 0, -90);
+	jngl::print("Highscores Normal", 0, -90);
 	normalHighscore_.Draw();
-	GetScreen().Translate(0, 530);
+	jngl::translate(0, 530);
 	jngl::setFontColor(0, 0, 0);
-	GetScreen().Print("Highscores 50 Lines", 0, -90);
+	jngl::print("Highscores 50 Lines", 0, -90);
 	fiftyLinesHighscore_.Draw();
 	jngl::popMatrix();
 }

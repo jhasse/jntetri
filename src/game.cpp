@@ -85,14 +85,14 @@ void Game::onQuitEvent()
 
 void Game::DrawTime(const int x, const int y) const
 {
-	GetScreen().Print("Time: ", x, y);
+	jngl::print("Time: ", x, y);
 	double time = GetTime();
 	int minutes = int(time / 60);
 	int seconds = int(time - minutes * 60);
 	std::stringstream sstream;
 	sstream.fill('0');
 	sstream << minutes << ":" << std::setw(2) << seconds;
-	GetScreen().Print(sstream.str(), 450, y + 100);
+	jngl::print(sstream.str(), 450, y + 100);
 }
 
 void Game::StepToRotateScreen()
@@ -112,16 +112,16 @@ void Game::draw() const
 	jngl::pushMatrix();
 	jngl::rotate(rotateDegree_);
 	jngl::scale(1 + rotateDegree_ / 270);
-	GetScreen().Translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
+	jngl::translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
 
 	field_.Draw();
 	if(!rotateScreen_)
 	{
 		jngl::setFontColor(0, 0, 0);
-		GetScreen().SetFontSize(60);
+		jngl::setFontSize(60);
 		jngl::pushMatrix();
-		GetScreen().Translate(-600, oldNextPosition_);
-		GetScreen().Print("Next:", -100, -75);
+		jngl::translate(-600, oldNextPosition_);
+		jngl::print("Next:", -100, -75);
 		field_.DrawNextTetromino();
 		jngl::popMatrix();
 		if(type_ == FIFTYLINES)
@@ -130,14 +130,14 @@ void Game::draw() const
 		}
 		else
 		{
-			GetScreen().Print("Score: ", 450, 100);
-			GetScreen().Print(boost::lexical_cast<std::string>(field_.GetScore()), 450, 200);
+			jngl::print("Score: ", 450, 100);
+			jngl::print(boost::lexical_cast<std::string>(field_.GetScore()), 450, 200);
 			DrawTime(450, 820);
 		}
-		GetScreen().Print("Level: ", 450, 340);
-		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLevel()), 450, 440);
-		GetScreen().Print("Lines: ", 450, 580);
-		GetScreen().Print(boost::lexical_cast<std::string>(field_.GetLines()), 450, 680);
+		jngl::print("Level: ", 450, 340);
+		jngl::print(boost::lexical_cast<std::string>(field_.GetLevel()), 450, 440);
+		jngl::print("Lines: ", 450, 580);
+		jngl::print(boost::lexical_cast<std::string>(field_.GetLines()), 450, 680);
 	}
 	jngl::popMatrix();
 }

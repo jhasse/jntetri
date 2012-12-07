@@ -53,7 +53,7 @@ void Lobby::draw() const
 {
 	jngl::setFontColor(0, 0, 0);
 	jngl::setFontSize(35);
-	GetScreen().Print(chatText_, -700, 350);
+	jngl::print(chatText_, -700, 350);
 	DrawWidgets();
 }
 #include <iostream>

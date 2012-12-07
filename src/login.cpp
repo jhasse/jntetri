@@ -139,7 +139,7 @@ void Login::draw() const
 {
 	menu_->draw();
 	jngl::setColor(255, 255, 255, 220);
-	GetScreen().DrawRect(-GetScreen().GetWidth() / 2, 0, GetScreen().GetWidth(), GetScreen().GetHeight());
+	jngl::drawRect(-GetScreen().GetWidth() / 2, 0, GetScreen().GetWidth(), GetScreen().GetHeight());
 	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered(text_, 0, 420);
 	cancel_.Draw();

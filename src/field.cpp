@@ -182,7 +182,7 @@ bool Field::GameOver() const
 
 void Field::Translate(const double x, const double y) const
 {
-	GetScreen().Translate(-double(width_ * blockSize_) / 2.0 + (x + 0.5) * blockSize_, height_ * blockSize_ - y * blockSize_);
+	jngl::translate(-double(width_ * blockSize_) / 2.0 + (x + 0.5) * blockSize_, height_ * blockSize_ - y * blockSize_);
 }
 
 int Field::GetNextPosition() const
@@ -206,7 +206,7 @@ void Field::DrawNextTetromino() const
 
 void Field::Draw() const
 {
-	GetScreen().DrawCentered("field.png", 0, 600);
+	GetScreen().DrawCentered("field", 0, 600);
 	if(!pause_)
 	{
 		jngl::pushMatrix();

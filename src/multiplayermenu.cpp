@@ -41,8 +41,8 @@ void MultiplayerMenu::step()
 void MultiplayerMenu::draw() const
 {
 	jngl::setFontColor(0, 0, 0);
-	GetScreen().Print("Name:", -500, 400);
-	GetScreen().Print("Password:", -500, 500);
+	jngl::print("Name:", -500, 400);
+	jngl::print("Password:", -500, 500);
 	DrawWidgets();
 }
 

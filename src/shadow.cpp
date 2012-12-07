@@ -10,5 +10,5 @@ void Shadow::draw() const {
 	if (block) {
 		tmpY += block->getAnimation();
 	}
-	GetScreen().DrawCentered("shadow.png", x * Block::size, -tmpY * Block::size);
+	GetScreen().DrawCentered("shadow", x * Block::size, -tmpY * Block::size);
 }

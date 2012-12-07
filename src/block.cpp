@@ -32,7 +32,7 @@ void Block::draw() const
 	jngl::setSpriteColor(static_cast<unsigned char>(color.GetRed() + flashAnimation),
 		                 static_cast<unsigned char>(color.GetGreen() + flashAnimation),
 						 static_cast<unsigned char>(color.GetBlue() + flashAnimation));
-	GetScreen().DrawCentered("block.png", x * size, -(y + animation) * size);
+	GetScreen().DrawCentered("block", x * size, -(y + animation) * size);
 	jngl::setSpriteColor(255, 255, 255);
 }
 

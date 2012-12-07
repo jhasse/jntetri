@@ -637,10 +637,7 @@
 					/opt/local/lib,
 					"\"$(SRCROOT)/../lib\"",
 				);
-				OTHER_LDFLAGS = (
-					"-lMagickWand",
-					"-lMagickCore",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -659,10 +656,7 @@
 					/opt/local/lib,
 					"\"$(SRCROOT)/../lib\"",
 				);
-				OTHER_LDFLAGS = (
-					"-lMagickWand",
-					"-lMagickCore",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

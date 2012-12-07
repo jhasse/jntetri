@@ -92,11 +92,11 @@ void Input::Draw() const
 	}
 	if(focus_ && displayCursor_ > 0)
 	{
-		GetScreen().Print(text_ + "|", x_, y_);
+		jngl::print(text_ + "|", x_, y_);
 	}
 	else
 	{
-		GetScreen().Print(text_, x_, y_);
+		jngl::print(text_, x_, y_);
 	}
 	if(password_)
 	{

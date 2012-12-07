@@ -24,10 +24,10 @@ void Explosion::Draw() const
 	switch(numberOfLines_)
 	{
 		case 4:
-			filename = "explosion4.png";
+			filename = "explosion4";
 		break;
 		default:
-			filename = "explosion.png";
+			filename = "explosion";
 	}
 	GetScreen().DrawCenteredScaled(filename,
 	                               block_.getX() * block_.getSize(),

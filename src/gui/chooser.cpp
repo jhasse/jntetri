@@ -1,5 +1,6 @@
 #include "chooser.hpp"
 #include "../engine/screen.hpp"
+#include "../engine/paths.hpp"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
@@ -7,14 +8,14 @@
 
 Chooser::Chooser(int x, int y)
 	: previous_(""),
-	  next_(""), sprite_("chooser.png"), x_(x), y_(y)
+	  next_(""), sprite_("chooser"), x_(x), y_(y)
 {
 	previous_.Connect(boost::bind(&Chooser::Previous, this));
-	previous_.SetSprites("chooser_left.png", "chooser_left_over.png", "chooser_left_over.png");
-	previous_.CenterAt(x - GetScreen().GetWidth(sprite_) / 2 - previous_.GetWidth() / 2, y);
+	previous_.SetSprites("chooser_left", "chooser_left_over", "chooser_left_over");
+	previous_.CenterAt(x - jngl::getWidth(GetPaths().Graphics() + sprite_) / 2 - previous_.GetWidth() / 2, y);
 	next_.Connect(boost::bind(&Chooser::Next, this));
-	next_.SetSprites("chooser_right.png", "chooser_right_over.png", "chooser_right_over.png");
-	next_.CenterAt(x + GetScreen().GetWidth(sprite_) / 2 + next_.GetWidth() / 2, y);
+	next_.SetSprites("chooser_right", "chooser_right_over", "chooser_right_over");
+	next_.CenterAt(x + jngl::getWidth(GetPaths().Graphics() + sprite_) / 2 + next_.GetWidth() / 2, y);
 }
 
 void Chooser::AddValue(int v)
@@ -45,7 +46,7 @@ void Chooser::Step()
 void Chooser::Draw() const
 {
 	GetScreen().DrawCentered(sprite_, x_, y_);
-	GetScreen().SetFontSize(70);
+	jngl::setFontSize(70);
 	jngl::setFontColor(255, 255, 255);
 	GetScreen().PrintCentered(boost::lexical_cast<std::string>(*activeValue_), x_, y_);
 	previous_.Draw();

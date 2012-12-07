@@ -277,15 +277,15 @@ void Tetromino::Draw() const
 
 	if(rotation_ < 0) // Clockwise
 	{
-		GetScreen().Translate( rotationCenterX_.back() * field_.GetBlockSize(), -rotationCenterY_.back() * field_.GetBlockSize());
+		jngl::translate( rotationCenterX_.back() * field_.GetBlockSize(), -rotationCenterY_.back() * field_.GetBlockSize());
 		jngl::rotate(rotation_);
-		GetScreen().Translate(-rotationCenterX_.back() * field_.GetBlockSize(),  rotationCenterY_.back() * field_.GetBlockSize());
+		jngl::translate(-rotationCenterX_.back() * field_.GetBlockSize(),  rotationCenterY_.back() * field_.GetBlockSize());
 	}
 	else
 	{
-		GetScreen().Translate( rotationCenterX_.front() * field_.GetBlockSize(), -rotationCenterY_.front() * field_.GetBlockSize());
+		jngl::translate( rotationCenterX_.front() * field_.GetBlockSize(), -rotationCenterY_.front() * field_.GetBlockSize());
 		jngl::rotate(rotation_);
-		GetScreen().Translate(-rotationCenterX_.front() * field_.GetBlockSize(),  rotationCenterY_.front() * field_.GetBlockSize());
+		jngl::translate(-rotationCenterX_.front() * field_.GetBlockSize(),  rotationCenterY_.front() * field_.GetBlockSize());
 	}
 
 	std::vector<Block>::const_iterator end = blocks_.end();
