@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
 		GetOptions().Save();
 #ifdef NDEBUG
 	} catch(std::exception& e) {
+		jngl::hideWindow();
 		jngl::errorMessage(e.what());
 	}
 #endif
