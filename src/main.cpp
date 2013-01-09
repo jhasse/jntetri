@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 			GetProcedure().ShowWindow();
 		}
 		jngl::setAntiAliasing(true);
-		jngl::setIcon(GetPaths().Prefix() + "share/icons/jntetri");
+		jngl::setIcon(GetPaths().Prefix() + "share/icons/jntetri.png");
 		jngl::setWork(new Intro);
 		jngl::mainLoop();
 		GetOptions().Save();

@@ -35,6 +35,7 @@
 			<Add option="-std=gnu++0x" />
 			<Add option="-D_WIN32_WINNT=0x0501" />
 			<Add directory="include" />
+			<Add directory="..\boost-libs\include" />
 		</Compiler>
 		<Linker>
 			<Add option="-static" />
@@ -42,10 +43,8 @@
 			<Add library="opengl32" />
 			<Add library="freetype" />
 			<Add library="glu32" />
-			<Add library="MagickWand" />
-			<Add library="MagickCore" />
-			<Add library="lib\libboost_system-mgw47-mt-1_49.a" />
-			<Add library="lib\libboost_filesystem-mgw47-mt-1_49.a" />
+			<Add library="libboost_system-mgw47-mt-1_51.a" />
+			<Add library="libboost_filesystem-mgw47-mt-1_51.a" />
 			<Add library="z" />
 			<Add library="m" />
 			<Add library="gdi32" />
@@ -53,10 +52,11 @@
 			<Add library="jpeg" />
 			<Add library="ws2_32" />
 			<Add library="dl" />
-			<Add library="lib\libboost_serialization-mgw47-mt-1_49.a" />
+			<Add library="libboost_serialization-mgw47-mt-1_51.a" />
 			<Add library="glew32.dll" />
 			<Add library="webp" />
 			<Add directory="lib" />
+			<Add directory="..\boost-libs\lib\win" />
 		</Linker>
 		<Unit filename="src\block.cpp" />
 		<Unit filename="src\block.hpp" />
