@@ -32,12 +32,7 @@ public:
 	void Step();
 };
 
-class WizControl : public Control {
+class GamepadControl : public Control {
 public:
-	void Step();
-};
-
-class WizControlRotated : public Control {
-public:
-	void Step();
+	void Step() override;
 };

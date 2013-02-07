@@ -24,10 +24,9 @@ Paths::Paths()
 #ifndef __IPHONE_OS_VERSION_MIN_REQUIRED
 #if defined(__linux__)
 	BrInitError error;
-	if(br_init(&error) == 0 && error != BR_INIT_ERROR_DISABLED)
-	{
+	if (br_init(&error) == 0 && error != BR_INIT_ERROR_DISABLED) {
 		std::cout << "Warning: BinReloc failed to initialize (error code " << error << ")\n"
-		<< "Will fallback to hardcoded default path." << std::endl;
+		          << "Will fallback to hardcoded default path." << std::endl;
 	}
 	prefix_ = br_find_prefix("/usr");
 	prefix_ += '/';
@@ -42,7 +41,7 @@ Paths::Paths()
 	prefix_.assign(tmp.begin(), tmp.end());
 	boost::filesystem::path prefix(prefix_);
 	prefix_ = prefix.normalize().remove_leaf().parent_path().string() + "/";
-	
+
 	FSRef ref;
 	FSFindFolder(kUserDomain, kApplicationSupportFolderType, kCreateFolder, &ref);
 	char path[PATH_MAX];
@@ -55,7 +54,7 @@ Paths::Paths()
 	GetModuleFileName(NULL, filename, MAX_PATH);
 	std::string prefix(filename);
 	prefix_ = prefix.substr(0, prefix.find("\\bin") + 1);
-	
+
 	TCHAR szPath[MAX_PATH];
 	if(!SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, szPath)))
 	{

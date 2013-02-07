@@ -19,8 +19,7 @@ int main(int argc, char** argv) {
 		GetOptions().SetFallback("startLevel", 0);
 		GetOptions().SetFallback("lastHighscoreName", "");
 		GetOptions().SetFallback("lastLoginName", "");
-		if(!GetProcedure().ShowWindow() && GetOptions().Get<int>("fullscreen"))
-		{
+		if (!GetProcedure().ShowWindow() && GetOptions().Get<int>("fullscreen")) {
 			// Try again without fullscreen
 			GetOptions().Set("fullscreen", 0);
 			GetProcedure().ShowWindow();

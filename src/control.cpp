@@ -47,47 +47,24 @@ void KeyboardControl::Step() {
 	}
 }
 
-void WizControl::Step()
-{
+void GamepadControl::Step() {
 	bits_.reset();
-	if(jngl::keyPressed(jngl::key::WizX)) {
+	if (jngl::getControllerState(0, jngl::controller::A)) {
 		Set(Drop);
 	}
-	if(jngl::keyDown(jngl::key::WizDown)) {
+	if (jngl::getControllerState(0, jngl::controller::RightTrigger)) {
 		Set(Down);
 	}
-	if(jngl::keyPressed(jngl::key::WizLeft)) {
+	if (jngl::getControllerState(0, jngl::controller::DpadLeft)) {
 		Set(Left);
 	}
-	if(jngl::keyPressed(jngl::key::WizRight)) {
+	if (jngl::getControllerState(0, jngl::controller::DpadRight)) {
 		Set(Right);
 	}
-	if(jngl::keyPressed(jngl::key::WizUp) || jngl::keyPressed(jngl::key::WizB)) {
+	if (jngl::getControllerState(0, jngl::controller::B)) {
 		Set(Rotate);
 	}
-	if(jngl::keyPressed(jngl::key::WizA)) {
-		Set(RotateCounter);
-	}
-}
-
-void WizControlRotated::Step() {
-	bits_.reset();
-	if(jngl::keyPressed(jngl::key::WizA)) {
-		Set(Drop);
-	}
-	if(jngl::keyDown(jngl::key::WizLeft))  {
-		Set(Down);
-	}
-	if(jngl::keyPressed(jngl::key::WizUp)) {
-		Set(Left);
-	}
-	if(jngl::keyPressed(jngl::key::WizDown)) {
-		Set(Right);
-	}
-	if(jngl::keyPressed(jngl::key::WizRight) || jngl::keyPressed(jngl::key::WizX)) {
-		Set(Rotate);
-	}
-	if(jngl::keyPressed(jngl::key::WizY)) {
+	if (jngl::getControllerState(0, jngl::controller::X)) {
 		Set(RotateCounter);
 	}
 }

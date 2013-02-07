@@ -55,6 +55,7 @@
 			<Add library="libboost_serialization-mgw47-mt-1_51.a" />
 			<Add library="glew32.dll" />
 			<Add library="webp" />
+			<Add library="xinput" />
 			<Add directory="lib" />
 			<Add directory="..\boost-libs\lib\win" />
 		</Linker>

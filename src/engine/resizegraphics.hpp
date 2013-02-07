@@ -4,8 +4,7 @@
 #include <string>
 #include <boost/filesystem.hpp>
 
-class ResizeGraphics
-{
+class ResizeGraphics {
 public:
 	ResizeGraphics();
 	~ResizeGraphics();
