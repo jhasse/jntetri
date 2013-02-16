@@ -14,7 +14,7 @@ const int Field::height_ = 19;
 Field::Field(int seed)
 	: blockSize_(60), counter_(0), gameOver_(false), score_(0),
 	  level_(GetOptions().Get<int>("startLevel")), lines_(0), maxY_(0),
-	  pause_(false), control_(new KeyboardControl)
+	  pause_(false), control_(new Control{std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0)})
 {
 	random_.SetSeed(seed);
 	NewTetromino();
@@ -223,11 +223,10 @@ void Field::Draw() const
 		}
 		auto end3 = shadows.end();
 		for (auto it = shadows.begin(); it != end3; ++it) {
-			it->draw();
+//			it->draw();
 		}
 		jngl::popMatrix();
-		if(!gameOver_)
-		{
+		if (!gameOver_) {
 			tetromino_->Draw();
 		}
 	}

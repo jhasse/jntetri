@@ -16,9 +16,8 @@ ReplayControl::ReplayControl(std::ifstream& fin) : time_(0) {
 	}
 }
 
-void ReplayControl::Step() {
+void ReplayControl::step(std::function<void(control::ControlType)> Set) {
 	static int line = 2;
-	bits_.reset();
 	while(!data_.empty() && time_ == data_.front().first) {
 		Set(data_.front().second);
 		++line;

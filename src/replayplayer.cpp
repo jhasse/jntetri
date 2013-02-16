@@ -14,7 +14,7 @@ ReplayPlayer::ReplayPlayer(const std::string& filename) : fin_(filename.c_str())
 	GetOptions().Set("startLevel", startLevel);
 	GetOptions().Set("startJunks", startJunk);
 	game_.reset(new Game(NORMAL, seed));
-	game_->GetField().SetControl(new ReplayControl(fin_));
+	game_->GetField().SetControl(new Control{std::make_shared<ReplayControl>(fin_)});
 }
 
 ReplayPlayer::~ReplayPlayer() {

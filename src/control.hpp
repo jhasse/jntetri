@@ -16,23 +16,34 @@ namespace control {
 	};
 };
 
+class ControlBase {
+public:
+	virtual ~ControlBase();
+	virtual void step(std::function<void(control::ControlType)>) = 0;
+protected:
+};
+
 class Control {
 public:
+	Control(std::initializer_list<std::shared_ptr<ControlBase>>);
 	virtual ~Control();
 	bool Check(control::ControlType);
-	virtual void Step() = 0;
+	void Step();
 	void ForEach(const boost::function<void(control::ControlType)>&);
 protected:
-	void Set(control::ControlType);
 	std::bitset<control::LastValue> bits_;
+	std::vector<std::shared_ptr<ControlBase>> controls;
 };
 
-class KeyboardControl : public Control {
+class KeyboardControl : public ControlBase {
 public:
-	void Step();
+	void step(std::function<void(control::ControlType)>) override;
 };
 
-class GamepadControl : public Control {
+class GamepadControl : public ControlBase {
 public:
-	void Step() override;
+	GamepadControl(int number);
+	void step(std::function<void(control::ControlType)>) override;
+private:
+	int number;
 };

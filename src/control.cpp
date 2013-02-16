@@ -4,12 +4,13 @@
 
 using namespace control;
 
-Control::~Control()
-{
+ControlBase::~ControlBase() {
 }
 
-void Control::Set(ControlType e) {
-	bits_.set(e);
+Control::Control(std::initializer_list<std::shared_ptr<ControlBase>> l) : controls(l) {
+}
+
+Control::~Control() {
 }
 
 bool Control::Check(ControlType e) {
@@ -24,9 +25,16 @@ void Control::ForEach(const boost::function<void(ControlType)>& f) {
 	}
 }
 
-
-void KeyboardControl::Step() {
+void Control::Step() {
 	bits_.reset();
+	for (auto& control : controls) {
+		control->step([&](control::ControlType e) {
+			bits_.set(e);
+		});
+	}
+}
+
+void KeyboardControl::step(std::function<void(control::ControlType)> Set) {
 	if(jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
 		Set(Drop);
 	}
@@ -47,24 +55,26 @@ void KeyboardControl::Step() {
 	}
 }
 
-void GamepadControl::Step() {
-	bits_.reset();
-	if (jngl::getControllerState(0, jngl::controller::A)) {
+void GamepadControl::step(std::function<void(control::ControlType)> Set) {
+	if (jngl::getControllerPressed(number, jngl::controller::X)) {
 		Set(Drop);
 	}
-	if (jngl::getControllerState(0, jngl::controller::RightTrigger)) {
+	if (jngl::getControllerState(number, jngl::controller::RightTrigger)) {
 		Set(Down);
 	}
-	if (jngl::getControllerState(0, jngl::controller::DpadLeft)) {
+	if (jngl::getControllerPressed(number, jngl::controller::DpadLeft)) {
 		Set(Left);
 	}
-	if (jngl::getControllerState(0, jngl::controller::DpadRight)) {
+	if (jngl::getControllerPressed(number, jngl::controller::DpadRight)) {
 		Set(Right);
 	}
-	if (jngl::getControllerState(0, jngl::controller::B)) {
+	if (jngl::getControllerPressed(number, jngl::controller::A)) {
 		Set(Rotate);
 	}
-	if (jngl::getControllerState(0, jngl::controller::X)) {
+	if (jngl::getControllerPressed(number, jngl::controller::B)) {
 		Set(RotateCounter);
 	}
+}
+
+GamepadControl::GamepadControl(int n) : number(n) {
 }
