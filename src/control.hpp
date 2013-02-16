@@ -2,6 +2,7 @@
 
 #include <bitset>
 #include <boost/function.hpp>
+#include <vector>
 
 namespace control {
 	enum ControlType {

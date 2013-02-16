@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C920096B16D0157C0037F10B /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C920096816D0157C0037F10B /* libboost_filesystem.a */; };
+		C920096C16D0157C0037F10B /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C920096916D0157C0037F10B /* libboost_serialization.a */; };
+		C920096D16D0157C0037F10B /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C920096A16D0157C0037F10B /* libboost_system.a */; };
 		C92C66A7154ECE73001C8E5A /* shadow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C92C66A6154ECE73001C8E5A /* shadow.cpp */; };
 		C93A319814BBBB0A00B6DBC8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93A319714BBBB0A00B6DBC8 /* Carbon.framework */; };
-		C940CA83155BDA6C0034430A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C940CA82155BDA6C0034430A /* Cocoa.framework */; };
-		C949897F14AE173700732560 /* JNGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C949897E14AE173700732560 /* JNGL.framework */; };
-		C97CA50B1517F7580046C42D /* libboost_filesystem-libc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */; };
-		C97CA50C1517F7580046C42D /* libboost_serialization-libc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97CA5091517F7580046C42D /* libboost_serialization-libc++.a */; };
-		C97CA50D1517F7580046C42D /* libboost_system-libc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97CA50A1517F7580046C42D /* libboost_system-libc++.a */; };
 		C9AE781214A8886A004359EF /* block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE77C014A8886A004359EF /* block.cpp */; };
 		C9AE781314A8886A004359EF /* control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE77C314A8886A004359EF /* control.cpp */; };
 		C9AE781414A8886A004359EF /* fade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE77C614A8886A004359EF /* fade.cpp */; };
@@ -49,6 +47,7 @@
 		C9AE783414A8886A004359EF /* replayplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE780B14A8886A004359EF /* replayplayer.cpp */; };
 		C9AE783514A8886A004359EF /* replayrecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE780D14A8886A004359EF /* replayrecorder.cpp */; };
 		C9AE783614A8886A004359EF /* tetromino.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AE781014A8886A004359EF /* tetromino.cpp */; };
+		C9F9BEFA16D00E4900795284 /* JNGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F9BEF916D00E4900795284 /* JNGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -64,6 +63,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C920096816D0157C0037F10B /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "../../boost-libs/lib/mac/libboost_filesystem.a"; sourceTree = "<group>"; };
+		C920096916D0157C0037F10B /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "../../boost-libs/lib/mac/libboost_serialization.a"; sourceTree = "<group>"; };
+		C920096A16D0157C0037F10B /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "../../boost-libs/lib/mac/libboost_system.a"; sourceTree = "<group>"; };
 		C92C66A5154EC6C1001C8E5A /* shadow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = shadow.hpp; path = ../src/shadow.hpp; sourceTree = "<group>"; };
 		C92C66A6154ECE73001C8E5A /* shadow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shadow.cpp; path = ../src/shadow.cpp; sourceTree = "<group>"; };
 		C931869314A89BFB00880537 /* jntetri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jntetri.png; sourceTree = "<group>"; };
@@ -83,12 +85,10 @@
 		C93186A414A89BFB00880537 /* radio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio.png; sourceTree = "<group>"; };
 		C93186A514A89BFB00880537 /* radio_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_active.png; sourceTree = "<group>"; };
 		C93A319714BBBB0A00B6DBC8 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		C940CA7F155BDA6C0034430A /* dummy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dummy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C940CA82155BDA6C0034430A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		C940CA85155BDA6C0034430A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C940CA86155BDA6C0034430A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C940CA87155BDA6C0034430A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		C949897E14AE173700732560 /* JNGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JNGL.framework; path = Library/Frameworks/JNGL.framework; sourceTree = SDKROOT; };
 		C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-libc++.a"; path = "../lib/libboost_filesystem-libc++.a"; sourceTree = "<group>"; };
 		C97CA5091517F7580046C42D /* libboost_serialization-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_serialization-libc++.a"; path = "../lib/libboost_serialization-libc++.a"; sourceTree = "<group>"; };
 		C97CA50A1517F7580046C42D /* libboost_system-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-libc++.a"; path = "../lib/libboost_system-libc++.a"; sourceTree = "<group>"; };
@@ -165,26 +165,19 @@
 		C9AE780E14A8886A004359EF /* replayrecorder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = replayrecorder.hpp; path = ../src/replayrecorder.hpp; sourceTree = "<group>"; };
 		C9AE781014A8886A004359EF /* tetromino.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tetromino.cpp; path = ../src/tetromino.cpp; sourceTree = "<group>"; };
 		C9AE781114A8886A004359EF /* tetromino.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tetromino.hpp; path = ../src/tetromino.hpp; sourceTree = "<group>"; };
+		C9F9BEF916D00E4900795284 /* JNGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JNGL.framework; path = ../../../../../Library/Frameworks/JNGL.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C940CA7C155BDA6C0034430A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C940CA83155BDA6C0034430A /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C981F23114A8882800E03124 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C97CA50B1517F7580046C42D /* libboost_filesystem-libc++.a in Frameworks */,
-				C97CA50C1517F7580046C42D /* libboost_serialization-libc++.a in Frameworks */,
-				C97CA50D1517F7580046C42D /* libboost_system-libc++.a in Frameworks */,
+				C920096B16D0157C0037F10B /* libboost_filesystem.a in Frameworks */,
+				C920096C16D0157C0037F10B /* libboost_serialization.a in Frameworks */,
+				C920096D16D0157C0037F10B /* libboost_system.a in Frameworks */,
+				C9F9BEFA16D00E4900795284 /* JNGL.framework in Frameworks */,
 				C93A319814BBBB0A00B6DBC8 /* Carbon.framework in Frameworks */,
-				C949897F14AE173700732560 /* JNGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,11 +323,14 @@
 		C981F22914A8882800E03124 = {
 			isa = PBXGroup;
 			children = (
+				C920096816D0157C0037F10B /* libboost_filesystem.a */,
+				C920096916D0157C0037F10B /* libboost_serialization.a */,
+				C920096A16D0157C0037F10B /* libboost_system.a */,
+				C9F9BEF916D00E4900795284 /* JNGL.framework */,
 				C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */,
 				C97CA5091517F7580046C42D /* libboost_serialization-libc++.a */,
 				C97CA50A1517F7580046C42D /* libboost_system-libc++.a */,
 				C93A319714BBBB0A00B6DBC8 /* Carbon.framework */,
-				C949897E14AE173700732560 /* JNGL.framework */,
 				C931869114A89BFB00880537 /* share */,
 				C9AE77BE14A88859004359EF /* Source Files */,
 				C931868E14A899A200880537 /* Header Files */,
@@ -347,7 +343,6 @@
 			isa = PBXGroup;
 			children = (
 				C981F23414A8882800E03124 /* JNTETRI */,
-				C940CA7F155BDA6C0034430A /* dummy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -424,23 +419,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C940CA7E155BDA6C0034430A /* dummy */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C940CA9C155BDA6C0034430A /* Build configuration list for PBXNativeTarget "dummy" */;
-			buildPhases = (
-				C940CA7B155BDA6C0034430A /* Sources */,
-				C940CA7C155BDA6C0034430A /* Frameworks */,
-				C940CA7D155BDA6C0034430A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = dummy;
-			productName = dummy;
-			productReference = C940CA7F155BDA6C0034430A /* dummy.app */;
-			productType = "com.apple.product-type.application";
-		};
 		C981F23314A8882800E03124 /* JNTETRI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C981F23E14A8882900E03124 /* Build configuration list for PBXNativeTarget "JNTETRI" */;
@@ -479,29 +457,11 @@
 			projectRoot = "";
 			targets = (
 				C981F23314A8882800E03124 /* JNTETRI */,
-				C940CA7E155BDA6C0034430A /* dummy */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		C940CA7D155BDA6C0034430A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		C940CA7B155BDA6C0034430A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C981F23014A8882800E03124 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -548,34 +508,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		C940CA9A155BDA6C0034430A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "dummy/dummy-Prefix.pch";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "dummy/dummy-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		C940CA9B155BDA6C0034430A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "dummy/dummy-Prefix.pch";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "dummy/dummy-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
 		C981F23C14A8882900E03124 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -636,6 +568,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					"\"$(SRCROOT)/../lib\"",
+					"\"$(SRCROOT)/../../boost-libs/lib/mac\"",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -655,6 +588,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					"\"$(SRCROOT)/../lib\"",
+					"\"$(SRCROOT)/../../boost-libs/lib/mac\"",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -664,15 +598,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C940CA9C155BDA6C0034430A /* Build configuration list for PBXNativeTarget "dummy" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C940CA9A155BDA6C0034430A /* Debug */,
-				C940CA9B155BDA6C0034430A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		C981F22E14A8882800E03124 /* Build configuration list for PBXProject "JNTETRI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

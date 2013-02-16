@@ -50,7 +50,7 @@ void KeyboardControl::step(std::function<void(control::ControlType)> Set) {
 	if(jngl::keyPressed(jngl::key::Up) || jngl::keyPressed('i')) {
 		Set(Rotate);
 	}
-	if(jngl::keyPressed(jngl::key::ControlR)) {
+	if(jngl::keyPressed(jngl::key::ControlR) || jngl::keyPressed(jngl::key::AltR)) {
 		Set(RotateCounter);
 	}
 }
