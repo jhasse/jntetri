@@ -35,7 +35,7 @@ void Field::ResetCounter() {
 	counter_ = 200 / (level_ * 1.5 + 1);
 }
 
-void Field::Step() {
+void Field::step() {
 	--counter_;
 	if (gameOver_ && counter_ <= 0 && !blocks_.empty()) {
 		counter_ = 5;
@@ -166,8 +166,7 @@ void Field::DrawNextTetromino() const
 	nextTetromino_->Draw();
 }
 
-void Field::Draw() const
-{
+void Field::draw() const {
 	GetScreen().DrawCentered("field", 0, 600);
 	if(!pause_)
 	{

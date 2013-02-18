@@ -21,7 +21,7 @@ bool GameOverScreen::IsHighscore() const {
 }
 
 void GameOverScreen::step() {
-	game_->GetField().Step(); // Show GameOver animation
+	game_->GetField().step(); // Show GameOver animation
 	game_->StepToRotateScreen();
 	if (game_->GameOverAnimationFinished()) {
 		if (IsHighscore()) {
@@ -46,14 +46,14 @@ void GameOverScreen::step() {
 		}
 	} else if (jngl::keyPressed(jngl::key::Escape)) {
 		while (!game_->GameOverAnimationFinished()) {
-			game_->GetField().Step();
+			game_->GetField().step();
 		}
 	}
 }
 
 void GameOverScreen::onQuitEvent() {
 	while (!game_->GameOverAnimationFinished()) {
-		game_->GetField().Step();
+		game_->GetField().step();
 	}
 	if (!IsHighscore()) {
 		jngl::quit();

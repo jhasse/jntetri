@@ -5,7 +5,7 @@
 #include "optionsmenu.hpp"
 #include "engine/screen.hpp"
 #include "game.hpp"
-#include "multiplayermenu.hpp"
+#include "splitscreen.hpp"
 
 #include <jngl/all.hpp>
 #include <ctime>
@@ -55,7 +55,7 @@ void Menu::FiftyLines() const {
 }
 
 void Menu::Multiplayer() const {
-	jngl::setWork(new Fade(new MultiplayerMenu()));
+	jngl::setWork(new Fade(new SplitScreen));
 }
 
 void Menu::OptionsMenuCallback() const {

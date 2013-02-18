@@ -134,6 +134,8 @@
 		<Unit filename="src\replayrecorder.hpp" />
 		<Unit filename="src\shadow.cpp" />
 		<Unit filename="src\shadow.hpp" />
+		<Unit filename="src\splitscreen.cpp" />
+		<Unit filename="src\splitscreen.hpp" />
 		<Unit filename="src\tetromino.cpp" />
 		<Unit filename="src\tetromino.hpp" />
 		<Extensions>

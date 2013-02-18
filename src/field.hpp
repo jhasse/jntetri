@@ -13,9 +13,9 @@
 
 class Field : boost::noncopyable {
 public:
-	Field(int seed);
-	void Step();
-	void Draw() const;
+	Field(int seed = static_cast<int>(time(0)));
+	void step();
+	void draw() const;
 	void DrawBlock(int x, int y) const;
 	void AddBlock(const Block&);
 	void Translate(double x, double y) const;

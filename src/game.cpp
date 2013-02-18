@@ -32,7 +32,7 @@ void Game::step() {
 		jngl::setWork(new GameOverScreen(this));
 	} else {
 		field_.SetPause(false);
-		field_.Step();
+		field_.step();
 		replayRecorder_.Step();
 		if (type_ == FIFTYLINES && field_.GetLines() >= 50) {
 			field_.SetGameOver(true);
@@ -83,7 +83,7 @@ void Game::draw() const {
 	jngl::scale(1 + rotateDegree_ / 270);
 	jngl::translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
 
-	field_.Draw();
+	field_.draw();
 	if (!rotateScreen_) {
 		jngl::setFontColor(0, 0, 0);
 		jngl::setFontSize(60);
