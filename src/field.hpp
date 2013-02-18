@@ -38,6 +38,8 @@ public:
 	Random& GetRandom();
 	void addShadow(int x, int y);
 	void clearShadows();
+	int getLinesCleared() const;
+	void addJunk(int nr);
 private:
 	void CheckLines();
 	void ResetCounter();
@@ -60,4 +62,5 @@ private:
 	boost::shared_ptr<Control> control_;
 	bool downKeyReleased_;
 	Random random_;
+	int linesCleared;
 };

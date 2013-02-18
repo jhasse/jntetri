@@ -267,6 +267,11 @@ bool Tetromino::MoveDown()
 	return true;
 }
 
+void Tetromino::moveUp(int amount) {
+	y_ += amount;
+	animationY_ -= amount;
+}
+
 void Tetromino::Draw() const
 {
 	jngl::pushMatrix();

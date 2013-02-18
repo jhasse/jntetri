@@ -14,7 +14,8 @@ const int Field::height_ = 19;
 Field::Field(int seed)
 	: blockSize_(60), counter_(0), gameOver_(false), score_(0),
 	  level_(GetOptions().Get<int>("startLevel")), lines_(0), maxY_(0),
-	  pause_(false), control_(new Control{std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0)})
+	  pause_(false), control_(new Control{std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0)}),
+	  linesCleared(0)
 {
 	random_.SetSeed(seed);
 	NewTetromino();
@@ -26,6 +27,29 @@ Field::Field(int seed)
 			if (x != leaveOut) {
 				RGB color(RandomNumber(255), RandomNumber(255), RandomNumber(255));
 				AddBlock(Block(x, i, color));
+			}
+		}
+	}
+}
+
+void Field::addJunk(int nr) {
+	for (auto& block : blocks_) {
+		block.setY(block.getY() + nr);
+		block.setAnimation(block.getAnimation() - nr);
+	}
+
+	if (tetromino_) {
+		tetromino_->moveUp(nr);
+	}
+
+	for (int i = 0; i < nr; ++i) {
+		int leaveOut = random_(width_);
+		for (int x = 0; x < width_; ++x) {
+			if (x != leaveOut) {
+				RGB color(RandomNumber(255), RandomNumber(255), RandomNumber(255));
+				Block block(x, i, color);
+				block.setAnimation(-nr);
+				AddBlock(block);
 			}
 		}
 	}
@@ -45,6 +69,7 @@ void Field::step() {
 	}
 	if (!gameOver_) {
 		control_->Step();
+		linesCleared = 0;
 		if (counter_ <= 0) {
 			ResetCounter();
 			if (!tetromino_->MoveDown()) {
@@ -77,7 +102,6 @@ void Field::step() {
 	for (auto& b : blocks_) {
 		b.step();
 	}
-	CheckLines();
 
 	if ((level_ + 1) * 10 <= lines_) {
 		++level_;
@@ -99,7 +123,8 @@ void Field::CheckLines() {
 			linesToRemove.insert(block.getY());
 		}
 	}
-	score_ += linesToRemove.size() * linesToRemove.size() * (level_ + 1) * (level_ + 1);
+	linesCleared = linesToRemove.size();
+	score_ += linesCleared * linesCleared * (level_ + 1) * (level_ + 1);
 
 	// Remove lines from top to bottom so that explosions will be placed correctly
 	auto rend = linesToRemove.rend();
@@ -310,4 +335,8 @@ void Field::addShadow(int x, int y) {
 
 void Field::clearShadows() {
 	shadows.clear();
+}
+
+int Field::getLinesCleared() const {
+	return linesCleared;
 }

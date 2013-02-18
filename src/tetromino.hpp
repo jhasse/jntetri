@@ -14,6 +14,7 @@ public:
 	void Draw() const;
 	bool Collided() const;
 	bool MoveDown();
+	void moveUp(int amount);
 	void AttachToField();
 	void Rotate(Direction);
 	void RandomRotate();
