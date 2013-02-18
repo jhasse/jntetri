@@ -13,7 +13,7 @@ public:
 	void draw() const;
 	void OnBack() const;
 private:
-	boost::shared_ptr<Chooser> startLevel_;
-	boost::shared_ptr<Chooser> startJunks_;
-	boost::shared_ptr<Button> back_;
+	std::shared_ptr<Chooser> startLevel_;
+	std::shared_ptr<Chooser> startJunks_;
+	std::shared_ptr<Button> back_;
 };

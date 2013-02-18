@@ -11,7 +11,7 @@ ReplayRecorder::ReplayRecorder(Field& field) : fout("testReplay.jtr"), field_(fi
 }
 
 void ReplayRecorder::Step() {
-	field_.GetControl().ForEach(boost::bind(&ReplayRecorder::Write, this, _1));
+	field_.getControl().ForEach(boost::bind(&ReplayRecorder::Write, this, _1));
 	if(time_ == 255) {
 		time_ = 0;
 		Write(control::Null);

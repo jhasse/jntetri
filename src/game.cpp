@@ -13,57 +13,34 @@
 Game::Game(GameType type, int seed)
 	: field_(seed), type_(type), nextPosition_(field_.GetNextPosition()),
 	  oldNextPosition_(nextPosition_), startTime_(jngl::getTime()), pauseTime_(0),
-	  rotateScreen_(false), rotateDegree_(0), replayRecorder_(field_)
-{
+	  rotateScreen_(false), rotateDegree_(0), replayRecorder_(field_) {
 	jngl::setMouseVisible(false);
 }
 
-Game::~Game()
-{
+Game::~Game() {
 	jngl::setMouseVisible(true);
 }
 
-void Game::SetRotateScreen(bool rotateScreen)
-{
+void Game::SetRotateScreen(bool rotateScreen) {
 	rotateScreen_ = rotateScreen;
-#ifdef WIZ
-	if(rotateScreen_)
-	{
-		field_.SetControl(new WizControlRotated);
-	}
-	else
-	{
-		field_.SetControl(new WizControl);
-	}
-#endif
 }
 
-void Game::step()
-{
+void Game::step() {
 	StepToRotateScreen();
-	if(jngl::keyPressed(jngl::key::WizR))
-	{
-		SetRotateScreen(!rotateScreen_);
-	}
-	if(field_.GameOver())
-	{
+	if (field_.GameOver()) {
 		pauseTime_ = jngl::getTime();
 		jngl::setWork(new GameOverScreen(this));
-	}
-	else
-	{
+	} else {
 		field_.SetPause(false);
 		field_.Step();
 		replayRecorder_.Step();
-		if(type_ == FIFTYLINES && field_.GetLines() >= 50)
-		{
+		if (type_ == FIFTYLINES && field_.GetLines() >= 50) {
 			field_.SetGameOver(true);
 		}
 	}
 	nextPosition_ = field_.GetNextPosition();
 	oldNextPosition_ = (nextPosition_ - oldNextPosition_) * 0.01 + oldNextPosition_;
-	if(pauseTime_ > 0.0001 && !field_.GameOver())
-	{
+	if (pauseTime_ > 0.0001 && !field_.GameOver()) {
 		startTime_ += jngl::getTime() - pauseTime_;
 		pauseTime_ = 0;
 	}
@@ -72,19 +49,16 @@ void Game::step()
 	}
 }
 
-void Game::onQuitEvent()
-{
+void Game::onQuitEvent() {
 	static double lastPauseTime = 0;
-	if(jngl::getTime() - lastPauseTime > 1) // Don't allow pausing the game more then one time per second
-	{
+	if (jngl::getTime() - lastPauseTime > 1) { // Don't allow pausing the game more then one time per second
 		lastPauseTime = pauseTime_ = jngl::getTime();
 		field_.SetPause(true);
 		jngl::setWork(new PauseMenu(jngl::getWork()));
 	}
 }
 
-void Game::DrawTime(const int x, const int y) const
-{
+void Game::DrawTime(const int x, const int y) const {
 	jngl::print("Time: ", x, y);
 	double time = GetTime();
 	int minutes = int(time / 60);
@@ -95,28 +69,22 @@ void Game::DrawTime(const int x, const int y) const
 	jngl::print(sstream.str(), 450, y + 100);
 }
 
-void Game::StepToRotateScreen()
-{
-	if(rotateScreen_ && rotateDegree_ < 90)
-	{
+void Game::StepToRotateScreen() {
+	if (rotateScreen_ && rotateDegree_ < 90) {
 		rotateDegree_ += (90 - rotateDegree_) * 0.05;
-	}
-	else
-	{
+	} else {
 		rotateDegree_ *= 0.95;
 	}
 }
 
-void Game::draw() const
-{
+void Game::draw() const {
 	jngl::pushMatrix();
 	jngl::rotate(rotateDegree_);
 	jngl::scale(1 + rotateDegree_ / 270);
 	jngl::translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
 
 	field_.Draw();
-	if(!rotateScreen_)
-	{
+	if (!rotateScreen_) {
 		jngl::setFontColor(0, 0, 0);
 		jngl::setFontSize(60);
 		jngl::pushMatrix();
@@ -124,12 +92,9 @@ void Game::draw() const
 		jngl::print("Next:", -100, -75);
 		field_.DrawNextTetromino();
 		jngl::popMatrix();
-		if(type_ == FIFTYLINES)
-		{
+		if (type_ == FIFTYLINES) {
 			DrawTime(450, 100);
-		}
-		else
-		{
+		} else {
 			jngl::print("Score: ", 450, 100);
 			jngl::print(boost::lexical_cast<std::string>(field_.GetScore()), 450, 200);
 			DrawTime(450, 820);
@@ -142,30 +107,23 @@ void Game::draw() const
 	jngl::popMatrix();
 }
 
-Field& Game::GetField()
-{
+Field& Game::GetField() {
 	return field_;
 }
 
-double Game::GetTime() const
-{
-	if(pauseTime_ > 0)
-	{
+double Game::GetTime() const {
+	if (pauseTime_ > 0) {
 		return pauseTime_ - startTime_;
-	}
-	else
-	{
+	} else {
 		return jngl::getTime() - startTime_;
 	}
 }
 
-bool Game::GameOverAnimationFinished() const
-{
+bool Game::GameOverAnimationFinished() const {
 	return field_.GameOverAnimationFinished();
 }
 
-GameType Game::GetType() const
-{
+GameType Game::getType() const {
 	return type_;
 }
 

@@ -65,27 +65,21 @@ void Login::HandleLogin1()
 	text_ = "waiting for authentification ...";
 }
 
-void Login::HandleLogin2(std::string temp)
-{
-	if(temp == "ok")
-	{
+void Login::HandleLogin2(std::string temp) {
+	if(temp == "ok") {
 		GoToLobby();
 	}
-	else if(temp == "unknown name")
-	{
+	else if(temp == "unknown name") {
 		text_ = "No user with this name found.\nDo you want to register yourself?";
 		cancel_.CenterAt(-350, 880);
 		cancel_.SetText("No");
 		Button* yes = new Button("Yes", boost::bind(&Login::Register, this));
 		yes->CenterAt(350, 880);
-		AddWidget(boost::shared_ptr<Widget>(yes));
+		addWidget(std::shared_ptr<Widget>(yes));
 	}
-	else if(temp == "wrong password")
-	{
+	else if (temp == "wrong password") {
 		text_ = "The password you've entered\nis wrong. Please try again.";
-	}
-	else
-	{
+	} else {
 		text_ = "Error: ";
 		text_ += temp;
 		OnError();

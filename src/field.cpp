@@ -20,145 +20,107 @@ Field::Field(int seed)
 	NewTetromino();
 	NewTetromino();
 	score_ = 0;
-	for(int i = 0; i < GetOptions().Get<int>("startJunks"); ++i)
-	{
+	for (int i = 0; i < GetOptions().Get<int>("startJunks"); ++i) {
 		int leaveOut = random_(width_);
-		for(int x = 0; x < width_; ++x)
-		{
-			if(x != leaveOut)
-			{
+		for (int x = 0; x < width_; ++x) {
+			if (x != leaveOut) {
 				RGB color(RandomNumber(255), RandomNumber(255), RandomNumber(255));
 				AddBlock(Block(x, i, color));
 			}
 		}
 	}
-#ifdef WIZ
-	control_.reset(new WizControl);
-#endif
 }
 
-void Field::ResetCounter()
-{
+void Field::ResetCounter() {
 	counter_ = 200 / (level_ * 1.5 + 1);
 }
 
-bool explosionFinished(const Explosion& e) {
-	return e.Finished();
-}
-
-void Field::Step()
-{
-	control_->Step();
+void Field::Step() {
 	--counter_;
-	if(gameOver_ && counter_ <= 0 && !blocks_.empty())
-	{
+	if (gameOver_ && counter_ <= 0 && !blocks_.empty()) {
 		counter_ = 5;
-		std::vector<Block>::iterator randomBlock = blocks_.begin() + RandomNumber(blocks_.size());
+		std::vector<Block>::iterator randomBlock = blocks_.begin() + RandomNumber(static_cast<int>(blocks_.size()));
 		explosions_.push_back(Explosion(*randomBlock, 1));
 		blocks_.erase(randomBlock);
 	}
-	if(!gameOver_)
-	{
-		if(counter_ <= 0)
-		{
+	if (!gameOver_) {
+		control_->Step();
+		if (counter_ <= 0) {
 			ResetCounter();
-			if(!tetromino_->MoveDown())
-			{
-				if(delay_)
-				{
+			if (!tetromino_->MoveDown()) {
+				if (delay_) {
 					NewTetromino();
 					delay_ = false;
-				}
-				else
-				{
+				} else {
 					counter_ = 30; // Wait 0.3 seconds so that it's possible to move blocks below others
 					delay_ = true;
 				}
-			}
-			else
-			{
+			} else {
 				delay_ = false;
 			}
 		}
 		tetromino_->Step();
-		if(control_->Check(control::Drop))
-		{
-			while(tetromino_->MoveDown())
-			{
+		if (control_->Check(control::Drop)) {
+			while (tetromino_->MoveDown()) {
 			}
 			NewTetromino();
 		}
-		if(control_->Check(control::Down))
-		{
-			if(downKeyReleased_ && counter_ > 7)
-			{
+		if (control_->Check(control::Down)) {
+			if (downKeyReleased_ && counter_ > 7) {
 				counter_ = 7;
 			}
-		}
-		else
-		{
+		} else {
 			downKeyReleased_ = true;
 		}
 	}
 
-	std::vector<Block>::iterator end = blocks_.end();
-	for(std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it)
-	{
-		it->step();
+	for (auto& b : blocks_) {
+		b.step();
 	}
 	CheckLines();
 
-	if((level_ + 1) * 10 <= lines_)
-	{
+	if ((level_ + 1) * 10 <= lines_) {
 		++level_;
 	}
 
-	std::vector<Explosion>::iterator end2 = explosions_.end();
-	for(std::vector<Explosion>::iterator it = explosions_.begin(); it != end2; ++it)
-	{
-		it->Step();
+	for (auto& e : explosions_) {
+		e.Step();
 	}
-	explosions_.erase(std::remove_if(explosions_.begin(), explosions_.end(), explosionFinished), explosions_.end());
+	explosions_.erase(std::remove_if(explosions_.begin(), explosions_.end(), [](const Explosion& e) {
+		return e.isFinished();
+	}), explosions_.end());
 }
 
-void Field::CheckLines()
-{
+void Field::CheckLines() {
 	std::set<int> linesToRemove; // We need to sort the lines so that they are removed from top to bottom
 	std::map<int, int> blocksInLine;
-	std::vector<Block>::const_iterator end = blocks_.end();
-	for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
-	{
-		if(++blocksInLine[it->getY()] == width_)
-		{
-			linesToRemove.insert(it->getY());
+	for (const auto& block : blocks_) {
+		if (++blocksInLine[block.getY()] == width_) {
+			linesToRemove.insert(block.getY());
 		}
 	}
 	score_ += linesToRemove.size() * linesToRemove.size() * (level_ + 1) * (level_ + 1);
 
 	// Remove lines from top to bottom so that explosions will be placed correctly
-	std::set<int>::reverse_iterator rend = linesToRemove.rend();
-	for(std::set<int>::reverse_iterator it = linesToRemove.rbegin(); it != rend; ++it)
-	{
-		RemoveLine(*it, linesToRemove.size());
+	auto rend = linesToRemove.rend();
+	for (auto it = linesToRemove.rbegin(); it != rend; ++it) {
+		removeLine(*it, static_cast<int>(linesToRemove.size()));
 	}
 }
 
-void Field::NewTetromino()
-{
+void Field::NewTetromino() {
 	downKeyReleased_ = false;
 
 	ResetCounter();
 	score_ += level_;
-	if(tetromino_)
-	{
+	if (tetromino_) {
 		tetromino_->AttachToField();
 		CheckLines();
 	}
 	tetromino_ = nextTetromino_;
 	nextTetromino_.reset(new Tetromino(random_(7), *this));
 
-	if(tetromino_)
-	{
+	if (tetromino_) {
 		const int xPositions[] = { 5, 6, 4, 7, 3, 8, 2, 9, 1, 10, 0 };
 		for(int i = 0; i < 11; ++i)
 		{
@@ -285,22 +247,17 @@ int Field::GetBlockSize() const
 	return blockSize_;
 }
 
-void Field::RemoveLine(const int y, const int numberOfLines)
-{
-	std::vector<Block>::iterator end = blocks_.end();
-	for(std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it)
-	{
-		if(it->getY() == y)
-		{
+void Field::removeLine(const int y, const int numberOfLines) {
+	auto end = blocks_.end();
+	for (auto it = blocks_.begin(); it != end; ++it) {
+		if (it->getY() == y) {
 			explosions_.push_back(Explosion(*it, numberOfLines));
 			blocks_.erase(it);
-			return RemoveLine(y, numberOfLines);
+			return removeLine(y, numberOfLines);
 		}
 	}
-	for(std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it)
-	{
-		if(it->getY() > y)
-		{
+	for (std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it) {
+		if (it->getY() > y) {
 			it->setY(it->getY() - 1);
 			it->setAnimation(it->getAnimation() + 1);
 		}
@@ -319,34 +276,28 @@ int Field::GetLines() const
 	return lines_;
 }
 
-int Field::GetLevel() const
-{
+int Field::GetLevel() const {
 	return level_;
 }
 
-void Field::SetPause(bool pause)
-{
+void Field::SetPause(bool pause) {
 	pause_ = pause;
 	jngl::setMouseVisible(pause);
 }
 
-bool Field::GameOverAnimationFinished() const
-{
+bool Field::GameOverAnimationFinished() const {
 	return blocks_.empty();
 }
 
-void Field::SetGameOver(bool gameOver)
-{
+void Field::SetGameOver(bool gameOver) {
 	gameOver_ = gameOver;
 }
 
-void Field::SetControl(Control* control)
-{
+void Field::setControl(Control* control) {
 	control_.reset(control);
 }
 
-Control& Field::GetControl() const
-{
+Control& Field::getControl() const {
 	return *control_;
 }
 

@@ -8,32 +8,25 @@
 
 #include <jngl/all.hpp>
 
-GameOverScreen::GameOverScreen(Game* game)
-	: game_(game), blink_(0), highscore_(game_->GetType()), input_(new Input(-160, 200)),
-	  work_(jngl::getWork())
-{
+GameOverScreen::GameOverScreen(Game* game) : game_(game), blink_(0), highscore_(game_->getType()),
+input_(new Input(-160, 200)), work_(jngl::getWork()) {
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
 	input_->SetText(GetOptions().Get<std::string>("lastHighscoreName"));
-	AddWidget(input_);
+	addWidget(input_);
 }
 
-bool GameOverScreen::IsHighscore() const
-{
-	return highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50);
+bool GameOverScreen::IsHighscore() const {
+	return highscore_.IsHighscore(data_) && (game_->getType() == NORMAL || game_->GetField().GetLines() >= 50);
 }
 
-void GameOverScreen::step()
-{
+void GameOverScreen::step() {
 	game_->GetField().Step(); // Show GameOver animation
 	game_->StepToRotateScreen();
-	if(game_->GameOverAnimationFinished())
-	{
-		if(IsHighscore())
-		{
+	if (game_->GameOverAnimationFinished()) {
+		if (IsHighscore()) {
 			StepWidgets();
-			if(jngl::keyPressed(jngl::key::Return) || jngl::keyPressed(jngl::key::WizB))
-			{
+			if(jngl::keyPressed(jngl::key::Return) || jngl::keyPressed(jngl::key::WizB)) {
 				data_.name = input_->GetText();
 				GetOptions().Set("lastHighscoreName", data_.name);
 				highscore_.Add(data_);
@@ -42,52 +35,44 @@ void GameOverScreen::step()
 				menu->BlinkHighscore(data_);
 				jngl::setWork(new Fade(menu));
 			}
-		}
-		else
-		{
+		} else {
 			blink_ += 4;
-			if(blink_ > 2 * 255)
-			{
+			if (blink_ > 2 * 255) {
 				blink_ = 0;
 			}
-			if(jngl::mousePressed() || jngl::keyPressed(jngl::key::Any))
-			{
+			if (jngl::mousePressed() || jngl::keyPressed(jngl::key::Any)) {
 				jngl::setWork(new Fade(new Menu));
 			}
+		}
+	} else if (jngl::keyPressed(jngl::key::Escape)) {
+		while (!game_->GameOverAnimationFinished()) {
+			game_->GetField().Step();
 		}
 	}
 }
 
-void GameOverScreen::onQuitEvent()
-{
-	while(!game_->GameOverAnimationFinished())
-	{
+void GameOverScreen::onQuitEvent() {
+	while (!game_->GameOverAnimationFinished()) {
 		game_->GetField().Step();
 	}
-	if(!IsHighscore())
-	{
+	if (!IsHighscore()) {
 		jngl::quit();
 	}
 }
 
-void GameOverScreen::draw() const
-{
+void GameOverScreen::draw() const {
 	game_->draw();
 	jngl::setFontSize(80);
 	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered("GAMEOVER", 0, -100);
-	if(game_->GameOverAnimationFinished())
-	{
+	if (game_->GameOverAnimationFinished()) {
 		jngl::setFontSize(50);
-		if(highscore_.IsHighscore(data_) && (game_->GetType() == NORMAL || game_->GetField().GetLines() >= 50))
-		{
+		if (highscore_.IsHighscore(data_) && (game_->getType() == NORMAL || game_->GetField().GetLines() >= 50)) {
 			jngl::setFontColor(0, 0, 0);
 			GetScreen().PrintCentered("You entered the top!", 0, 50);
 			GetScreen().PrintCentered("Enter your name:", 0, 130);
 			DrawWidgets();
-		}
-		else
-		{
+		} else {
 			jngl::setFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
 			GetScreen().PrintCentered("Press any key", 0, 100);
 		}

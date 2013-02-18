@@ -5,17 +5,15 @@
 #include "engine/fade.hpp"
 
 #include <jngl/all.hpp>
-#include <boost/bind.hpp>
 
 PauseMenu::PauseMenu(boost::shared_ptr<jngl::Work> work)
-	: work_(boost::dynamic_pointer_cast<Game>(work)), buttonBox_(new ButtonBox)
-{
+	: work_(boost::dynamic_pointer_cast<Game>(work)), buttonBox_(new ButtonBox) {
 	assert(work_);
 	work_->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
-	buttonBox_->Add("Resume", boost::bind(&PauseMenu::Continue, this));
-	buttonBox_->Add("Menu", boost::bind(&PauseMenu::QuitToMenu, this));
-	buttonBox_->Add("Quit", jngl::quit);
-	AddWidget(buttonBox_);
+	buttonBox_->add("Resume", std::bind(&PauseMenu::Continue, this));
+	buttonBox_->add("Menu", std::bind(&PauseMenu::QuitToMenu, this));
+	buttonBox_->add("Quit", jngl::quit);
+	addWidget(buttonBox_);
 }
 
 void PauseMenu::step()

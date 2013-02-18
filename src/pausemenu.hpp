@@ -15,5 +15,5 @@ public:
 	void onQuitEvent();
 private:
     boost::shared_ptr<Game> work_;
-    boost::shared_ptr<ButtonBox> buttonBox_;
+    std::shared_ptr<ButtonBox> buttonBox_;
 };

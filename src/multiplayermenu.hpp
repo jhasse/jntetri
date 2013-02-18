@@ -4,7 +4,7 @@
 #include "gui/button.hpp"
 #include "gui/input.hpp"
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class MultiplayerMenu : public Work {
 public:
@@ -16,8 +16,8 @@ public:
 	std::string GetName() const;
 	std::string GetPassword() const;
 private:
-	boost::shared_ptr<Button> back_;
-	boost::shared_ptr<Button> login_;
-	boost::shared_ptr<Input> name_;
-	boost::shared_ptr<Input> password_;
+	std::shared_ptr<Button> back_;
+	std::shared_ptr<Button> login_;
+	std::shared_ptr<Input> name_;
+	std::shared_ptr<Input> password_;
 };

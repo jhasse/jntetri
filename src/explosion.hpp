@@ -7,7 +7,7 @@ public:
 	Explosion(const Block&, int numberOfLines);
 	void Step();
 	void Draw() const;
-	bool Finished() const;
+	bool isFinished() const;
 private:
 	Block block_;
 	int countdown_;

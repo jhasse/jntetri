@@ -100,26 +100,16 @@ void Highscore::Draw() const
 	jngl::popMatrix();
 }
 
-bool CompareScore(const Data& lhs, const Data& rhs)
-{
-	return lhs.score > rhs.score;
-}
-
-bool CompareTime(const Data& lhs, const Data& rhs)
-{
-	return lhs.time < rhs.time;
-}
-
-void Highscore::Add(Data data)
-{
+void Highscore::Add(Data data) {
 	highscores_.push_back(data);
-	if(type_ == NORMAL)
-	{
-		highscores_.sort(CompareScore);
-	}
-	else
-	{
-		highscores_.sort(CompareTime);
+	if (type_ == NORMAL) {
+		highscores_.sort([](const Data& lhs, const Data& rhs) {
+			return lhs.score > rhs.score;
+		});
+	} else {
+		highscores_.sort([](const Data& lhs, const Data& rhs) {
+			return lhs.time < rhs.time;
+		});
 	}
 	highscores_.pop_back();
 }

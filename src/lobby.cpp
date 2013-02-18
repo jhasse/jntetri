@@ -9,15 +9,15 @@
 
 #include <jngl/all.hpp>
 
-Lobby::Lobby(boost::shared_ptr<Socket> socket)
+Lobby::Lobby(std::shared_ptr<Socket> socket)
 	: socket_(socket), chatText_(""), input_(new Input(-700, 1100))
 {
 	logout_.reset(new Button("Logout", boost::bind(&Lobby::OnLogout, this)));
 	play_.reset(new Button("Play!™", boost::bind(&Lobby::OnPlay, this)));
 	HandleReceive("");
-	AddWidget(input_);
-	AddWidget(logout_);
-	AddWidget(play_);
+	addWidget(input_);
+	addWidget(logout_);
+	addWidget(play_);
 	logout_->CenterAt(-450, 150);
 	play_->CenterAt(450, 150);
 }

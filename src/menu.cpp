@@ -6,35 +6,29 @@
 #include "engine/screen.hpp"
 #include "game.hpp"
 #include "multiplayermenu.hpp"
-#include "replayplayer.hpp"
 
 #include <jngl/all.hpp>
-#include <boost/bind.hpp>
 #include <ctime>
 
-Menu::Menu() : buttonBox_(new ButtonBox(-450, 0)), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES)
-{
-    buttonBox_->Add("Normal", boost::bind(&Menu::Normal, this), 'n');
-	buttonBox_->Add("50 Lines", boost::bind(&Menu::FiftyLines, this), '5');
-    buttonBox_->Add("Multiplayer", boost::bind(&Menu::Multiplayer, this), 'm');
-	buttonBox_->Add("Options", boost::bind(&Menu::OptionsMenuCallback, this), 'o');
-	buttonBox_->Add("Quit", boost::bind(&Menu::QuitGame, this), 'q');
-	AddWidget(buttonBox_);
+Menu::Menu() : buttonBox_(new ButtonBox(-450, 0)), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES) {
+    buttonBox_->add("Normal", std::bind(&Menu::Normal, this), 'n');
+	buttonBox_->add("50 Lines", std::bind(&Menu::FiftyLines, this), '5');
+    buttonBox_->add("Multiplayer", std::bind(&Menu::Multiplayer, this), 'm');
+	buttonBox_->add("Options", std::bind(&Menu::OptionsMenuCallback, this), 'o');
+	buttonBox_->add("Quit", std::bind(&Menu::QuitGame, this), 'q');
+	addWidget(buttonBox_);
 }
 
-void Menu::BlinkHighscore(Data data)
-{
+void Menu::BlinkHighscore(Data data) {
 	normalHighscore_.Blink(data);
 	fiftyLinesHighscore_.Blink(data);
 }
 
-void Menu::step()
-{
+void Menu::step() {
 	StepWidgets();
 }
 
-void Menu::draw() const
-{
+void Menu::draw() const {
 	jngl::setBackgroundColor(255, 255, 255);
 	DrawWidgets();
 	GetScreen().DrawCentered("box", 340, 0);
@@ -52,27 +46,22 @@ void Menu::draw() const
 	jngl::popMatrix();
 }
 
-void Menu::Normal() const
-{
+void Menu::Normal() const {
 	jngl::setWork(new Fade(new Game(NORMAL, static_cast<int>(time(0)))));
 }
 
-void Menu::FiftyLines() const
-{
-	jngl::setWork(new Fade(new ReplayPlayer("test.jtr")));
+void Menu::FiftyLines() const {
+	jngl::setWork(new Fade(new Game(FIFTYLINES, static_cast<int>(time(0)))));
 }
 
-void Menu::Multiplayer() const
-{
+void Menu::Multiplayer() const {
 	jngl::setWork(new Fade(new MultiplayerMenu()));
 }
 
-void Menu::OptionsMenuCallback() const
-{
+void Menu::OptionsMenuCallback() const {
 	jngl::setWork(new Fade(new OptionsMenu));
 }
 
-void Menu::QuitGame() const
-{
+void Menu::QuitGame() const {
 	jngl::quit();
 }

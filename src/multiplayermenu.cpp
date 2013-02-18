@@ -9,61 +9,49 @@
 #endif
 
 #include <jngl/all.hpp>
-#include <boost/bind.hpp>
 
-MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, 400)), password_(new Input(50, 500))
-{
-	AddWidget(name_);
-	AddWidget(password_);
-	login_.reset(new Button("Login", boost::bind(&MultiplayerMenu::OnLogin, this)));
-	AddWidget(login_);
-	back_.reset(new Button("Back", boost::bind(&MultiplayerMenu::OnBack, this)));
-	AddWidget(back_);
-	back_->CenterAt(-350, 880);
-	login_->CenterAt(350, 880);
+MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -200)), password_(new Input(50, -100)) {
+	addWidget(name_);
+	addWidget(password_);
+	login_.reset(new Button("Login", std::bind(&MultiplayerMenu::OnLogin, this)));
+	addWidget(login_);
+	back_.reset(new Button("Back", std::bind(&MultiplayerMenu::OnBack, this)));
+	addWidget(back_);
+	back_->CenterAt(-350, 280);
+	login_->CenterAt(350, 280);
 	password_->SetPassword(true);
 	name_->SetText(GetOptions().Get<std::string>("lastLoginName"));
-	if(name_->GetText() != "")
-	{
+	if (name_->GetText() != "") {
 		FocusNext();
 	}
 }
 
-void MultiplayerMenu::step()
-{
+void MultiplayerMenu::step() {
 	StepWidgets();
-	if(jngl::keyPressed(jngl::key::Return))
-	{
+	if (jngl::keyPressed(jngl::key::Return)) {
 		OnLogin();
 	}
 }
 
-void MultiplayerMenu::draw() const
-{
+void MultiplayerMenu::draw() const {
 	jngl::setFontColor(0, 0, 0);
-	jngl::print("Name:", -500, 400);
-	jngl::print("Password:", -500, 500);
+	jngl::print("Name:", -500, -200);
+	jngl::print("Password:", -500, -100);
 	DrawWidgets();
 }
 
-void MultiplayerMenu::OnBack() const
-{
+void MultiplayerMenu::OnBack() const {
 	jngl::setWork(new Fade(new Menu));
 }
 
-void MultiplayerMenu::OnLogin()
-{
-#ifndef WIZ
+void MultiplayerMenu::OnLogin() {
 	jngl::setWork(new Login(boost::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork())));
-#endif
 }
 
-std::string MultiplayerMenu::GetName() const
-{
+std::string MultiplayerMenu::GetName() const {
 	return name_->GetText();
 }
 
-std::string MultiplayerMenu::GetPassword() const
-{
+std::string MultiplayerMenu::GetPassword() const {
 	return password_->GetText();
 }

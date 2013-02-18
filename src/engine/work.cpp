@@ -5,89 +5,66 @@
 #include <algorithm>
 #include <jngl/input.hpp>
 
-Work::Work()
-{
+Work::~Work() {
 }
 
-Work::~Work()
-{
-}
-
-void Work::FocusPrevious()
-{
+void Work::FocusPrevious() {
 	focusedWidget_->SetFocus(false);
-	if(focusedWidget_ == widgets_.front())
-	{
+	if (focusedWidget_ == widgets_.front()) {
 		focusedWidget_ = widgets_.back();
-	}
-	else
-	{
-		std::vector<boost::shared_ptr<Widget> >::iterator it = std::find(widgets_.begin(), widgets_.end(), focusedWidget_);
+	} else {
+		auto it = std::find(widgets_.begin(), widgets_.end(), focusedWidget_);
 		--it;
 		focusedWidget_ = *it;
 	}
 }
 
-void Work::FocusNext()
-{
+void Work::FocusNext() {
 	focusedWidget_->SetFocus(false);
-	if(focusedWidget_ == widgets_.back())
-	{
+	if (focusedWidget_ == widgets_.back()) {
 		focusedWidget_ = widgets_.front();
-	}
-	else
-	{
-		std::vector<boost::shared_ptr<Widget> >::iterator it = std::find(widgets_.begin(), widgets_.end(), focusedWidget_);
+	} else {
+		auto it = std::find(widgets_.begin(), widgets_.end(), focusedWidget_);
 		++it;
 		focusedWidget_ = *it;
 	}
 }
 
-void Work::StepFocus()
-{
-	if(jngl::keyPressed(jngl::key::Down) || jngl::keyPressed(jngl::key::WizDown) || jngl::keyPressed(jngl::key::Tab))
-	{
+void Work::StepFocus() {
+	if (jngl::keyPressed(jngl::key::Down) || jngl::keyPressed(jngl::key::WizDown) || jngl::keyPressed(jngl::key::Tab)) {
 		FocusNext();
 	}
-	if(!focusedWidget_->GetSensitive())
-	{
+	if (!focusedWidget_->GetSensitive()) {
 		FocusNext();
 	}
-	if(jngl::keyPressed(jngl::key::Up) || jngl::keyPressed(jngl::key::WizUp))
-	{
+	if (jngl::keyPressed(jngl::key::Up) || jngl::keyPressed(jngl::key::WizUp)) {
 		FocusPrevious();
-		while(!focusedWidget_->GetSensitive())
-		{
+		while (!focusedWidget_->GetSensitive()) {
 			FocusPrevious();
 		}
 	}
 	focusedWidget_->SetFocus(true);
 }
 
-void Work::StepWidgets()
-{
-	std::vector<boost::shared_ptr<Widget> >::iterator end = widgets_.end();
-	for(std::vector<boost::shared_ptr<Widget> >::iterator it = widgets_.begin(); it != end; ++it)
-	{
-		(*it)->Step();
+void Work::StepWidgets() {
+	if (widgets_.empty()) {
+		return;
+	}
+	for (auto w : widgets_) {
+		w->Step();
 	}
 	StepFocus();
 }
 
-void Work::DrawWidgets() const
-{
-	std::vector<boost::shared_ptr<Widget> >::const_iterator end = widgets_.end();
-	for(std::vector<boost::shared_ptr<Widget> >::const_iterator it = widgets_.begin(); it != end; ++it)
-	{
-		(*it)->Draw();
+void Work::DrawWidgets() const {
+	for (auto& w : widgets_) {
+		w->Draw();
 	}
 }
 
-void Work::AddWidget(boost::shared_ptr<Widget> widget)
-{
+void Work::addWidget(std::shared_ptr<Widget> widget) {
 	widgets_.push_back(widget);
-	if(!focusedWidget_)
-	{
+	if (!focusedWidget_) {
 		focusedWidget_ = widget;
 	}
 	widget->OnAdd(*this);

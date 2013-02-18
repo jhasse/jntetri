@@ -23,7 +23,7 @@ public:
 	Block* getBlock(int x, int y);
 	bool CheckCollision(int x, int y) const;
 	void NewTetromino();
-	void RemoveLine(int y, int numberOfLines);
+	void removeLine(int y, int numberOfLines);
 	void SetGameOver(bool);
 	bool GameOver() const;
 	int GetScore() const;
@@ -33,8 +33,8 @@ public:
 	void DrawNextTetromino() const;
 	void SetPause(bool pause);
 	bool GameOverAnimationFinished() const;
-	void SetControl(Control*);
-	Control& GetControl() const;
+	void setControl(Control*);
+	Control& getControl() const;
 	Random& GetRandom();
 	void addShadow(int x, int y);
 	void clearShadows();

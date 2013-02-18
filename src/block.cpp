@@ -5,15 +5,12 @@
 
 const int Block::size = 60;
 
-Block::Block(int x, int y, RGB color) : x(x), y(y), animation(0), color(color), flashAnimation(0)
-{
+Block::Block(int x, int y, RGB color) : x(x), y(y), animation(0), color(color), flashAnimation(0) {
 }
 
-void Block::step()
-{
+void Block::step() {
 	animation *= 0.95;
-	if(flashAnimation > 0)
-	{
+	if (flashAnimation > 0) {
 		flashAnimation *= 0.96;
 	}
 }
@@ -22,13 +19,11 @@ void Block::setAnimation(double a) {
 	animation = a;
 }
 
-double Block::getAnimation() const
-{
+double Block::getAnimation() const {
 	return animation;
 }
 
-void Block::draw() const
-{
+void Block::draw() const {
 	jngl::setSpriteColor(static_cast<unsigned char>(color.GetRed() + flashAnimation),
 		                 static_cast<unsigned char>(color.GetGreen() + flashAnimation),
 						 static_cast<unsigned char>(color.GetBlue() + flashAnimation));
@@ -36,18 +31,14 @@ void Block::draw() const
 	jngl::setSpriteColor(255, 255, 255);
 }
 
-void Block::rotate(Direction direction, double rotationCenterX, double rotationCenterY)
-{
+void Block::rotate(Direction direction, double rotationCenterX, double rotationCenterY) {
 	double tempX, tempY;
 	double xRot = x - rotationCenterX;
 	double yRot = y - rotationCenterY;
-	if(direction == CLOCKWISE)
-	{
+	if (direction == CLOCKWISE) {
 		tempX =  yRot;
 		tempY = -xRot;
-	}
-	else
-	{
+	} else {
 		tempX = -yRot;
 		tempY =  xRot;
 	}

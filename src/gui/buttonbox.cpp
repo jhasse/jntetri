@@ -3,8 +3,6 @@
 #include "../engine/screen.hpp"
 #include "../engine/procedure.hpp"
 
-#include <boost/shared_ptr.hpp>
-
 const int ButtonBox::spacing_ = 30;
 
 ButtonBox::ButtonBox(const int xCenter, const int yCenter)
@@ -19,14 +17,12 @@ ButtonBox::ButtonBox()
 	SetSensitive(false);
 }
 
-void ButtonBox::Add(const std::string& text, boost::function<void()> function, const char shortcut)
-{
-	buttons_.push_back(boost::shared_ptr<Button>(new Button(text, function, shortcut)));
+void ButtonBox::add(const std::string& text, std::function<void()> function, const char shortcut) {
+	buttons_.push_back(std::make_shared<Button>(text, function, shortcut));
 
-	std::vector<boost::shared_ptr<Button> >::iterator end = buttons_.end();
+	auto end = buttons_.end();
 	int yPosButton = yCenter_ - (buttons_.size() * (buttons_[0]->GetHeight() + spacing_) - spacing_) / 2 + buttons_[0]->GetHeight() / 2;
-	for(std::vector<boost::shared_ptr<Button> >::iterator it = buttons_.begin(); it != end; ++it)
-	{
+	for (auto it = buttons_.begin(); it != end; ++it) {
 		(*it)->CenterAt(xCenter_, yPosButton);
 		yPosButton += buttons_[0]->GetHeight() + spacing_;
 	}
@@ -52,11 +48,8 @@ int ButtonBox::GetMouseover() const
 	return -1;
 }
 
-void ButtonBox::OnAdd(Work& work)
-{
-	std::vector<boost::shared_ptr<Button> >::iterator end = buttons_.end();
-	for(std::vector<boost::shared_ptr<Button> >::iterator it = buttons_.begin(); it != end; ++it)
-	{
-		work.AddWidget(*it);
+void ButtonBox::OnAdd(Work& work) {
+	for (auto& button : buttons_) {
+		work.addWidget(button);
 	}
 }

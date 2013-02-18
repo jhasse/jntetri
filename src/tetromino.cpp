@@ -105,8 +105,7 @@ void Tetromino::Step()
 	animationY_ *= 0.8;
 	animationX_ *= 0.7;
 	rotation_ *= 0.8;
-	if(field_.GetControl().Check(control::Left))
-	{
+	if (field_.getControl().Check(control::Left)) {
 		ChangeX(-1);
 		if (Collided()) {
 			ChangeX(1);
@@ -114,7 +113,7 @@ void Tetromino::Step()
 			recreateShadow = true;
 		}
 	}
-	if(field_.GetControl().Check(control::Right))
+	if(field_.getControl().Check(control::Right))
 	{
 		ChangeX(1);
 		if (Collided()) {
@@ -123,13 +122,11 @@ void Tetromino::Step()
 			recreateShadow = true;
 		}
 	}
-	if(field_.GetControl().Check(control::Rotate))
-	{
+	if (field_.getControl().Check(control::Rotate)) {
 		Rotate(CLOCKWISE);
 		recreateShadow = true;
 	}
-	if(field_.GetControl().Check(control::RotateCounter))
-	{
+	if (field_.getControl().Check(control::RotateCounter)) {
 		Rotate(COUNTERCLOCKWISE);
 		recreateShadow = true;
 	}

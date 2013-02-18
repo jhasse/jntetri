@@ -23,6 +23,6 @@ private:
 	int blink_;
 	Data data_;
 	Highscore highscore_;
-	boost::shared_ptr<Input> input_;
+	std::shared_ptr<Input> input_;
 	boost::shared_ptr<jngl::Work> work_;
 };

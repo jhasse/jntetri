@@ -5,11 +5,11 @@
 #include "gui/input.hpp"
 #include "gui/button.hpp"
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class Lobby : public Work {
 public:
-	Lobby(boost::shared_ptr<Socket>);
+	Lobby(std::shared_ptr<Socket>);
 	void step();
 	void draw() const;
 	void HandleReceive(std::string);
@@ -17,9 +17,9 @@ public:
 	void OnLogout();
 	void OnPlay();
 private:
-	boost::shared_ptr<Socket> socket_;
+	std::shared_ptr<Socket> socket_;
 	std::string chatText_;
-	boost::shared_ptr<Input> input_;
-	boost::shared_ptr<Button> logout_;
-	boost::shared_ptr<Button> play_;
+	std::shared_ptr<Input> input_;
+	std::shared_ptr<Button> logout_;
+	std::shared_ptr<Button> play_;
 };

@@ -16,7 +16,7 @@ public:
 	Field& GetField();
 	double GetTime() const;
 	bool GameOverAnimationFinished() const;
-	GameType GetType() const;
+	GameType getType() const;
 	void DrawTime(int x, int y) const;
 	void StepToRotateScreen();
 	void SetRotateScreen(bool);

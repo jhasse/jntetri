@@ -89,9 +89,6 @@
 		C940CA85155BDA6C0034430A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C940CA86155BDA6C0034430A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C940CA87155BDA6C0034430A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-libc++.a"; path = "../lib/libboost_filesystem-libc++.a"; sourceTree = "<group>"; };
-		C97CA5091517F7580046C42D /* libboost_serialization-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_serialization-libc++.a"; path = "../lib/libboost_serialization-libc++.a"; sourceTree = "<group>"; };
-		C97CA50A1517F7580046C42D /* libboost_system-libc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-libc++.a"; path = "../lib/libboost_system-libc++.a"; sourceTree = "<group>"; };
 		C981F23414A8882800E03124 /* JNTETRI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = JNTETRI; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AE77C014A8886A004359EF /* block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = block.cpp; path = ../src/block.cpp; sourceTree = "<group>"; };
 		C9AE77C114A8886A004359EF /* block.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = block.hpp; path = ../src/block.hpp; sourceTree = "<group>"; };
@@ -327,9 +324,6 @@
 				C920096916D0157C0037F10B /* libboost_serialization.a */,
 				C920096A16D0157C0037F10B /* libboost_system.a */,
 				C9F9BEF916D00E4900795284 /* JNGL.framework */,
-				C97CA5081517F7580046C42D /* libboost_filesystem-libc++.a */,
-				C97CA5091517F7580046C42D /* libboost_serialization-libc++.a */,
-				C97CA50A1517F7580046C42D /* libboost_system-libc++.a */,
 				C93A319714BBBB0A00B6DBC8 /* Carbon.framework */,
 				C931869114A89BFB00880537 /* share */,
 				C9AE77BE14A88859004359EF /* Source Files */,

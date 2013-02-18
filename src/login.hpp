@@ -34,5 +34,5 @@ private:
 	const static int port_;
 	const static std::string protocolVersion_;
 	Button cancel_;
-	boost::shared_ptr<Socket> socket_;
+	std::shared_ptr<Socket> socket_;
 };
