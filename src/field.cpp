@@ -247,21 +247,16 @@ bool Field::CheckCollision(const int x, const int y) const
 	return false;
 }
 
-void Field::AddBlock(const Block& block)
-{
+void Field::AddBlock(const Block& block) {
 	blocks_.push_back(block);
-	if(blocks_.back().getY() > maxY_)
-	{
+	if (blocks_.back().getY() > maxY_) {
 		maxY_ = blocks_.back().getY();
 	}
 
-	// Let's look if we need to copy the current animation
-	std::vector<Block>::const_iterator end = blocks_.end();
-	for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
-	{
-		if(it->getAnimation() > 0.0001)
-		{
-			blocks_.back().setAnimation(it->getAnimation());
+	// Copy the current animation
+	for (const auto& block : blocks_) {
+		if (block.getAnimation() > 0.0001 || block.getAnimation() < -0.0001) {
+			blocks_.back().setAnimation(block.getAnimation());
 		}
 	}
 }

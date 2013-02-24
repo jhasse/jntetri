@@ -8,9 +8,12 @@ SplitScreen::SplitScreen() {
 
 void SplitScreen::step() {
 	field1.step();
-	field2.step();	
+	field2.step();
 	field2.addJunk(field1.getLinesCleared());
 	field1.addJunk(field2.getLinesCleared());
+	if (field1.GameOver() && field2.GameOver()) {
+		jngl::setWork(new SplitScreen);
+	}
 }
 
 void SplitScreen::draw() const {
