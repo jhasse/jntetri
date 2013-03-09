@@ -19,7 +19,7 @@ public:
 	void DrawBlock(int x, int y) const;
 	void AddBlock(const Block&);
 	void Translate(double x, double y) const;
-	int GetBlockSize() const;
+	int getBlockSize() const;
 	Block* getBlock(int x, int y);
 	bool CheckCollision(int x, int y) const;
 	void NewTetromino();

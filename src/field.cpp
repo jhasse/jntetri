@@ -261,8 +261,7 @@ void Field::AddBlock(const Block& block) {
 	}
 }
 
-int Field::GetBlockSize() const
-{
+int Field::getBlockSize() const {
 	return blockSize_;
 }
 

@@ -272,28 +272,23 @@ void Tetromino::moveUp(int amount) {
 	animationY_ -= amount;
 }
 
-void Tetromino::Draw() const
-{
+void Tetromino::Draw() const {
 	jngl::pushMatrix();
 	field_.Translate(x_ + animationX_, y_ + animationY_);
 
-	if(rotation_ < 0) // Clockwise
-	{
-		jngl::translate( rotationCenterX_.back() * field_.GetBlockSize(), -rotationCenterY_.back() * field_.GetBlockSize());
+	const int blockSize = field_.getBlockSize();
+	if (rotation_ < 0) { // Clockwise
+		jngl::translate( rotationCenterX_.back() * blockSize, -rotationCenterY_.back() * blockSize);
 		jngl::rotate(rotation_);
-		jngl::translate(-rotationCenterX_.back() * field_.GetBlockSize(),  rotationCenterY_.back() * field_.GetBlockSize());
-	}
-	else
-	{
-		jngl::translate( rotationCenterX_.front() * field_.GetBlockSize(), -rotationCenterY_.front() * field_.GetBlockSize());
+		jngl::translate(-rotationCenterX_.back() * blockSize,  rotationCenterY_.back() * blockSize);
+	} else {
+		jngl::translate( rotationCenterX_.front() * blockSize, -rotationCenterY_.front() * blockSize);
 		jngl::rotate(rotation_);
-		jngl::translate(-rotationCenterX_.front() * field_.GetBlockSize(),  rotationCenterY_.front() * field_.GetBlockSize());
+		jngl::translate(-rotationCenterX_.front() * blockSize,  rotationCenterY_.front() * blockSize);
 	}
 
-	std::vector<Block>::const_iterator end = blocks_.end();
-	for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
-	{
-		it->draw();
+	for (auto& block : blocks_) {
+		block.draw();
 	}
 	jngl::popMatrix();
 }
