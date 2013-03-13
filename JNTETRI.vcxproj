@@ -40,12 +40,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files (x86)\boost\boost_1_46_1\lib;lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>include;..\boost-libs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\boost-libs\lib;lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files (x86)\boost\boost_1_46_1\lib;lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>include;..\boost-libs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\boost-libs\lib;lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
