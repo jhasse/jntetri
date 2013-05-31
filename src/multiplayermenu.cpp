@@ -45,7 +45,7 @@ void MultiplayerMenu::OnBack() const {
 }
 
 void MultiplayerMenu::OnLogin() {
-	jngl::setWork(new Login(boost::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork())));
+	jngl::setWork(new Login(std::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork())));
 }
 
 std::string MultiplayerMenu::GetName() const {

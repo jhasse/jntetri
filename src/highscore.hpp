@@ -27,5 +27,5 @@ private:
 	std::list<Data> highscores_;
 	GameType type_;
 	std::string filename_;
-	boost::shared_ptr<Data> blink_;
+	std::shared_ptr<Data> blink_;
 };

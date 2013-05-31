@@ -21,7 +21,7 @@ void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callb
 	socket.async_send(boost::asio::buffer(text + "\r\n"), callback);
 }
 
-Login::Login(boost::shared_ptr<MultiplayerMenu> multiplayerMenu)
+Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
 	: menu_(multiplayerMenu), text_("connecting ..."),
 	  cancel_("Cancel"),
 	  socket_(new Socket)
