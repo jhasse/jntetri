@@ -1,27 +1,28 @@
 #!/usr/bin/python
 
-env = Environment()
-env.SetOption('num_jobs', 4)
-debug = ARGUMENTS.get('debug', 0)
-profile = ARGUMENTS.get('profile', 0)
-autopackage = ARGUMENTS.get('autopackage', 0)
-installer = ARGUMENTS.get('installer', 0)
-m32 = ARGUMENTS.get('m32', 0)
-wiz = ARGUMENTS.get('wiz', 0)
-if int(debug):
+vars = Variables()
+vars.Add(BoolVariable('debug', 'Enable debug build', 0))
+vars.Add(BoolVariable('profile', 'Enable profile build', 0))
+vars.Add(BoolVariable('verbose', 'Show verbose compiling output', 0))
+
+env = Environment(variables = vars)
+Help(vars.GenerateHelpText(env))
+try:
+	import multiprocessing
+	env.SetOption('num_jobs', multiprocessing.cpu_count())
+except NotImplementedError:
+	pass
+
+if env['debug']:
 	env.Append(CCFLAGS = '-g -Wall')
 else:
 	env.Append(CCFLAGS = '-O2 -DNDEBUG')
-if int(profile):
+if env['profile']:
 	env.Append(CCFLAGS = '-pg', _LIBFLAGS = ' -pg')
-if int(m32):
-	env.Append(CCFLAGS = '-m32', LINKFLAGS = ' -m32')
-if int(wiz):
-	env['CXX'] = "/toolchain/bin/arm-openwiz-linux-gnu-g++"
-	env['CC'] = "/toolchain/bin/arm-openwiz-linux-gnu-gcc"
-	env.Append(CPPPATH=["/toolchain/include", "wiz"], LIBPATH=["/toolchain/lib", "wiz"])
-	
-wiz = ARGUMENTS.get('wiz', 0)
+if not env['verbose']:
+	env['CCCOMSTR'] = env['CXXCOMSTR'] = "compiling: $TARGET"
+	env['LINKCOMSTR'] = "linking: $TARGET"
+	env['ARCOMSTR'] = "archiving: $TARGET"
 
 env.Append(CPPPATH = ['include'])
 
@@ -31,15 +32,9 @@ source_files = Glob('*.cpp') + \
                Glob('engine/linux/*.c') + \
                Glob('gui/*.cpp')
 
-if wiz:
-	env.ParseConfig('pkg-config --cflags --libs freetype2')
-	env.Append(LIBS=Split("jpeg jngl glport opengles_lite z png dl openal vorbisfile vorbis ogg"))
-	source_files += Glob('engine/noresize/*.cpp')
-	env.Append(CCFLAGS = '-DWIZ')
-else:
-	env.ParseConfig("pkg-config jngl --cflags --libs")
-	source_files += Glob('engine/resize/*.cpp')
-	env.Append(LIBS = Split('boost_filesystem-mt boost_serialization-mt boost_system-mt'))
+env.ParseConfig("pkg-config jngl --cflags --libs")
+source_files += Glob('engine/resize/*.cpp')
+env.Append(LIBS = Split('boost_filesystem-mt boost_serialization-mt boost_system-mt pthread'))
 
 env.Append(CCFLAGS = '-DENABLE_BINRELOC', CPPFLAGS='-std=c++0x')
 
