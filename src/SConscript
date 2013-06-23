@@ -20,7 +20,7 @@ if int(wiz):
 	env['CXX'] = "/toolchain/bin/arm-openwiz-linux-gnu-g++"
 	env['CC'] = "/toolchain/bin/arm-openwiz-linux-gnu-gcc"
 	env.Append(CPPPATH=["/toolchain/include", "wiz"], LIBPATH=["/toolchain/lib", "wiz"])
-	
+
 wiz = ARGUMENTS.get('wiz', 0)
 
 env.Append(CPPPATH = ['include'])
