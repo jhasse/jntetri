@@ -7,7 +7,7 @@
 #include <jngl/all.hpp>
 
 PauseMenu::PauseMenu(boost::shared_ptr<jngl::Work> work)
-	: work_(boost::dynamic_pointer_cast<Game>(work)), buttonBox_(new ButtonBox) {
+: work_(boost::dynamic_pointer_cast<Game>(work)), buttonBox_(new ButtonBox) {
 	assert(work_);
 	work_->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
 	buttonBox_->add("Resume", std::bind(&PauseMenu::Continue, this));
@@ -16,33 +16,27 @@ PauseMenu::PauseMenu(boost::shared_ptr<jngl::Work> work)
 	addWidget(buttonBox_);
 }
 
-void PauseMenu::step()
-{
-    if(jngl::keyPressed(jngl::key::Escape))
-    {
+void PauseMenu::step() {
+	if(jngl::keyPressed(jngl::key::Escape)) {
 		jngl::setWork(work_);
-    }
-    StepWidgets();
-    work_->StepToRotateScreen();
+	}
+	StepWidgets();
+	work_->StepToRotateScreen();
 }
 
-void PauseMenu::Continue()
-{
+void PauseMenu::Continue() {
 	jngl::setWork(work_);
 }
 
-void PauseMenu::draw() const
-{
+void PauseMenu::draw() const {
 	work_->draw();
 	DrawWidgets();
 }
 
-void PauseMenu::QuitToMenu() const
-{
+void PauseMenu::QuitToMenu() const {
 	jngl::setWork(new Fade(new Menu));
 }
 
-void PauseMenu::onQuitEvent()
-{
+void PauseMenu::onQuitEvent() {
 	// Do Nothing
 }

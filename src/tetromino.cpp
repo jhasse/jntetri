@@ -6,11 +6,9 @@
 #include <jngl/all.hpp>
 
 Tetromino::Tetromino(int type, Field& field)
-	: field_(field), recreateShadow(true)
-{
+: field_(field), recreateShadow(true) {
 	assert(0 <= type && type < 7);
-	switch(type)
-	{
+	switch(type) {
 		case 0:{
 			RGB color(200, 200, 0);
 			blocks_.push_back(Block(-1, 1, color)); // XX
@@ -89,8 +87,7 @@ Tetromino::Tetromino(int type, Field& field)
 	}
 
 	int numberOfRotations = field_.GetRandom()(4);
-	for(int i = 0; i < numberOfRotations; ++i)
-	{
+	for (int i = 0; i < numberOfRotations; ++i) {
 		Rotate(CLOCKWISE);
 	}
 	animationX_ = 0;
@@ -100,8 +97,7 @@ Tetromino::Tetromino(int type, Field& field)
 	y_ = 17;
 }
 
-void Tetromino::Step()
-{
+void Tetromino::Step() {
 	animationY_ *= 0.8;
 	animationX_ *= 0.7;
 	rotation_ *= 0.8;
@@ -113,8 +109,7 @@ void Tetromino::Step()
 			recreateShadow = true;
 		}
 	}
-	if(field_.getControl().Check(control::Right))
-	{
+	if (field_.getControl().Check(control::Right)) {
 		ChangeX(1);
 		if (Collided()) {
 			ChangeX(-1);
@@ -178,62 +173,44 @@ void Tetromino::ChangeY(int c)
 void Tetromino::Rotate(const Direction direction)
 {
 	bool collidedBeforeRotation = Collided();
-	std::vector<Block>::iterator end = blocks_.end();
-	for(std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it)
-	{
-		if(direction == CLOCKWISE)
-		{
+	auto end = blocks_.end();
+	for (auto it = blocks_.begin(); it != end; ++it) {
+		if (direction == CLOCKWISE) {
 			it->rotate(direction, rotationCenterX_.front(), rotationCenterY_.front());
-		}
-		else
-		{
+		} else {
 			it->rotate(direction, rotationCenterX_.back(), rotationCenterY_.back());
 		}
 	}
-	if(direction == CLOCKWISE)
-	{
+	if (direction == CLOCKWISE) {
+		rotationCenterX_.push_back(rotationCenterX_.front());
+		rotationCenterX_.pop_front();
+		rotationCenterY_.push_back(rotationCenterY_.front());
+		rotationCenterY_.pop_front();
+	} else {
 		rotationCenterX_.push_back(rotationCenterX_.front());
 		rotationCenterX_.pop_front();
 		rotationCenterY_.push_back(rotationCenterY_.front());
 		rotationCenterY_.pop_front();
 	}
-	else
-	{
-		rotationCenterX_.push_back(rotationCenterX_.front());
-		rotationCenterX_.pop_front();
-		rotationCenterY_.push_back(rotationCenterY_.front());
-		rotationCenterY_.pop_front();
-	}
-	if(direction == CLOCKWISE)
-	{
+	if (direction == CLOCKWISE) {
 		rotation_ -= 90;
-	}
-	else
-	{
+	} else {
 		rotation_ += 90;
 	}
-	if(!collidedBeforeRotation && Collided())
-	{
+	if (!collidedBeforeRotation && Collided()) {
 		ChangeX(1);
-		if(Collided())
-		{
+		if (Collided()) {
 			ChangeX(-2);
-			if(Collided())
-			{
+			if (Collided()) {
 				ChangeX(3);
-				if(Collided())
-				{
+				if (Collided()) {
 					ChangeX(-4);
-					if(Collided())
-					{
+					if (Collided()) {
 						ChangeX(2);
 						// Undo rotation
-						if(direction == CLOCKWISE)
-						{
+						if (direction == CLOCKWISE) {
 							Rotate(COUNTERCLOCKWISE);
-						}
-						else
-						{
+						} else {
 							Rotate(CLOCKWISE);
 						}
 					}
@@ -243,11 +220,9 @@ void Tetromino::Rotate(const Direction direction)
 	}
 }
 
-void Tetromino::AttachToField()
-{
-	std::vector<Block>::iterator end = blocks_.end();
-	for(std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it)
-	{
+void Tetromino::AttachToField() {
+	auto end = blocks_.end();
+	for (auto it = blocks_.begin(); it != end; ++it) {
 		it->setX(it->getX() + x_);
 		it->setY(it->getY() + y_);
 		it->flash();
@@ -255,11 +230,9 @@ void Tetromino::AttachToField()
 	}
 }
 
-bool Tetromino::MoveDown()
-{
+bool Tetromino::MoveDown() {
 	--y_;
-	if(Collided())
-	{
+	if (Collided()) {
 		++y_;
 		return false;
 	}
@@ -293,8 +266,7 @@ void Tetromino::Draw() const {
 	jngl::popMatrix();
 }
 
-bool Tetromino::Collided() const
-{
+bool Tetromino::Collided() const {
 	auto end = blocks_.end();
 	for (auto it = blocks_.begin(); it != end; ++it) {
 		if (field_.CheckCollision(x_ + it->getX(), y_ + it->getY())) {
