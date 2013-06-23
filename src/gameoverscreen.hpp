@@ -24,5 +24,5 @@ private:
 	Data data_;
 	Highscore highscore_;
 	std::shared_ptr<Input> input_;
-	boost::shared_ptr<jngl::Work> work_;
+	std::shared_ptr<jngl::Work> work_;
 };

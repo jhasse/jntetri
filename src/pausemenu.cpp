@@ -6,8 +6,8 @@
 
 #include <jngl/all.hpp>
 
-PauseMenu::PauseMenu(boost::shared_ptr<jngl::Work> work)
-: work_(boost::dynamic_pointer_cast<Game>(work)), buttonBox_(new ButtonBox) {
+PauseMenu::PauseMenu(std::shared_ptr<jngl::Work> work)
+: work_(std::dynamic_pointer_cast<Game>(work)), buttonBox_(new ButtonBox) {
 	assert(work_);
 	work_->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
 	buttonBox_->add("Resume", std::bind(&PauseMenu::Continue, this));
@@ -17,7 +17,7 @@ PauseMenu::PauseMenu(boost::shared_ptr<jngl::Work> work)
 }
 
 void PauseMenu::step() {
-	if(jngl::keyPressed(jngl::key::Escape)) {
+	if (jngl::keyPressed(jngl::key::Escape)) {
 		jngl::setWork(work_);
 	}
 	StepWidgets();

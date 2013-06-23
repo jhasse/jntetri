@@ -4,3 +4,4 @@ xcode/JNTETRI.xcodeproj/xcuserdata/jhasse.xcuserdatad/xcdebugger/Breakpoints.xcb
 xcode/JNTETRI.xcodeproj/project.xcworkspace/xcuserdata/
 .sconsign.dblite
 bin/
+*.sublime-workspace

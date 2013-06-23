@@ -6,8 +6,7 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-class Procedure : public Singleton<Procedure>
-{
+class Procedure : public Singleton<Procedure> {
 public:
 	Procedure();
 	void MainLoop();
@@ -20,9 +19,9 @@ private:
 	int fpsCounter_;
 	std::string fpsText_;
 	const static double timePerStep_;
-	boost::shared_ptr<Work> currentWork_;
+	std::shared_ptr<Work> currentWork_;
 	bool changeWork_;
-	boost::shared_ptr<Work> newWork_;
+	std::shared_ptr<Work> newWork_;
 	bool running_;
 	bool showFps_;
 };

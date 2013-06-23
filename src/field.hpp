@@ -46,8 +46,8 @@ private:
 	std::vector<Block> blocks_;
 	std::vector<Explosion> explosions_;
 	std::vector<Shadow> shadows;
-	boost::shared_ptr<Tetromino> nextTetromino_;
-	boost::shared_ptr<Tetromino> tetromino_;
+	std::shared_ptr<Tetromino> nextTetromino_;
+	std::shared_ptr<Tetromino> tetromino_;
 	const static int width_;
 	const static int height_;
 	const int blockSize_;
@@ -59,7 +59,7 @@ private:
 	int maxY_;
 	bool pause_;
 	bool delay_;
-	boost::shared_ptr<Control> control_;
+	std::shared_ptr<Control> control_;
 	bool downKeyReleased_;
 	Random random_;
 	int linesCleared;

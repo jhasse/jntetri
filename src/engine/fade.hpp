@@ -15,7 +15,7 @@ public:
 	virtual void draw() const;
 private:
 	Work* work_;
-	boost::shared_ptr<jngl::Work> oldWork_;
+	std::shared_ptr<jngl::Work> oldWork_;
 	double fadeCount_;
 	int speed_;
 };

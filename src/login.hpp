@@ -13,7 +13,7 @@
 
 class Login : public Work {
 public:
-	Login(boost::shared_ptr<MultiplayerMenu>);
+	Login(std::shared_ptr<MultiplayerMenu>);
 	void step();
 	void draw() const;
 	void HandleConnect();
@@ -28,7 +28,7 @@ public:
 	void HandleRegister2(std::string);
 	void GoToLobby();
 private:
-	boost::shared_ptr<MultiplayerMenu> menu_;
+	std::shared_ptr<MultiplayerMenu> menu_;
 	std::string text_;
 	const static std::string server_;
 	const static int port_;
