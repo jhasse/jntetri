@@ -25,9 +25,14 @@ void Socket::Connect(const std::string& server, int port, boost::function<void()
 	using boost::asio::ip::tcp;
 	tcp::resolver resolver(io_);
 	tcp::resolver::query query(server, "http");
-	tcp::endpoint endpoint(resolver.resolve(query)->endpoint().address(), port);
-//	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(server), port);
-	socket_.async_connect(endpoint, boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
+	resolver.async_resolve(query, [this, port, onSuccess](const boost::system::error_code& err,
+	                                                      boost::asio::ip::tcp::resolver::iterator endpointIterator) {
+		if (err) {
+			throw std::runtime_error("resolve error");
+		}
+		tcp::endpoint endpoint(endpointIterator->endpoint().address(), port);
+		socket_.async_connect(endpoint, boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
+	});
 }
 
 void Socket::Send(const std::string& data, boost::function<void()> onSuccess)

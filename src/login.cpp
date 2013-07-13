@@ -101,7 +101,13 @@ void Login::HandleRegister2(std::string temp) {
 }
 
 void Login::step() {
-	socket_->Step();
+	try {
+		socket_->Step();
+	} catch(std::exception& e) {
+		text_ = "Exception: ";
+		text_ += e.what();
+		OnError();
+	}
 	cancel_.step();
 	StepWidgets();
 }
