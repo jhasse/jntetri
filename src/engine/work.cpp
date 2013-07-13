@@ -51,14 +51,14 @@ void Work::StepWidgets() {
 		return;
 	}
 	for (auto w : widgets_) {
-		w->Step();
+		w->step();
 	}
 	StepFocus();
 }
 
 void Work::DrawWidgets() const {
 	for (auto& w : widgets_) {
-		w->Draw();
+		w->draw();
 	}
 }
 

@@ -5,15 +5,14 @@
 #include <boost/function.hpp>
 #include <string>
 
-class Button : public Widget
-{
+class Button : public Widget {
 public:
 	Button(const std::string& text);
     Button(const std::string& text, boost::function<void()> callback, char shortcut = ' ');
     void SetSprites(const std::string& normal, const std::string& mouseOver, const std::string& clicked);
     void SetText(const std::string&);
-    void Draw() const;
-    void Step();
+    void draw() const override;
+    void step() override;
     bool Mouseover() const;
     int GetX() const;
     int GetY() const;

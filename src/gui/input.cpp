@@ -26,8 +26,7 @@ void Input::OnFocusChanged()
 	displayCursor_ = 50;
 }
 
-void Input::Step()
-{
+void Input::step() {
 	if(!sensitive_)
 	{
 		return;
@@ -70,8 +69,7 @@ void Input::Step()
 	}
 }
 
-void Input::Draw() const
-{
+void Input::draw() const {
 	std::string temp;
 	if(password_)
 	{

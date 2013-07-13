@@ -5,7 +5,7 @@
 #include "optionsmenu.hpp"
 #include "engine/screen.hpp"
 #include "game.hpp"
-#include "splitscreen.hpp"
+#include "multiplayermenu.hpp"
 
 #include <jngl/all.hpp>
 #include <ctime>
@@ -13,7 +13,9 @@
 Menu::Menu() : buttonBox_(new ButtonBox(-450, 0)), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES) {
     buttonBox_->add("Normal", std::bind(&Menu::Normal, this), 'n');
 	buttonBox_->add("50 Lines", std::bind(&Menu::FiftyLines, this), '5');
-    buttonBox_->add("Multiplayer", std::bind(&Menu::Multiplayer, this), 'm');
+    buttonBox_->add("Multiplayer", []() {
+		jngl::setWork(new Fade(new MultiplayerMenu));
+	}, 'm');
 	buttonBox_->add("Options", std::bind(&Menu::OptionsMenuCallback, this), 'o');
 	buttonBox_->add("Quit", std::bind(&Menu::QuitGame, this), 'q');
 	addWidget(buttonBox_);
@@ -52,10 +54,6 @@ void Menu::Normal() const {
 
 void Menu::FiftyLines() const {
 	jngl::setWork(new Fade(new Game(FIFTYLINES, static_cast<int>(time(0)))));
-}
-
-void Menu::Multiplayer() const {
-	jngl::setWork(new Fade(new SplitScreen));
 }
 
 void Menu::OptionsMenuCallback() const {

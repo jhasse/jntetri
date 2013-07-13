@@ -8,8 +8,8 @@
 class Chooser : public Widget {
 public:
 	Chooser(int x, int y);
-	void Step();
-	void Draw() const;
+	void step() override;
+	void draw() const override;
 	int GetValue() const;
 	void AddValue(int);
 	void Previous();

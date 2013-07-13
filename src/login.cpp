@@ -22,45 +22,35 @@ void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callb
 }
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
-	: menu_(multiplayerMenu), text_("connecting ..."),
-	  cancel_("Cancel"),
-	  socket_(new Socket)
-{
+: menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel"), socket_(new Socket) {
 	cancel_.Connect(boost::bind(&Login::OnCancel, this));
 	socket_->Connect(server_, port_, boost::bind(&Login::HandleConnect, this));
-	cancel_.CenterAt(0, 800);
+	cancel_.CenterAt(0, 200);
 }
 
-void Login::HandleConnect()
-{
+void Login::HandleConnect() {
 	text_ = "sending ...";
 	socket_->Send(protocolVersion_, boost::bind(&Login::ProtocolCheck1, this));
 }
 
-void Login::ProtocolCheck1()
-{
+void Login::ProtocolCheck1() {
 	text_ = "receiving ...";
 	socket_->Receive(boost::bind(&Login::ProtocolCheck2, this, _1));
 }
 
-void Login::ProtocolCheck2(std::string temp)
-{
-	if(temp != "ok")
-	{
+void Login::ProtocolCheck2(std::string temp) {
+	if (temp != "ok") {
 		text_ = "Error: ";
 		text_ += temp;
 		OnError();
-	}
-	else
-	{
+	} else {
 		std::stringstream sstream;
 		sstream << "login\n" << menu_->GetName() << "\n" << menu_->GetPassword();
 		socket_->Send(sstream.str(), boost::bind(&Login::HandleLogin1, this));
 	}
 }
 
-void Login::HandleLogin1()
-{
+void Login::HandleLogin1() {
 	socket_->Receive(boost::bind(&Login::HandleLogin2, this, _1));
 	text_ = "waiting for authentification ...";
 }
@@ -86,8 +76,7 @@ void Login::HandleLogin2(std::string temp) {
 	}
 }
 
-void Login::Register()
-{
+void Login::Register() {
 	std::stringstream sstream;
 	sstream << "register\n" << menu_->GetName() << "\n" << menu_->GetPassword() << "\r\n";
 	socket_->Send(sstream.str(), boost::bind(&Login::HandleRegister1, this));
@@ -96,57 +85,47 @@ void Login::Register()
 	widgets_.clear(); // FIXME: Implement RemoveWidget function
 }
 
-void Login::HandleRegister1()
-{
+void Login::HandleRegister1() {
 	socket_->Receive(boost::bind(&Login::HandleRegister2, this, _1));
 	text_ = "please wait ...";
 }
 
-void Login::HandleRegister2(std::string temp)
-{
-	if(temp == "ok")
-	{
+void Login::HandleRegister2(std::string temp) {
+	if (temp == "ok") {
 		GoToLobby();
-	}
-	else
-	{
+	} else {
 		text_ = "Error: ";
 		text_ += temp;
 		OnError();
 	}
 }
 
-void Login::step()
-{
+void Login::step() {
 	socket_->Step();
-	cancel_.Step();
+	cancel_.step();
 	StepWidgets();
 }
 
-void Login::GoToLobby()
-{
+void Login::GoToLobby() {
 	GetOptions().Set("lastLoginName", menu_->GetName());
 	jngl::setWork(new Fade(new Lobby(socket_)));
 }
 
-void Login::draw() const
-{
+void Login::draw() const {
 	menu_->draw();
 	jngl::setColor(255, 255, 255, 220);
-	jngl::drawRect(-GetScreen().GetWidth() / 2, 0, GetScreen().GetWidth(), GetScreen().GetHeight());
+	jngl::drawRect(-GetScreen().GetWidth() / 2, -GetScreen().GetHeight() / 2, GetScreen().GetWidth(), GetScreen().GetHeight());
 	jngl::setFontColor(0, 0, 0);
-	GetScreen().PrintCentered(text_, 0, 420);
-	cancel_.Draw();
+	GetScreen().PrintCentered(text_, 0, 0);
+	cancel_.draw();
 	DrawWidgets();
 }
 
-void Login::OnCancel()
-{
+void Login::OnCancel() {
 	jngl::setWork(menu_);
 }
 
-void Login::OnError()
-{
+void Login::OnError() {
 	cancel_.SetText("OK");
 }
 #endif // WIZ

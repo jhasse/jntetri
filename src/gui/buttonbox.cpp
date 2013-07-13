@@ -6,14 +6,12 @@
 const int ButtonBox::spacing_ = 30;
 
 ButtonBox::ButtonBox(const int xCenter, const int yCenter)
-	: xCenter_(xCenter), yCenter_(yCenter)
-{
+: xCenter_(xCenter), yCenter_(yCenter) {
 	SetSensitive(false);
 }
 
 ButtonBox::ButtonBox()
-	: xCenter_(0), yCenter_(0)
-{
+: xCenter_(0), yCenter_(0) {
 	SetSensitive(false);
 }
 
@@ -28,12 +26,10 @@ void ButtonBox::add(const std::string& text, std::function<void()> function, con
 	}
 }
 
-void ButtonBox::Draw() const
-{
+void ButtonBox::draw() const {
 }
 
-void ButtonBox::Step()
-{
+void ButtonBox::step() {
 }
 
 int ButtonBox::GetMouseover() const

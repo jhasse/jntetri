@@ -6,29 +6,22 @@
 
 const std::string delimiter = "\b";
 
-Socket::Socket () : socket_(io_), tempBuffer_("")
-{
+Socket::Socket () : socket_(io_), tempBuffer_("") {
 }
 
-void Socket::Step()
-{
+void Socket::Step() {
 	io_.poll();
 }
 
-void CallbackWrapper(const boost::system::error_code& err, boost::function<void()> onSuccess)
-{
-	if(err)
-	{
+void CallbackWrapper(const boost::system::error_code& err, boost::function<void()> onSuccess) {
+	if (err) {
 		throw std::runtime_error("socket error");
-	}
-	else
-	{
+	} else {
 		onSuccess();
 	}
 }
 
-void Socket::Connect(const std::string& server, int port, boost::function<void()> onSuccess)
-{
+void Socket::Connect(const std::string& server, int port, boost::function<void()> onSuccess) {
 	using boost::asio::ip::tcp;
 	tcp::resolver resolver(io_);
 	tcp::resolver::query query(server, "http");

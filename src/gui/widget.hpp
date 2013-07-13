@@ -6,8 +6,8 @@ class Widget {
 public:
 	Widget();
 	virtual ~Widget();
-	virtual void Step() = 0;
-	virtual void Draw() const = 0;
+	virtual void step() = 0;
+	virtual void draw() const = 0;
 	bool GetSensitive() const;
 	void SetSensitive(bool);
 	virtual void SetFocus(bool);

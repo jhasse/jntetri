@@ -104,6 +104,8 @@
 		<Unit filename="src/gui/chooser.hpp" />
 		<Unit filename="src/gui/input.cpp" />
 		<Unit filename="src/gui/input.hpp" />
+		<Unit filename="src/gui/radiobutton.cpp" />
+		<Unit filename="src/gui/radiobutton.hpp" />
 		<Unit filename="src/gui/widget.cpp" />
 		<Unit filename="src/gui/widget.hpp" />
 		<Unit filename="src/highscore.cpp" />

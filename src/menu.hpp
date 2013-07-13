@@ -15,7 +15,6 @@ public:
 
     void Normal() const;
     void FiftyLines() const;
-    void Multiplayer() const;
     void OptionsMenuCallback() const;
     void QuitGame() const;
 private:

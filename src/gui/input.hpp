@@ -9,8 +9,8 @@ class Input : public Widget {
 public:
 	Input(int x, int y);
 	~Input();
-	void Step();
-	void Draw() const;
+	void step() override;
+	void draw() const override;
 	void SetText(const std::string&);
 	std::string GetText() const;
 	void SetPassword(bool);

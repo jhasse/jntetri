@@ -42,8 +42,7 @@ void Button::CenterAt(const int xCenter, const int yCenter)
 	jngl::setFontSize(fontSize_);
 }
 
-void Button::Draw() const
-{
+void Button::draw() const {
 	int alpha = mouseoverAlpha_;
 	if(clicked_)
 	{
@@ -75,8 +74,7 @@ void Button::Draw() const
     }
 }
 
-void Button::Step()
-{
+void Button::step() {
 	if(!jngl::mouseDown())
 	{
 		clicked_ = false;

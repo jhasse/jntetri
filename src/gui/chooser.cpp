@@ -24,12 +24,11 @@ void Chooser::AddValue(int v)
 	activeValue_ = values_.begin();
 }
 
-void Chooser::Step()
-{
+void Chooser::step() {
 	previous_.SetFocus(focus_);
 	next_.SetFocus(focus_);
-	previous_.Step();
-	next_.Step();
+	previous_.step();
+	next_.step();
 	if(focus_)
 	{
 		if(jngl::keyPressed(jngl::key::Left) || jngl::keyPressed(jngl::key::WizLeft))
@@ -43,14 +42,13 @@ void Chooser::Step()
 	}
 }
 
-void Chooser::Draw() const
-{
+void Chooser::draw() const {
 	GetScreen().DrawCentered(sprite_, x_, y_);
 	jngl::setFontSize(70);
 	jngl::setFontColor(255, 255, 255);
 	GetScreen().PrintCentered(boost::lexical_cast<std::string>(*activeValue_), x_, y_);
-	previous_.Draw();
-	next_.Draw();
+	previous_.draw();
+	next_.draw();
 }
 
 int Chooser::GetValue() const
