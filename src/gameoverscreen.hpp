@@ -18,7 +18,7 @@ public:
 	void draw() const;
 	void onQuitEvent();
 private:
-	bool IsHighscore() const;
+	bool isHighscore() const;
 	Game* const game_;
 	int blink_;
 	Data data_;

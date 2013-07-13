@@ -16,15 +16,15 @@ input_(new Input(-160, 200)), work_(jngl::getWork()) {
 	addWidget(input_);
 }
 
-bool GameOverScreen::IsHighscore() const {
-	return highscore_.IsHighscore(data_) && (game_->getType() == NORMAL || game_->GetField().GetLines() >= 50);
+bool GameOverScreen::isHighscore() const {
+	return highscore_.isHighscore(data_) && (game_->getType() == NORMAL || game_->GetField().GetLines() >= 50);
 }
 
 void GameOverScreen::step() {
 	game_->GetField().step(); // Show GameOver animation
 	game_->StepToRotateScreen();
 	if (game_->GameOverAnimationFinished()) {
-		if (IsHighscore()) {
+		if (isHighscore()) {
 			StepWidgets();
 			if(jngl::keyPressed(jngl::key::Return) || jngl::keyPressed(jngl::key::WizB)) {
 				data_.name = input_->GetText();
@@ -55,7 +55,7 @@ void GameOverScreen::onQuitEvent() {
 	while (!game_->GameOverAnimationFinished()) {
 		game_->GetField().step();
 	}
-	if (!IsHighscore()) {
+	if (!isHighscore()) {
 		jngl::quit();
 	}
 }
@@ -67,7 +67,7 @@ void GameOverScreen::draw() const {
 	GetScreen().PrintCentered("GAMEOVER", 0, -100);
 	if (game_->GameOverAnimationFinished()) {
 		jngl::setFontSize(50);
-		if (highscore_.IsHighscore(data_) && (game_->getType() == NORMAL || game_->GetField().GetLines() >= 50)) {
+		if (highscore_.isHighscore(data_) && (game_->getType() == NORMAL || game_->GetField().GetLines() >= 50)) {
 			jngl::setFontColor(0, 0, 0);
 			GetScreen().PrintCentered("You entered the top!", 0, 50);
 			GetScreen().PrintCentered("Enter your name:", 0, 130);

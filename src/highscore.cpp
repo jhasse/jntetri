@@ -114,14 +114,10 @@ void Highscore::Add(Data data) {
 	highscores_.pop_back();
 }
 
-bool Highscore::IsHighscore(Data data) const
-{
-	if(type_ == NORMAL)
-	{
+bool Highscore::isHighscore(Data data) const {
+	if (type_ == NORMAL) {
 		return data.score > highscores_.back().score;
-	}
-	else
-	{
+	} else {
 		return data.time < highscores_.back().time;
 	}
 }
