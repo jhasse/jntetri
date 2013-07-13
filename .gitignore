@@ -5,3 +5,6 @@ xcode/JNTETRI.xcodeproj/project.xcworkspace/xcuserdata/
 .sconsign.dblite
 bin/
 *.sublime-workspace
+obj/
+jntetri.depend
+jntetri.layout
