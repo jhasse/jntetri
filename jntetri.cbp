@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\jntetri" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
+				<Option output="bin/jntetri" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -16,8 +16,8 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\jntetri" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option output="bin/jntetri" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -35,7 +35,7 @@
 			<Add option="-std=gnu++0x" />
 			<Add option="-D_WIN32_WINNT=0x0501" />
 			<Add directory="include" />
-			<Add directory="..\boost-libs\include" />
+			<Add directory="../boost-libs/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-static" />
@@ -57,87 +57,87 @@
 			<Add library="webp" />
 			<Add library="xinput" />
 			<Add directory="lib" />
-			<Add directory="..\boost-libs\lib\win" />
+			<Add directory="../boost-libs/lib/win" />
 		</Linker>
-		<Unit filename="src\block.cpp" />
-		<Unit filename="src\block.hpp" />
-		<Unit filename="src\constants.hpp" />
-		<Unit filename="src\control.cpp" />
-		<Unit filename="src\control.hpp" />
-		<Unit filename="src\engine\fade.cpp" />
-		<Unit filename="src\engine\fade.hpp" />
-		<Unit filename="src\engine\options.cpp" />
-		<Unit filename="src\engine\options.hpp" />
-		<Unit filename="src\engine\paths.cpp" />
-		<Unit filename="src\engine\paths.hpp" />
-		<Unit filename="src\engine\procedure.cpp" />
-		<Unit filename="src\engine\procedure.hpp" />
-		<Unit filename="src\engine\random.cpp" />
-		<Unit filename="src\engine\random.hpp" />
-		<Unit filename="src\engine\resize\resizegraphics.cpp" />
-		<Unit filename="src\engine\resizegraphics.hpp" />
-		<Unit filename="src\engine\rgb.cpp" />
-		<Unit filename="src\engine\rgb.hpp" />
-		<Unit filename="src\engine\screen.cpp" />
-		<Unit filename="src\engine\screen.hpp" />
-		<Unit filename="src\engine\singleton.hpp" />
-		<Unit filename="src\engine\socket.cpp" />
-		<Unit filename="src\engine\socket.hpp" />
-		<Unit filename="src\engine\vector2d.cpp" />
-		<Unit filename="src\engine\vector2d.hpp" />
-		<Unit filename="src\engine\work.cpp" />
-		<Unit filename="src\engine\work.hpp" />
-		<Unit filename="src\explosion.cpp" />
-		<Unit filename="src\explosion.hpp" />
-		<Unit filename="src\field.cpp" />
-		<Unit filename="src\field.hpp" />
-		<Unit filename="src\game.cpp" />
-		<Unit filename="src\game.hpp" />
-		<Unit filename="src\gameoverscreen.cpp" />
-		<Unit filename="src\gameoverscreen.hpp" />
-		<Unit filename="src\gametype.hpp" />
-		<Unit filename="src\gui\button.cpp" />
-		<Unit filename="src\gui\button.hpp" />
-		<Unit filename="src\gui\buttonbox.cpp" />
-		<Unit filename="src\gui\buttonbox.hpp" />
-		<Unit filename="src\gui\chooser.cpp" />
-		<Unit filename="src\gui\chooser.hpp" />
-		<Unit filename="src\gui\input.cpp" />
-		<Unit filename="src\gui\input.hpp" />
-		<Unit filename="src\gui\widget.cpp" />
-		<Unit filename="src\gui\widget.hpp" />
-		<Unit filename="src\highscore.cpp" />
-		<Unit filename="src\highscore.hpp" />
-		<Unit filename="src\icon.rc">
+		<Unit filename="src/block.cpp" />
+		<Unit filename="src/block.hpp" />
+		<Unit filename="src/constants.hpp" />
+		<Unit filename="src/control.cpp" />
+		<Unit filename="src/control.hpp" />
+		<Unit filename="src/engine/fade.cpp" />
+		<Unit filename="src/engine/fade.hpp" />
+		<Unit filename="src/engine/options.cpp" />
+		<Unit filename="src/engine/options.hpp" />
+		<Unit filename="src/engine/paths.cpp" />
+		<Unit filename="src/engine/paths.hpp" />
+		<Unit filename="src/engine/procedure.cpp" />
+		<Unit filename="src/engine/procedure.hpp" />
+		<Unit filename="src/engine/random.cpp" />
+		<Unit filename="src/engine/random.hpp" />
+		<Unit filename="src/engine/resize/resizegraphics.cpp" />
+		<Unit filename="src/engine/resizegraphics.hpp" />
+		<Unit filename="src/engine/rgb.cpp" />
+		<Unit filename="src/engine/rgb.hpp" />
+		<Unit filename="src/engine/screen.cpp" />
+		<Unit filename="src/engine/screen.hpp" />
+		<Unit filename="src/engine/singleton.hpp" />
+		<Unit filename="src/engine/socket.cpp" />
+		<Unit filename="src/engine/socket.hpp" />
+		<Unit filename="src/engine/vector2d.cpp" />
+		<Unit filename="src/engine/vector2d.hpp" />
+		<Unit filename="src/engine/work.cpp" />
+		<Unit filename="src/engine/work.hpp" />
+		<Unit filename="src/explosion.cpp" />
+		<Unit filename="src/explosion.hpp" />
+		<Unit filename="src/field.cpp" />
+		<Unit filename="src/field.hpp" />
+		<Unit filename="src/game.cpp" />
+		<Unit filename="src/game.hpp" />
+		<Unit filename="src/gameoverscreen.cpp" />
+		<Unit filename="src/gameoverscreen.hpp" />
+		<Unit filename="src/gametype.hpp" />
+		<Unit filename="src/gui/button.cpp" />
+		<Unit filename="src/gui/button.hpp" />
+		<Unit filename="src/gui/buttonbox.cpp" />
+		<Unit filename="src/gui/buttonbox.hpp" />
+		<Unit filename="src/gui/chooser.cpp" />
+		<Unit filename="src/gui/chooser.hpp" />
+		<Unit filename="src/gui/input.cpp" />
+		<Unit filename="src/gui/input.hpp" />
+		<Unit filename="src/gui/widget.cpp" />
+		<Unit filename="src/gui/widget.hpp" />
+		<Unit filename="src/highscore.cpp" />
+		<Unit filename="src/highscore.hpp" />
+		<Unit filename="src/icon.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="src\intro.cpp" />
-		<Unit filename="src\intro.hpp" />
-		<Unit filename="src\lobby.cpp" />
-		<Unit filename="src\lobby.hpp" />
-		<Unit filename="src\login.cpp" />
-		<Unit filename="src\login.hpp" />
-		<Unit filename="src\main.cpp" />
-		<Unit filename="src\menu.cpp" />
-		<Unit filename="src\menu.hpp" />
-		<Unit filename="src\multiplayermenu.cpp" />
-		<Unit filename="src\multiplayermenu.hpp" />
-		<Unit filename="src\optionsmenu.cpp" />
-		<Unit filename="src\optionsmenu.hpp" />
-		<Unit filename="src\pausemenu.cpp" />
-		<Unit filename="src\pausemenu.hpp" />
-		<Unit filename="src\replaycontrol.cpp" />
-		<Unit filename="src\replaycontrol.hpp" />
-		<Unit filename="src\replayplayer.cpp" />
-		<Unit filename="src\replayplayer.hpp" />
-		<Unit filename="src\replayrecorder.cpp" />
-		<Unit filename="src\replayrecorder.hpp" />
-		<Unit filename="src\shadow.cpp" />
-		<Unit filename="src\shadow.hpp" />
-		<Unit filename="src\splitscreen.cpp" />
-		<Unit filename="src\splitscreen.hpp" />
-		<Unit filename="src\tetromino.cpp" />
-		<Unit filename="src\tetromino.hpp" />
+		<Unit filename="src/intro.cpp" />
+		<Unit filename="src/intro.hpp" />
+		<Unit filename="src/lobby.cpp" />
+		<Unit filename="src/lobby.hpp" />
+		<Unit filename="src/login.cpp" />
+		<Unit filename="src/login.hpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/menu.cpp" />
+		<Unit filename="src/menu.hpp" />
+		<Unit filename="src/multiplayermenu.cpp" />
+		<Unit filename="src/multiplayermenu.hpp" />
+		<Unit filename="src/optionsmenu.cpp" />
+		<Unit filename="src/optionsmenu.hpp" />
+		<Unit filename="src/pausemenu.cpp" />
+		<Unit filename="src/pausemenu.hpp" />
+		<Unit filename="src/replaycontrol.cpp" />
+		<Unit filename="src/replaycontrol.hpp" />
+		<Unit filename="src/replayplayer.cpp" />
+		<Unit filename="src/replayplayer.hpp" />
+		<Unit filename="src/replayrecorder.cpp" />
+		<Unit filename="src/replayrecorder.hpp" />
+		<Unit filename="src/shadow.cpp" />
+		<Unit filename="src/shadow.hpp" />
+		<Unit filename="src/splitscreen.cpp" />
+		<Unit filename="src/splitscreen.hpp" />
+		<Unit filename="src/tetromino.cpp" />
+		<Unit filename="src/tetromino.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
