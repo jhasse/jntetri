@@ -89,8 +89,7 @@ void Game::draw() const {
 		jngl::setFontSize(60);
 		jngl::pushMatrix();
 		jngl::translate(-600, oldNextPosition_);
-		jngl::print("Next:", -100, -75);
-		field_.DrawNextTetromino();
+		field_.drawNextTetromino();
 		jngl::popMatrix();
 		if (type_ == FIFTYLINES) {
 			DrawTime(450, 100);

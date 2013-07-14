@@ -30,7 +30,7 @@ public:
 	int GetLines() const;
 	int GetLevel() const;
 	int GetNextPosition() const;
-	void DrawNextTetromino() const;
+	void drawNextTetromino() const;
 	void SetPause(bool pause);
 	bool GameOverAnimationFinished() const;
 	void setControl(Control*);

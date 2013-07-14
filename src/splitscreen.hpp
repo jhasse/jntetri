@@ -9,6 +9,10 @@ public:
 	void step();
 	void draw() const;
 private:
-	Field field1;
-	Field field2;
+	void reset();
+
+	std::unique_ptr<Field> field1;
+	std::unique_ptr<Field> field2;
+	int wins1;
+	int wins2;
 };

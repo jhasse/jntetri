@@ -186,8 +186,8 @@ int Field::GetNextPosition() const
 	return nextPosition;
 }
 
-void Field::DrawNextTetromino() const
-{
+void Field::drawNextTetromino() const {
+	jngl::print("Next:", -100, -75);
 	nextTetromino_->Draw();
 }
 
@@ -332,5 +332,8 @@ void Field::clearShadows() {
 }
 
 int Field::getLinesCleared() const {
+	if (linesCleared < 2) {
+		return 0;
+	}
 	return linesCleared;
 }

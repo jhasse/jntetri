@@ -56,7 +56,7 @@ void KeyboardControl::step(std::function<void(control::ControlType)> Set) {
 }
 
 void GamepadControl::step(std::function<void(control::ControlType)> Set) {
-	if (jngl::getControllerPressed(number, jngl::controller::X)) {
+	if (jngl::getControllerPressed(number, jngl::controller::A)) {
 		Set(Drop);
 	}
 	if (jngl::getControllerState(number, jngl::controller::RightTrigger)) {
@@ -68,7 +68,7 @@ void GamepadControl::step(std::function<void(control::ControlType)> Set) {
 	if (jngl::getControllerPressed(number, jngl::controller::DpadRight)) {
 		Set(Right);
 	}
-	if (jngl::getControllerPressed(number, jngl::controller::A)) {
+	if (jngl::getControllerPressed(number, jngl::controller::X)) {
 		Set(Rotate);
 	}
 	if (jngl::getControllerPressed(number, jngl::controller::B)) {
