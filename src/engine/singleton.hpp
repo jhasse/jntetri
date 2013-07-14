@@ -1,13 +1,11 @@
 #pragma once
 
 template<class T>
-class Singleton
-{
+class Singleton {
 public:
-	static T& Handle()
-	{
+	static T* handle() {
 		static T instance;
-		return instance;
+		return &instance;
 	}
 protected:
 	Singleton() {}

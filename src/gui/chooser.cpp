@@ -12,10 +12,10 @@ Chooser::Chooser(int x, int y)
 {
 	previous_.Connect(boost::bind(&Chooser::Previous, this));
 	previous_.SetSprites("chooser_left", "chooser_left_over", "chooser_left_over");
-	previous_.CenterAt(x - jngl::getWidth(GetPaths().Graphics() + sprite_) / 2 - previous_.GetWidth() / 2, y);
+	previous_.CenterAt(x - jngl::getWidth(getPaths().getGraphics() + sprite_) / 2 - previous_.GetWidth() / 2, y);
 	next_.Connect(boost::bind(&Chooser::Next, this));
 	next_.SetSprites("chooser_right", "chooser_right_over", "chooser_right_over");
-	next_.CenterAt(x + jngl::getWidth(GetPaths().Graphics() + sprite_) / 2 + next_.GetWidth() / 2, y);
+	next_.CenterAt(x + jngl::getWidth(getPaths().getGraphics() + sprite_) / 2 + next_.GetWidth() / 2, y);
 }
 
 void Chooser::AddValue(int v)

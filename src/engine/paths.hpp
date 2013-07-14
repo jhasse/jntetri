@@ -4,23 +4,29 @@
 
 #include <string>
 
-class Paths : public Singleton<Paths>
-{
+class Paths : public Singleton<Paths> {
 public:
 	Paths();
-	std::string data();
-	std::string Graphics();
-	std::string Prefix();
-	std::string Config();
-	std::string OriginalGfx() const;
-	void SetGraphics(const std::string&);
-	void SetOriginalGfx(const std::string&);
-	void SetPrefix(const std::string&);
+	std::string getResolutionGraphics() const;
+	std::string getData() const;
+
+	std::string getGraphics();
+	void setGraphics(const std::string&);
+
+	std::string getPrefix();
+	void setPrefix(const std::string&);
+
+	std::string getConfig();
+
+	std::string getOriginalGfx() const;
+	void setOriginalGfx(const std::string&);
+
+	std::string getFonts() const;
 private:
-	std::string prefix_;
-	std::string configPath_; // %AppData% or $HOME
-	std::string graphics_;
-	std::string originalGfx_;
+	std::string prefix;
+	std::string configPath;
+	std::string graphics;
+	std::string originalGfx;
 };
 
-Paths& GetPaths();
+Paths& getPaths();

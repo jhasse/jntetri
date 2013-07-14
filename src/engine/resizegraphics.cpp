@@ -1,7 +1,7 @@
-#include "../resizegraphics.hpp"
-#include "../paths.hpp"
-#include "../options.hpp"
-#include "../screen.hpp"
+#include "resizegraphics.hpp"
+#include "paths.hpp"
+#include "options.hpp"
+#include "screen.hpp"
 
 #include <jngl.hpp>
 #include <iostream>
@@ -24,7 +24,7 @@ void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResi
 }
 
 ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
-	boost::filesystem::path path(jngl::getPrefix() + GetPaths().data() + "gfx");
+	boost::filesystem::path path(jngl::getPrefix() + getPaths().getData() + "gfx");
 	boost::filesystem::directory_iterator end;
 	for (boost::filesystem::directory_iterator it(path); it != end; ++it) {
 		if (boost::filesystem::is_directory(it->status())) {
@@ -41,11 +41,11 @@ ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
 		}
 	}
 
-	const std::string origGfx = GetPaths().data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/";
-	GetPaths().SetOriginalGfx(origGfx);
+	const std::string origGfx = getPaths().getData() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/";
+	getPaths().setOriginalGfx(origGfx);
 	jngl::setScaleFactor(jngl::Float(jngl::getWindowHeight())/jngl::Float(originalSize_));
-	GetPaths().SetGraphics(origGfx);
-	ScanPath(jngl::getPrefix() + GetPaths().data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
+	getPaths().setGraphics(origGfx);
+	ScanPath(jngl::getPrefix() + getPaths().getData() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
 }
 
 ResizeGraphics::~ResizeGraphics() {
@@ -68,12 +68,12 @@ bool ResizeGraphics::isFinished(float& percentage) {
 
 	std::string basedir;
 	if (jngl::getPrefix() == "") {
-		basedir = GetPaths().data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_);
+		basedir = getPaths().getData() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_);
 	} else {
 		basedir = "gfx/x" + boost::lexical_cast<std::string>(originalSize_);
 	}
 	std::string relativeFilename(filesToResize_[0].substr(basedir.size() + 1));
-	std::string newFilename = GetPaths().Graphics() + relativeFilename;
+	std::string newFilename = getPaths().getGraphics() + relativeFilename;
 
 	jngl::load(newFilename.substr(0, newFilename.size()-5));
 	filesToResize_.pop_front();

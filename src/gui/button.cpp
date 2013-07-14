@@ -31,8 +31,8 @@ void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
 	texture_ = normal;
 	textureMouseOver_ = mouseOver;
 	textureClicked_ = clicked;
-	width_ = jngl::getWidth(GetPaths().Graphics() + texture_);
-	height_ = jngl::getHeight(GetPaths().Graphics() + texture_);
+	width_ = jngl::getWidth(getPaths().getGraphics() + texture_);
+	height_ = jngl::getHeight(getPaths().getGraphics() + texture_);
 }
 
 void Button::CenterAt(const int xCenter, const int yCenter)

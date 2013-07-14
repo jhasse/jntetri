@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 
-Options::Options() : filename_(GetPaths().Config() + "options.xml") {
+Options::Options() : filename_(getPaths().getConfig() + "options.xml") {
 	try {
 		std::ifstream ifs(filename_.c_str());
 		boost::archive::xml_iarchive xml(ifs);
@@ -23,5 +23,5 @@ void Options::Save() const {
 }
 
 Options& GetOptions() {
-	return Options::Handle();
+	return *Options::handle();
 }

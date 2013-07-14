@@ -12,7 +12,7 @@ Screen::Screen()
 
 void Screen::DrawCentered(const std::string& filename, const double x, const double y)
 {
-	const std::string filepath = GetPaths().Graphics() + filename;
+	const std::string filepath = getPaths().getGraphics() + filename;
 	jngl::draw(filepath,
 	           x - jngl::getWidth(filepath) / 2.0,
 	           y - jngl::getHeight(filepath) / 2.0);
@@ -25,7 +25,7 @@ void Screen::DrawCentered(const std::string& filename, const Vector2d& position)
 
 void Screen::DrawCenteredScaled(const std::string& filename, const double x, const double y, const float factor)
 {
-	const std::string filepath = GetPaths().Graphics() + filename;
+	const std::string filepath = getPaths().getGraphics() + filename;
 	jngl::drawScaled(filepath,
 	                 x - jngl::getWidth(filepath) / 2.0 * factor,
 					 y - jngl::getHeight(filepath) / 2.0 * factor,
@@ -34,7 +34,7 @@ void Screen::DrawCenteredScaled(const std::string& filename, const double x, con
 
 void Screen::DrawCenteredScaled(const std::string& filename, const double x, const double y, const float xfactor, const float yfactor)
 {
-	const std::string filepath = GetPaths().Graphics() + filename;
+	const std::string filepath = getPaths().getGraphics() + filename;
 	jngl::drawScaled(filepath,
 	                 x - jngl::getWidth(filepath) / 2.0 * xfactor,
 					 y - jngl::getHeight(filepath) / 2.0 * yfactor,
@@ -42,9 +42,8 @@ void Screen::DrawCenteredScaled(const std::string& filename, const double x, con
 					 yfactor);
 }
 
-Screen& GetScreen()
-{
-	return Screen::Handle();
+Screen& GetScreen() {
+	return *Screen::handle();
 }
 
 void Screen::PrintCentered(const std::string& text, double x, double y)
@@ -56,7 +55,7 @@ void Screen::PrintCentered(const std::string& text, double x, double y)
 
 void Screen::DrawScaled(const std::string& filename, const double x, const double y, const float factor)
 {
-	jngl::drawScaled(GetPaths().Graphics() + filename, x, y, factor);
+	jngl::drawScaled(getPaths().getGraphics() + filename, x, y, factor);
 }
 
 int Screen::GetWidth() const

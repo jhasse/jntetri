@@ -22,11 +22,11 @@ Highscore::Highscore(GameType type) : type_(type), blink_((Data*)0)
 {
 	if(type == NORMAL)
 	{
-		filename_ = GetPaths().Config() + "normal.txt";
+		filename_ = getPaths().getConfig() + "normal.txt";
 	}
 	else if(type == FIFTYLINES)
 	{
-		filename_ = (GetPaths().Config() + "fiftylines.txt");
+		filename_ = (getPaths().getConfig() + "fiftylines.txt");
 	}
 	else
 	{

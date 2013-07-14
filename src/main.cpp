@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
 	try {
 #endif
 		if (argc == 2) {
-			GetPaths().SetPrefix(argv[1]);
+			getPaths().setPrefix(argv[1]);
 		}
 		GetOptions().SetFallback("windowWidth", jngl::getDesktopWidth());
 		GetOptions().SetFallback("windowHeight", jngl::getDesktopHeight());
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 			GetProcedure().ShowWindow();
 		}
 		jngl::setAntiAliasing(true);
-		jngl::setIcon(GetPaths().Prefix() + "share/icons/jntetri.png");
+		jngl::setIcon(getPaths().getPrefix() + "share/icons/jntetri.png");
 		jngl::setWork(new Intro);
 		jngl::addJob(std::make_shared<DebugOverlay>());
 		jngl::mainLoop();

@@ -1,5 +1,4 @@
 #include <string>
 
-const std::string programShortName = "jntetri";
 const std::string programDisplayName = "JNTETRI";
-const std::string programVersion = "v0.9.0";
+const std::string programVersion = "v0.9.1";

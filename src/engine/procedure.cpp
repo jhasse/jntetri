@@ -12,9 +12,8 @@ Procedure::Procedure() : oldTime_(jngl::getTime()), needDraw_(true), fps_(0), fp
 {
 }
 
-Procedure& GetProcedure()
-{
-	return Procedure::Handle();
+Procedure& GetProcedure() {
+	return *Procedure::handle();
 }
 
 bool Procedure::ShowWindow()
