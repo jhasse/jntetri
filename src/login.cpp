@@ -16,8 +16,7 @@ const int Login::port_ = 7070;
 const std::string Login::protocolVersion_ = "1";
 
 template<class T>
-void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callback)
-{
+void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callback) {
 	socket.async_send(boost::asio::buffer(text + "\r\n"), callback);
 }
 

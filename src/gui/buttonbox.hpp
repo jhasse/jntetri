@@ -8,7 +8,7 @@ class ButtonBox : public Widget {
 public:
 	ButtonBox(); // Creates a box at the center of the screen
 	ButtonBox(int xCenter, int yCenter);
-	void add(const std::string& text, std::function<void()>, char shortcut = ' ');
+	void add(const std::string& text, std::function<void()>);
 	void draw() const override;
 	void step() override;
 	int GetMouseover() const; // Returns over which button the mouse is over. If there's none -1.

@@ -35,8 +35,7 @@ void Socket::Connect(const std::string& server, int port, boost::function<void()
 	});
 }
 
-void Socket::Send(const std::string& data, boost::function<void()> onSuccess)
-{
+void Socket::Send(const std::string& data, boost::function<void()> onSuccess) {
 	socket_.async_send(boost::asio::buffer(data + delimiter), boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
 }
 

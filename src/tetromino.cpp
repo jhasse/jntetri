@@ -153,25 +153,21 @@ void Tetromino::Step() {
 void Tetromino::updateShadow() {
 }
 
-void Tetromino::SetX(const int x)
-{
+void Tetromino::SetX(const int x) {
 	x_ = x;
 }
 
-void Tetromino::ChangeX(int c)
-{
+void Tetromino::ChangeX(int c) {
 	x_ += c;
 	animationX_ -= c;
 }
 
-void Tetromino::ChangeY(int c)
-{
+void Tetromino::ChangeY(int c) {
 	y_ += c;
 	animationY_ -= c;
 }
 
-void Tetromino::Rotate(const Direction direction)
-{
+void Tetromino::Rotate(const Direction direction) {
 	bool collidedBeforeRotation = Collided();
 	auto end = blocks_.end();
 	for (auto it = blocks_.begin(); it != end; ++it) {
