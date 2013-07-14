@@ -3,21 +3,17 @@
 #include "../options.hpp"
 #include "../screen.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 #include <iostream>
 #include <fstream>
 #include <boost/lexical_cast.hpp>
 
-void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResize)
-{
+void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResize) {
 	boost::filesystem::directory_iterator end;
 	for (boost::filesystem::directory_iterator it(path); it != end; ++it) {
-		if (boost::filesystem::is_directory(it->status()))
-		{
+		if (boost::filesystem::is_directory(it->status())) {
 			ScanPath(it->path(), filesToResize);
-		}
-		else
-		{
+		} else {
 			std::string file = it->path().string();
 			const std::string extension = ".webp";
 			if (file.substr(file.size() - extension.size()) == extension) {
@@ -27,43 +23,39 @@ void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResi
 	}
 }
 
-ResizeGraphics::ResizeGraphics() : originalSize_(-1)
-{
-	boost::filesystem::path path(jngl::getPrefix() + GetPaths().Data() + "gfx");
+ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
+	boost::filesystem::path path(jngl::getPrefix() + GetPaths().data() + "gfx");
 	boost::filesystem::directory_iterator end;
-	for(boost::filesystem::directory_iterator it(path); it != end; ++it)
-	{
-		if(boost::filesystem::is_directory(it->status()))
-		{
+	for (boost::filesystem::directory_iterator it(path); it != end; ++it) {
+		if (boost::filesystem::is_directory(it->status())) {
 			std::string name = it->path().string(); // e.g. /gfx/x1200
-			try
-			{
+			try {
 				auto tmp = boost::lexical_cast<int>(name.substr(name.rfind("x") + 1));
 				if (tmp > originalSize_) {
 					originalSize_ = tmp;
-					std::cout << "Original screen height: " << originalSize_ << std::endl;
+					jngl::debug("Original screen height: "); jngl::debugLn(originalSize_);
 				}
-			}
-			catch(boost::bad_lexical_cast&)
-			{
+			} catch(boost::bad_lexical_cast&) {
 				// Bad cast, this doesn't seem to be the right directory
 			}
 		}
 	}
 
-	const std::string origGfx = GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/";
+	const std::string origGfx = GetPaths().data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/";
 	GetPaths().SetOriginalGfx(origGfx);
-	jngl::setScaleFactor(jngl::Float(GetOptions().Get<int>("windowHeight"))/jngl::Float(originalSize_));
-	GetScreen().SetFactor(jngl::getScaleFactor());
-	std::cout << "Scale factor: " << jngl::getScaleFactor() << std::endl;
+	jngl::setScaleFactor(jngl::Float(jngl::getWindowHeight())/jngl::Float(originalSize_));
 	GetPaths().SetGraphics(origGfx);
-	ScanPath(jngl::getPrefix() + GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
+	ScanPath(jngl::getPrefix() + GetPaths().data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
 }
 
 ResizeGraphics::~ResizeGraphics() {
 }
 
 bool ResizeGraphics::isFinished(float& percentage) {
+	if (filesToResize_.empty()) {
+		return true;
+	}
+
 	static size_t numberOfImages = filesToResize_.size();
 	percentage = float(100 - filesToResize_.size() * 100 / numberOfImages);
 
@@ -74,14 +66,9 @@ bool ResizeGraphics::isFinished(float& percentage) {
 		return false;
 	}
 
-	if(filesToResize_.empty())
-	{
-		return true;
-	}
-
 	std::string basedir;
 	if (jngl::getPrefix() == "") {
-		basedir = GetPaths().Data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_);
+		basedir = GetPaths().data() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_);
 	} else {
 		basedir = "gfx/x" + boost::lexical_cast<std::string>(originalSize_);
 	}

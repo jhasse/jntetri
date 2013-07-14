@@ -80,7 +80,7 @@ void Paths::SetGraphics(const std::string& graphics)
 	graphics_ = graphics;
 }
 
-std::string Paths::Data()
+std::string Paths::data()
 {
 #ifdef __IPHONE_OS_VERSION_MIN_REQUIRED
 	return "";

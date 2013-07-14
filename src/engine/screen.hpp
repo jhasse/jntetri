@@ -22,10 +22,7 @@ public:
 	int GetHeight() const;
 	Vector2d GetMousePos() const;
 	Vector2d GetAbsoluteMousePos() const;
-	double GetFactor() const;
-	void SetFactor(double factor);
 private:
-	double factor_;
 	double xCenter_;
 	double yCenter_;
 };

@@ -61,22 +61,22 @@ void Screen::DrawScaled(const std::string& filename, const double x, const doubl
 
 int Screen::GetWidth() const
 {
-	return static_cast<int>(double(GetOptions().Get<int>("windowWidth")) / factor_);
+	return static_cast<int>(double(GetOptions().Get<int>("windowWidth")) / jngl::getScaleFactor());
 }
 
 int Screen::GetHeight() const
 {
-	return static_cast<int>(double(GetOptions().Get<int>("windowHeight")) / factor_);
+	return static_cast<int>(double(GetOptions().Get<int>("windowHeight")) / jngl::getScaleFactor());
 }
 
 int Screen::GetMouseX() const
 {
-	return static_cast<int>((jngl::getMouseX() - xCenter_) / factor_);
+	return static_cast<int>((jngl::getMouseX() - xCenter_) / jngl::getScaleFactor());
 }
 
 int Screen::GetMouseY() const
 {
-	return static_cast<int>((jngl::getMouseY() - yCenter_) / factor_);
+	return static_cast<int>((jngl::getMouseY() - yCenter_) / jngl::getScaleFactor());
 }
 
 Vector2d Screen::GetMousePos() const
@@ -86,13 +86,4 @@ Vector2d Screen::GetMousePos() const
 
 inline Vector2d GetWindowVector() {
 	return Vector2d(GetOptions().Get<int>("windowWidth"), GetOptions().Get<int>("windowHeight"));
-}
-
-double Screen::GetFactor() const
-{
-	return factor_;
-}
-
-void Screen::SetFactor(double factor) {
-	factor_ = factor;
 }

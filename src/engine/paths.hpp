@@ -8,7 +8,7 @@ class Paths : public Singleton<Paths>
 {
 public:
 	Paths();
-	std::string Data();
+	std::string data();
 	std::string Graphics();
 	std::string Prefix();
 	std::string Config();
