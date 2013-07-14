@@ -307,7 +307,7 @@ bool Field::GameOverAnimationFinished() const {
 	return blocks_.empty();
 }
 
-void Field::SetGameOver(bool gameOver) {
+void Field::setGameOver(bool gameOver) {
 	gameOver_ = gameOver;
 }
 

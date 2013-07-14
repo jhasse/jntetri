@@ -35,7 +35,7 @@ void Game::step() {
 		field_.step();
 		replayRecorder_.Step();
 		if (type_ == FIFTYLINES && field_.GetLines() >= 50) {
-			field_.SetGameOver(true);
+			field_.setGameOver(true);
 		}
 	}
 	nextPosition_ = field_.GetNextPosition();

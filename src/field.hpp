@@ -24,7 +24,7 @@ public:
 	bool CheckCollision(int x, int y) const;
 	void NewTetromino();
 	void removeLine(int y, int numberOfLines);
-	void SetGameOver(bool);
+	void setGameOver(bool);
 	bool GameOver() const;
 	int GetScore() const;
 	int GetLines() const;

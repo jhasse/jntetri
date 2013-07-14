@@ -13,6 +13,7 @@ private:
 
 	std::unique_ptr<Field> field1;
 	std::unique_ptr<Field> field2;
-	int wins1;
-	int wins2;
+	int wins1 = 0;
+	int wins2 = 0;
+	int freezeCountdown = 0;
 };
