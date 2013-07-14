@@ -43,8 +43,9 @@
 			<Add library="opengl32" />
 			<Add library="freetype" />
 			<Add library="glu32" />
-			<Add library="libboost_system-mgw47-mt-1_51.a" />
-			<Add library="libboost_filesystem-mgw47-mt-1_51.a" />
+			<Add library="libboost_system-mgw47-mt-1_54.a" />
+			<Add library="libboost_filesystem-mgw47-mt-1_54.a" />
+			<Add library="libboost_serialization-mgw47-mt-1_54.a" />
 			<Add library="z" />
 			<Add library="m" />
 			<Add library="gdi32" />
@@ -52,7 +53,6 @@
 			<Add library="jpeg" />
 			<Add library="ws2_32" />
 			<Add library="dl" />
-			<Add library="libboost_serialization-mgw47-mt-1_51.a" />
 			<Add library="glew32.dll" />
 			<Add library="webp" />
 			<Add library="xinput" />
