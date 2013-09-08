@@ -61,7 +61,7 @@ bool ResizeGraphics::isFinished(float& percentage) {
 
 	// Don't do anything in the first frame in order to draw the loading screen for the first time
 	static bool firstFrame = true;
-	if(firstFrame) {
+	if (firstFrame) {
 		firstFrame = false;
 		return false;
 	}

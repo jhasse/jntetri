@@ -74,8 +74,6 @@
 		<Unit filename="src/engine/paths.hpp" />
 		<Unit filename="src/engine/procedure.cpp" />
 		<Unit filename="src/engine/procedure.hpp" />
-		<Unit filename="src/engine/random.cpp" />
-		<Unit filename="src/engine/random.hpp" />
 		<Unit filename="src/engine/resizegraphics.cpp" />
 		<Unit filename="src/engine/resizegraphics.hpp" />
 		<Unit filename="src/engine/rgb.cpp" />

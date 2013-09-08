@@ -1,9 +1,9 @@
 #include "tetromino.hpp"
 #include "field.hpp"
 #include "engine/screen.hpp"
-#include "engine/random.hpp"
 
 #include <jngl/all.hpp>
+#include <random>
 
 Tetromino::Tetromino(int type, Field& field)
 : field_(field), recreateShadow(true) {
@@ -86,7 +86,7 @@ Tetromino::Tetromino(int type, Field& field)
 		break;}
 	}
 
-	int numberOfRotations = field_.GetRandom()(4);
+	int numberOfRotations = std::uniform_int_distribution<int>(0,3)(field_.getRandom());
 	for (int i = 0; i < numberOfRotations; ++i) {
 		Rotate(CLOCKWISE);
 	}

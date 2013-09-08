@@ -4,16 +4,17 @@
 #include "tetromino.hpp"
 #include "explosion.hpp"
 #include "control.hpp"
-#include "engine/random.hpp"
 #include "shadow.hpp"
 
 #include <vector>
+#include <random>
+#include <ctime>
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
 class Field : boost::noncopyable {
 public:
-	Field(int seed = static_cast<int>(time(0)));
+	Field(int seed = static_cast<int>(std::time(0)));
 	void step();
 	void draw() const;
 	void DrawBlock(int x, int y) const;
@@ -35,7 +36,8 @@ public:
 	bool GameOverAnimationFinished() const;
 	void setControl(Control*);
 	Control& getControl() const;
-	Random& GetRandom();
+	std::mt19937& getRandom();
+	int getRandomSeed() const;
 	void addShadow(int x, int y);
 	void clearShadows();
 	int getLinesCleared() const;
@@ -61,6 +63,7 @@ private:
 	bool delay_;
 	std::shared_ptr<Control> control_;
 	bool downKeyReleased_;
-	Random random_;
+	std::mt19937 random;
+	int randomSeed;
 	int linesCleared;
 };

@@ -1,6 +1,5 @@
 #include "field.hpp"
 #include "engine/screen.hpp"
-#include "engine/random.hpp"
 #include "engine/options.hpp"
 #include "replaycontrol.hpp"
 
@@ -15,17 +14,19 @@ Field::Field(int seed)
 	: blockSize_(60), counter_(0), gameOver_(false), score_(0),
 	  level_(GetOptions().Get<int>("startLevel")), lines_(0), maxY_(0),
 	  pause_(false), control_(new Control{std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0)}),
-	  linesCleared(0)
-{
-	random_.SetSeed(seed);
+	  randomSeed(seed), linesCleared(0) {
+	random.seed(seed);
 	NewTetromino();
 	NewTetromino();
 	score_ = 0;
+	std::uniform_int_distribution<int> dist(0, width_ - 1);
+	std::mt19937 colorRandom;
+	std::uniform_int_distribution<unsigned char> colorDist;
 	for (int i = 0; i < GetOptions().Get<int>("startJunks"); ++i) {
-		int leaveOut = random_(width_);
+		int leaveOut = dist(random);
 		for (int x = 0; x < width_; ++x) {
 			if (x != leaveOut) {
-				RGB color(RandomNumber(255), RandomNumber(255), RandomNumber(255));
+				RGB color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
 				AddBlock(Block(x, i, color));
 			}
 		}
@@ -42,11 +43,14 @@ void Field::addJunk(int nr) {
 		tetromino_->moveUp(nr);
 	}
 
+	std::uniform_int_distribution<int> dist(0, width_ - 1);
+	std::mt19937 colorRandom;
+	std::uniform_int_distribution<unsigned char> colorDist;
 	for (int i = 0; i < nr; ++i) {
-		int leaveOut = random_(width_);
+		int leaveOut = dist(random);
 		for (int x = 0; x < width_; ++x) {
 			if (x != leaveOut) {
-				RGB color(RandomNumber(255), RandomNumber(255), RandomNumber(255));
+				RGB color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
 				Block block(x, i, color);
 				block.setAnimation(-nr);
 				AddBlock(block);
@@ -63,7 +67,7 @@ void Field::step() {
 	--counter_;
 	if (gameOver_ && counter_ <= 0 && !blocks_.empty()) {
 		counter_ = 5;
-		std::vector<Block>::iterator randomBlock = blocks_.begin() + RandomNumber(static_cast<int>(blocks_.size()));
+		std::vector<Block>::iterator randomBlock = blocks_.begin() + std::uniform_int_distribution<int>(0, blocks_.size()-1)(random);
 		explosions_.push_back(Explosion(*randomBlock, 1));
 		blocks_.erase(randomBlock);
 	}
@@ -143,7 +147,7 @@ void Field::NewTetromino() {
 		CheckLines();
 	}
 	tetromino_ = nextTetromino_;
-	nextTetromino_.reset(new Tetromino(random_(7), *this));
+	nextTetromino_.reset(new Tetromino(std::uniform_int_distribution<int>(0, 6)(random), *this));
 
 	if (tetromino_) {
 		const int xPositions[] = { 5, 6, 4, 7, 3, 8, 2, 9, 1, 10, 0 };
@@ -319,8 +323,12 @@ Control& Field::getControl() const {
 	return *control_;
 }
 
-Random& Field::GetRandom() {
-	return random_;
+std::mt19937& Field::getRandom() {
+	return random;
+}
+
+int Field::getRandomSeed() const {
+	return randomSeed;
 }
 
 void Field::addShadow(int x, int y) {
