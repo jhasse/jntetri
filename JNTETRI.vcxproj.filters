@@ -16,9 +16,6 @@
     <Filter Include="Source Files\engine">
       <UniqueIdentifier>{1dfe895a-65e0-497a-931c-af0e8cb0869c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\resize">
-      <UniqueIdentifier>{c0fa91e4-c77d-458f-9446-c1de0ae5acac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\gui">
       <UniqueIdentifier>{6b2fa865-2d6e-4524-a8d2-6d3776717a0d}</UniqueIdentifier>
     </Filter>
@@ -99,9 +96,6 @@
     <ClCompile Include="src\engine\procedure.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\random.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\rgb.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
@@ -113,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="src\engine\work.cpp">
       <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\resize\resizegraphics.cpp">
-      <Filter>Source Files\engine\resize</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\button.cpp">
       <Filter>Source Files\gui</Filter>
@@ -137,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="src\shadow.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\resizegraphics.cpp">
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
