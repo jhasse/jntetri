@@ -37,8 +37,8 @@ Paths::Paths() {
 	free(tmp);
 	prefix += '/';
 	std::stringstream path;
-	path << getenv("HOME") << "/.config/" << programShortName << "/";
-	configPath_ = path.str();
+	path << getenv("HOME") << "/.config/" << programDisplayName << "/";
+	configPath = path.str();
 #elif defined(__APPLE__)
 	uint32_t size = 0;
 	if (_NSGetExecutablePath(NULL, &size) == 0) {
