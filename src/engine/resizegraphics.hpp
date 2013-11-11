@@ -2,7 +2,7 @@
 
 #include <deque>
 #include <string>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 class ResizeGraphics
 {
@@ -15,4 +15,4 @@ private:
 	int originalSize_;
 };
 
-void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResize);
+void ScanPath(std::tr2::sys::path path, std::deque<std::string>& filesToResize);

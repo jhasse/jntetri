@@ -21,7 +21,7 @@ Field::Field(int seed)
 	score_ = 0;
 	std::uniform_int_distribution<int> dist(0, width_ - 1);
 	std::mt19937 colorRandom;
-	std::uniform_int_distribution<unsigned char> colorDist;
+	std::uniform_int_distribution<int> colorDist(0, 255);
 	for (int i = 0; i < GetOptions().Get<int>("startJunks"); ++i) {
 		int leaveOut = dist(random);
 		for (int x = 0; x < width_; ++x) {
@@ -45,7 +45,7 @@ void Field::addJunk(int nr) {
 
 	std::uniform_int_distribution<int> dist(0, width_ - 1);
 	std::mt19937 colorRandom;
-	std::uniform_int_distribution<unsigned char> colorDist;
+	std::uniform_int_distribution<int> colorDist(0, 255);
 	for (int i = 0; i < nr; ++i) {
 		int leaveOut = dist(random);
 		for (int x = 0; x < width_; ++x) {
@@ -60,7 +60,7 @@ void Field::addJunk(int nr) {
 }
 
 void Field::ResetCounter() {
-	counter_ = 200 / (level_ * 1.5 + 1);
+	counter_ = static_cast<int>(200 / (level_ * 1.5 + 1));
 }
 
 void Field::step() {

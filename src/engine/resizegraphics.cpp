@@ -8,10 +8,10 @@
 #include <fstream>
 #include <boost/lexical_cast.hpp>
 
-void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResize) {
-	boost::filesystem::directory_iterator end;
-	for (boost::filesystem::directory_iterator it(path); it != end; ++it) {
-		if (boost::filesystem::is_directory(it->status())) {
+void ScanPath(std::tr2::sys::path path, std::deque<std::string>& filesToResize) {
+	std::tr2::sys::directory_iterator end;
+	for (std::tr2::sys::directory_iterator it(path); it != end; ++it) {
+		if (std::tr2::sys::is_directory(it->status())) {
 			ScanPath(it->path(), filesToResize);
 		} else {
 			std::string file = it->path().string();
@@ -24,10 +24,10 @@ void ScanPath(boost::filesystem::path path, std::deque<std::string>& filesToResi
 }
 
 ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
-	boost::filesystem::path path(jngl::getPrefix() + getPaths().getData() + "gfx");
-	boost::filesystem::directory_iterator end;
-	for (boost::filesystem::directory_iterator it(path); it != end; ++it) {
-		if (boost::filesystem::is_directory(it->status())) {
+	std::tr2::sys::path path(jngl::getPrefix() + getPaths().getData() + "gfx");
+	std::tr2::sys::directory_iterator end;
+	for (std::tr2::sys::directory_iterator it(path); it != end; ++it) {
+		if (std::tr2::sys::is_directory(it->status())) {
 			std::string name = it->path().string(); // e.g. /gfx/x1200
 			try {
 				auto tmp = boost::lexical_cast<int>(name.substr(name.rfind("x") + 1));
@@ -41,11 +41,11 @@ ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
 		}
 	}
 
-	const std::string origGfx = getPaths().getData() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_) + "/";
+	const std::string origGfx = getPaths().getData() + "gfx/x" + std::to_string(originalSize_) + "/";
 	getPaths().setOriginalGfx(origGfx);
 	jngl::setScaleFactor(jngl::Float(jngl::getWindowHeight())/jngl::Float(originalSize_));
 	getPaths().setGraphics(origGfx);
-	ScanPath(jngl::getPrefix() + getPaths().getData() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_), filesToResize_);
+	ScanPath(jngl::getPrefix() + getPaths().getData() + "gfx/x" + std::to_string(originalSize_), filesToResize_);
 }
 
 ResizeGraphics::~ResizeGraphics() {
@@ -68,9 +68,9 @@ bool ResizeGraphics::isFinished(float& percentage) {
 
 	std::string basedir;
 	if (jngl::getPrefix() == "") {
-		basedir = getPaths().getData() + "gfx/x" + boost::lexical_cast<std::string>(originalSize_);
+		basedir = getPaths().getData() + "gfx/x" + std::to_string(originalSize_);
 	} else {
-		basedir = "gfx/x" + boost::lexical_cast<std::string>(originalSize_);
+		basedir = "gfx/x" + std::to_string(originalSize_);
 	}
 	std::string relativeFilename(filesToResize_[0].substr(basedir.size() + 1));
 	std::string newFilename = getPaths().getGraphics() + relativeFilename;

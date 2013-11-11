@@ -92,7 +92,7 @@ void Highscore::Draw() const
 				jngl::setFontColor(0, 0, 0, alpha > 255 ? 510 - alpha : alpha);
 			}
 		}
-		jngl::print(score, 700 - jngl::getTextWidth(score), 0);
+		jngl::print(score, 700 - static_cast<int>(jngl::getTextWidth(score)), 0);
 		jngl::print(boost::lexical_cast<std::string>(n) + ". " + it->name, 0, 0);
 		jngl::translate(0, 80);
 		++n;
