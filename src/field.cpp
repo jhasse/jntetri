@@ -13,7 +13,8 @@ const int Field::height_ = 19;
 Field::Field(int seed)
 	: blockSize_(60), counter_(0), gameOver_(false), score_(0),
 	  level_(GetOptions().Get<int>("startLevel")), lines_(0), maxY_(0),
-	  pause_(false), control_(new Control{std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0)}),
+	  pause_(false), control_(new Control{std::make_shared<KeyboardControl>(),
+	  std::make_shared<GamepadControl>(0)}),
 	  randomSeed(seed), linesCleared(0) {
 	random.seed(seed);
 	NewTetromino();

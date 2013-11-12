@@ -39,8 +39,8 @@ void Intro::draw() const {
 	jngl::setFontColor(100, 100, 100, 255);
 	jngl::setFontSize(35);
 	GetScreen().PrintCentered(programVersion, 0, 360);
-	GetScreen().PrintCentered("http://watteimdocht.de/jntetri", 0, 430);
-	GetScreen().PrintCentered("Copyright 2009-2013 watteimdocht.de", 0, 500);
+	GetScreen().PrintCentered("http://bixense.com/jntetri", 0, 430);
+	GetScreen().PrintCentered("Copyright 2009-2013 bixense.com", 0, 500);
 }
 
 void Intro::step() {
