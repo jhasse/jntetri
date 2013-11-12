@@ -5,7 +5,7 @@
 
 const int Block::size = 60;
 
-Block::Block(int x, int y, RGB color) : x(x), y(y), animation(0), color(color), flashAnimation(0) {
+Block::Block(int x, int y, jngl::Color color) : x(x), y(y), animation(0), color(color), flashAnimation(0) {
 }
 
 void Block::step() {
@@ -24,9 +24,9 @@ double Block::getAnimation() const {
 }
 
 void Block::draw() const {
-	jngl::setSpriteColor(static_cast<unsigned char>(color.GetRed() + flashAnimation),
-		                 static_cast<unsigned char>(color.GetGreen() + flashAnimation),
-						 static_cast<unsigned char>(color.GetBlue() + flashAnimation));
+	jngl::setSpriteColor(static_cast<unsigned char>(color.getRed() + flashAnimation),
+		                 static_cast<unsigned char>(color.getGreen() + flashAnimation),
+						 static_cast<unsigned char>(color.getBlue() + flashAnimation));
 	GetScreen().DrawCentered("block", x * size, -(y + animation) * size);
 	jngl::setSpriteColor(255, 255, 255);
 }
@@ -66,7 +66,7 @@ int Block::getSize() const {
 	return size;
 }
 
-RGB Block::getColor() const {
+jngl::Color Block::getColor() const {
 	return color;
 }
 

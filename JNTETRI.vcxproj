@@ -90,7 +90,6 @@
     <ClCompile Include="src\engine\paths.cpp" />
     <ClCompile Include="src\engine\procedure.cpp" />
     <ClCompile Include="src\engine\resizegraphics.cpp" />
-    <ClCompile Include="src\engine\rgb.cpp" />
     <ClCompile Include="src\engine\screen.cpp" />
     <ClCompile Include="src\engine\socket.cpp" />
     <ClCompile Include="src\engine\vector2d.cpp" />
@@ -129,7 +128,6 @@
     <ClInclude Include="src\engine\procedure.hpp" />
     <ClInclude Include="src\engine\random.hpp" />
     <ClInclude Include="src\engine\resizegraphics.hpp" />
-    <ClInclude Include="src\engine\rgb.hpp" />
     <ClInclude Include="src\engine\screen.hpp" />
     <ClInclude Include="src\engine\singleton.hpp" />
     <ClInclude Include="src\engine\socket.hpp" />

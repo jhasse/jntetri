@@ -10,7 +10,7 @@ Tetromino::Tetromino(int type, Field& field)
 	assert(0 <= type && type < 7);
 	switch(type) {
 		case 0:{
-			RGB color(200, 200, 0);
+			jngl::Color color(200, 200, 0);
 			blocks_.push_back(Block(-1, 1, color)); // XX
 			blocks_.push_back(Block( 0, 1, color)); // XX
 			blocks_.push_back(Block(-1, 0, color));
@@ -19,7 +19,7 @@ Tetromino::Tetromino(int type, Field& field)
 			rotationCenterY_.push_back( 0.5);
 		break;}
 		case 1:{
-			RGB color(200, 0, 0);
+			jngl::Color color(200, 0, 0);
 			blocks_.push_back(Block(-1, 0, color)); // 1234
 			blocks_.push_back(Block( 0, 0, color));
 			blocks_.push_back(Block( 1, 0, color));
@@ -30,7 +30,7 @@ Tetromino::Tetromino(int type, Field& field)
 			rotationCenterY_.push_back(-0.5);
 		break;}
 		case 2:{
-			RGB color(0, 200, 200);
+			jngl::Color color(0, 200, 200);
 			blocks_.push_back(Block( 0, 1, color)); //  1
 			blocks_.push_back(Block(-1, 0, color)); // 234
 			blocks_.push_back(Block( 0, 0, color));
@@ -41,7 +41,7 @@ Tetromino::Tetromino(int type, Field& field)
 			rotationCenterY_.push_back( 0);
 		break;}
 		case 3:{
-			RGB color(0, 0, 200);
+			jngl::Color color(0, 0, 200);
 			blocks_.push_back(Block( 0,  1, color)); //  1
 			blocks_.push_back(Block( 0,  0, color)); //  2
 			blocks_.push_back(Block( 0, -1, color)); // 43
@@ -52,7 +52,7 @@ Tetromino::Tetromino(int type, Field& field)
 			rotationCenterY_.push_back( 0.5);
 		break;}
 		case 4:{
-			RGB color(200, 100, 0);
+			jngl::Color color(200, 100, 0);
 			blocks_.push_back(Block(-1,  1, color)); // 12
 			blocks_.push_back(Block( 0,  1, color)); //  3
 			blocks_.push_back(Block( 0,  0, color)); //  4
@@ -63,7 +63,7 @@ Tetromino::Tetromino(int type, Field& field)
 			rotationCenterY_.push_back( 0.5);
 		break;}
 		case 5:{
-			RGB color(200, 0, 200);
+			jngl::Color color(200, 0, 200);
 			blocks_.push_back(Block( 0, 1, color)); //  12
 			blocks_.push_back(Block( 1, 1, color)); // 34
 			blocks_.push_back(Block(-1, 0, color));
@@ -74,7 +74,7 @@ Tetromino::Tetromino(int type, Field& field)
 			rotationCenterY_.push_back( 0);
 		break;}
 		case 6:{
-			RGB color(0, 200, 0);
+			jngl::Color color(0, 200, 0);
 			blocks_.push_back(Block(-1, 1, color)); // 12
 			blocks_.push_back(Block( 0, 1, color)); //  34
 			blocks_.push_back(Block( 0, 0, color));

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/rgb.hpp"
+#include <jngl/color.hpp>
 
 enum Direction {
 	CLOCKWISE,
@@ -9,7 +9,7 @@ enum Direction {
 
 class Block {
 public:
-	Block(int x, int y, RGB color);
+	Block(int x, int y, jngl::Color color);
 	void step();
 	void draw() const;
 	int getX() const;
@@ -20,7 +20,7 @@ public:
 	void setAnimation(double);
 	double getAnimation() const;
 	int getSize() const;
-	RGB getColor() const;
+	jngl::Color getColor() const;
 	void flash();
 	
 	const static int size;
@@ -28,6 +28,6 @@ private:
 	bool exists;
 	int x, y;
 	double animation;
-	RGB color;
+	jngl::Color color;
 	double flashAnimation;
 };

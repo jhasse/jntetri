@@ -96,9 +96,6 @@
     <ClCompile Include="src\engine\procedure.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\rgb.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\screen.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
@@ -216,9 +213,6 @@
       <Filter>Header Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\random.hpp">
-      <Filter>Header Files\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\rgb.hpp">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\screen.hpp">

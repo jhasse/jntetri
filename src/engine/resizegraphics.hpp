@@ -4,8 +4,7 @@
 #include <string>
 #include <filesystem>
 
-class ResizeGraphics
-{
+class ResizeGraphics {
 public:
 	ResizeGraphics();
 	~ResizeGraphics();

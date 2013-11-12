@@ -26,7 +26,7 @@ Field::Field(int seed)
 		int leaveOut = dist(random);
 		for (int x = 0; x < width_; ++x) {
 			if (x != leaveOut) {
-				RGB color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
+				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
 				AddBlock(Block(x, i, color));
 			}
 		}
@@ -50,7 +50,7 @@ void Field::addJunk(int nr) {
 		int leaveOut = dist(random);
 		for (int x = 0; x < width_; ++x) {
 			if (x != leaveOut) {
-				RGB color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
+				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
 				Block block(x, i, color);
 				block.setAnimation(-nr);
 				AddBlock(block);
