@@ -4,6 +4,7 @@ vars = Variables()
 vars.Add(BoolVariable('debug', 'Enable debug build', 0))
 vars.Add(BoolVariable('profile', 'Enable profile build', 0))
 vars.Add(BoolVariable('verbose', 'Show verbose compiling output', 0))
+vars.Add(BoolVariable('clang', 'Use clang compiler', 0))
 
 env = Environment(variables = vars)
 Help(vars.GenerateHelpText(env))
@@ -13,6 +14,9 @@ try:
 except NotImplementedError:
 	pass
 
+if env['clang']:
+	env = Environment(variables=vars, CXX='clang++', CC='clang',
+	                  CXXFLAGS='-stdlib=libc++ ', LINKFLAGS='-stdlib=libc++')
 if env['debug']:
 	env.Append(CCFLAGS = '-g -Wall')
 else:
@@ -26,17 +30,15 @@ if not env['verbose']:
 
 env.Append(CPPPATH = ['include'])
 
-source_files = Glob('*.cpp') + \
-               Glob('leveleditor/*.cpp') + \
-               Glob('engine/*.cpp') + \
-               Glob('engine/linux/*.c') + \
-               Glob('gui/*.cpp')
+source_files = env.Object(Glob('*.cpp') + \
+                          Glob('leveleditor/*.cpp') + \
+                          Glob('engine/*.cpp') + \
+                          Glob('gui/*.cpp'), CPPFLAGS='-std=c++11')
 
 env.ParseConfig("pkg-config jngl --cflags --libs")
-source_files += Glob('engine/resize/*.cpp')
 env.Append(LIBS = Split('boost_filesystem boost_serialization boost_system pthread'))
 
-env.Append(CCFLAGS = '-DENABLE_BINRELOC', CPPFLAGS='-std=c++0x')
+env.Append(CCFLAGS = '-DENABLE_BINRELOC')
 
 env.Program(target = "../jntetri",
-            source = source_files)
+            source = source_files + Glob('engine/linux/*.c'))
