@@ -78,11 +78,6 @@ int Screen::GetMouseY() const
 	return static_cast<int>((jngl::getMouseY() - yCenter_) / jngl::getScaleFactor());
 }
 
-Vector2d Screen::GetMousePos() const
-{
-	return Vector2d(GetScreen().GetMouseX(), GetScreen().GetMouseY());
-}
-
 inline Vector2d GetWindowVector() {
 	return Vector2d(GetOptions().Get<int>("windowWidth"), GetOptions().Get<int>("windowHeight"));
 }

@@ -4,10 +4,8 @@
 #include "vector2d.hpp"
 
 #include <string>
-#include <boost/noncopyable.hpp>
 
-class Screen : public Singleton<Screen>
-{
+class Screen : public Singleton<Screen> {
 public:
 	Screen();
 	void DrawCentered(const std::string& filename, double x, double y);
@@ -20,8 +18,6 @@ public:
 	void PrintCentered(const std::string& text, double x, double y);
 	int GetWidth() const;
 	int GetHeight() const;
-	Vector2d GetMousePos() const;
-	Vector2d GetAbsoluteMousePos() const;
 private:
 	double xCenter_;
 	double yCenter_;

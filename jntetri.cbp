@@ -43,8 +43,6 @@
 			<Add library="opengl32" />
 			<Add library="freetype" />
 			<Add library="glu32" />
-			<Add library="libboost_system-mgw47-mt-1_54.a" />
-			<Add library="libboost_filesystem-mgw47-mt-1_54.a" />
 			<Add library="libboost_serialization-mgw47-mt-1_54.a" />
 			<Add library="z" />
 			<Add library="m" />
