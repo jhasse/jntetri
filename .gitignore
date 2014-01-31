@@ -8,3 +8,7 @@ bin/
 obj/
 jntetri.depend
 jntetri.layout
+*.sdf
+*.v12.suo
+Debug/
+Release/
