@@ -73,7 +73,7 @@ void Field::step() {
 		blocks_.erase(randomBlock);
 	}
 	if (!gameOver_) {
-		control_->Step();
+		control_->step();
 		linesCleared = 0;
 		if (counter_ <= 0) {
 			ResetCounter();

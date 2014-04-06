@@ -29,7 +29,7 @@ public:
 	Control(std::initializer_list<std::shared_ptr<ControlBase>>);
 	virtual ~Control();
 	bool Check(control::ControlType);
-	void Step();
+	void step();
 	void ForEach(const boost::function<void(control::ControlType)>&);
 protected:
 	std::bitset<control::LastValue> bits_;

@@ -25,7 +25,7 @@ void Control::ForEach(const boost::function<void(ControlType)>& f) {
 	}
 }
 
-void Control::Step() {
+void Control::step() {
 	bits_.reset();
 	for (auto& control : controls) {
 		control->step([&](control::ControlType e) {

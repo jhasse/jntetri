@@ -116,6 +116,7 @@
     <ClCompile Include="src\replayplayer.cpp" />
     <ClCompile Include="src\replayrecorder.cpp" />
     <ClCompile Include="src\shadow.cpp" />
+    <ClCompile Include="src\splitscreen.cpp" />
     <ClCompile Include="src\tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +156,7 @@
     <ClInclude Include="src\replayplayer.hpp" />
     <ClInclude Include="src\replayrecorder.hpp" />
     <ClInclude Include="src\shadow.hpp" />
+    <ClInclude Include="src\splitscreen.hpp" />
     <ClInclude Include="src\tetromino.hpp" />
   </ItemGroup>
   <ItemGroup>
