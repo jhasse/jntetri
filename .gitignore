@@ -12,3 +12,4 @@ jntetri.layout
 *.v12.suo
 Debug/
 Release/
+packages/
