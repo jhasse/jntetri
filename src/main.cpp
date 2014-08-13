@@ -13,10 +13,10 @@ int main(int argc, char** argv) {
 		if (argc == 2) {
 			getPaths().setPrefix(argv[1]);
 		}
-		const int dpiFactor = std::max{std::min{
+		const int dpiFactor = std::max(std::min(
 			jngl::getDesktopWidth() / 1280,
 			jngl::getDesktopHeight() / 720
-		}, 1};
+		), 1);
 		GetOptions().SetFallback("windowWidth", 1280 * dpiFactor);
 		GetOptions().SetFallback("windowHeight", 720 * dpiFactor);
 		GetOptions().SetFallback("fullscreen", 0);
