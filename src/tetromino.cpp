@@ -177,17 +177,10 @@ void Tetromino::Rotate(const Direction direction) {
 			it->rotate(direction, rotationCenterX_.back(), rotationCenterY_.back());
 		}
 	}
-	if (direction == CLOCKWISE) {
-		rotationCenterX_.push_back(rotationCenterX_.front());
-		rotationCenterX_.pop_front();
-		rotationCenterY_.push_back(rotationCenterY_.front());
-		rotationCenterY_.pop_front();
-	} else {
-		rotationCenterX_.push_back(rotationCenterX_.front());
-		rotationCenterX_.pop_front();
-		rotationCenterY_.push_back(rotationCenterY_.front());
-		rotationCenterY_.pop_front();
-	}
+	rotationCenterX_.push_back(rotationCenterX_.front());
+	rotationCenterX_.pop_front();
+	rotationCenterY_.push_back(rotationCenterY_.front());
+	rotationCenterY_.pop_front();
 	if (direction == CLOCKWISE) {
 		rotation_ -= 90;
 	} else {
