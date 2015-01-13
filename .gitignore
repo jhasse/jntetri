@@ -13,3 +13,7 @@ jntetri.layout
 Debug/
 Release/
 packages/
+msi/*.wixobj
+msi/*.wixpdb
+msi/JNTETRI.msi
+msi/data.wxs
