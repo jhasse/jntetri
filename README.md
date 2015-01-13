@@ -4,18 +4,11 @@
 
 ### Windows
 
-You'll need the submodule for boost:
-
-```
-git submodule init
-git submodule update
-```
-
-Build JNTETRI using the CodeBlocks project files.
+Open `JNTETRI.sln` with Visual Studio and press F5.
 
 ### Linux
 
-You'll need scons, boost and JNGL installed. Type
+You'll need scons, boost and [JNGL](https://github.com/jhasse/jngl) installed. Type
 
 ```
 scons -h
