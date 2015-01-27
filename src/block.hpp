@@ -22,10 +22,9 @@ public:
 	int getSize() const;
 	jngl::Color getColor() const;
 	void flash();
-	
+
 	const static int size;
 private:
-	bool exists;
 	int x, y;
 	double animation;
 	jngl::Color color;
