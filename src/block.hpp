@@ -17,8 +17,10 @@ public:
 	void setX(int);
 	void setY(int);
 	void rotate(Direction, double rotationCenterX, double rotationCenterY);
-	void setAnimation(double);
-	double getAnimation() const;
+	void setAnimationX(double);
+	void setAnimationY(double);
+	double getAnimationX() const;
+	double getAnimationY() const;
 	int getSize() const;
 	jngl::Color getColor() const;
 	void flash();
@@ -27,7 +29,8 @@ public:
 private:
 	bool exists;
 	int x, y;
-	double animation;
+	double animationX = 0;
+	double animationY = 0;
 	jngl::Color color;
 	double flashAnimation;
 };

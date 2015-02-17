@@ -37,7 +37,7 @@ Field::Field(int seed)
 void Field::addJunk(int nr) {
 	for (auto& block : blocks_) {
 		block.setY(block.getY() + nr);
-		block.setAnimation(block.getAnimation() - nr);
+		block.setAnimationY(block.getAnimationY() - nr);
 	}
 
 	if (tetromino_) {
@@ -53,7 +53,7 @@ void Field::addJunk(int nr) {
 			if (x != leaveOut) {
 				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
 				Block block(x, i, color);
-				block.setAnimation(-nr);
+				block.setAnimationY(-nr);
 				AddBlock(block);
 			}
 		}
@@ -91,8 +91,7 @@ void Field::step() {
 		}
 		tetromino_->Step();
 		if (control_->Check(control::Drop)) {
-			while (tetromino_->MoveDown()) {
-			}
+			tetromino_->drop();
 			NewTetromino();
 		}
 		if (control_->Check(control::Down)) {
@@ -260,8 +259,8 @@ void Field::AddBlock(const Block& block) {
 
 	// Copy the current animation
 	for (const auto& block : blocks_) {
-		if (block.getAnimation() > 0.0001 || block.getAnimation() < -0.0001) {
-			blocks_.back().setAnimation(block.getAnimation());
+		if (block.getAnimationY() > 0.0001 || block.getAnimationY() < -0.0001) {
+			blocks_.back().setAnimationY(block.getAnimationY());
 		}
 	}
 }
@@ -279,10 +278,10 @@ void Field::removeLine(const int y, const int numberOfLines) {
 			return removeLine(y, numberOfLines);
 		}
 	}
-	for (std::vector<Block>::iterator it = blocks_.begin(); it != end; ++it) {
+	for (auto it = blocks_.begin(); it != end; ++it) {
 		if (it->getY() > y) {
 			it->setY(it->getY() - 1);
-			it->setAnimation(it->getAnimation() + 1);
+			it->setAnimationY(it->getAnimationY() + 1);
 		}
 	}
 	++lines_;

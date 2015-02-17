@@ -90,16 +90,14 @@ Tetromino::Tetromino(int type, Field& field)
 	for (int i = 0; i < numberOfRotations; ++i) {
 		Rotate(CLOCKWISE);
 	}
-	animationX_ = 0;
-	animationY_ = 0;
 	rotation_ = 0;
 	x_ = 5;
 	y_ = 17;
 }
 
 void Tetromino::Step() {
-	animationY_ *= 0.8;
 	animationX_ *= 0.7;
+	animationY_ *= 0.8;
 	rotation_ *= 0.8;
 	if (field_.getControl().Check(control::Left)) {
 		ChangeX(-1);
@@ -214,6 +212,8 @@ void Tetromino::AttachToField() {
 	for (auto it = blocks_.begin(); it != end; ++it) {
 		it->setX(it->getX() + x_);
 		it->setY(it->getY() + y_);
+		it->setAnimationX(animationX_);
+		it->setAnimationY(animationY_);
 		it->flash();
 		field_.AddBlock(*it);
 	}
@@ -263,4 +263,9 @@ bool Tetromino::Collided() const {
 		}
 	}
 	return false;
+}
+
+void Tetromino::drop() {
+	while (MoveDown());
+	animationX_ = animationY_ = 0;
 }

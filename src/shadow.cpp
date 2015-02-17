@@ -8,7 +8,7 @@ Shadow::Shadow(int x, int y, const Block* block) : x(x), y(y), block(block) {
 void Shadow::draw() const {
 	double tmpY = y;
 	if (block) {
-		tmpY += block->getAnimation();
+		tmpY += block->getAnimationY();
 	}
 	GetScreen().DrawCentered("shadow", x * Block::size, -tmpY * Block::size);
 }
