@@ -37,15 +37,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros">
-    <NuGetPackageImportStamp>f3381efd</NuGetPackageImportStamp>
-  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>include;..\jngl\src;$(IncludePath)</IncludePath>
+    <IncludePath>include;jngl\src;$(IncludePath)</IncludePath>
     <LibraryPath>lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>include;..\jngl\src;$(IncludePath)</IncludePath>
+    <IncludePath>include;jngl\src;$(IncludePath)</IncludePath>
     <LibraryPath>lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -166,28 +164,32 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\jngl\visualcpp\jngl.vcxproj">
+    <ProjectReference Include="jngl\visualcpp\jngl.vcxproj">
       <Project>{c8c7e794-05b1-4a00-a060-2a4236c7d1e3}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\boost.1.55.0.10\build\native\boost.targets" Condition="Exists('packages\boost.1.55.0.10\build\native\boost.targets')" />
-    <Import Project="packages\boost_serialization.1.55.0.16\build\native\boost_serialization.targets" Condition="Exists('packages\boost_serialization.1.55.0.16\build\native\boost_serialization.targets')" />
-    <Import Project="packages\boost_filesystem.1.55.0.16\build\native\boost_filesystem.targets" Condition="Exists('packages\boost_filesystem.1.55.0.16\build\native\boost_filesystem.targets')" />
-    <Import Project="packages\boost_system.1.55.0.16\build\native\boost_system.targets" Condition="Exists('packages\boost_system.1.55.0.16\build\native\boost_system.targets')" />
-    <Import Project="packages\boost_date_time.1.55.0.16\build\native\boost_date_time.targets" Condition="Exists('packages\boost_date_time.1.55.0.16\build\native\boost_date_time.targets')" />
-    <Import Project="packages\boost_regex.1.55.0.16\build\native\boost_regex.targets" Condition="Exists('packages\boost_regex.1.55.0.16\build\native\boost_regex.targets')" />
+    <Import Project="packages\boost_date_time.1.60.0.0\build\native\boost_date_time.targets" Condition="Exists('packages\boost_date_time.1.60.0.0\build\native\boost_date_time.targets')" />
+    <Import Project="packages\boost_filesystem.1.60.0.0\build\native\boost_filesystem.targets" Condition="Exists('packages\boost_filesystem.1.60.0.0\build\native\boost_filesystem.targets')" />
+    <Import Project="packages\boost_regex.1.60.0.0\build\native\boost_regex.targets" Condition="Exists('packages\boost_regex.1.60.0.0\build\native\boost_regex.targets')" />
+    <Import Project="packages\boost_serialization.1.60.0.0\build\native\boost_serialization.targets" Condition="Exists('packages\boost_serialization.1.60.0.0\build\native\boost_serialization.targets')" />
+    <Import Project="packages\boost_system.1.60.0.0\build\native\boost_system.targets" Condition="Exists('packages\boost_system.1.60.0.0\build\native\boost_system.targets')" />
+    <Import Project="packages\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('packages\boost.1.60.0.0\build\native\boost.targets')" />
+    <Import Project="packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets" Condition="Exists('packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets')" />
+    <Import Project="packages\libjpeg.9.0.1.4\build\native\libjpeg.targets" Condition="Exists('packages\libjpeg.9.0.1.4\build\native\libjpeg.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\boost.1.55.0.10\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.55.0.10\build\native\boost.targets'))" />
-    <Error Condition="!Exists('packages\boost_serialization.1.55.0.16\build\native\boost_serialization.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_serialization.1.55.0.16\build\native\boost_serialization.targets'))" />
-    <Error Condition="!Exists('packages\boost_filesystem.1.55.0.16\build\native\boost_filesystem.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_filesystem.1.55.0.16\build\native\boost_filesystem.targets'))" />
-    <Error Condition="!Exists('packages\boost_system.1.55.0.16\build\native\boost_system.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_system.1.55.0.16\build\native\boost_system.targets'))" />
-    <Error Condition="!Exists('packages\boost_date_time.1.55.0.16\build\native\boost_date_time.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_date_time.1.55.0.16\build\native\boost_date_time.targets'))" />
-    <Error Condition="!Exists('packages\boost_regex.1.55.0.16\build\native\boost_regex.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_regex.1.55.0.16\build\native\boost_regex.targets'))" />
+    <Error Condition="!Exists('packages\boost_date_time.1.60.0.0\build\native\boost_date_time.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_date_time.1.60.0.0\build\native\boost_date_time.targets'))" />
+    <Error Condition="!Exists('packages\boost_filesystem.1.60.0.0\build\native\boost_filesystem.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_filesystem.1.60.0.0\build\native\boost_filesystem.targets'))" />
+    <Error Condition="!Exists('packages\boost_regex.1.60.0.0\build\native\boost_regex.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_regex.1.60.0.0\build\native\boost_regex.targets'))" />
+    <Error Condition="!Exists('packages\boost_serialization.1.60.0.0\build\native\boost_serialization.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_serialization.1.60.0.0\build\native\boost_serialization.targets'))" />
+    <Error Condition="!Exists('packages\boost_system.1.60.0.0\build\native\boost_system.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_system.1.60.0.0\build\native\boost_system.targets'))" />
+    <Error Condition="!Exists('packages\boost.1.60.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.60.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets'))" />
+    <Error Condition="!Exists('packages\libjpeg.9.0.1.4\build\native\libjpeg.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\libjpeg.9.0.1.4\build\native\libjpeg.targets'))" />
   </Target>
 </Project>
