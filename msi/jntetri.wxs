@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-    <Product Id="6358C92A-D48B-4AEF-815F-A43A7804CC6A" Name="JNTETRI" Language="1033" Version="0.8.4" Manufacturer="watteimdocht.de" UpgradeCode="0BE24356-5347-4CF7-8BF0-01856A5461D6">
+    <Product Id="6358C92A-D48B-4AEF-815F-A43A7804CC6A" Name="JNTETRI" Language="1033" Version="0.8.4" Manufacturer="bixense.com" UpgradeCode="0BE24356-5347-4CF7-8BF0-01856A5461D6">
         <Package Description="JNTETRI Installer"
 		  Comments="JNTETRI is a tetris clone with simple and clear graphics"
-		  Manufacturer="watteimdocht.de"
+		  Manufacturer="bixense.com"
 		  InstallerVersion="200" Languages="1033" Compressed="yes" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
@@ -27,7 +27,7 @@
                     <Component Id="StartMenuShortcuts" Guid="6C2D3DB7-99FC-4FED-8EA6-CA2F808AE654">
                         <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
                         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" />
-                        <util:InternetShortcut Id="WebsiteShortcut" Name="watteimdocht.de" Target="http://www.watteimdocht.de" />
+                        <util:InternetShortcut Id="WebsiteShortcut" Name="bixense.com" Target="http://www.bixense.com" />
                     </Component>
                 </Directory>
             </Directory>
