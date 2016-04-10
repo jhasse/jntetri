@@ -8,10 +8,10 @@
 #include <fstream>
 #include <boost/lexical_cast.hpp>
 
-void ScanPath(std::tr2::sys::path path, std::deque<std::string>& filesToResize) {
-	std::tr2::sys::directory_iterator end;
-	for (std::tr2::sys::directory_iterator it(path); it != end; ++it) {
-		if (std::tr2::sys::is_directory(it->status())) {
+void ScanPath(fs::path path, std::deque<std::string>& filesToResize) {
+	fs::directory_iterator end;
+	for (fs::directory_iterator it(path); it != end; ++it) {
+		if (fs::is_directory(it->status())) {
 			ScanPath(it->path(), filesToResize);
 		} else {
 			std::string file = it->path().string();
@@ -24,10 +24,10 @@ void ScanPath(std::tr2::sys::path path, std::deque<std::string>& filesToResize) 
 }
 
 ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
-	std::tr2::sys::path path(jngl::getPrefix() + getPaths().getData() + "gfx");
-	std::tr2::sys::directory_iterator end;
-	for (std::tr2::sys::directory_iterator it(path); it != end; ++it) {
-		if (std::tr2::sys::is_directory(it->status())) {
+	fs::path path(jngl::getPrefix() + getPaths().getData() + "gfx");
+	fs::directory_iterator end;
+	for (fs::directory_iterator it(path); it != end; ++it) {
+		if (fs::is_directory(it->status())) {
 			std::string name = it->path().string(); // e.g. /gfx/x1200
 			try {
 				auto tmp = boost::lexical_cast<int>(name.substr(name.rfind("x") + 1));

@@ -2,7 +2,14 @@
 
 #include <deque>
 #include <string>
-#include <filesystem>
+
+#ifdef __linux__
+	#include <experimental/filesystem>
+	namespace fs = std::experimental::filesystem;
+#else
+	#include <filesystem>
+	namespace fs = std::tr2::sys;
+#endif
 
 class ResizeGraphics {
 public:
@@ -14,4 +21,4 @@ private:
 	int originalSize_;
 };
 
-void ScanPath(std::tr2::sys::path path, std::deque<std::string>& filesToResize);
+void ScanPath(fs::path path, std::deque<std::string>& filesToResize);

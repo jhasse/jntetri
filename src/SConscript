@@ -37,12 +37,12 @@ env.Append(CPPPATH = ['include'])
 source_files = env.Object(Glob('*.cpp') + \
                           Glob('leveleditor/*.cpp') + \
                           Glob('engine/*.cpp') + \
-                          Glob('gui/*.cpp'), CPPFLAGS='-std=c++11')
+                          Glob('gui/*.cpp'), CPPFLAGS='-std=c++1z')
 
-env.ParseConfig("pkg-config jngl --cflags --libs")
-env.Append(LIBS = Split('boost_filesystem boost_serialization boost_system pthread'))
+env.ParseConfig("pkg-config " + os.path.abspath("../../jngl/jngl.pc") + " --cflags --libs")
+env.Append(LIBS = Split('boost_filesystem boost_serialization boost_system pthread stdc++fs'))
 
-env.Append(CCFLAGS = '-DENABLE_BINRELOC')
+env.Append(CPPPATH="../../jngl/src", LIBPATH="../../jngl", CCFLAGS='-DENABLE_BINRELOC')
 
 env.Program(target = "../jntetri",
             source = source_files + Glob('engine/linux/*.c'))
