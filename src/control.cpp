@@ -17,9 +17,9 @@ bool Control::Check(ControlType e) {
 	return bits_.test(e);
 }
 
-void Control::ForEach(const boost::function<void(ControlType)>& f) {
-	for(size_t i = 0; i < bits_.size(); ++i) {
-		if(bits_.test(i)) {
+void Control::forEach(const boost::function<void(ControlType)>& f) {
+	for (size_t i = 0; i < bits_.size(); ++i) {
+		if (bits_.test(i)) {
 			f(static_cast<control::ControlType>(i));
 		}
 	}

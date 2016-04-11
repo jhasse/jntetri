@@ -30,7 +30,7 @@ public:
 	virtual ~Control();
 	bool Check(control::ControlType);
 	void step();
-	void ForEach(const boost::function<void(control::ControlType)>&);
+	void forEach(const boost::function<void(control::ControlType)>&);
 protected:
 	std::bitset<control::LastValue> bits_;
 	std::vector<std::shared_ptr<ControlBase>> controls;
