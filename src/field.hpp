@@ -22,7 +22,7 @@ public:
 	void Translate(double x, double y) const;
 	int getBlockSize() const;
 	Block* getBlock(int x, int y);
-	bool CheckCollision(int x, int y) const;
+	bool checkCollision(int x, int y) const;
 	void NewTetromino();
 	void removeLine(int y, int numberOfLines);
 	void setGameOver(bool);

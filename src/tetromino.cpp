@@ -139,7 +139,7 @@ void Tetromino::Step() {
 		for (int i = minX; i <= maxX; ++i) {
 			int tmpX = x_ + i;
 			int tmpY = y_;
-			while (!field_.CheckCollision(tmpX, tmpY)) {
+			while (!field_.checkCollision(tmpX, tmpY)) {
 				--tmpY;
 			}
 			field_.addShadow(tmpX, tmpY+1);
@@ -258,7 +258,7 @@ void Tetromino::Draw() const {
 bool Tetromino::Collided() const {
 	auto end = blocks_.end();
 	for (auto it = blocks_.begin(); it != end; ++it) {
-		if (field_.CheckCollision(x_ + it->getX(), y_ + it->getY())) {
+		if (field_.checkCollision(x_ + it->getX(), y_ + it->getY())) {
 			return true;
 		}
 	}

@@ -21,7 +21,7 @@ public:
 	bool isHighscore(Data data) const;
 	void Draw() const;
 	void Add(Data);
-	void Save() const;
+	void save() const;
 	void Blink(Data);
 private:
 	std::list<Data> highscores_;

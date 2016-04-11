@@ -30,7 +30,7 @@ void GameOverScreen::step() {
 				data_.name = input_->GetText();
 				GetOptions().Set("lastHighscoreName", data_.name);
 				highscore_.Add(data_);
-				highscore_.Save();
+				highscore_.save();
 				Menu* menu = new Menu;
 				menu->BlinkHighscore(data_);
 				jngl::setWork(new Fade(menu));

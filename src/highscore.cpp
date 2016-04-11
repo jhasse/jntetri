@@ -122,12 +122,10 @@ bool Highscore::isHighscore(Data data) const {
 	}
 }
 
-void Highscore::Save() const
-{
-	std::ofstream fout(filename_.c_str());
-	std::list<Data>::const_iterator end = highscores_.end();
-	for(std::list<Data>::const_iterator it = highscores_.begin(); it != end; ++it)
-	{
+void Highscore::save() const {
+	std::ofstream fout(filename_);
+	auto end = highscores_.end();
+	for (auto it = highscores_.begin(); it != end; ++it) {
 		fout << it->name << std::endl << it->score << " " << it->time << std::endl;
 	}
 }

@@ -234,17 +234,13 @@ Block* Field::getBlock(int x, int y) {
 	return nullptr;
 }
 
-bool Field::CheckCollision(const int x, const int y) const
-{
-	if(x < 0 || x >= width_ || y < 0)
-	{
+bool Field::checkCollision(const int x, const int y) const {
+	if (x < 0 || x >= width_ || y < 0) {
 		return true;
 	}
 	auto end = blocks_.end();
-	for(auto it = blocks_.begin(); it != end; ++it)
-	{
-		if(x == it->getX() && y == it->getY())
-		{
+	for (auto it = blocks_.begin(); it != end; ++it) {
+		if (x == it->getX() && y == it->getY()) {
 			return true;
 		}
 	}
