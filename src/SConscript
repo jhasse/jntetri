@@ -9,7 +9,7 @@ vars.Add(BoolVariable('verbose', 'Show verbose compiling output', 0))
 vars.Add(BoolVariable('clang', 'Use clang compiler', 0))
 
 env = Environment(variables = vars)
-env['ENV']['TERM'] = os.environ['TERM']
+env['ENV']['TERM'] = os.getenv('TERM')
 Help(vars.GenerateHelpText(env))
 try:
 	import multiprocessing
