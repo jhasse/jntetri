@@ -39,7 +39,7 @@ source_files = env.Object(Glob('*.cpp') + \
                           Glob('engine/*.cpp') + \
                           Glob('gui/*.cpp'), CPPFLAGS='-std=c++1z')
 
-env.ParseConfig("pkg-config " + os.path.abspath("../../jngl/jngl.pc") + " --cflags --libs")
+env.ParseConfig("pkg-config " + os.path.join(Dir('#').abspath, "jngl/jngl.pc") + " --cflags --libs")
 env.Append(LIBS = Split('boost_filesystem boost_serialization boost_system pthread stdc++fs'))
 
 env.Append(CPPPATH="../../jngl/src", LIBPATH="../../jngl", CCFLAGS='-DENABLE_BINRELOC')
