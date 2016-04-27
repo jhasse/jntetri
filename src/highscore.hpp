@@ -19,7 +19,7 @@ class Highscore {
 public:
 	Highscore(GameType type);
 	bool isHighscore(Data data) const;
-	void Draw() const;
+	void draw() const;
 	void Add(Data);
 	void save() const;
 	void Blink(Data);

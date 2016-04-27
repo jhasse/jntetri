@@ -3,7 +3,6 @@
 #include "engine/procedure.hpp"
 #include "gameoverscreen.hpp"
 #include "pausemenu.hpp"
-#include "control.hpp"
 
 #include <jngl/all.hpp>
 #include <sstream>

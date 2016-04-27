@@ -14,9 +14,9 @@ Button::Button(const std::string& text)
 	SetSprites("button", "button_over", "button_clicked");
 }
 
-Button::Button(const std::string& text, boost::function<void()> callback, char shortcut)
+Button::Button(const std::string& text, boost::function<void()> callback)
 	: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0),
-	  shortcut_(shortcut), callback_(callback), clicked_(false)
+	  callback_(callback), clicked_(false)
 {
 	SetSprites("button", "button_over", "button_clicked");
 }
@@ -138,11 +138,6 @@ int Button::GetHeight()
 int Button::GetWidth()
 {
     return width_;
-}
-
-char Button::ShortCutClicked()
-{
-    return jngl::keyDown(shortcut_);
 }
 
 void Button::Connect(boost::function<void()> callback)

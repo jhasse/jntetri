@@ -40,11 +40,11 @@ void Menu::draw() const {
 	jngl::setFontSize(50);
 	jngl::setFontColor(0, 0, 0);
 	jngl::print("Highscores Normal", 0, -90);
-	normalHighscore_.Draw();
+	normalHighscore_.draw();
 	jngl::translate(0, 530);
 	jngl::setFontColor(0, 0, 0);
 	jngl::print("Highscores 50 Lines", 0, -90);
-	fiftyLinesHighscore_.Draw();
+	fiftyLinesHighscore_.draw();
 	jngl::popMatrix();
 }
 

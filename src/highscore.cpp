@@ -57,22 +57,17 @@ Highscore::Highscore(GameType type) : type_(type), blink_((Data*)0)
 	}
 }
 
-void Highscore::Draw() const
-{
+void Highscore::draw() const {
 	assert(highscores_.size() == 5);
 	jngl::pushMatrix();
 	jngl::setFontSize(50);
-	std::list<Data>::const_iterator end = highscores_.end();
+	auto end = highscores_.end();
 	int n = 1;
-	for(std::list<Data>::const_iterator it = highscores_.begin(); it != end; ++it)
-	{
+	for (auto it = highscores_.begin(); it != end; ++it) {
 		std::string score;
-		if(type_ == NORMAL)
-		{
+		if (type_ == NORMAL) {
 			score = boost::lexical_cast<std::string>(it->score);
-		}
-		else
-		{
+		} else {
 			int minutes = int(it->time / 60);
 			int seconds = int(it->time - minutes * 60);
 			int tenthOfASecond = int((it->time - seconds - minutes * 60) * 10);
@@ -82,12 +77,10 @@ void Highscore::Draw() const
 			score = sstream.str();
 		}
 		jngl::setFontColor(0, 0, 0);
-		if(blink_)
-		{
+		if (blink_) {
 			Data a = *blink_;
 			Data b = *it;
-			if(a == b)
-			{
+			if (a == b) {
 				int alpha = int(jngl::getTime() * 300) % 510;
 				jngl::setFontColor(0, 0, 0, alpha > 255 ? 510 - alpha : alpha);
 			}

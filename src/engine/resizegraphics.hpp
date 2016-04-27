@@ -1,7 +1,6 @@
 #pragma once
 
 #include <deque>
-#include <string>
 
 #ifdef __linux__
 	#include <experimental/filesystem>

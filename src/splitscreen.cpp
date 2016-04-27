@@ -4,7 +4,6 @@
 
 #include <jngl/matrix.hpp>
 #include <jngl/font.hpp>
-#include <memory>
 #include <sstream>
 
 SplitScreen::SplitScreen() {

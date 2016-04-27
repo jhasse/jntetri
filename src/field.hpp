@@ -9,7 +9,6 @@
 #include <vector>
 #include <random>
 #include <ctime>
-#include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
 class Field : boost::noncopyable {

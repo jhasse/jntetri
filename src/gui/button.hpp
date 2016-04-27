@@ -8,7 +8,7 @@
 class Button : public Widget {
 public:
 	Button(const std::string& text);
-    Button(const std::string& text, boost::function<void()> callback, char shortcut = ' ');
+    Button(const std::string& text, boost::function<void()> callback);
     void SetSprites(const std::string& normal, const std::string& mouseOver, const std::string& clicked);
     void SetText(const std::string&);
     void draw() const override;
@@ -19,13 +19,11 @@ public:
     int GetHeight();
     int GetWidth();
     int GetMousePostiton();
-    char ShortCutClicked();
     void CenterAt(int xCenter, int yCenter);
 	void Connect(boost::function<void()> callback);
 private:
     std::string text_;
     int xPos_, yPos_, mousepos_, mouseoverAlpha_;
-    char shortcut_;
     boost::function<void()> callback_;
     bool clicked_;
     int width_, height_;
