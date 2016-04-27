@@ -8,17 +8,21 @@ bin/
 obj/
 jntetri.depend
 jntetri.layout
-*.sdf
-*.v12.suo
-Debug/
-Release/
-packages/
+
 msi/*.wixobj
 msi/*.wixpdb
 msi/JNTETRI.msi
 msi/data.wxs
 /JNTETRI.opensdf
 
-# Visual Studio Code
+# Visual Studio
+*.sdf
+*.v12.suo
 .vs/
+Debug/
+Release/
+packages/
+
+# Visual Studio Code
 .browse.VC.db
+.vscode/
