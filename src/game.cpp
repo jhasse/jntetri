@@ -54,6 +54,7 @@ void Game::onQuitEvent() {
 		lastPauseTime = pauseTime_ = jngl::getTime();
 		field_.SetPause(true);
 		jngl::setWork(new PauseMenu(jngl::getWork()));
+        jngl::cancelQuit();
 	}
 }
 
