@@ -8,17 +8,23 @@
 class Input : public Widget {
 public:
 	Input(int x, int y);
-	~Input();
+
 	void step() override;
 	void draw() const override;
-	void SetText(const std::string&);
-	std::string GetText() const;
+
+	std::string getText() const;
+	void setText(const std::string&);
+
+	void setMaxWidth(unsigned int);
+
 	void SetPassword(bool);
-	virtual void OnFocusChanged();
+
+	void OnFocusChanged() override;
 private:
-	mutable std::string text_;
+	mutable std::string text;
 	std::vector<std::string> unicodeChars_;
 	int x_, y_;
 	bool password_;
 	int displayCursor_;
+	unsigned int maxWidth = 999;
 };

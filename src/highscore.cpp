@@ -18,8 +18,7 @@ bool operator==(const Data& a, const Data& b)
 	return a.score == b.score && int(a.time * 1000) == int(b.time * 1000) && a.name == b.name;
 }
 
-Highscore::Highscore(GameType type) : type_(type), blink_((Data*)0)
-{
+Highscore::Highscore(GameType type) : type_(type), blink_(nullptr) {
 	if(type == NORMAL)
 	{
 		filename_ = getPaths().getConfig() + "normal.txt";
@@ -32,7 +31,7 @@ Highscore::Highscore(GameType type) : type_(type), blink_((Data*)0)
 	{
 		throw std::runtime_error("Unknown GameType");
 	}
-	std::ifstream fin(filename_.c_str());
+	std::ifstream fin(filename_);
 	if(fin)
 	{
 		for(int i = 0; i < 5; ++i)
