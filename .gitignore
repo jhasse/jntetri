@@ -6,8 +6,6 @@ xcode/JNTETRI.xcodeproj/project.xcworkspace/xcuserdata/
 bin/
 *.sublime-workspace
 obj/
-jntetri.depend
-jntetri.layout
 
 msi/*.wixobj
 msi/*.wixpdb

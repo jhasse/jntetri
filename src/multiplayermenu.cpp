@@ -20,8 +20,8 @@ MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -200)), password_(new I
 	back_->CenterAt(-350, 280);
 	login_->CenterAt(350, 280);
 	password_->SetPassword(true);
-	name_->SetText(GetOptions().Get<std::string>("lastLoginName"));
-	if (name_->GetText() != "") {
+	name_->setText(GetOptions().Get<std::string>("lastLoginName"));
+	if (name_->getText() != "") {
 		FocusNext();
 	}
 }
@@ -49,9 +49,9 @@ void MultiplayerMenu::OnLogin() {
 }
 
 std::string MultiplayerMenu::GetName() const {
-	return name_->GetText();
+	return name_->getText();
 }
 
 std::string MultiplayerMenu::GetPassword() const {
-	return password_->GetText();
+	return password_->getText();
 }
