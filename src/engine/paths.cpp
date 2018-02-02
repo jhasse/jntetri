@@ -19,8 +19,13 @@
 	#include <experimental/filesystem>
 	namespace fs = std::experimental::filesystem;
 #else
-	#include <filesystem>
-	namespace fs = std::tr2::sys;
+	#ifdef _MSC_VER
+		#include <filesystem>
+		namespace fs = std::tr2::sys;
+	#else
+		#include <boost/filesystem.hpp>
+		namespace fs = boost::filesystem;
+	#endif
 #endif
 #include <boost/lexical_cast.hpp>
 #include <boost/format.hpp>
