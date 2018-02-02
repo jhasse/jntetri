@@ -4,6 +4,10 @@
 #include <boost/function.hpp>
 #include <vector>
 
+namespace jngl {
+	class Controller;
+}
+
 namespace control {
 	enum ControlType {
 		Drop,
@@ -43,8 +47,8 @@ public:
 
 class GamepadControl : public ControlBase {
 public:
-	GamepadControl(int number);
+	GamepadControl(size_t number);
 	void step(std::function<void(control::ControlType)>) override;
 private:
-	int number;
+	std::shared_ptr<jngl::Controller> controller;
 };

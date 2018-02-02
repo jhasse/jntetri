@@ -1,5 +1,6 @@
 #include "control.hpp"
 
+#include <jngl/Controller.hpp>
 #include <jngl/input.hpp>
 
 using namespace control;
@@ -56,25 +57,30 @@ void KeyboardControl::step(std::function<void(control::ControlType)> Set) {
 }
 
 void GamepadControl::step(std::function<void(control::ControlType)> Set) {
-	if (jngl::getControllerPressed(number, jngl::controller::A)) {
+	if (!controller) { return; }
+	if (controller->pressed(jngl::controller::A)) {
 		Set(Drop);
 	}
-	if (jngl::getControllerState(number, jngl::controller::RightTrigger)) {
+	if (controller->down(jngl::controller::RightTrigger)) {
 		Set(Down);
 	}
-	if (jngl::getControllerPressed(number, jngl::controller::DpadLeft)) {
+	if (controller->pressed(jngl::controller::DpadLeft)) {
 		Set(Left);
 	}
-	if (jngl::getControllerPressed(number, jngl::controller::DpadRight)) {
+	if (controller->pressed(jngl::controller::DpadRight)) {
 		Set(Right);
 	}
-	if (jngl::getControllerPressed(number, jngl::controller::X)) {
+	if (controller->pressed(jngl::controller::X)) {
 		Set(Rotate);
 	}
-	if (jngl::getControllerPressed(number, jngl::controller::B)) {
+	if (controller->pressed(jngl::controller::B)) {
 		Set(RotateCounter);
 	}
 }
 
-GamepadControl::GamepadControl(int n) : number(n) {
+GamepadControl::GamepadControl(const size_t number) {
+	const auto controllers = jngl::getConnectedControllers();
+	if (controllers.size() > number) {
+		controller = controllers[number];
+	}
 }
