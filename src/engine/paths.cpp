@@ -15,7 +15,13 @@
 #endif
 #include <iostream>
 #include <sstream>
-#include <boost/filesystem.hpp>
+#ifdef __linux__
+	#include <experimental/filesystem>
+	namespace fs = std::experimental::filesystem;
+#else
+	#include <filesystem>
+	namespace fs = std::tr2::sys;
+#endif
 #include <boost/lexical_cast.hpp>
 #include <boost/format.hpp>
 #include <jngl.hpp>
@@ -72,7 +78,7 @@ Paths::Paths() {
 	path << szPath << "/" << programDisplayName << "/";
 	configPath = path.str();
 #endif
-	boost::filesystem::create_directory(configPath);
+	fs::create_directory(configPath);
 #else
 Paths::Paths() : configPath(jngl::getConfigPath()) {
 #endif
