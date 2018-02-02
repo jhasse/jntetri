@@ -13,11 +13,9 @@
 #ifndef __BINRELOC_C__
 #define __BINRELOC_C__
 
-#ifdef ENABLE_BINRELOC
-	#include <sys/types.h>
-	#include <sys/stat.h>
-	#include <unistd.h>
-#endif /* ENABLE_BINRELOC */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -38,11 +36,6 @@ extern "C" {
 static char *
 _br_find_exe (BrInitError *error)
 {
-#ifndef ENABLE_BINRELOC
-	if (error)
-		*error = BR_INIT_ERROR_DISABLED;
-	return NULL;
-#else
 	char *path, *path2, *line, *result;
 	size_t buf_size;
 	ssize_t size;
@@ -166,7 +159,6 @@ _br_find_exe (BrInitError *error)
 	free (line);
 	fclose (f);
 	return path;
-#endif /* ENABLE_BINRELOC */
 }
 
 
@@ -177,11 +169,6 @@ _br_find_exe (BrInitError *error)
 static char *
 _br_find_exe_for_symbol (const void *symbol, BrInitError *error)
 {
-#ifndef ENABLE_BINRELOC
-	if (error)
-		*error = BR_INIT_ERROR_DISABLED;
-	return (char *) NULL;
-#else
 	#define SIZE PATH_MAX + 100
 	FILE *f;
 	size_t address_string_len;
@@ -274,14 +261,8 @@ _br_find_exe_for_symbol (const void *symbol, BrInitError *error)
 		return (char *) NULL;
 	else
 		return strdup (found);
-#endif /* ENABLE_BINRELOC */
 }
 
-
-#ifndef BINRELOC_RUNNING_DOXYGEN
-	#undef NULL
-	#define NULL ((void *) 0) /* typecasted as char* for C++ type safeness */
-#endif
 
 static char *exe = (char *) NULL;
 
