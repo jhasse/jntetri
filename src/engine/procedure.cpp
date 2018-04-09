@@ -22,10 +22,8 @@ bool Procedure::ShowWindow()
 	try
 	{
 		jngl::hideWindow();
-		jngl::showWindow(programDisplayName + " " + programVersion,
-						 options.Get<int>("windowWidth"),
-						 options.Get<int>("windowHeight"),
-						 options.Get<int>("fullscreen") != 0);
+		jngl::showWindow(programDisplayName + " " + programVersion, options.windowWidth,
+		                 options.windowHeight, options.fullscreen);
 	}
 	catch(std::runtime_error& err)
 	{

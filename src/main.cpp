@@ -13,20 +13,9 @@ int main(int argc, char** argv) {
 		if (argc == 2) {
 			getPaths().setPrefix(argv[1]);
 		}
-		const int dpiFactor = std::max(std::min(
-			jngl::getDesktopWidth() / 1280,
-			jngl::getDesktopHeight() / 720
-		), 1);
-		GetOptions().SetFallback("windowWidth", 1280 * dpiFactor);
-		GetOptions().SetFallback("windowHeight", 720 * dpiFactor);
-		GetOptions().SetFallback("fullscreen", 0);
-		GetOptions().SetFallback("startJunks", 0);
-		GetOptions().SetFallback("startLevel", 0);
-		GetOptions().SetFallback("lastHighscoreName", "");
-		GetOptions().SetFallback("lastLoginName", "");
-		if (!GetProcedure().ShowWindow() && GetOptions().Get<int>("fullscreen")) {
+		if (!GetProcedure().ShowWindow() && GetOptions().fullscreen) {
 			// Try again without fullscreen
-			GetOptions().Set("fullscreen", 0);
+			GetOptions().fullscreen = false;
 			GetProcedure().ShowWindow();
 		}
 		jngl::setAntiAliasing(true);

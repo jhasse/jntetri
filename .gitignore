@@ -26,3 +26,7 @@ packages/
 .browse.VC.db
 /.vscode/cquery*
 /compile_commands.json
+
+# Meson
+/subprojects/*-*
+/subprojects/packagecache/

@@ -12,13 +12,13 @@ OptionsMenu::OptionsMenu() : startLevel_(new Chooser(0, -300)), startJunks_(new 
 	for (int i = 0; i < 10; ++i) {
 		startLevel_->AddValue(i);
 	}
-	for (int i = 0; i < GetOptions().Get<int>("startLevel"); ++i) {
+	for (unsigned int i = 0; i < GetOptions().startLevel; ++i) {
 		startLevel_->Next();
 	}
 	for (int i = 0; i < 6; ++i) {
 		startJunks_->AddValue(i * 2);
 	}
-	for (int i = 0; i < GetOptions().Get<int>("startJunks") / 2; ++i) {
+	for (unsigned int i = 0; i < GetOptions().startJunks / 2; ++i) {
 		startJunks_->Next();
 	}
 	back_->CenterAt(0, 400);
@@ -39,8 +39,8 @@ void OptionsMenu::draw() const {
 }
 
 void OptionsMenu::OnBack() const {
-	GetOptions().Set("startLevel", startLevel_->GetValue());
-	GetOptions().Set("startJunks", startJunks_->GetValue());
+	GetOptions().startLevel = startLevel_->GetValue();
+	GetOptions().startJunks = startJunks_->GetValue();
 	GetOptions().Save();
 	jngl::setWork(new Fade(new Menu));
 }

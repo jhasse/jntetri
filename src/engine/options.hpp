@@ -2,40 +2,34 @@
 
 #include "singleton.hpp"
 
-#include <boost/serialization/map.hpp>
-#include <boost/serialization/variant.hpp>
+#include <cereal/archives/json.hpp>
 
 class Options : public Singleton<Options> {
 public:
 	Options();
 	void Save() const;
-	
-	template<class T>
-	T Get(const std::string& name) const {
-		return boost::get<T>(values_.at(name));
-	}
-	template<class T>
-	void Set(const std::string& name, const T& value) {
-		values_[name] = value;
-	}
-	template<class T>
-	void SetFallback(const std::string& name, const T& fallback) {
-		auto it = values_.find(name);
-		if(it == values_.end()) {
-			Set(name, fallback);
-		}
-	}
+
+	int windowWidth = 1280;
+	int windowHeight = 720;
+	bool fullscreen = false;
+	unsigned int startJunks = 0;
+	unsigned int startLevel = 0;
+	std::string lastHighscoreName;
+	std::string lastLoginName;
+
 private:
-	std::map<std::string, boost::variant<int, std::string> > values_;
 	std::string filename_;
 
-    friend class boost::serialization::access;
-    template<class archive>
-    void serialize(archive& ar, const unsigned int version)
-    {
-        using boost::serialization::make_nvp;
-		ar & make_nvp("values", values_);
-    }
+	friend class cereal::access;
+	template <class Archive> void serialize(Archive& ar) {
+		ar & CEREAL_NVP(windowWidth);
+		ar & CEREAL_NVP(windowHeight);
+		ar & CEREAL_NVP(fullscreen);
+		ar & CEREAL_NVP(startJunks);
+		ar & CEREAL_NVP(startLevel);
+		ar & CEREAL_NVP(lastHighscoreName);
+		ar & CEREAL_NVP(lastLoginName);
+	}
 };
 
 Options& GetOptions(); // Easier access to the singleton

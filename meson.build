@@ -7,11 +7,10 @@ if cxx.get_id() == 'clang'
 endif
 
 if host_machine.system() == 'linux'
-	boost_dep = dependency('boost', modules : ['serialization', 'system'])
+	boost_dep = dependency('boost', modules : ['system'])
 	add_global_link_arguments(['-lstdc++fs'], language : 'cpp')
 else
 	boost_dep = [
-		cxx.find_library('boost_serialization-mt'),
 		cxx.find_library('boost_system-mt'),
 		cxx.find_library('boost_filesystem-mt'),
 		cxx.find_library('ws2_32'),
@@ -77,7 +76,8 @@ executable(
 	dependencies : [
 		cxx.find_library('dl'),
 		dependency('threads'),
-		boost_dep
+		boost_dep,
+		subproject('cereal').get_variable('cereal_dep'),
 	],
 	include_directories : [
 		jngl.get_variable('include'),
