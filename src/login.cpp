@@ -111,7 +111,7 @@ void Login::step() {
 }
 
 void Login::GoToLobby() {
-	GetOptions().lastLoginName = menu_->GetName();
+	getOptions().lastLoginName = menu_->GetName();
 	jngl::setWork(new Fade(new Lobby(socket_)));
 }
 

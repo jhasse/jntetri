@@ -1,5 +1,4 @@
 #include "input.hpp"
-#include "../engine/screen.hpp"
 
 #include <jngl/all.hpp>
 
@@ -24,13 +23,9 @@ void Input::OnFocusChanged() {
 }
 
 void Input::step() {
-	if (!sensitive_ || !focus_) {
-		return;
-	}
+	if (!sensitive_ || !focus_) { return; }
 	--displayCursor_;
-	if (displayCursor_ < -35) {
-		displayCursor_ = 35;
-	}
+	if (displayCursor_ < -35) { displayCursor_ = 35; }
 	if (jngl::getTextWidth(text) < maxWidth) {
 		for (char c = ' '; c < '~' + 1; ++c) {
 			if (jngl::keyPressed(c)) {
@@ -67,7 +62,7 @@ void Input::draw() const {
 			text += "●";
 		}
 	}
-	if(sensitive_) {
+	if (sensitive_) {
 		jngl::setFontColor(0, 0, 0);
 	} else {
 		jngl::setFontColor(150, 150, 150);
@@ -77,9 +72,7 @@ void Input::draw() const {
 	} else {
 		jngl::print(text, x_, y_);
 	}
-	if (password_) {
-		text = temp;
-	}
+	if (password_) { text = temp; }
 }
 
 std::string Input::getText() const {

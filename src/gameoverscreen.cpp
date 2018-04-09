@@ -12,7 +12,7 @@ GameOverScreen::GameOverScreen(Game* game) : game_(game), blink_(0), highscore_(
 input_(new Input(-160, 200)), work_(jngl::getWork()) {
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
-	input_->setText(GetOptions().lastHighscoreName);
+	input_->setText(getOptions().lastHighscoreName);
 	input_->setMaxWidth(400);
 	addWidget(input_);
 }
@@ -29,7 +29,7 @@ void GameOverScreen::step() {
 			StepWidgets();
 			if(jngl::keyPressed(jngl::key::Return) || jngl::keyPressed(jngl::key::WizB)) {
 				data_.name = input_->getText();
-				GetOptions().lastHighscoreName = data_.name;
+				getOptions().lastHighscoreName = data_.name;
 				highscore_.Add(data_);
 				highscore_.save();
 				Menu* menu = new Menu;

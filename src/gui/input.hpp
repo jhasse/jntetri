@@ -20,6 +20,7 @@ public:
 	void SetPassword(bool);
 
 	void OnFocusChanged() override;
+
 private:
 	mutable std::string text;
 	std::vector<std::string> unicodeChars_;

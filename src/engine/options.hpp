@@ -18,7 +18,7 @@ public:
 	std::string lastLoginName;
 
 private:
-	std::string filename_;
+	std::string filename;
 
 	friend class cereal::access;
 	template <class Archive> void serialize(Archive& ar) {
@@ -32,4 +32,4 @@ private:
 	}
 };
 
-Options& GetOptions(); // Easier access to the singleton
+Options& getOptions(); // Easier access to the singleton

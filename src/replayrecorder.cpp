@@ -5,8 +5,8 @@
 #include <boost/bind.hpp>
 
 ReplayRecorder::ReplayRecorder(Field& field) : fout("testReplay.jtr"), field_(field), time_(0) {
-	fout << field_.getRandomSeed() << " " << GetOptions().startLevel << " "
-	     << GetOptions().startJunks << std::endl;
+	fout << field_.getRandomSeed() << " " << getOptions().startLevel << " "
+	     << getOptions().startJunks << std::endl;
 }
 
 void ReplayRecorder::Step() {

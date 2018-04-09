@@ -18,7 +18,7 @@ Procedure& GetProcedure() {
 
 bool Procedure::ShowWindow()
 {
-	const Options& options = GetOptions();
+	const Options& options = getOptions();
 	try
 	{
 		jngl::hideWindow();

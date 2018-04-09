@@ -9,17 +9,17 @@ ReplayPlayer::ReplayPlayer(const std::string& filename) : fin_(filename.c_str())
 	assert(fin_);
 	int seed, startLevel, startJunk;
 	fin_ >> seed >> startLevel >> startJunk;
-	oldStartLevel = GetOptions().startLevel;
-	oldStartJunk = GetOptions().startJunks;
-	GetOptions().startLevel = startLevel;
-	GetOptions().startJunks = startJunk;
+	oldStartLevel = getOptions().startLevel;
+	oldStartJunk = getOptions().startJunks;
+	getOptions().startLevel = startLevel;
+	getOptions().startJunks = startJunk;
 	game_.reset(new Game(NORMAL, seed));
 	game_->GetField().setControl(new Control{std::make_shared<ReplayControl>(fin_)});
 }
 
 ReplayPlayer::~ReplayPlayer() {
-	GetOptions().startLevel = oldStartLevel;
-	GetOptions().startJunks = oldStartJunk;
+	getOptions().startLevel = oldStartLevel;
+	getOptions().startJunks = oldStartJunk;
 }
 
 void ReplayPlayer::step() {

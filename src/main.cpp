@@ -13,9 +13,9 @@ int main(int argc, char** argv) {
 		if (argc == 2) {
 			getPaths().setPrefix(argv[1]);
 		}
-		if (!GetProcedure().ShowWindow() && GetOptions().fullscreen) {
+		if (!GetProcedure().ShowWindow() && getOptions().fullscreen) {
 			// Try again without fullscreen
-			GetOptions().fullscreen = false;
+			getOptions().fullscreen = false;
 			GetProcedure().ShowWindow();
 		}
 		jngl::setAntiAliasing(true);
@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 		jngl::setWork(new Intro);
 		jngl::addJob(std::make_shared<DebugOverlay>());
 		jngl::mainLoop();
-		GetOptions().Save();
+		getOptions().Save();
 #ifdef NDEBUG
 	} catch(std::exception& e) {
 		jngl::hideWindow();
