@@ -4,12 +4,6 @@
 
 #include <jngl/all.hpp>
 
-Screen::Screen()
-{
-	xCenter_ = double(GetOptions().Get<int>("windowWidth")) / 2;
-	yCenter_ = double(GetOptions().Get<int>("windowHeight")) / 2;
-}
-
 void Screen::DrawCentered(const std::string& filename, const double x, const double y)
 {
 	const std::string filepath = getPaths().getGraphics() + filename;
@@ -56,8 +50,4 @@ void Screen::PrintCentered(const std::string& text, double x, double y)
 void Screen::DrawScaled(const std::string& filename, const double x, const double y, const float factor)
 {
 	jngl::drawScaled(getPaths().getGraphics() + filename, x, y, factor);
-}
-
-inline Vector2d GetWindowVector() {
-	return Vector2d(GetOptions().Get<int>("windowWidth"), GetOptions().Get<int>("windowHeight"));
 }
