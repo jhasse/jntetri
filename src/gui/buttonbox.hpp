@@ -12,7 +12,7 @@ public:
 	void draw() const override;
 	void step() override;
 	int GetMouseover() const; // Returns over which button the mouse is over. If there's none -1.
-	virtual void OnAdd(Work&);
+	virtual void OnAdd(Work&) override;
 private:
 	std::vector<std::shared_ptr<Button>> buttons_;
 	const int xCenter_, yCenter_;

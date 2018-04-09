@@ -7,7 +7,8 @@
 			"name": "Debug",
 			"program": "${workspaceRoot}/build/jntetri",
 			"args": [],
-			"cwd": "${workspaceRoot}"
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": "build"
 		}
 	]
 }
