@@ -118,7 +118,8 @@ void Login::GoToLobby() {
 void Login::draw() const {
 	menu_->draw();
 	jngl::setColor(255, 255, 255, 220);
-	jngl::drawRect(-GetScreen().GetWidth() / 2, -GetScreen().GetHeight() / 2, GetScreen().GetWidth(), GetScreen().GetHeight());
+	jngl::drawRect(-jngl::getScreenWidth() / 2, -jngl::getScreenHeight() / 2,
+	               jngl::getScreenWidth(), jngl::getScreenHeight());
 	jngl::setFontColor(0, 0, 0);
 	GetScreen().PrintCentered(text_, 0, 0);
 	cancel_.draw();

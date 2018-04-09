@@ -114,10 +114,10 @@ void Button::step() {
 	}
 }
 
-bool Button::Mouseover() const
-{
-    return (xPos_ - width_ / 2 <= GetScreen().GetMouseX() && GetScreen().GetMouseX() < (xPos_ + width_ / 2)
-            && yPos_ - height_ / 2 <= GetScreen().GetMouseY() && GetScreen().GetMouseY() < (yPos_ + height_ / 2));
+bool Button::Mouseover() const {
+	const auto mousePos = jngl::getMousePos();
+	return (xPos_ - width_ / 2 <= mousePos.x && mousePos.x < (xPos_ + width_ / 2) &&
+	        yPos_ - height_ / 2 <= mousePos.y && mousePos.y < (yPos_ + height_ / 2));
 }
 
 int Button::GetX() const

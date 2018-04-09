@@ -58,26 +58,6 @@ void Screen::DrawScaled(const std::string& filename, const double x, const doubl
 	jngl::drawScaled(getPaths().getGraphics() + filename, x, y, factor);
 }
 
-int Screen::GetWidth() const
-{
-	return static_cast<int>(double(GetOptions().Get<int>("windowWidth")) / jngl::getScaleFactor());
-}
-
-int Screen::GetHeight() const
-{
-	return static_cast<int>(double(GetOptions().Get<int>("windowHeight")) / jngl::getScaleFactor());
-}
-
-int Screen::GetMouseX() const
-{
-	return static_cast<int>((jngl::getMouseX() - xCenter_) / jngl::getScaleFactor());
-}
-
-int Screen::GetMouseY() const
-{
-	return static_cast<int>((jngl::getMouseY() - yCenter_) / jngl::getScaleFactor());
-}
-
 inline Vector2d GetWindowVector() {
 	return Vector2d(GetOptions().Get<int>("windowWidth"), GetOptions().Get<int>("windowHeight"));
 }

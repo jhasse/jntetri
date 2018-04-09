@@ -81,7 +81,7 @@ void Game::draw() const {
 	jngl::pushMatrix();
 	jngl::rotate(rotateDegree_);
 	jngl::scale(1 + rotateDegree_ / 270);
-	jngl::translate(0, -static_cast<double>(GetScreen().GetHeight()) / 2);
+	jngl::translate(0, -jngl::getScreenHeight() / 2);
 
 	field_.draw();
 	if (!rotateScreen_) {
