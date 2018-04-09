@@ -1,9 +1,10 @@
 #include "options.hpp"
 #include "paths.hpp"
 
+#include <cereal/archives/json.hpp>
+#include <fstream>
 #include <iostream>
 #include <jngl/all.hpp>
-#include <fstream>
 
 Options::Options() : filename(getPaths().getConfig() + "options.json") {
 	const int BORDER = 50;

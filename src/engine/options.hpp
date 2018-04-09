@@ -2,7 +2,7 @@
 
 #include "singleton.hpp"
 
-#include <cereal/archives/json.hpp>
+#include <cereal/cereal.hpp>
 
 class Options : public Singleton<Options> {
 public:
