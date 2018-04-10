@@ -1,4 +1,4 @@
-# JNTETRI
+# JNTETRI [![pipeline status](https://gitlab.com/jhasse/jntetri/badges/master/pipeline.svg)](https://gitlab.com/jhasse/jntetri/commits/master)
 
 Make sure you clone recursively or check out the submodules using `git submodule update --init`.
 
