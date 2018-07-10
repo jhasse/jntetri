@@ -42,5 +42,5 @@ void OptionsMenu::OnBack() const {
 	getOptions().startLevel = startLevel_->GetValue();
 	getOptions().startJunks = startJunks_->GetValue();
 	getOptions().Save();
-	jngl::setWork(new Fade(new Menu));
+	jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
 }

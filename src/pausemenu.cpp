@@ -34,7 +34,7 @@ void PauseMenu::draw() const {
 }
 
 void PauseMenu::QuitToMenu() const {
-	jngl::setWork(new Fade(new Menu));
+	jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
 }
 
 void PauseMenu::onQuitEvent() {

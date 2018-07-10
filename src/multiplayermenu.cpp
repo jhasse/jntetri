@@ -41,11 +41,12 @@ void MultiplayerMenu::draw() const {
 }
 
 void MultiplayerMenu::OnBack() const {
-	jngl::setWork(new Fade(new Menu));
+	jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
 }
 
 void MultiplayerMenu::OnLogin() {
-	jngl::setWork(new Login(std::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork())));
+	jngl::setWork(
+	    std::make_shared<Login>(std::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork())));
 }
 
 std::string MultiplayerMenu::GetName() const {

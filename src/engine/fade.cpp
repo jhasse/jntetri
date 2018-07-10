@@ -5,8 +5,8 @@
 
 #include <jngl/all.hpp>
 
-Fade::Fade(Work* work, int speed) : work_(work), oldWork_(jngl::getWork()), fadeCount_(0), speed_(speed)
-{
+Fade::Fade(std::shared_ptr<Work> work, int speed)
+: work_(std::move(work)), oldWork_(jngl::getWork()), fadeCount_(0), speed_(speed) {
 }
 
 void Fade::step()

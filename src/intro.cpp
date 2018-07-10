@@ -49,6 +49,6 @@ void Intro::step() {
 		blink_ = 0;
 	}
 	if ((jngl::mousePressed() || jngl::keyPressed(jngl::key::Any)) && finished_) {
-		jngl::setWork(new Fade(new Menu));
+		jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
 	}
 }

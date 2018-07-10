@@ -32,9 +32,9 @@ void GameOverScreen::step() {
 				getOptions().lastHighscoreName = data_.name;
 				highscore_.Add(data_);
 				highscore_.save();
-				Menu* menu = new Menu;
+				auto menu = std::make_shared<Menu>();
 				menu->BlinkHighscore(data_);
-				jngl::setWork(new Fade(menu));
+				jngl::setWork(std::make_shared<Fade>(std::move(menu)));
 			}
 		} else {
 			blink_ += 4;
@@ -42,7 +42,7 @@ void GameOverScreen::step() {
 				blink_ = 0;
 			}
 			if (jngl::mousePressed() || jngl::keyPressed(jngl::key::Any)) {
-				jngl::setWork(new Fade(new Menu));
+				jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
 			}
 		}
 	} else if (jngl::keyPressed(jngl::key::Escape)) {

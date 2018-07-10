@@ -112,7 +112,7 @@ void Login::step() {
 
 void Login::GoToLobby() {
 	getOptions().lastLoginName = menu_->GetName();
-	jngl::setWork(new Fade(new Lobby(socket_)));
+	jngl::setWork(std::make_shared<Fade>(std::make_shared<Lobby>(socket_)));
 }
 
 void Login::draw() const {

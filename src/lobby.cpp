@@ -21,7 +21,7 @@ Lobby::Lobby(std::shared_ptr<Socket> socket)
 }
 
 void Lobby::OnLogout() {
-	jngl::setWork(new Fade(new MultiplayerMenu));
+	jngl::setWork(std::make_shared<Fade>(std::make_shared<MultiplayerMenu>()));
 }
 
 void Lobby::OnPlay() {
