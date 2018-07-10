@@ -6,13 +6,10 @@
 
 #include <jngl/all.hpp>
 
-int main(int argc, char** argv) {
+JNGL_MAIN_BEGIN {
 #ifdef NDEBUG
 	try {
 #endif
-		if (argc == 2) {
-			getPaths().setPrefix(argv[1]);
-		}
 		if (!GetProcedure().ShowWindow() && getOptions().fullscreen) {
 			// Try again without fullscreen
 			getOptions().fullscreen = false;
@@ -20,7 +17,7 @@ int main(int argc, char** argv) {
 		}
 		jngl::setAntiAliasing(true);
 		jngl::setIcon(getPaths().getPrefix() + "share/icons/jntetri.png");
-		jngl::setWork(new Intro);
+		jngl::setWork(std::make_shared<Intro>());
 		jngl::addJob(std::make_shared<DebugOverlay>());
 		jngl::mainLoop();
 		getOptions().Save();
@@ -30,4 +27,4 @@ int main(int argc, char** argv) {
 		jngl::errorMessage(e.what());
 	}
 #endif
-}
+} JNGL_MAIN_END

@@ -3,14 +3,14 @@
 	"windows": {
 		"command": "C:\\msys64\\usr\\bin\\bash.exe",
 		"type": "process",
-		"args": ["-lc", "cd \"${workspaceRoot}\" && ([ -d build ] || meson build) && ninja -C build | cat"],
+		"args": ["-lc", "clear && cd \"${workspaceRoot}\" && ([ -d build ] || meson build) && ninja -C build | cat"],
 	},
 	"linux": {
-		"args": ["-lc", "cd \"\"${workspaceRoot}\"\" && ([ -d build ] || meson build) && ninja -C build && $@"],
+		"args": ["-lc", "clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || meson build) && ninja -C build && $@"],
 		"command": "/bin/bash"
 	},
 	"osx": {
-		"args": ["-lc", "cd \"\"${workspaceRoot}\"\" && ([ -d build ] || meson build) && ninja -C build && $@"],
+		"args": ["-lc", "clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || meson build) && ninja -C build && $@"],
 		"command": "/bin/bash"
 	},
 	"options": {
