@@ -17,23 +17,13 @@ pacman -S mingw-w64-x86_64-SDL2
 On Ubuntu you can install all the dependencies using:
 
 ```
-sudo apt install libboost-filesystem-dev libboost-serialization-dev scons
+sudo apt install libboost-filesystem-dev libboost-serialization-dev meson
 ```
 
-## Building Using Scons
+## Building Using Meson
 
 ```sh
-cd jngl
-scons release=1
-cd -
-scons release=1
-./bin/jntetri
+meson build
+ninja -C build
+./build/jntetri
 ```
-
-Type
-
-```
-scons -h
-```
-
-to get a list of build options available.
