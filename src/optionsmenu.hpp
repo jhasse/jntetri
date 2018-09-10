@@ -12,6 +12,7 @@ public:
 	void step();
 	void draw() const;
 	void OnBack() const;
+
 private:
 	std::shared_ptr<Chooser> startLevel_;
 	std::shared_ptr<Chooser> startJunks_;

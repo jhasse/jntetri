@@ -11,6 +11,7 @@ add_project_arguments(cxx.get_supported_arguments([
 	'-Wlogical-op',
 	'-Wduplicated-cond',
 	'-Wduplicated-branches',
+	'-Wno-implicit-fallthrough', # cereal
 	'-Wno-class-memaccess', # cereal
 ]), language : 'cpp')
 

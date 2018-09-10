@@ -1,9 +1,10 @@
 #include "optionsmenu.hpp"
-#include "menu.hpp"
-#include "engine/procedure.hpp"
+
 #include "engine/fade.hpp"
-#include "engine/screen.hpp"
 #include "engine/options.hpp"
+#include "engine/procedure.hpp"
+#include "engine/screen.hpp"
+#include "menu.hpp"
 
 #include <jngl/all.hpp>
 
