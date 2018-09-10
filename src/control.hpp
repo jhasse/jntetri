@@ -19,7 +19,7 @@ namespace control {
 		Null, // dummy package used in network games
 		LastValue // must always be the last (see bitset in Control class)
 	};
-};
+}
 
 class ControlBase {
 public:

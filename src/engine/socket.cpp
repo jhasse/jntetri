@@ -71,7 +71,7 @@ void Socket::Receive(boost::function<void(std::string)> onSuccess)
 		CheckBuffer(temp);
 		onSuccess(temp);
 	}
-};
+}
 
 void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len, boost::function<void(std::string)> onSuccess)
 {

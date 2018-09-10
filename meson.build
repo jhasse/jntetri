@@ -1,6 +1,19 @@
 project('jntetri', ['c', 'cpp'], default_options : ['cpp_std=c++1z'])
 
 cxx = meson.get_compiler('cpp')
+add_project_arguments(cxx.get_supported_arguments([
+	'-Wall', '-Wextra',
+	'-Winit-self',
+	'-Winconsistent-missing-override',
+	'-Wpedantic',
+	'-Wfloat-equal',
+	'-Wdelete-non-virtual-dtor',
+	'-Wlogical-op',
+	'-Wduplicated-cond',
+	'-Wduplicated-branches',
+	'-Wno-class-memaccess', # cereal
+]), language : 'cpp')
+
 if cxx.get_id() == 'clang'
 	add_global_arguments(['-stdlib=libc++'], language : 'cpp')
 	add_global_link_arguments(['-lc++', '-lc++abi'], language : 'cpp')

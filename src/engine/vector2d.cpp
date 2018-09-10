@@ -3,11 +3,6 @@
 #include <cmath>
 #include <iostream>
 
-bool operator!=(const Vector2d& lhs, const Vector2d& rhs)
-{
-    return lhs.X() != rhs.X() || lhs.Y() != rhs.Y();
-}
-
 double operator*(const Vector2d& lhs, const Vector2d& rhs)
 {
     return lhs.X() * rhs.X() +lhs.Y() * rhs.Y();
