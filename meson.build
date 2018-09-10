@@ -75,11 +75,6 @@ src = [
 	'src/pausemenu.cpp',
 	'src/gameoverscreen.cpp',
 ]
-if target_machine.system() == 'linux'
-	src += [
-		'src/engine/linux/binreloc.c',
-	]
-endif
 if target_machine.system() == 'windows'
 	src += [import('windows').compile_resources('src/icon.rc')]
 endif

@@ -2,14 +2,7 @@
 #include "options.hpp"
 #include "../constants.hpp"
 
-#if defined (__linux__)
-	#include "linux/binreloc.h"
-#elif defined (__APPLE__)
-	#ifndef __IPHONE_OS_VERSION_MIN_REQUIRED
-		#include <mach-o/dyld.h>
-		#include <CoreServices/CoreServices.h>
-	#endif
-#else
+#ifdef _WIN32
 	#include <windows.h>
 	#include <shlobj.h>
 #endif
@@ -38,29 +31,13 @@ std::string Paths::getResolutionGraphics() const {
 #ifndef __IPHONE_OS_VERSION_MIN_REQUIRED
 Paths::Paths() {
 #if defined(__linux__)
-	BrInitError error;
-	if (br_init(&error) == 0 && error != BR_INIT_ERROR_DISABLED) {
-		std::cout << "Warning: BinReloc failed to initialize (error code " << error << ")\n"
-		          << "Will fallback to hardcoded default path." << std::endl;
-	}
-	auto tmp = br_find_prefix("/usr");
-	prefix = tmp;
-	free(tmp);
-	prefix += '/';
+	fs::current_path(fs::path(jngl::getBinaryPath()) / fs::path(".."));
+
 	std::stringstream path;
 	path << getenv("HOME") << "/.config/" << programDisplayName << "/";
 	configPath = path.str();
 #elif defined(__APPLE__)
-	uint32_t size = 0;
-	if (_NSGetExecutablePath(NULL, &size) == 0) {
-		throw std::runtime_error("Can't get executable path!");
-	} else {
-		std::vector<char> tmp(size);
-		_NSGetExecutablePath(&tmp[0], &size);
-		prefix.assign(tmp.begin(), tmp.end());
-		boost::filesystem::path prefixPath(prefix);
-		prefix = prefixPath.normalize().remove_leaf().parent_path().string() + "/";
-	}
+	fs::current_path(fs::path(jngl::getBinaryPath()) / fs::path(".."));
 
 	FSRef ref;
 	FSFindFolder(kUserDomain, kApplicationSupportFolderType, kCreateFolder, &ref);
