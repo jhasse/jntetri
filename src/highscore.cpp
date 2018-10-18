@@ -59,6 +59,7 @@ void Highscore::draw() const {
 	jngl::setFontSize(50);
 	auto end = highscores_.end();
 	int n = 1;
+	bool foundEntryToBlink = false;
 	for (auto it = highscores_.begin(); it != end; ++it) {
 		std::string score;
 		if (type_ == GameType::NORMAL) {
@@ -73,10 +74,11 @@ void Highscore::draw() const {
 			score = sstream.str();
 		}
 		jngl::setFontColor(0, 0, 0);
-		if (blink_) {
+		if (!foundEntryToBlink and blink_) {
 			Data a = *blink_;
 			Data b = *it;
 			if (a == b) {
+				foundEntryToBlink = true;
 				int alpha = int(jngl::getTime() * 300) % 510;
 				jngl::setFontColor(0, 0, 0, alpha > 255 ? 510 - alpha : alpha);
 			}
