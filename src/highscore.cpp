@@ -15,7 +15,8 @@ Data::Data() : score(0), time(0)
 
 bool operator==(const Data& a, const Data& b)
 {
-	return a.score == b.score && int(a.time * 1000) == int(b.time * 1000) && a.name == b.name;
+	return a.score == b.score && std::lround(a.time * 1000) == std::lround(b.time * 1000) &&
+	       a.name == b.name;
 }
 
 Highscore::Highscore(GameType type) : type_(type), blink_(nullptr) {
