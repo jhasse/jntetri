@@ -90,7 +90,7 @@ Tetromino::Tetromino(int type, Field& field)
 	for (int i = 0; i < numberOfRotations; ++i) {
 		Rotate(CLOCKWISE);
 	}
-	rotation_ = 0;
+	animationX_ = animationY_ = rotation_ = 0; // Clear animation set by Rotate(CLOCKWISE)
 	x_ = 5;
 	y_ = 17;
 }
