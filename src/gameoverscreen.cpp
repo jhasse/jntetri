@@ -18,7 +18,8 @@ input_(new Input(-160, 200)), work_(jngl::getWork()) {
 }
 
 bool GameOverScreen::isHighscore() const {
-	return highscore_.isHighscore(data_) && (game_->getType() == NORMAL || game_->GetField().GetLines() >= 50);
+	return highscore_.isHighscore(data_) &&
+	       (game_->getType() == GameType::NORMAL || game_->GetField().GetLines() >= 50);
 }
 
 void GameOverScreen::step() {
@@ -68,7 +69,8 @@ void GameOverScreen::draw() const {
 	GetScreen().PrintCentered("GAMEOVER", 0, -100);
 	if (game_->GameOverAnimationFinished()) {
 		jngl::setFontSize(50);
-		if (highscore_.isHighscore(data_) && (game_->getType() == NORMAL || game_->GetField().GetLines() >= 50)) {
+		if (highscore_.isHighscore(data_) &&
+		    (game_->getType() == GameType::NORMAL || game_->GetField().GetLines() >= 50)) {
 			jngl::setFontColor(0, 0, 0);
 			GetScreen().PrintCentered("You entered the top!", 0, 50);
 			GetScreen().PrintCentered("Enter your name:", 0, 130);

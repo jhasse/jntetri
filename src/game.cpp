@@ -10,9 +10,9 @@
 #include <boost/lexical_cast.hpp>
 
 Game::Game(GameType type, int seed)
-	: field_(seed), type_(type), nextPosition_(field_.GetNextPosition()),
-	  oldNextPosition_(nextPosition_), startTime_(jngl::getTime()), pauseTime_(0),
-	  rotateScreen_(false), rotateDegree_(0), replayRecorder_(field_) {
+: field_(seed), type_(type), nextPosition_(field_.GetNextPosition()),
+  oldNextPosition_(nextPosition_), startTime_(jngl::getTime()), pauseTime_(0), rotateScreen_(false),
+  rotateDegree_(0), replayRecorder_(field_, type) {
 	jngl::setMouseVisible(false);
 }
 
@@ -33,7 +33,7 @@ void Game::step() {
 		field_.SetPause(false);
 		field_.step();
 		replayRecorder_.Step();
-		if (type_ == FIFTYLINES && field_.GetLines() >= 50) {
+		if (type_ == GameType::FIFTYLINES && field_.GetLines() >= 50) {
 			field_.setGameOver(true);
 		}
 	}
@@ -91,7 +91,7 @@ void Game::draw() const {
 		jngl::translate(-600, oldNextPosition_);
 		field_.drawNextTetromino();
 		jngl::popMatrix();
-		if (type_ == FIFTYLINES) {
+		if (type_ == GameType::FIFTYLINES) {
 			DrawTime(450, 100);
 		} else {
 			jngl::print("Score: ", 450, 100);

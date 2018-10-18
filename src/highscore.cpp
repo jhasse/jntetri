@@ -19,17 +19,13 @@ bool operator==(const Data& a, const Data& b)
 }
 
 Highscore::Highscore(GameType type) : type_(type), blink_(nullptr) {
-	if(type == NORMAL)
-	{
-		filename_ = getPaths().getConfig() + "normal.txt";
-	}
-	else if(type == FIFTYLINES)
-	{
-		filename_ = (getPaths().getConfig() + "fiftylines.txt");
-	}
-	else
-	{
-		throw std::runtime_error("Unknown GameType");
+	switch (type) {
+		case GameType::NORMAL:
+			filename_ = getPaths().getConfig() + "normal.txt";
+			break;
+		case GameType::FIFTYLINES:
+			filename_ = getPaths().getConfig() + "fiftylines.txt";
+			break;
 	}
 	std::ifstream fin(filename_);
 	if(fin)
@@ -64,7 +60,7 @@ void Highscore::draw() const {
 	int n = 1;
 	for (auto it = highscores_.begin(); it != end; ++it) {
 		std::string score;
-		if (type_ == NORMAL) {
+		if (type_ == GameType::NORMAL) {
 			score = boost::lexical_cast<std::string>(it->score);
 		} else {
 			int minutes = int(it->time / 60);
@@ -94,7 +90,7 @@ void Highscore::draw() const {
 
 void Highscore::Add(Data data) {
 	highscores_.push_back(data);
-	if (type_ == NORMAL) {
+	if (type_ == GameType::NORMAL) {
 		highscores_.sort([](const Data& lhs, const Data& rhs) {
 			return lhs.score > rhs.score;
 		});
@@ -107,7 +103,7 @@ void Highscore::Add(Data data) {
 }
 
 bool Highscore::isHighscore(Data data) const {
-	if (type_ == NORMAL) {
+	if (type_ == GameType::NORMAL) {
 		return data.score > highscores_.back().score;
 	} else {
 		return data.time < highscores_.back().time;

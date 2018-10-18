@@ -10,8 +10,10 @@
 #include <jngl/all.hpp>
 #include <ctime>
 
-Menu::Menu() : buttonBox_(new ButtonBox(-450, 0)), normalHighscore_(NORMAL), fiftyLinesHighscore_(FIFTYLINES) {
-    buttonBox_->add("Normal", std::bind(&Menu::Normal, this));
+Menu::Menu()
+: buttonBox_(new ButtonBox(-450, 0)), normalHighscore_(GameType::NORMAL),
+  fiftyLinesHighscore_(GameType::FIFTYLINES) {
+	buttonBox_->add("Normal", std::bind(&Menu::Normal, this));
 	buttonBox_->add("50 Lines", std::bind(&Menu::FiftyLines, this));
     buttonBox_->add("Multiplayer", []() {
 		jngl::setWork(std::make_shared<Fade>(std::make_shared<SplitScreen>()));
@@ -49,13 +51,13 @@ void Menu::draw() const {
 }
 
 void Menu::Normal() const {
-	jngl::setWork(
-	    std::make_shared<Fade>(std::make_shared<Game>(NORMAL, static_cast<int>(time(0)))));
+	jngl::setWork(std::make_shared<Fade>(
+	    std::make_shared<Game>(GameType::NORMAL, static_cast<int>(time(0)))));
 }
 
 void Menu::FiftyLines() const {
-	jngl::setWork(
-	    std::make_shared<Fade>(std::make_shared<Game>(FIFTYLINES, static_cast<int>(time(0)))));
+	jngl::setWork(std::make_shared<Fade>(
+	    std::make_shared<Game>(GameType::FIFTYLINES, static_cast<int>(time(0)))));
 }
 
 void Menu::OptionsMenuCallback() const {

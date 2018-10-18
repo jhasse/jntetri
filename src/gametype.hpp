@@ -1,7 +1,6 @@
 #pragma once
 
-enum GameType
-{
+enum class GameType {
 	NORMAL,
-	FIFTYLINES
+	FIFTYLINES,
 };

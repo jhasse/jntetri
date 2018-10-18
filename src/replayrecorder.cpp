@@ -4,9 +4,10 @@
 
 #include <boost/bind.hpp>
 
-ReplayRecorder::ReplayRecorder(Field& field) : fout("testReplay.jtr"), field_(field), time_(0) {
+ReplayRecorder::ReplayRecorder(Field& field, const GameType gameType)
+: fout("testReplay.jtr"), field_(field), time_(0) {
 	fout << field_.getRandomSeed() << " " << getOptions().startLevel << " "
-	     << getOptions().startJunks << std::endl;
+	     << getOptions().startJunks << " " << static_cast<int>(gameType) << std::endl;
 }
 
 void ReplayRecorder::Step() {
