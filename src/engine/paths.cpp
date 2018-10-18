@@ -6,6 +6,9 @@
 	#include <windows.h>
 	#include <shlobj.h>
 #endif
+#ifdef __APPLE__
+	#include <CoreServices/CoreServices.h>
+#endif
 #include <iostream>
 #include <sstream>
 #ifdef __linux__

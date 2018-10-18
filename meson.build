@@ -20,15 +20,18 @@ if cxx.get_id() == 'clang'
 	add_global_link_arguments(['-lc++', '-lc++abi'], language : 'cpp')
 endif
 
-if host_machine.system() == 'linux'
-	boost_dep = dependency('boost', modules : ['system'])
-	add_global_link_arguments(['-lstdc++fs'], language : 'cpp')
-else
+if host_machine.system() == 'windows'
 	boost_dep = [
 		cxx.find_library('boost_system-mt'),
 		cxx.find_library('boost_filesystem-mt'),
 		cxx.find_library('ws2_32'),
 	]
+else
+	boost_dep = dependency('boost', modules : ['system', 'filesystem'])
+endif
+
+if host_machine.system() == 'linux'
+	add_global_link_arguments(['-lstdc++fs'], language : 'cpp')
 endif
 
 if get_option('buildtype') == 'release'
