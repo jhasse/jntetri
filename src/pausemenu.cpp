@@ -1,15 +1,16 @@
 #include "pausemenu.hpp"
+
 #include "engine/procedure.hpp"
 #include "engine/screen.hpp"
+#include "game.hpp"
 #include "menu.hpp"
 #include "engine/fade.hpp"
 
 #include <jngl/all.hpp>
 
-PauseMenu::PauseMenu(std::shared_ptr<jngl::Work> work)
-: work_(std::dynamic_pointer_cast<Game>(work)), buttonBox_(new ButtonBox) {
-	assert(work_);
-	work_->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
+PauseMenu::PauseMenu(std::shared_ptr<Game> game)
+: work(jngl::getWork()), buttonBox_(new ButtonBox), game(std::move(game)) {
+	this->game->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
 	buttonBox_->add("Resume", std::bind(&PauseMenu::Continue, this));
 	buttonBox_->add("Menu", std::bind(&PauseMenu::QuitToMenu, this));
 	buttonBox_->add("Quit", jngl::quit);
@@ -18,18 +19,18 @@ PauseMenu::PauseMenu(std::shared_ptr<jngl::Work> work)
 
 void PauseMenu::step() {
 	if (jngl::keyPressed(jngl::key::Escape)) {
-		jngl::setWork(work_);
+		jngl::setWork(work);
 	}
 	StepWidgets();
-	work_->StepToRotateScreen();
+	game->StepToRotateScreen();
 }
 
 void PauseMenu::Continue() {
-	jngl::setWork(work_);
+	jngl::setWork(work);
 }
 
 void PauseMenu::draw() const {
-	work_->draw();
+	game->draw();
 	DrawWidgets();
 }
 

@@ -53,7 +53,7 @@ void Game::onQuitEvent() {
 	if (jngl::getTime() - lastPauseTime > 1) { // Don't allow pausing the game more then one time per second
 		lastPauseTime = pauseTime_ = jngl::getTime();
 		field_.SetPause(true);
-		jngl::setWork(std::make_shared<PauseMenu>(jngl::getWork()));
+		jngl::setWork(std::make_shared<PauseMenu>(shared_from_this()));
 		jngl::cancelQuit();
 	}
 }

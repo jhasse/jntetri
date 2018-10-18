@@ -16,6 +16,6 @@ public:
 	void draw() const;
 private:
 	std::ifstream fin_;
-	std::unique_ptr<Game> game_;
+	std::shared_ptr<Game> game_;
 	int oldStartLevel, oldStartJunk;
 };

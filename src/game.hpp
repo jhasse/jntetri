@@ -6,7 +6,7 @@
 #include "gametype.hpp"
 #include "replayrecorder.hpp"
 
-class Game : public Work {
+class Game : public Work, public std::enable_shared_from_this<Game> {
 public:
 	Game(GameType, int seed);
 	virtual ~Game();
