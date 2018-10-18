@@ -11,8 +11,8 @@
 
 Game::Game(GameType type, int seed)
 : field_(seed), type_(type), nextPosition_(field_.GetNextPosition()),
-  oldNextPosition_(nextPosition_), startTime_(jngl::getTime()), pauseTime_(0), rotateScreen_(false),
-  rotateDegree_(0), replayRecorder_(field_, type) {
+  oldNextPosition_(nextPosition_), rotateScreen_(false), rotateDegree_(0),
+  replayRecorder_(field_, type) {
 	jngl::setMouseVisible(false);
 }
 
@@ -40,7 +40,6 @@ void Game::step() {
 	nextPosition_ = field_.GetNextPosition();
 	oldNextPosition_ = (nextPosition_ - oldNextPosition_) * 0.01 + oldNextPosition_;
 	if (pauseTime_ > 0.0001 && !field_.GameOver()) {
-		startTime_ += jngl::getTime() - pauseTime_;
 		pauseTime_ = 0;
 	}
 	if (jngl::keyPressed('p') || jngl::keyPressed(jngl::key::Escape)) {
@@ -111,11 +110,7 @@ Field& Game::GetField() {
 }
 
 double Game::GetTime() const {
-	if (pauseTime_ > 0) {
-		return pauseTime_ - startTime_;
-	} else {
-		return jngl::getTime() - startTime_;
-	}
+	return field_.getSecondsPlayed();
 }
 
 bool Game::GameOverAnimationFinished() const {

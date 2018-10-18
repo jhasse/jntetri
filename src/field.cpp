@@ -60,6 +60,10 @@ void Field::addJunk(int nr) {
 	}
 }
 
+double Field::getSecondsPlayed() const {
+	return secondsPlayed;
+}
+
 void Field::ResetCounter() {
 	counter_ = static_cast<int>(200 / (level_ * 1.5 + 1));
 }
@@ -73,6 +77,7 @@ void Field::step() {
 		blocks_.erase(randomBlock);
 	}
 	if (!gameOver_) {
+		secondsPlayed += 1. / double(jngl::getStepsPerSecond());
 		control_->step();
 		linesCleared = 0;
 		if (counter_ <= 0) {

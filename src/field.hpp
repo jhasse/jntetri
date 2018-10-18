@@ -41,6 +41,8 @@ public:
 	void clearShadows();
 	int getLinesCleared() const;
 	void addJunk(int nr);
+	double getSecondsPlayed() const;
+
 private:
 	void CheckLines();
 	void ResetCounter();
@@ -65,4 +67,5 @@ private:
 	std::mt19937 random;
 	int randomSeed;
 	int linesCleared;
+	double secondsPlayed = 0;
 };

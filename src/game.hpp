@@ -21,13 +21,13 @@ public:
 	void StepToRotateScreen();
 	void SetRotateScreen(bool);
 	bool gameOver() const;
+
 protected:
 	Field field_;
 	GameType type_;
 	double nextPosition_;
 	double oldNextPosition_;
-	double startTime_;
-	double pauseTime_;
+	double pauseTime_ = 0;
 	bool rotateScreen_;
 	double rotateDegree_;
 	ReplayRecorder replayRecorder_;
