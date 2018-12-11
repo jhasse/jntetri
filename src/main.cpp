@@ -18,6 +18,7 @@ JNGL_MAIN_BEGIN {
 		jngl::setAntiAliasing(true);
 		jngl::setIcon(getPaths().getPrefix() + "share/icons/jntetri.png");
 		jngl::setWork(std::make_shared<Intro>());
+		jngl::setFontSize(jngl::getScaleFactor() * 13);
 		jngl::addJob(std::make_shared<DebugOverlay>());
 		jngl::mainLoop();
 		getOptions().Save();
