@@ -2,17 +2,12 @@
 
 #include "work.hpp"
 
-#include <boost/shared_ptr.hpp>
-
-namespace jngl {
-	class Work;
-}
-
 class Fade : public Work {
 public:
 	Fade(std::shared_ptr<Work>, int speed = 15);
-	virtual void step();
-	virtual void draw() const;
+	void step() override;
+	void draw() const override;
+
 private:
 	std::shared_ptr<Work> work_;
 	std::shared_ptr<jngl::Work> oldWork_;

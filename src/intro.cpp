@@ -1,4 +1,5 @@
 #include "intro.hpp"
+
 #include "engine/procedure.hpp"
 #include "engine/options.hpp"
 #include "menu.hpp"
@@ -11,9 +12,6 @@
 #include <boost/lexical_cast.hpp>
 
 Intro::Intro() : blink_(0), finished_(false) {
-}
-
-Intro::~Intro() {
 }
 
 void Intro::draw() const {
@@ -39,8 +37,8 @@ void Intro::draw() const {
 	jngl::setFontColor(100, 100, 100, 255);
 	jngl::setFontSize(35);
 	GetScreen().PrintCentered(programVersion, 0, 360);
-	GetScreen().PrintCentered("http://bixense.com/jntetri", 0, 430);
-	GetScreen().PrintCentered("Copyright 2009-2013 bixense.com", 0, 500);
+	GetScreen().PrintCentered("https://bixense.itch.io/jntetri", 0, 430);
+	GetScreen().PrintCentered("Copyright 2009-2018 bixense.com", 0, 500);
 }
 
 void Intro::step() {

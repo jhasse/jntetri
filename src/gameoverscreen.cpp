@@ -28,7 +28,7 @@ void GameOverScreen::step() {
 	if (game_->GameOverAnimationFinished()) {
 		if (isHighscore()) {
 			StepWidgets();
-			if(jngl::keyPressed(jngl::key::Return) || jngl::keyPressed(jngl::key::WizB)) {
+			if (jngl::keyPressed(jngl::key::Return)) {
 				data_.name = input_->getText();
 				getOptions().lastHighscoreName = data_.name;
 				highscore_.Add(data_);

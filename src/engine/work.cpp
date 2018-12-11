@@ -31,13 +31,13 @@ void Work::FocusNext() {
 }
 
 void Work::StepFocus() {
-	if (jngl::keyPressed(jngl::key::Down) || jngl::keyPressed(jngl::key::WizDown) || jngl::keyPressed(jngl::key::Tab)) {
+	if (jngl::keyPressed(jngl::key::Down) || jngl::keyPressed(jngl::key::Tab)) {
 		FocusNext();
 	}
 	if (!focusedWidget_->GetSensitive()) {
 		FocusNext();
 	}
-	if (jngl::keyPressed(jngl::key::Up) || jngl::keyPressed(jngl::key::WizUp)) {
+	if (jngl::keyPressed(jngl::key::Up)) {
 		FocusPrevious();
 		while (!focusedWidget_->GetSensitive()) {
 			FocusPrevious();

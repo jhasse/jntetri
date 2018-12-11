@@ -31,12 +31,10 @@ void Chooser::step() {
 	next_.step();
 	if(focus_)
 	{
-		if(jngl::keyPressed(jngl::key::Left) || jngl::keyPressed(jngl::key::WizLeft))
-		{
+		if (jngl::keyPressed(jngl::key::Left)) {
 			Previous();
 		}
-		if(jngl::keyPressed(jngl::key::Right) || jngl::keyPressed(jngl::key::WizRight))
-		{
+		if (jngl::keyPressed(jngl::key::Right)) {
 			Next();
 		}
 	}

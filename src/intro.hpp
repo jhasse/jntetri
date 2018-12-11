@@ -8,12 +8,12 @@
 
 class Intro : public Work {
 public:
-    Intro();
-    ~Intro();
-    virtual void step();
-    virtual void draw() const;
+	Intro();
+	void step() override;
+	void draw() const override;
+
 private:
-    int blink_;
-    mutable bool finished_;
-    mutable ResizeGraphics resizeGraphics_;
+	int blink_;
+	mutable bool finished_;
+	mutable ResizeGraphics resizeGraphics_;
 };
