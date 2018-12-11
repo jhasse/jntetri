@@ -4,11 +4,12 @@
 #include "field.hpp"
 #include "block.hpp"
 #include "gametype.hpp"
-#include "replayrecorder.hpp"
+
+class ReplayRecorder;
 
 class Game : public Work, public std::enable_shared_from_this<Game> {
 public:
-	Game(GameType, int seed);
+	Game(GameType, int seed, bool replay);
 	virtual ~Game();
 	virtual void step();
 	virtual void draw() const;
@@ -21,6 +22,7 @@ public:
 	void StepToRotateScreen();
 	void SetRotateScreen(bool);
 	bool gameOver() const;
+	bool isReplay() const;
 
 protected:
 	Field field_;
@@ -30,5 +32,7 @@ protected:
 	double pauseTime_ = 0;
 	bool rotateScreen_;
 	double rotateDegree_;
-	ReplayRecorder replayRecorder_;
+
+	/// If we're owned by a ReplayPlayer, this is nullptr
+	std::unique_ptr<ReplayRecorder> replayRecorder;
 };

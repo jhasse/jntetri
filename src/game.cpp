@@ -1,18 +1,22 @@
 #include "game.hpp"
+
 #include "engine/screen.hpp"
 #include "engine/procedure.hpp"
 #include "gameoverscreen.hpp"
 #include "pausemenu.hpp"
+#include "replayrecorder.hpp"
 
 #include <jngl/all.hpp>
 #include <sstream>
 #include <iomanip>
 #include <boost/lexical_cast.hpp>
 
-Game::Game(GameType type, int seed)
+Game::Game(const GameType type, const int seed, const bool replay)
 : field_(seed), type_(type), nextPosition_(field_.GetNextPosition()),
-  oldNextPosition_(nextPosition_), rotateScreen_(false), rotateDegree_(0),
-  replayRecorder_(field_, type) {
+  oldNextPosition_(nextPosition_), rotateScreen_(false), rotateDegree_(0) {
+	if (!replay) { // Don't record when we're playing back a replay
+		replayRecorder = std::make_unique<ReplayRecorder>(field_, type);
+	}
 	jngl::setMouseVisible(false);
 }
 
@@ -32,7 +36,9 @@ void Game::step() {
 	} else {
 		field_.SetPause(false);
 		field_.step();
-		replayRecorder_.Step();
+		if (replayRecorder) {
+			replayRecorder->Step();
+		}
 		if (type_ == GameType::FIFTYLINES && field_.GetLines() >= 50) {
 			field_.setGameOver(true);
 		}
@@ -123,4 +129,8 @@ GameType Game::getType() const {
 
 bool Game::gameOver() const {
 	return field_.GameOver();
+}
+
+bool Game::isReplay() const {
+	return replayRecorder == nullptr;
 }

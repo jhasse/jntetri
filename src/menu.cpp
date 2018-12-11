@@ -52,12 +52,12 @@ void Menu::draw() const {
 
 void Menu::Normal() const {
 	jngl::setWork(std::make_shared<Fade>(
-	    std::make_shared<Game>(GameType::NORMAL, static_cast<int>(time(0)))));
+	    std::make_shared<Game>(GameType::NORMAL, static_cast<int>(time(0)), false)));
 }
 
 void Menu::FiftyLines() const {
 	jngl::setWork(std::make_shared<Fade>(
-	    std::make_shared<Game>(GameType::FIFTYLINES, static_cast<int>(time(0)))));
+	    std::make_shared<Game>(GameType::FIFTYLINES, static_cast<int>(time(0)), false)));
 }
 
 void Menu::OptionsMenuCallback() const {
