@@ -11,12 +11,12 @@ ReplayControl::ReplayControl(std::ifstream& fin) : time_(0) {
 		fin >> time;
 		fin >> control;
 		assert(time >= 0 && time <= 255);
-		assert(control >= 0 && control < control::LastValue);
-		data_.push(std::pair<unsigned char, control::ControlType>(time, static_cast<control::ControlType>(control)));
+		assert(control >= 0 && control < static_cast<int>(ControlType::LastValue));
+		data_.push(std::pair<unsigned char, ControlType>(time, static_cast<ControlType>(control)));
 	}
 }
 
-void ReplayControl::step(std::function<void(control::ControlType)> Set) {
+void ReplayControl::step(const std::function<void(ControlType)>& Set) {
 	static int line = 2;
 	while(!data_.empty() && time_ == data_.front().first) {
 		Set(data_.front().second);
@@ -29,7 +29,7 @@ void ReplayControl::step(std::function<void(control::ControlType)> Set) {
 
 	if(time_ == 255) {
 		time_ = 0;
-		if(data_.front().second != control::Null) {
+		if (data_.front().second != ControlType::Null) {
 			throw std::runtime_error("Error in line " + boost::lexical_cast<std::string>(line));
 		}
 		++line;

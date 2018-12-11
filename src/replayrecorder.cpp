@@ -11,15 +11,15 @@ ReplayRecorder::ReplayRecorder(Field& field, const GameType gameType)
 }
 
 void ReplayRecorder::Step() {
-	field_.getControl().forEach(boost::bind(&ReplayRecorder::Write, this, _1));
+	field_.getControl().forEach([this](ControlType c) { write(c); });
 	if(time_ == 255) {
 		time_ = 0;
-		Write(control::Null);
+		write(ControlType::Null);
 	} else {
 		++time_;
 	}
 }
 
-void ReplayRecorder::Write(control::ControlType c) {
-	fout << static_cast<int>(time_) << " " << c << std::endl;
+void ReplayRecorder::write(ControlType c) {
+	fout << static_cast<int>(time_) << " " << static_cast<int>(c) << std::endl;
 }

@@ -3,8 +3,6 @@
 #include <jngl/Controller.hpp>
 #include <jngl/input.hpp>
 
-using namespace control;
-
 ControlBase::~ControlBase() {
 }
 
@@ -15,13 +13,13 @@ Control::~Control() {
 }
 
 bool Control::Check(ControlType e) {
-	return bits_.test(e);
+	return bits_.test(static_cast<size_t>(e));
 }
 
 void Control::forEach(const boost::function<void(ControlType)>& f) {
 	for (size_t i = 0; i < bits_.size(); ++i) {
 		if (bits_.test(i)) {
-			f(static_cast<control::ControlType>(i));
+			f(static_cast<ControlType>(i));
 		}
 	}
 }
@@ -29,52 +27,52 @@ void Control::forEach(const boost::function<void(ControlType)>& f) {
 void Control::step() {
 	bits_.reset();
 	for (auto& control : controls) {
-		control->step([&](control::ControlType e) {
-			bits_.set(e);
+		control->step([&](ControlType e) {
+			bits_.set(static_cast<size_t>(e));
 		});
 	}
 }
 
-void KeyboardControl::step(std::function<void(control::ControlType)> Set) {
+void KeyboardControl::step(const std::function<void(ControlType)>& Set) {
 	if(jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
-		Set(Drop);
+		Set(ControlType::Drop);
 	}
 	if(jngl::keyDown(jngl::key::Down) || jngl::keyDown('k')) {
-		Set(Down);
+		Set(ControlType::Down);
 	}
 	if(jngl::keyPressed(jngl::key::Left) || jngl::keyPressed('j')) {
-		Set(Left);
+		Set(ControlType::Left);
 	}
 	if(jngl::keyPressed(jngl::key::Right) || jngl::keyPressed('l')) {
-		Set(Right);
+		Set(ControlType::Right);
 	}
 	if(jngl::keyPressed(jngl::key::Up) || jngl::keyPressed('i')) {
-		Set(Rotate);
+		Set(ControlType::Rotate);
 	}
 	if(jngl::keyPressed(jngl::key::ControlR) || jngl::keyPressed(jngl::key::AltR)) {
-		Set(RotateCounter);
+		Set(ControlType::RotateCounter);
 	}
 }
 
-void GamepadControl::step(std::function<void(control::ControlType)> Set) {
+void GamepadControl::step(const std::function<void(ControlType)>& Set) {
 	if (!controller) { return; }
 	if (controller->pressed(jngl::controller::A)) {
-		Set(Drop);
+		Set(ControlType::Drop);
 	}
 	if (controller->down(jngl::controller::RightTrigger)) {
-		Set(Down);
+		Set(ControlType::Down);
 	}
 	if (controller->pressed(jngl::controller::DpadLeft)) {
-		Set(Left);
+		Set(ControlType::Left);
 	}
 	if (controller->pressed(jngl::controller::DpadRight)) {
-		Set(Right);
+		Set(ControlType::Right);
 	}
 	if (controller->pressed(jngl::controller::X)) {
-		Set(Rotate);
+		Set(ControlType::Rotate);
 	}
 	if (controller->pressed(jngl::controller::B)) {
-		Set(RotateCounter);
+		Set(ControlType::RotateCounter);
 	}
 }
 

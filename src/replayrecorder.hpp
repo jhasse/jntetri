@@ -13,7 +13,8 @@ public:
 	void Step();
 
 private:
-	void Write(control::ControlType);
+	void write(ControlType);
+
 	std::ofstream fout;
 	Field& field_;
 	unsigned char time_;

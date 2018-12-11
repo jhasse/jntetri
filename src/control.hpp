@@ -5,26 +5,25 @@
 #include <vector>
 
 namespace jngl {
-	class Controller;
+class Controller;
 }
 
-namespace control {
-	enum ControlType {
-		Drop,
-		Left,
-		Right,
-		Down,
-		Rotate,
-		RotateCounter,
-		Null, // dummy package used in network games
-		LastValue // must always be the last (see bitset in Control class)
-	};
-}
+enum class ControlType {
+	Drop,
+	Left,
+	Right,
+	Down,
+	Rotate,
+	RotateCounter,
+	Null,     // dummy package used in network games and replays
+	LastValue // must always be the last (see bitset in Control class)
+};
 
 class ControlBase {
 public:
 	virtual ~ControlBase();
-	virtual void step(std::function<void(control::ControlType)>) = 0;
+	virtual void step(const std::function<void(ControlType)>&) = 0;
+
 protected:
 };
 
@@ -32,23 +31,25 @@ class Control {
 public:
 	Control(std::initializer_list<std::shared_ptr<ControlBase>>);
 	virtual ~Control();
-	bool Check(control::ControlType);
+	bool Check(ControlType);
 	void step();
-	void forEach(const boost::function<void(control::ControlType)>&);
+	void forEach(const boost::function<void(ControlType)>&);
+
 protected:
-	std::bitset<control::LastValue> bits_;
+	std::bitset<static_cast<size_t>(ControlType::LastValue)> bits_;
 	std::vector<std::shared_ptr<ControlBase>> controls;
 };
 
 class KeyboardControl : public ControlBase {
 public:
-	void step(std::function<void(control::ControlType)>) override;
+	void step(const std::function<void(ControlType)>&) override;
 };
 
 class GamepadControl : public ControlBase {
 public:
 	GamepadControl(size_t number);
-	void step(std::function<void(control::ControlType)>) override;
+	void step(const std::function<void(ControlType)>&) override;
+
 private:
 	std::shared_ptr<jngl::Controller> controller;
 };

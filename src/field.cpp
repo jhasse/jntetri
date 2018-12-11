@@ -95,11 +95,11 @@ void Field::step() {
 			}
 		}
 		tetromino_->Step();
-		if (control_->Check(control::Drop)) {
+		if (control_->Check(ControlType::Drop)) {
 			tetromino_->drop();
 			NewTetromino();
 		}
-		if (control_->Check(control::Down)) {
+		if (control_->Check(ControlType::Down)) {
 			if (downKeyReleased_ && counter_ > 7) {
 				counter_ = 7;
 			}
