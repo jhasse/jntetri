@@ -9,8 +9,7 @@ ControlBase::~ControlBase() {
 Control::Control(std::initializer_list<std::shared_ptr<ControlBase>> l) : controls(l) {
 }
 
-Control::~Control() {
-}
+Control::~Control() = default;
 
 bool Control::Check(ControlType e) {
 	return bits_.test(static_cast<size_t>(e));

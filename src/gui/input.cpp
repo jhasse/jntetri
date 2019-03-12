@@ -23,7 +23,7 @@ void Input::OnFocusChanged() {
 }
 
 void Input::step() {
-	if (!sensitive_ || !focus_) { return; }
+	if (!sensitive || !focus_) { return; }
 	--displayCursor_;
 	if (displayCursor_ < -35) { displayCursor_ = 35; }
 	if (jngl::getTextWidth(text) < maxWidth) {
@@ -62,7 +62,7 @@ void Input::draw() const {
 			text += "●";
 		}
 	}
-	if (sensitive_) {
+	if (sensitive) {
 		jngl::setFontColor(0, 0, 0);
 	} else {
 		jngl::setFontColor(150, 150, 150);

@@ -15,6 +15,6 @@ public:
 	virtual void onAdd(Work&);
 
 protected:
-	bool sensitive_;
+	bool sensitive;
 	bool focus_;
 };

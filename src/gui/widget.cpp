@@ -1,17 +1,17 @@
 #include "widget.hpp"
 
-Widget::Widget() : sensitive_(true), focus_(false) {
+Widget::Widget() : sensitive(true), focus_(false) {
 }
 
 Widget::~Widget() {
 }
 
 bool Widget::GetSensitive() const {
-	return sensitive_;
+	return sensitive;
 }
 
-void Widget::SetSensitive(bool sensitive) {
-	sensitive_ = sensitive;
+void Widget::SetSensitive(const bool sensitive) {
+	this->sensitive = sensitive;
 }
 
 void Widget::SetFocus(bool focus) {
