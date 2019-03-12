@@ -25,6 +25,7 @@ packages/
 # Visual Studio Code
 .browse.VC.db
 /.vscode/cquery*
+/.ccls-cache/
 /compile_commands.json
 
 # Meson
