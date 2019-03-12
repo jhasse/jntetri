@@ -1,18 +1,20 @@
 #include "buttonbox.hpp"
+
 #include "../engine/options.hpp"
 #include "../engine/screen.hpp"
 #include "../engine/procedure.hpp"
+#include "button.hpp"
 
 const int ButtonBox::spacing_ = 30;
 
 ButtonBox::ButtonBox(const int xCenter, const int yCenter)
 : xCenter_(xCenter), yCenter_(yCenter) {
-	SetSensitive(false);
+	setSensitive(false);
 }
 
 ButtonBox::ButtonBox()
 : xCenter_(0), yCenter_(0) {
-	SetSensitive(false);
+	setSensitive(false);
 }
 
 void ButtonBox::add(const std::string& text, std::function<void()> function) {

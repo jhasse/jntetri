@@ -1,28 +1,24 @@
 #include "widget.hpp"
 
-Widget::Widget() : sensitive(true), focus_(false) {
-}
+Widget::~Widget() = default;
 
-Widget::~Widget() {
-}
-
-bool Widget::GetSensitive() const {
+bool Widget::getSensitive() const {
 	return sensitive;
 }
 
-void Widget::SetSensitive(const bool sensitive) {
+void Widget::setSensitive(const bool sensitive) {
 	this->sensitive = sensitive;
 }
 
-void Widget::SetFocus(bool focus) {
-	bool old = focus_;
-	focus_ = focus;
-	if (focus_ != old) {
-		OnFocusChanged();
+void Widget::setFocus(const bool focus) {
+	bool old = this->focus;
+	this->focus = focus;
+	if (focus != old) {
+		onFocusChanged();
 	}
 }
 
-void Widget::OnFocusChanged() {
+void Widget::onFocusChanged() {
 }
 
 void Widget::onAdd(Work&) {

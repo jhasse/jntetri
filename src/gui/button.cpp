@@ -46,7 +46,7 @@ void Button::draw() const {
 		alpha -= 100;
 	}
 	GetScreen().DrawCenteredScaled(texture_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
-    if(focus_)
+    if(focus)
     {
 		GetScreen().DrawCentered(textureMouseOver_, xPos_, yPos_);
     }
@@ -77,7 +77,7 @@ void Button::step() {
 		clicked_ = false;
 	}
 	const int alphaSpeed = 20;
-	if(focus_)
+	if(focus)
 	{
 		if (jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
 			clicked_ = true;

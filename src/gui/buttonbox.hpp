@@ -1,8 +1,12 @@
 #pragma once
 
-#include "button.hpp"
+#include "widget.hpp"
 
+#include <functional>
+#include <memory>
 #include <vector>
+
+class Button;
 
 class ButtonBox : public Widget {
 public:

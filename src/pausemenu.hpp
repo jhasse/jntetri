@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/work.hpp"
 #include "gui/buttonbox.hpp"
 
 class Game;

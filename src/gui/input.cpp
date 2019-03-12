@@ -18,12 +18,12 @@ void Input::SetPassword(bool password) {
 	password_ = password;
 }
 
-void Input::OnFocusChanged() {
+void Input::onFocusChanged() {
 	displayCursor_ = 50;
 }
 
 void Input::step() {
-	if (!sensitive || !focus_) { return; }
+	if (!sensitive || !focus) { return; }
 	--displayCursor_;
 	if (displayCursor_ < -35) { displayCursor_ = 35; }
 	if (jngl::getTextWidth(text) < maxWidth) {
@@ -67,7 +67,7 @@ void Input::draw() const {
 	} else {
 		jngl::setFontColor(150, 150, 150);
 	}
-	if (focus_ && displayCursor_ > 0) {
+	if (focus && displayCursor_ > 0) {
 		jngl::print(text + "|", x_, y_);
 	} else {
 		jngl::print(text, x_, y_);

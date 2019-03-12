@@ -32,14 +32,14 @@ void Lobby::step() {
 	socket_->Step();
 	if (jngl::keyPressed(jngl::key::Return)) {
 		socket_->Send(std::string("c") + input_->getText(), boost::bind(&Lobby::OnMessageSent, this));
-		input_->SetSensitive(false);
+		input_->setSensitive(false);
 	}
 	StepWidgets();
 }
 
 void Lobby::OnMessageSent() {
 	input_->setText("");
-	input_->SetSensitive(true);
+	input_->setSensitive(true);
 }
 
 void Lobby::draw() const {

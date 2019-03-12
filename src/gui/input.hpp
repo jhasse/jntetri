@@ -19,7 +19,7 @@ public:
 
 	void SetPassword(bool);
 
-	void OnFocusChanged() override;
+	void onFocusChanged() override;
 
 private:
 	mutable std::string text;

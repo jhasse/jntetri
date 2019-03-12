@@ -9,7 +9,7 @@ Work::~Work() {
 }
 
 void Work::FocusPrevious() {
-	focusedWidget_->SetFocus(false);
+	focusedWidget_->setFocus(false);
 	if (focusedWidget_ == widgets_.front()) {
 		focusedWidget_ = widgets_.back();
 	} else {
@@ -20,7 +20,7 @@ void Work::FocusPrevious() {
 }
 
 void Work::FocusNext() {
-	focusedWidget_->SetFocus(false);
+	focusedWidget_->setFocus(false);
 	if (focusedWidget_ == widgets_.back()) {
 		focusedWidget_ = widgets_.front();
 	} else {
@@ -34,16 +34,16 @@ void Work::StepFocus() {
 	if (jngl::keyPressed(jngl::key::Down) || jngl::keyPressed(jngl::key::Tab)) {
 		FocusNext();
 	}
-	if (!focusedWidget_->GetSensitive()) {
+	if (!focusedWidget_->getSensitive()) {
 		FocusNext();
 	}
 	if (jngl::keyPressed(jngl::key::Up)) {
 		FocusPrevious();
-		while (!focusedWidget_->GetSensitive()) {
+		while (!focusedWidget_->getSensitive()) {
 			FocusPrevious();
 		}
 	}
-	focusedWidget_->SetFocus(true);
+	focusedWidget_->setFocus(true);
 }
 
 void Work::StepWidgets() {

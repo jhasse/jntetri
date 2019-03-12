@@ -1,20 +1,19 @@
 #pragma once
 
-#include "../engine/work.hpp"
+class Work;
 
 class Widget {
 public:
-	Widget();
 	virtual ~Widget();
 	virtual void step() = 0;
 	virtual void draw() const = 0;
-	bool GetSensitive() const;
-	void SetSensitive(bool);
-	virtual void SetFocus(bool);
-	virtual void OnFocusChanged();
+	bool getSensitive() const;
+	void setSensitive(bool);
+	void setFocus(bool);
+	virtual void onFocusChanged();
 	virtual void onAdd(Work&);
 
 protected:
-	bool sensitive;
-	bool focus_;
+	bool sensitive = true;
+	bool focus = false;
 };

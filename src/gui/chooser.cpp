@@ -25,12 +25,11 @@ void Chooser::AddValue(int v)
 }
 
 void Chooser::step() {
-	previous_.SetFocus(focus_);
-	next_.SetFocus(focus_);
+	previous_.setFocus(focus);
+	next_.setFocus(focus);
 	previous_.step();
 	next_.step();
-	if(focus_)
-	{
+	if (focus) {
 		if (jngl::keyPressed(jngl::key::Left)) {
 			Previous();
 		}
