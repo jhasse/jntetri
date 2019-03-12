@@ -14,11 +14,8 @@ public:
     void draw() const override;
     void step() override;
     bool Mouseover() const;
-    int GetX() const;
-    int GetY() const;
     int GetHeight();
     int GetWidth();
-    int GetMousePostiton();
     void CenterAt(int xCenter, int yCenter);
 	void Connect(std::function<void()> callback);
 private:

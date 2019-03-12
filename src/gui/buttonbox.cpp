@@ -44,7 +44,7 @@ int ButtonBox::GetMouseover() const
 	return -1;
 }
 
-void ButtonBox::OnAdd(Work& work) {
+void ButtonBox::onAdd(Work& work) {
 	for (auto& button : buttons_) {
 		work.addWidget(button);
 	}

@@ -11,8 +11,12 @@ public:
 	void add(const std::string& text, std::function<void()>);
 	void draw() const override;
 	void step() override;
-	int GetMouseover() const; // Returns over which button the mouse is over. If there's none -1.
-	virtual void OnAdd(Work&) override;
+
+	/// Returns over which button the mouse is over. If there's none -1.
+	int GetMouseover() const;
+
+	void onAdd(Work&) override;
+
 private:
 	std::vector<std::shared_ptr<Button>> buttons_;
 	const int xCenter_, yCenter_;

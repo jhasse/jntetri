@@ -116,16 +116,6 @@ bool Button::Mouseover() const {
 	        yPos_ - height_ / 2 <= mousePos.y && mousePos.y < (yPos_ + height_ / 2));
 }
 
-int Button::GetX() const
-{
-    return xPos_;
-}
-
-int Button::GetY() const
-{
-    return yPos_;
-}
-
 int Button::GetHeight()
 {
     return height_;

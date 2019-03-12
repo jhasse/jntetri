@@ -25,5 +25,5 @@ void Widget::SetFocus(bool focus) {
 void Widget::OnFocusChanged() {
 }
 
-void Widget::OnAdd(Work&) {
+void Widget::onAdd(Work&) {
 }

@@ -12,7 +12,8 @@ public:
 	void SetSensitive(bool);
 	virtual void SetFocus(bool);
 	virtual void OnFocusChanged();
-	virtual void OnAdd(Work&);
+	virtual void onAdd(Work&);
+
 protected:
 	bool sensitive_;
 	bool focus_;

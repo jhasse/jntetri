@@ -67,6 +67,6 @@ void Work::addWidget(std::shared_ptr<Widget> widget) {
 	if (!focusedWidget_) {
 		focusedWidget_ = widget;
 	}
-	widget->OnAdd(*this);
+	widget->onAdd(*this);
 	StepFocus();
 }
