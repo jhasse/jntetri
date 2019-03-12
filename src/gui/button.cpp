@@ -4,7 +4,6 @@
 
 #include <jngl/all.hpp>
 #include <string>
-#include <boost/function.hpp>
 
 const int Button::fontSize_ = 70;
 
@@ -14,10 +13,8 @@ Button::Button(const std::string& text)
 	SetSprites("button", "button_over", "button_clicked");
 }
 
-Button::Button(const std::string& text, boost::function<void()> callback)
-	: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0),
-	  callback_(callback), clicked_(false)
-{
+Button::Button(const std::string& text, std::function<void()> callback)
+: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0), callback_(callback), clicked_(false) {
 	SetSprites("button", "button_over", "button_clicked");
 }
 
@@ -139,7 +136,6 @@ int Button::GetWidth()
     return width_;
 }
 
-void Button::Connect(boost::function<void()> callback)
-{
+void Button::Connect(std::function<void()> callback) {
 	callback_ = callback;
 }

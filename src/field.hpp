@@ -10,6 +10,7 @@
 #include <random>
 #include <ctime>
 #include <boost/noncopyable.hpp>
+#include <memory>
 
 class Field : boost::noncopyable {
 public:

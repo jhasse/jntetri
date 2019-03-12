@@ -16,7 +16,7 @@ bool Control::Check(ControlType e) {
 	return bits_.test(static_cast<size_t>(e));
 }
 
-void Control::forEach(const boost::function<void(ControlType)>& f) {
+void Control::forEach(const std::function<void(ControlType)>& f) {
 	for (size_t i = 0; i < bits_.size(); ++i) {
 		if (bits_.test(i)) {
 			f(static_cast<ControlType>(i));

@@ -12,7 +12,7 @@ void Socket::Step() {
 	io_.poll();
 }
 
-void CallbackWrapper(const boost::system::error_code& err, boost::function<void()> onSuccess) {
+void CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess) {
 	if (err) {
 		throw std::runtime_error("socket error");
 	} else {
@@ -20,7 +20,7 @@ void CallbackWrapper(const boost::system::error_code& err, boost::function<void(
 	}
 }
 
-void Socket::Connect(const std::string& server, int port, boost::function<void()> onSuccess) {
+void Socket::Connect(const std::string& server, int port, std::function<void()> onSuccess) {
 	using boost::asio::ip::tcp;
 	tcp::resolver resolver(io_);
 	tcp::resolver::query query(server, "http");
@@ -34,7 +34,7 @@ void Socket::Connect(const std::string& server, int port, boost::function<void()
 	});
 }
 
-void Socket::Send(const std::string& data, boost::function<void()> onSuccess) {
+void Socket::Send(const std::string& data, std::function<void()> onSuccess) {
 	socket_.async_send(boost::asio::buffer(data + delimiter), boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
 }
 
@@ -59,8 +59,7 @@ void Socket::CheckBuffer(std::string& buf)
 	}
 }
 
-void Socket::Receive(boost::function<void(std::string)> onSuccess)
-{
+void Socket::Receive(std::function<void(std::string)> onSuccess) {
 	if(tempBuffer_ == "")
 	{
 		socket_.async_receive(boost::asio::buffer(buf_), boost::bind(&Socket::ReceiveWrapper, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, onSuccess));
@@ -73,8 +72,8 @@ void Socket::Receive(boost::function<void(std::string)> onSuccess)
 	}
 }
 
-void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len, boost::function<void(std::string)> onSuccess)
-{
+void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len,
+                            std::function<void(std::string)> onSuccess) {
 	std::cout << len << std::endl;
 	if(len == 0)
 	{

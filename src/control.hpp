@@ -1,7 +1,8 @@
 #pragma once
 
 #include <bitset>
-#include <boost/function.hpp>
+#include <functional>
+#include <memory>
 #include <vector>
 
 namespace jngl {
@@ -33,7 +34,7 @@ public:
 	virtual ~Control();
 	bool Check(ControlType);
 	void step();
-	void forEach(const boost::function<void(ControlType)>&);
+	void forEach(const std::function<void(ControlType)>&);
 
 protected:
 	std::bitset<static_cast<size_t>(ControlType::LastValue)> bits_;
