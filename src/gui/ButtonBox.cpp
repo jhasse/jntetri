@@ -1,4 +1,4 @@
-#include "buttonbox.hpp"
+#include "ButtonBox.hpp"
 
 #include "../engine/options.hpp"
 #include "../engine/screen.hpp"

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "engine/work.hpp"
-#include "gui/buttonbox.hpp"
 #include "highscore.hpp"
 
 #include <vector>
+
+class ButtonBox;
 
 class Menu : public Work {
 public:

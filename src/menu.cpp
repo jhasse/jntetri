@@ -1,7 +1,9 @@
 #include "menu.hpp"
+
 #include "engine/paths.hpp"
 #include "engine/procedure.hpp"
 #include "engine/fade.hpp"
+#include "gui/ButtonBox.hpp"
 #include "optionsmenu.hpp"
 #include "engine/screen.hpp"
 #include "game.hpp"

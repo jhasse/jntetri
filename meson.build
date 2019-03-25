@@ -59,7 +59,7 @@ src = [
 	'src/gui/chooser.cpp',
 	'src/gui/input.cpp',
 	'src/gui/button.cpp',
-	'src/gui/buttonbox.cpp',
+	'src/gui/ButtonBox.cpp',
 	'src/gui/widget.cpp',
 	'src/gui/radiobutton.cpp',
 	'src/shadow.cpp',

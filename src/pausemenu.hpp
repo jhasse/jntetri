@@ -1,8 +1,8 @@
 #pragma once
 
 #include "engine/work.hpp"
-#include "gui/buttonbox.hpp"
 
+class ButtonBox;
 class Game;
 
 class PauseMenu : public Work {

@@ -3,6 +3,7 @@
 #include "engine/procedure.hpp"
 #include "engine/screen.hpp"
 #include "game.hpp"
+#include "gui/ButtonBox.hpp"
 #include "menu.hpp"
 #include "engine/fade.hpp"
 
