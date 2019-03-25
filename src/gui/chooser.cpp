@@ -2,7 +2,6 @@
 #include "../engine/screen.hpp"
 #include "../engine/paths.hpp"
 
-#include <boost/lexical_cast.hpp>
 #include <jngl/all.hpp>
 
 Chooser::Chooser(int x, int y)
@@ -42,7 +41,7 @@ void Chooser::draw() const {
 	GetScreen().DrawCentered(sprite_, x_, y_);
 	jngl::setFontSize(70);
 	jngl::setFontColor(255, 255, 255);
-	GetScreen().PrintCentered(boost::lexical_cast<std::string>(*activeValue_), x_, y_);
+	GetScreen().PrintCentered(std::to_string(*activeValue_), x_, y_);
 	previous_.draw();
 	next_.draw();
 }

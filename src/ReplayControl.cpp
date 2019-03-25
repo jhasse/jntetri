@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <cassert>
-#include <boost/lexical_cast.hpp>
 
 ReplayControl::ReplayControl(std::ifstream& fin) : time_(0) {
 	while(fin) {
@@ -30,7 +29,7 @@ void ReplayControl::step(const std::function<void(ControlType)>& Set) {
 	if(time_ == 255) {
 		time_ = 0;
 		if (data_.front().second != ControlType::Null) {
-			throw std::runtime_error("Error in line " + boost::lexical_cast<std::string>(line));
+			throw std::runtime_error("Error in line " + std::to_string(line));
 		}
 		++line;
 		data_.pop();

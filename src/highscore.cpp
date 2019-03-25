@@ -5,7 +5,6 @@
 #include <fstream>
 #include <stdexcept>
 #include <cassert>
-#include <boost/lexical_cast.hpp>
 #include <iomanip>
 #include <jngl/all.hpp>
 
@@ -63,7 +62,7 @@ void Highscore::draw() const {
 	for (auto it = highscores_.begin(); it != end; ++it) {
 		std::string score;
 		if (type_ == GameType::NORMAL) {
-			score = boost::lexical_cast<std::string>(it->score);
+			score = std::to_string(it->score);
 		} else {
 			int minutes = int(it->time / 60);
 			int seconds = int(it->time - minutes * 60);
@@ -84,7 +83,7 @@ void Highscore::draw() const {
 			}
 		}
 		jngl::print(score, 700 - static_cast<int>(jngl::getTextWidth(score)), 0);
-		jngl::print(boost::lexical_cast<std::string>(n) + ". " + it->name, 0, 0);
+		jngl::print(std::to_string(n) + ". " + it->name, 0, 0);
 		jngl::translate(0, 80);
 		++n;
 	}

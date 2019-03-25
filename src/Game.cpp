@@ -100,13 +100,13 @@ void Game::draw() const {
 			DrawTime(450, 100);
 		} else {
 			jngl::print("Score: ", 450, 100);
-			jngl::print(boost::lexical_cast<std::string>(field_.GetScore()), 450, 200);
+			jngl::print(std::to_string(field_.GetScore()), 450, 200);
 			DrawTime(450, 820);
 		}
 		jngl::print("Level: ", 450, 340);
-		jngl::print(boost::lexical_cast<std::string>(field_.GetLevel()), 450, 440);
+		jngl::print(std::to_string(field_.GetLevel()), 450, 440);
 		jngl::print("Lines: ", 450, 580);
-		jngl::print(boost::lexical_cast<std::string>(field_.GetLines()), 450, 680);
+		jngl::print(std::to_string(field_.GetLines()), 450, 680);
 	}
 	jngl::popMatrix();
 }

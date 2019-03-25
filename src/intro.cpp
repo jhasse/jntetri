@@ -8,8 +8,6 @@
 #include "constants.hpp"
 
 #include <jngl/all.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
 
 Intro::Intro() : blink_(0), finished_(false) {
 }
@@ -27,10 +25,8 @@ void Intro::draw() const {
 		finished_ = true;
 		jngl::setFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
 		GetScreen().PrintCentered("Press any key to continue", 0, 0);
-	}
-	else
-	{
-		GetScreen().PrintCentered(boost::lexical_cast<std::string>(int(percentage)) + " %", 0, 0);
+	} else {
+		GetScreen().PrintCentered(std::to_string(int(percentage)) + " %", 0, 0);
 	}
 	jngl::popMatrix();
 
@@ -38,7 +34,7 @@ void Intro::draw() const {
 	jngl::setFontSize(35);
 	GetScreen().PrintCentered(programVersion, 0, 360);
 	GetScreen().PrintCentered("https://bixense.itch.io/jntetri", 0, 430);
-	GetScreen().PrintCentered("Copyright 2009-2018 bixense.com", 0, 500);
+	GetScreen().PrintCentered("Copyright 2009-2019 bixense.com", 0, 500);
 }
 
 void Intro::step() {
