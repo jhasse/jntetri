@@ -1,6 +1,7 @@
 #include "splitscreen.hpp"
 
 #include "engine/screen.hpp"
+#include "Field.hpp"
 
 #include <jngl/matrix.hpp>
 #include <jngl/font.hpp>

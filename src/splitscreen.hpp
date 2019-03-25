@@ -1,7 +1,8 @@
 #pragma once
 
 #include "engine/work.hpp"
-#include "field.hpp"
+
+class Field;
 
 class SplitScreen : public Work {
 public:

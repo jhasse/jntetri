@@ -11,5 +11,5 @@ windows:
   stage: build
   script:
     - dnf install -y git meson mingw64-pkg-config mingw64-libvorbis mingw64-SDL2 mingw64-fontconfig mingw64-libjpeg-turbo mingw64-libwebp mingw64-boost mingw64-dlfcn mingw64-libepoxy mingw64-openal-soft wine-core gcc-c++
-    - meson build --buildtype release --cross-file mingw.ini --werror
+    - meson build --buildtype release --cross-file mingw.ini
     - ninja -C build

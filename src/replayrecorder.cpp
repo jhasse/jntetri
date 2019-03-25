@@ -1,5 +1,6 @@
 #include "replayrecorder.hpp"
-#include "field.hpp"
+
+#include "Field.hpp"
 #include "engine/options.hpp"
 
 #include <boost/bind.hpp>

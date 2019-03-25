@@ -47,7 +47,7 @@ src = [
 	'src/control.cpp',
 	'src/multiplayermenu.cpp',
 	'src/highscore.cpp',
-	'src/field.cpp',
+	'src/Field.cpp',
 	'src/replayrecorder.cpp',
 	'src/login.cpp',
 	'src/main.cpp',
