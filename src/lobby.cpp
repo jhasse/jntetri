@@ -11,8 +11,8 @@
 
 Lobby::Lobby(std::shared_ptr<Socket> socket)
 : socket_(socket), chatText_(""), input_(new Input(-700, 1100)) {
-	logout_.reset(new Button("Logout", boost::bind(&Lobby::OnLogout, this)));
-	play_.reset(new Button("Play!™", boost::bind(&Lobby::OnPlay, this)));
+	logout_.reset(new Button("Logout", [this]() { OnLogout(); }));
+	play_.reset(new Button("Play!™", [this]() { OnPlay(); }));
 	HandleReceive("");
 	addWidget(input_);
 	addWidget(logout_);
@@ -32,7 +32,7 @@ void Lobby::OnPlay() {
 void Lobby::step() {
 	socket_->Step();
 	if (jngl::keyPressed(jngl::key::Return)) {
-		socket_->Send(std::string("c") + input_->getText(), boost::bind(&Lobby::OnMessageSent, this));
+		socket_->Send(std::string("c") + input_->getText(), [this]() { OnMessageSent(); });
 		input_->setSensitive(false);
 	}
 	StepWidgets();
@@ -71,5 +71,5 @@ void Lobby::HandleReceive(std::string buf) {
 			break;
 		}
 	}
-	socket_->Receive(boost::bind(&Lobby::HandleReceive, this, _1));
+	socket_->Receive([this](std::string buf) { HandleReceive(buf); });
 }

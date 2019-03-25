@@ -23,19 +23,19 @@ void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callb
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
 : menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel"), socket_(new Socket) {
-	cancel_.Connect(boost::bind(&Login::OnCancel, this));
-	socket_->Connect(server_, port_, boost::bind(&Login::HandleConnect, this));
+	cancel_.Connect([this]() { OnCancel(); });
+	socket_->Connect(server_, port_, [this]() { HandleConnect(); });
 	cancel_.CenterAt(0, 200);
 }
 
 void Login::HandleConnect() {
 	text_ = "sending ...";
-	socket_->Send(protocolVersion_, boost::bind(&Login::ProtocolCheck1, this));
+	socket_->Send(protocolVersion_, [this]() { ProtocolCheck1(); });
 }
 
 void Login::ProtocolCheck1() {
 	text_ = "receiving ...";
-	socket_->Receive(boost::bind(&Login::ProtocolCheck2, this, _1));
+	socket_->Receive([this](std::string err) { ProtocolCheck2(err); });
 }
 
 void Login::ProtocolCheck2(std::string temp) {
@@ -46,7 +46,7 @@ void Login::ProtocolCheck2(std::string temp) {
 	} else {
 		std::stringstream sstream;
 		sstream << "login\n" << menu_->GetName() << "\n" << menu_->GetPassword();
-		socket_->Send(sstream.str(), boost::bind(&Login::HandleLogin1, this));
+		socket_->Send(sstream.str(), [this]() { HandleLogin1(); });
 	}
 }
 

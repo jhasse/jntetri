@@ -3,8 +3,6 @@
 #include "Field.hpp"
 #include "engine/options.hpp"
 
-#include <boost/bind.hpp>
-
 ReplayRecorder::ReplayRecorder(Field& field, const GameType gameType)
 : fout("testReplay.jtr"), field_(field), time_(0) {
 	fout << field_.getRandomSeed() << " " << getOptions().startLevel << " "

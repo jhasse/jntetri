@@ -3,17 +3,16 @@
 #include "../engine/paths.hpp"
 
 #include <boost/lexical_cast.hpp>
-#include <boost/bind.hpp>
 #include <jngl/all.hpp>
 
 Chooser::Chooser(int x, int y)
 	: previous_(""),
 	  next_(""), sprite_("chooser"), x_(x), y_(y)
 {
-	previous_.Connect(boost::bind(&Chooser::Previous, this));
+	previous_.Connect([this]() { Previous(); });
 	previous_.SetSprites("chooser_left", "chooser_left_over", "chooser_left_over");
 	previous_.CenterAt(x - jngl::getWidth(getPaths().getGraphics() + sprite_) / 2 - previous_.GetWidth() / 2, y);
-	next_.Connect(boost::bind(&Chooser::Next, this));
+	next_.Connect([this]() { Next(); });
 	next_.SetSprites("chooser_right", "chooser_right_over", "chooser_right_over");
 	next_.CenterAt(x + jngl::getWidth(getPaths().getGraphics() + sprite_) / 2 + next_.GetWidth() / 2, y);
 }
