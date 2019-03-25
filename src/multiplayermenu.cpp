@@ -1,21 +1,20 @@
-//ZUMYRDKTFFOVCNOVIRQDXXHWCQPUHPIMALEWEIVAGNXQJFKBFYZGMVFYXUJRFRCMFAFPMOTZFJZGHB
+#include "multiplayermenu.hpp"
+
 #include "engine/screen.hpp"
 #include "engine/procedure.hpp"
 #include "engine/fade.hpp"
 #include "engine/options.hpp"
 #include "menu.hpp"
-#ifndef WIZ
-#include "login.hpp"
-#endif
+#include "Login.hpp"
 
 #include <jngl/all.hpp>
 
 MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -200)), password_(new Input(50, -100)) {
 	addWidget(name_);
 	addWidget(password_);
-	login_.reset(new Button("Login", std::bind(&MultiplayerMenu::OnLogin, this)));
+	login_.reset(new Button("Login", [this]() { OnLogin(); }));
 	addWidget(login_);
-	back_.reset(new Button("Back", std::bind(&MultiplayerMenu::OnBack, this)));
+	back_.reset(new Button("Back", [this]() { OnBack(); }));
 	addWidget(back_);
 	back_->CenterAt(-350, 280);
 	login_->CenterAt(350, 280);

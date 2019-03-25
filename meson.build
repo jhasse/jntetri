@@ -49,7 +49,7 @@ src = [
 	'src/highscore.cpp',
 	'src/Field.cpp',
 	'src/replayrecorder.cpp',
-	'src/login.cpp',
+	'src/Login.cpp',
 	'src/main.cpp',
 	'src/replayplayer.cpp',
 	'src/block.cpp',
