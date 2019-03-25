@@ -1,4 +1,4 @@
-#include "replaycontrol.hpp"
+#include "ReplayControl.hpp"
 
 #include <fstream>
 #include <cassert>

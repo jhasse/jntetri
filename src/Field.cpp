@@ -2,7 +2,6 @@
 
 #include "engine/screen.hpp"
 #include "engine/options.hpp"
-#include "replaycontrol.hpp"
 
 #include <algorithm>
 #include <map>

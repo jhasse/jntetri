@@ -64,7 +64,7 @@ src = [
 	'src/gui/radiobutton.cpp',
 	'src/shadow.cpp',
 	'src/menu.cpp',
-	'src/replaycontrol.cpp',
+	'src/ReplayControl.cpp',
 	'src/tetromino.cpp',
 	'src/engine/screen.cpp',
 	'src/engine/work.cpp',

@@ -1,7 +1,7 @@
 #include "replayplayer.hpp"
 
-#include "replaycontrol.hpp"
 #include "Game.hpp"
+#include "ReplayControl.hpp"
 #include "engine/options.hpp"
 
 #include <jngl/input.hpp>
