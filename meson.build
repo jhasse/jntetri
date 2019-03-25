@@ -58,7 +58,7 @@ src = [
 	'src/splitscreen.cpp',
 	'src/gui/chooser.cpp',
 	'src/gui/input.cpp',
-	'src/gui/button.cpp',
+	'src/gui/Button.cpp',
 	'src/gui/ButtonBox.cpp',
 	'src/gui/widget.cpp',
 	'src/gui/radiobutton.cpp',

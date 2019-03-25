@@ -1,4 +1,4 @@
-#include "button.hpp"
+#include "Button.hpp"
 #include "../engine/paths.hpp"
 #include "../engine/screen.hpp"
 

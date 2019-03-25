@@ -3,9 +3,10 @@
 #include "engine/work.hpp"
 #include "engine/socket.hpp"
 #include "gui/input.hpp"
-#include "gui/button.hpp"
 
 #include <memory>
+
+class Button;
 
 class Lobby : public Work {
 public:

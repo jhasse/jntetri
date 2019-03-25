@@ -3,7 +3,7 @@
 #include "../engine/options.hpp"
 #include "../engine/screen.hpp"
 #include "../engine/procedure.hpp"
-#include "button.hpp"
+#include "Button.hpp"
 
 const int ButtonBox::spacing_ = 30;
 

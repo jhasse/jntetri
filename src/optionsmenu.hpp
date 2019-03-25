@@ -1,10 +1,11 @@
 #pragma once
 
 #include "engine/work.hpp"
-#include "gui/button.hpp"
 #include "gui/chooser.hpp"
 
 #include <vector>
+
+class Button;
 
 class OptionsMenu : public Work {
 public:

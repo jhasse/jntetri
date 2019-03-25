@@ -1,11 +1,12 @@
 #include "lobby.hpp"
-#include "engine/screen.hpp"
-#include "engine/fade.hpp"
 
-#include <boost/bind.hpp>
+#include "engine/fade.hpp"
 #include "engine/procedure.hpp"
+#include "engine/screen.hpp"
+#include "gui/Button.hpp"
 #include "multiplayermenu.hpp"
 
+#include <boost/bind.hpp>
 #include <jngl/all.hpp>
 
 Lobby::Lobby(std::shared_ptr<Socket> socket)

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "engine/work.hpp"
-#include "gui/button.hpp"
 #include "gui/input.hpp"
 
 #include <memory>
+
+class Button;
 
 class MultiplayerMenu : public Work {
 public:
