@@ -1,4 +1,4 @@
-#include "replayplayer.hpp"
+#include "ReplayPlayer.hpp"
 
 #include "Game.hpp"
 #include "ReplayControl.hpp"

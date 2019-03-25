@@ -51,7 +51,7 @@ src = [
 	'src/replayrecorder.cpp',
 	'src/Login.cpp',
 	'src/main.cpp',
-	'src/replayplayer.cpp',
+	'src/ReplayPlayer.cpp',
 	'src/block.cpp',
 	'src/Game.cpp',
 	'src/optionsmenu.cpp',
