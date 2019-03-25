@@ -1,9 +1,5 @@
 #pragma once
 
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0501
-#endif
-
 #include "engine/work.hpp"
 #include "engine/socket.hpp"
 #include "gui/Button.hpp"
@@ -28,6 +24,7 @@ public:
 	void HandleRegister1();
 	void HandleRegister2(std::string);
 	void GoToLobby();
+
 private:
 	std::shared_ptr<MultiplayerMenu> menu_;
 	std::string text_;

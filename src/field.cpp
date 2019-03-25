@@ -3,6 +3,7 @@
 #include "engine/options.hpp"
 #include "replaycontrol.hpp"
 
+#include <algorithm>
 #include <map>
 #include <set>
 #include <jngl/all.hpp>
