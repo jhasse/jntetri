@@ -7,7 +7,7 @@
 #include "optionsmenu.hpp"
 #include "engine/screen.hpp"
 #include "Game.hpp"
-#include "splitscreen.hpp"
+#include "SplitScreen.hpp"
 
 #include <jngl/all.hpp>
 #include <ctime>

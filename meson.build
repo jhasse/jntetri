@@ -55,7 +55,7 @@ src = [
 	'src/block.cpp',
 	'src/Game.cpp',
 	'src/optionsmenu.cpp',
-	'src/splitscreen.cpp',
+	'src/SplitScreen.cpp',
 	'src/gui/chooser.cpp',
 	'src/gui/input.cpp',
 	'src/gui/Button.cpp',

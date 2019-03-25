@@ -5,7 +5,6 @@
 #include "gui/Button.hpp"
 #include "multiplayermenu.hpp"
 
-#include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 
 class Login : public Work {

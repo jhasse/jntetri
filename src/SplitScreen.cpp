@@ -1,4 +1,4 @@
-#include "splitscreen.hpp"
+#include "SplitScreen.hpp"
 
 #include "engine/screen.hpp"
 #include "Field.hpp"
