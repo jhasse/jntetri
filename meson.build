@@ -53,7 +53,7 @@ src = [
 	'src/main.cpp',
 	'src/replayplayer.cpp',
 	'src/block.cpp',
-	'src/game.cpp',
+	'src/Game.cpp',
 	'src/optionsmenu.cpp',
 	'src/splitscreen.cpp',
 	'src/gui/chooser.cpp',

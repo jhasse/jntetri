@@ -6,7 +6,7 @@
 #include "gui/ButtonBox.hpp"
 #include "optionsmenu.hpp"
 #include "engine/screen.hpp"
-#include "game.hpp"
+#include "Game.hpp"
 #include "splitscreen.hpp"
 
 #include <jngl/all.hpp>

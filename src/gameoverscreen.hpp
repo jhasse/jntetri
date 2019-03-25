@@ -1,7 +1,6 @@
 #pragma once
 
 #include "engine/work.hpp"
-#include "game.hpp"
 #include "gui/input.hpp"
 #include "highscore.hpp"
 
@@ -10,6 +9,8 @@
 namespace jngl {
 	class Work;
 }
+
+class Game;
 
 class GameOverScreen : public Work {
 public:

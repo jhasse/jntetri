@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "Game.hpp"
 
 #include "engine/screen.hpp"
 #include "engine/procedure.hpp"
