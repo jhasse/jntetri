@@ -2,7 +2,6 @@
 #include "options.hpp"
 #include "screen.hpp"
 #include "../constants.hpp"
-#include "../intro.hpp"
 
 #include <jngl/all.hpp>
 #include <stdexcept>

@@ -1,7 +1,7 @@
 #include "engine/procedure.hpp"
 #include "engine/options.hpp"
 #include "engine/paths.hpp"
-#include "intro.hpp"
+#include "Intro.hpp"
 #include "engine/debugoverlay.hpp"
 
 #include <jngl/all.hpp>

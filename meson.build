@@ -42,7 +42,7 @@ jngl = subproject('jngl')
 
 src = [
 	'src/explosion.cpp',
-	'src/intro.cpp',
+	'src/Intro.cpp',
 	'src/lobby.cpp',
 	'src/control.cpp',
 	'src/multiplayermenu.cpp',
