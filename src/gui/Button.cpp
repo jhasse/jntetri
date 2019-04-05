@@ -27,8 +27,8 @@ void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
 	texture_ = normal;
 	textureMouseOver_ = mouseOver;
 	textureClicked_ = clicked;
-	width_ = jngl::getWidth(getPaths().getGraphics() + texture_);
-	height_ = jngl::getHeight(getPaths().getGraphics() + texture_);
+	width = jngl::getWidth(getPaths().getGraphics() + texture_) * jngl::getScaleFactor();
+	height = jngl::getHeight(getPaths().getGraphics() + texture_) * jngl::getScaleFactor();
 }
 
 void Button::CenterAt(const int xCenter, const int yCenter)
@@ -108,18 +108,8 @@ void Button::step() {
 
 bool Button::Mouseover() const {
 	const auto mousePos = jngl::getMousePos();
-	return (x - width_ / 2 <= mousePos.x && mousePos.x < (x + width_ / 2) &&
-	        y - height_ / 2 <= mousePos.y && mousePos.y < (y + height_ / 2));
-}
-
-int Button::GetHeight()
-{
-    return height_;
-}
-
-int Button::GetWidth()
-{
-    return width_;
+	return (x - width / 2 <= mousePos.x && mousePos.x < (x + width / 2) &&
+	        y - height / 2 <= mousePos.y && mousePos.y < (y + height / 2));
 }
 
 void Button::Connect(std::function<void()> callback) {

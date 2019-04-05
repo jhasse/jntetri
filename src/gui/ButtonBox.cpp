@@ -21,10 +21,12 @@ void ButtonBox::add(const std::string& text, std::function<void()> function) {
 	buttons_.push_back(std::make_shared<Button>(text, function));
 
 	auto end = buttons_.end();
-	int yPosButton = yCenter_ - (buttons_.size() * (buttons_[0]->GetHeight() + spacing_) - spacing_) / 2 + buttons_[0]->GetHeight() / 2;
+	int yPosButton = yCenter_ -
+	                 (buttons_.size() * (buttons_[0]->getHeight() + spacing_) - spacing_) / 2 +
+	                 buttons_[0]->getHeight() / 2;
 	for (auto it = buttons_.begin(); it != end; ++it) {
 		(*it)->CenterAt(xCenter_, yPosButton);
-		yPosButton += buttons_[0]->GetHeight() + spacing_;
+		yPosButton += buttons_[0]->getHeight() + spacing_;
 	}
 }
 

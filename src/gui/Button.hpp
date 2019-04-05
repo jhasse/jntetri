@@ -14,17 +14,15 @@ public:
     void draw() const override;
     void step() override;
     bool Mouseover() const;
-    int GetHeight();
-    int GetWidth();
     void CenterAt(int xCenter, int yCenter);
 	void Connect(std::function<void()> callback);
+
 private:
     std::string text_;
 	int mousepos_;
 	int mouseoverAlpha_;
 	std::function<void()> callback_;
     bool clicked_;
-    int width_, height_;
 	std::string texture_;
 	std::string textureMouseOver_;
 	std::string textureClicked_;

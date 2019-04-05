@@ -1,7 +1,5 @@
 #include "widget.hpp"
 
-Widget::~Widget() = default;
-
 bool Widget::getSensitive() const {
 	return sensitive;
 }
