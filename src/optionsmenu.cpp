@@ -35,8 +35,8 @@ void OptionsMenu::step() {
 void OptionsMenu::draw() const {
 	DrawWidgets();
 	jngl::setFontColor(0, 0, 0);
-	GetScreen().PrintCentered("Start Level", 0, -500);
-	GetScreen().PrintCentered("Start Junks", 0, -100);
+	GetScreen().printCentered("Start Level", { 0, -500 });
+	GetScreen().printCentered("Start Junks", { 0, -100 });
 }
 
 void OptionsMenu::OnBack() const {

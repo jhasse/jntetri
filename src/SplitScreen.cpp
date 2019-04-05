@@ -57,5 +57,5 @@ void SplitScreen::draw() const {
 	std::stringstream sstream;
 	sstream << wins1 << " : " << wins2;
 	jngl::setFontSize(140);
-	GetScreen().PrintCentered(sstream.str(), 0, 0);
+	GetScreen().printCentered(sstream.str(), { 0, 0 });
 }

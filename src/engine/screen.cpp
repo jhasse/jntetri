@@ -40,11 +40,10 @@ Screen& GetScreen() {
 	return *Screen::handle();
 }
 
-void Screen::PrintCentered(const std::string& text, double x, double y)
-{
+void Screen::printCentered(const std::string& text, const jngl::Vec2 center) {
 	jngl::print(text,
-	            static_cast<int>((x - jngl::getTextWidth(text) / 2)),
-	            static_cast<int>(y) - jngl::getFontSize() / 2);
+	            static_cast<int>((center.x - jngl::getTextWidth(text) / 2)),
+	            static_cast<int>(center.y) - jngl::getFontSize() / 2);
 }
 
 void Screen::DrawScaled(const std::string& filename, const double x, const double y, const float factor)

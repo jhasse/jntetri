@@ -67,17 +67,17 @@ void GameOverScreen::draw() const {
 	game_->draw();
 	jngl::setFontSize(80);
 	jngl::setFontColor(0, 0, 0);
-	GetScreen().PrintCentered("GAMEOVER", 0, -100);
+	GetScreen().printCentered("GAMEOVER", { 0, -100 });
 	if (game_->GameOverAnimationFinished()) {
 		jngl::setFontSize(50);
 		if (isHighscore()) {
 			jngl::setFontColor(0, 0, 0);
-			GetScreen().PrintCentered("You entered the top!", 0, 50);
-			GetScreen().PrintCentered("Enter your name:", 0, 130);
+			GetScreen().printCentered("You entered the top!", { 0, 50 });
+			GetScreen().printCentered("Enter your name:", { 0, 130 });
 			DrawWidgets();
 		} else {
 			jngl::setFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
-			GetScreen().PrintCentered("Press any key", 0, 100);
+			GetScreen().printCentered("Press any key", { 0, 100 });
 		}
 	}
 }

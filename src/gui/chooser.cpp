@@ -1,19 +1,20 @@
 #include "chooser.hpp"
+
 #include "../engine/screen.hpp"
 #include "../engine/paths.hpp"
 
 #include <jngl/all.hpp>
 
-Chooser::Chooser(int x, int y)
-	: previous_(""),
-	  next_(""), sprite_("chooser"), x_(x), y_(y)
-{
+Chooser::Chooser(const int x, const int y) : previous_(""), next_(""), sprite_(getPaths().getGraphics() + "chooser") {
+	width = jngl::getWidth(sprite_) * jngl::getScaleFactor();
+	height = jngl::getHeight(sprite_) * jngl::getScaleFactor();
+	setCenter(x, y);
 	previous_.Connect([this]() { Previous(); });
 	previous_.SetSprites("chooser_left", "chooser_left_over", "chooser_left_over");
-	previous_.CenterAt(x - jngl::getWidth(getPaths().getGraphics() + sprite_) / 2 - previous_.GetWidth() / 2, y);
+	previous_.CenterAt(x - jngl::getWidth(sprite_) / 2 - previous_.GetWidth() / 2, y);
 	next_.Connect([this]() { Next(); });
 	next_.SetSprites("chooser_right", "chooser_right_over", "chooser_right_over");
-	next_.CenterAt(x + jngl::getWidth(getPaths().getGraphics() + sprite_) / 2 + next_.GetWidth() / 2, y);
+	next_.CenterAt(x + jngl::getWidth(sprite_) / 2 + next_.GetWidth() / 2, y);
 }
 
 void Chooser::AddValue(int v)
@@ -38,10 +39,10 @@ void Chooser::step() {
 }
 
 void Chooser::draw() const {
-	GetScreen().DrawCentered(sprite_, x_, y_);
+	jngl::draw(sprite_, getX(), getY());
 	jngl::setFontSize(70);
 	jngl::setFontColor(255, 255, 255);
-	GetScreen().PrintCentered(std::to_string(*activeValue_), x_, y_);
+	GetScreen().printCentered(std::to_string(*activeValue_), getCenter<jngl::Vec2>());
 	previous_.draw();
 	next_.draw();
 }

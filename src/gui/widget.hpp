@@ -1,8 +1,10 @@
 #pragma once
 
+#include <jngl/drawable.hpp>
+
 class Work;
 
-class Widget {
+class Widget : public jngl::Drawable {
 public:
 	virtual ~Widget();
 	virtual void step() = 0;

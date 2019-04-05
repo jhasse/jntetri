@@ -1,4 +1,5 @@
 #include "Button.hpp"
+
 #include "../engine/paths.hpp"
 #include "../engine/screen.hpp"
 
@@ -7,14 +8,12 @@
 
 const int Button::fontSize_ = 70;
 
-Button::Button(const std::string& text)
-	: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0), clicked_(false)
-{
+Button::Button(const std::string& text) : text_(text), mouseoverAlpha_(0), clicked_(false) {
 	SetSprites("button", "button_over", "button_clicked");
 }
 
 Button::Button(const std::string& text, std::function<void()> callback)
-: text_(text), xPos_(0), yPos_(0), mouseoverAlpha_(0), callback_(callback), clicked_(false) {
+: text_(text), mouseoverAlpha_(0), callback_(callback), clicked_(false) {
 	SetSprites("button", "button_over", "button_clicked");
 }
 
@@ -34,8 +33,8 @@ void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
 
 void Button::CenterAt(const int xCenter, const int yCenter)
 {
-	xPos_ = xCenter;
-	yPos_ = yCenter;
+	x = xCenter;
+	y = yCenter;
 	jngl::setFontSize(fontSize_);
 }
 
@@ -45,30 +44,27 @@ void Button::draw() const {
 	{
 		alpha -= 100;
 	}
-	GetScreen().DrawCenteredScaled(texture_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
+	GetScreen().DrawCenteredScaled(texture_, x, y, 1.0f + (alpha / 6000.0f));
     if(focus)
     {
-		GetScreen().DrawCentered(textureMouseOver_, xPos_, yPos_);
+		GetScreen().DrawCentered(textureMouseOver_, x, y);
     }
 	jngl::setSpriteColor(255, 255, 255, alpha);
 	jngl::pushMatrix();
-	GetScreen().DrawCenteredScaled(textureMouseOver_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
+	GetScreen().DrawCenteredScaled(textureMouseOver_, x, y, 1.0f + (alpha / 6000.0f));
 	jngl::popMatrix();
 	jngl::setSpriteColor(255, 255, 255, 255);
     if(clicked_)
     {
-    	GetScreen().DrawCenteredScaled(textureClicked_, xPos_, yPos_, 1.0f + (alpha / 6000.0f));
+    	GetScreen().DrawCenteredScaled(textureClicked_, x, y, 1.0f + (alpha / 6000.0f));
     }
     jngl::setFontColor(255, 255, 255);
     jngl::setFontSize(fontSize_);
-    if(!clicked_)
-    {
-		GetScreen().PrintCentered(text_, xPos_, yPos_);
-    }
-    else
-    {
-    	GetScreen().PrintCentered(text_, xPos_ + 5, yPos_ + 5);
-    }
+	if (!clicked_) {
+		GetScreen().printCentered(text_, { x, y });
+	} else {
+		GetScreen().printCentered(text_, { x + 5, y + 5 });
+	}
 }
 
 void Button::step() {
@@ -112,8 +108,8 @@ void Button::step() {
 
 bool Button::Mouseover() const {
 	const auto mousePos = jngl::getMousePos();
-	return (xPos_ - width_ / 2 <= mousePos.x && mousePos.x < (xPos_ + width_ / 2) &&
-	        yPos_ - height_ / 2 <= mousePos.y && mousePos.y < (yPos_ + height_ / 2));
+	return (x - width_ / 2 <= mousePos.x && mousePos.x < (x + width_ / 2) &&
+	        y - height_ / 2 <= mousePos.y && mousePos.y < (y + height_ / 2));
 }
 
 int Button::GetHeight()

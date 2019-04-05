@@ -21,6 +21,4 @@ private:
 	Button previous_;
 	Button next_;
 	std::string sprite_;
-	int x_;
-	int y_;
 };

@@ -20,7 +20,8 @@ public:
 	void Connect(std::function<void()> callback);
 private:
     std::string text_;
-    int xPos_, yPos_, mousepos_, mouseoverAlpha_;
+	int mousepos_;
+	int mouseoverAlpha_;
 	std::function<void()> callback_;
     bool clicked_;
     int width_, height_;

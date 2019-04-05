@@ -15,7 +15,7 @@ Intro::Intro() : blink_(0), finished_(false) {
 void Intro::draw() const {
 	jngl::setFontSize(250);
 	jngl::setFontColor(50, 50, 50);
-	GetScreen().PrintCentered("JNTETRI", 0, -250);
+	GetScreen().printCentered("JNTETRI", { 0, -250 });
 	jngl::setFontSize(60);
 
 	jngl::pushMatrix();
@@ -24,17 +24,17 @@ void Intro::draw() const {
 	if (resizeGraphics_.isFinished(percentage)) {
 		finished_ = true;
 		jngl::setFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
-		GetScreen().PrintCentered("Press any key to continue", 0, 0);
+		GetScreen().printCentered("Press any key to continue", { 0, 0 });
 	} else {
-		GetScreen().PrintCentered(std::to_string(int(percentage)) + " %", 0, 0);
+		GetScreen().printCentered(std::to_string(int(percentage)) + " %", { 0, 0 });
 	}
 	jngl::popMatrix();
 
 	jngl::setFontColor(100, 100, 100, 255);
 	jngl::setFontSize(35);
-	GetScreen().PrintCentered(programVersion, 0, 360);
-	GetScreen().PrintCentered("https://bixense.itch.io/jntetri", 0, 430);
-	GetScreen().PrintCentered("Copyright 2009-2019 bixense.com", 0, 500);
+	GetScreen().printCentered(programVersion, { 0, 360 });
+	GetScreen().printCentered("https://bixense.itch.io/jntetri", { 0, 430 });
+	GetScreen().printCentered("Copyright 2009-2019 bixense.com", { 0, 500 });
 }
 
 void Intro::step() {
