@@ -7,21 +7,17 @@
 class Paths : public Singleton<Paths> {
 public:
 	Paths();
-	std::string getResolutionGraphics() const;
 	std::string getData() const;
 
 	std::string getGraphics();
 	void setGraphics(const std::string&);
 
 	std::string getPrefix();
-	void setPrefix(const std::string&);
 
 	std::string getConfig();
 
-	std::string getOriginalGfx() const;
 	void setOriginalGfx(const std::string&);
 
-	std::string getFonts() const;
 private:
 	std::string prefix;
 	std::string configPath;

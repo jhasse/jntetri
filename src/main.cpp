@@ -1,6 +1,5 @@
 #include "engine/procedure.hpp"
 #include "engine/options.hpp"
-#include "engine/paths.hpp"
 #include "Intro.hpp"
 #include "engine/debugoverlay.hpp"
 
@@ -16,7 +15,7 @@ JNGL_MAIN_BEGIN {
 			GetProcedure().ShowWindow();
 		}
 		jngl::setAntiAliasing(true);
-		jngl::setIcon(getPaths().getPrefix() + "share/icons/jntetri.png");
+		jngl::setIcon("share/icons/jntetri.png");
 		jngl::setWork(std::make_shared<Intro>());
 		jngl::setFontSize(jngl::getScaleFactor() * 13);
 		jngl::addJob(std::make_shared<DebugOverlay>());

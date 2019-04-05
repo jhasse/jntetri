@@ -23,13 +23,7 @@
 		namespace fs = boost::filesystem;
 	#endif
 #endif
-#include <boost/lexical_cast.hpp>
-#include <boost/format.hpp>
 #include <jngl.hpp>
-
-std::string Paths::getResolutionGraphics() const {
-	return (boost::format("%1%gfx/%2%x%3%/") % getData() % jngl::getScreenWidth() % jngl::getScreenHeight()).str();
-}
 
 #ifndef __IPHONE_OS_VERSION_MIN_REQUIRED
 Paths::Paths() {
@@ -73,10 +67,6 @@ std::string Paths::getGraphics() {
 	return graphics;
 }
 
-std::string Paths::getFonts() const {
-	return getData() + "fonts/";
-}
-
 void Paths::setGraphics(const std::string& g) {
 	graphics = g;
 }
@@ -97,16 +87,8 @@ std::string Paths::getPrefix() {
 	return prefix;
 }
 
-std::string Paths::getOriginalGfx() const {
-	return originalGfx;
-}
-
 void Paths::setOriginalGfx(const std::string& o) {
 	originalGfx = o;
-}
-
-void Paths::setPrefix(const std::string& p) {
-	prefix = p + "/";
 }
 
 Paths& getPaths() {
