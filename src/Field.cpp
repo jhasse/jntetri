@@ -12,11 +12,10 @@ const int Field::width_ = 11;
 const int Field::height_ = 19;
 
 Field::Field(int seed)
-	: blockSize_(60), counter_(0), gameOver_(false), score_(0),
-	  level_(getOptions().startLevel), lines_(0), maxY_(0),
-	  pause_(false), control_(new Control{std::make_shared<KeyboardControl>(),
-	  std::make_shared<GamepadControl>(0)}),
-	  randomSeed(seed), linesCleared(0) {
+: blockSize_(60), counter_(0), gameOver_(false), score_(0), level_(getOptions().startLevel),
+  lines_(0), maxY_(0), pause_(false),
+  control_(new Control{ std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0) }),
+  randomSeed(seed), linesCleared(0) {
 	random.seed(seed);
 	NewTetromino();
 	NewTetromino();
@@ -28,7 +27,8 @@ Field::Field(int seed)
 		int leaveOut = dist(random);
 		for (int x = 0; x < width_; ++x) {
 			if (x != leaveOut) {
-				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
+				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom),
+				                  colorDist(colorRandom));
 				AddBlock(Block(x, i, color));
 			}
 		}
@@ -52,7 +52,8 @@ void Field::addJunk(int nr) {
 		int leaveOut = dist(random);
 		for (int x = 0; x < width_; ++x) {
 			if (x != leaveOut) {
-				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom), colorDist(colorRandom));
+				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom),
+				                  colorDist(colorRandom));
 				Block block(x, i, color);
 				block.setAnimationY(-nr);
 				AddBlock(block);
@@ -73,39 +74,42 @@ void Field::step() {
 	--counter_;
 	if (gameOver_ && counter_ <= 0 && !blocks_.empty()) {
 		counter_ = 5;
-		std::vector<Block>::iterator randomBlock = blocks_.begin() + std::uniform_int_distribution<int>(0, blocks_.size()-1)(random);
+		std::vector<Block>::iterator randomBlock =
+		    blocks_.begin() + std::uniform_int_distribution<int>(0, blocks_.size() - 1)(random);
 		explosions_.push_back(Explosion(*randomBlock, 1));
 		blocks_.erase(randomBlock);
 	}
 	if (!gameOver_) {
 		secondsPlayed += 1. / double(jngl::getStepsPerSecond());
-		control_->step();
-		linesCleared = 0;
-		if (counter_ <= 0) {
-			ResetCounter();
-			if (!tetromino_->MoveDown()) {
-				if (delay_) {
-					NewTetromino();
-					delay_ = false;
+		if (control_->step()) {
+			linesCleared = 0;
+			if (counter_ <= 0) {
+				ResetCounter();
+				if (!tetromino_->MoveDown()) {
+					if (delay_) {
+						NewTetromino();
+						delay_ = false;
+					} else {
+						counter_ = 30; // Wait 0.3 seconds so that it's possible to move blocks
+						               // below others
+						delay_ = true;
+					}
 				} else {
-					counter_ = 30; // Wait 0.3 seconds so that it's possible to move blocks below others
-					delay_ = true;
+					delay_ = false;
+				}
+			}
+			tetromino_->Step();
+			if (control_->Check(ControlType::Drop)) {
+				tetromino_->drop();
+				NewTetromino();
+			}
+			if (control_->Check(ControlType::Down)) {
+				if (downKeyReleased_ && counter_ > 7) {
+					counter_ = 7;
 				}
 			} else {
-				delay_ = false;
+				downKeyReleased_ = true;
 			}
-		}
-		tetromino_->Step();
-		if (control_->Check(ControlType::Drop)) {
-			tetromino_->drop();
-			NewTetromino();
-		}
-		if (control_->Check(ControlType::Down)) {
-			if (downKeyReleased_ && counter_ > 7) {
-				counter_ = 7;
-			}
-		} else {
-			downKeyReleased_ = true;
 		}
 	}
 
@@ -120,13 +124,14 @@ void Field::step() {
 	for (auto& e : explosions_) {
 		e.Step();
 	}
-	explosions_.erase(std::remove_if(explosions_.begin(), explosions_.end(), [](const Explosion& e) {
-		return e.isFinished();
-	}), explosions_.end());
+	explosions_.erase(std::remove_if(explosions_.begin(), explosions_.end(),
+	                                 [](const Explosion& e) { return e.isFinished(); }),
+	                  explosions_.end());
 }
 
 void Field::CheckLines() {
-	std::set<int> linesToRemove; // We need to sort the lines so that they are removed from top to bottom
+	std::set<int>
+	    linesToRemove; // We need to sort the lines so that they are removed from top to bottom
 	std::map<int, int> blocksInLine;
 	for (const auto& block : blocks_) {
 		if (++blocksInLine[block.getY()] == width_) {
@@ -157,11 +162,9 @@ void Field::NewTetromino() {
 
 	if (tetromino_) {
 		const int xPositions[] = { 5, 6, 4, 7, 3, 8, 2, 9, 1, 10, 0 };
-		for(int i = 0; i < 11; ++i)
-		{
+		for (int i = 0; i < 11; ++i) {
 			tetromino_->SetX(xPositions[i]);
-			if(!tetromino_->Collided())
-			{
+			if (!tetromino_->Collided()) {
 				return;
 			}
 		}
@@ -172,25 +175,21 @@ void Field::NewTetromino() {
 	}
 }
 
-bool Field::GameOver() const
-{
+bool Field::GameOver() const {
 	return gameOver_;
 }
 
-void Field::Translate(const double x, const double y) const
-{
-	jngl::translate(-double(width_ * blockSize_) / 2.0 + (x + 0.5) * blockSize_, height_ * blockSize_ - y * blockSize_);
+void Field::Translate(const double x, const double y) const {
+	jngl::translate(-double(width_ * blockSize_) / 2.0 + (x + 0.5) * blockSize_,
+	                height_ * blockSize_ - y * blockSize_);
 }
 
-int Field::GetNextPosition() const
-{
+int Field::GetNextPosition() const {
 	int nextPosition = 900 - (maxY_ - 4) * blockSize_;
-	if(nextPosition > 900)
-	{
+	if (nextPosition > 900) {
 		return 900;
 	}
-	if(nextPosition < 175)
-	{
+	if (nextPosition < 175) {
 		return 175;
 	}
 	return nextPosition;
@@ -203,23 +202,20 @@ void Field::drawNextTetromino() const {
 
 void Field::draw() const {
 	GetScreen().DrawCentered("field", 0, 600);
-	if(!pause_)
-	{
+	if (!pause_) {
 		jngl::pushMatrix();
 		Translate(0, 0);
 		std::vector<Block>::const_iterator end = blocks_.end();
-		for(std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it)
-		{
+		for (std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it) {
 			it->draw();
 		}
 		std::vector<Explosion>::const_iterator end2 = explosions_.end();
-		for(std::vector<Explosion>::const_iterator it = explosions_.begin(); it != end2; ++it)
-		{
+		for (std::vector<Explosion>::const_iterator it = explosions_.begin(); it != end2; ++it) {
 			it->Draw();
 		}
 		auto end3 = shadows.end();
 		for (auto it = shadows.begin(); it != end3; ++it) {
-//			it->draw();
+			//			it->draw();
 		}
 		jngl::popMatrix();
 		if (!gameOver_) {
@@ -230,10 +226,8 @@ void Field::draw() const {
 
 Block* Field::getBlock(int x, int y) {
 	auto end = blocks_.end();
-	for(auto it = blocks_.begin(); it != end; ++it)
-	{
-		if(x == it->getX() && y == it->getY())
-		{
+	for (auto it = blocks_.begin(); it != end; ++it) {
+		if (x == it->getX() && y == it->getY()) {
 			return &(*it);
 		}
 	}
@@ -290,13 +284,11 @@ void Field::removeLine(const int y, const int numberOfLines) {
 	--maxY_;
 }
 
-int Field::GetScore() const
-{
+int Field::GetScore() const {
 	return score_;
 }
 
-int Field::GetLines() const
-{
+int Field::GetLines() const {
 	return lines_;
 }
 
@@ -334,7 +326,7 @@ int Field::getRandomSeed() const {
 }
 
 void Field::addShadow(int x, int y) {
-	shadows.emplace_back(x, y, getBlock(x, y-1));
+	shadows.emplace_back(x, y, getBlock(x, y - 1));
 }
 
 void Field::clearShadows() {

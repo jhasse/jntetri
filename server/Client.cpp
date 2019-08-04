@@ -55,12 +55,16 @@ void Client::run() {
 				char command;
 				sstream.get(command);
 				switch (command) {
-					case 'c':
+					case 'c': {
 						std::string text;
 						std::getline(sstream, text);
 						std::string newChatLine = user + ": " + text;
 						server.addChatLine(newChatLine);
 						std::cout << "Received from " << user << ": " << text << std::endl;
+						break;
+					}
+					case 'p':
+						server.startMatchmaking(shared_from_this());
 						break;
 				}
 			}
@@ -70,4 +74,8 @@ void Client::run() {
 	} else {
 		throw std::runtime_error("Unknown command '" + command + "'.");
 	}
+}
+
+void Client::setOpponent(std::shared_ptr<Client> opponent) {
+	this->opponent = std::move(opponent);
 }

@@ -23,7 +23,9 @@ enum class ControlType {
 class ControlBase {
 public:
 	virtual ~ControlBase();
-	virtual void step(const std::function<void(ControlType)>&) = 0;
+
+	/// Returns false when no new commands are coming in (e.g. network issues).
+	virtual bool step(const std::function<void(ControlType)>&) = 0;
 
 protected:
 };
@@ -33,7 +35,10 @@ public:
 	Control(std::initializer_list<std::shared_ptr<ControlBase>>);
 	virtual ~Control();
 	bool Check(ControlType);
-	void step();
+
+	/// Returns false when no new commands are coming in (e.g. network issues).
+	bool step();
+
 	void forEach(const std::function<void(ControlType)>&);
 
 protected:
@@ -43,13 +48,13 @@ protected:
 
 class KeyboardControl : public ControlBase {
 public:
-	void step(const std::function<void(ControlType)>&) override;
+	bool step(const std::function<void(ControlType)>&) override;
 };
 
 class GamepadControl : public ControlBase {
 public:
 	GamepadControl(size_t number);
-	void step(const std::function<void(ControlType)>&) override;
+	bool step(const std::function<void(ControlType)>&) override;
 
 private:
 	std::shared_ptr<jngl::Controller> controller;

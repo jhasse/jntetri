@@ -60,3 +60,30 @@ void Server::addChatLine(std::string line) {
 		                               });
 	}
 }
+
+void Server::startMatchmaking(std::shared_ptr<Client> client) {
+	std::lock_guard<std::mutex> lock(matchmakingMutex);
+	if (matchmaking.empty()) {
+		matchmaking.emplace_back(client);
+	} else {
+		// Found opponent. Let's send p back to both clients so that the game starts.
+		matchmaking.back()->setOpponent(client);
+		client->setOpponent(matchmaking.back());
+		matchmaking.back()->getSocket().async_send(
+		    boost::asio::buffer("p\b"), [](const boost::system::error_code& err, size_t bytesSent) {
+			    if (err) {
+				    std::cerr << "Couldn't send 'p' to client." << std::endl;
+			    } else {
+				    std::cout << "Sent " << bytesSent << " bytes." << std::endl;
+			    }
+		    });
+		client->getSocket().async_send(
+		    boost::asio::buffer("p\b"), [](const boost::system::error_code& err, size_t bytesSent) {
+			    if (err) {
+				    std::cerr << "Couldn't send 'p' to client." << std::endl;
+			    } else {
+				    std::cout << "Sent " << bytesSent << " bytes." << std::endl;
+			    }
+		    });
+	}
+}
