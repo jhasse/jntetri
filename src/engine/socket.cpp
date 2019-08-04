@@ -22,15 +22,19 @@ void CallbackWrapper(const boost::system::error_code& err, std::function<void()>
 
 void Socket::Connect(const std::string& server, int port, std::function<void()> onSuccess) {
 	using boost::asio::ip::tcp;
-	tcp::resolver resolver(io_);
+	auto resolver = std::make_shared<tcp::resolver>(io_);
 	tcp::resolver::query query(server, "http");
-	resolver.async_resolve(query, [this, port, onSuccess](const boost::system::error_code& err,
-	                                                      boost::asio::ip::tcp::resolver::iterator endpointIterator) {
+	resolver->async_resolve(query, [this, port, resolver,
+	                                onSuccess](const boost::system::error_code& err,
+	                                           tcp::resolver::iterator endpointIterator) {
 		if (err) {
-			throw std::runtime_error("resolve error");
+			std::ostringstream sstream;
+			sstream << "resolve error " << err.value() << " [" << err.category().name() << "]";
+			throw std::runtime_error(sstream.str());
 		}
 		tcp::endpoint endpoint(endpointIterator->endpoint().address(), port);
-		socket_.async_connect(endpoint, boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
+		socket_.async_connect(
+		    endpoint, boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
 	});
 }
 

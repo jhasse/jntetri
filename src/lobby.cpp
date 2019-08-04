@@ -10,15 +10,16 @@
 #include <jngl/all.hpp>
 
 Lobby::Lobby(std::shared_ptr<Socket> socket)
-: socket_(socket), chatText_(""), input_(new Input(-700, 1100)) {
+: socket_(socket), chatText_(""), input_(new Input(-700, 500)) {
 	logout_.reset(new Button("Logout", [this]() { OnLogout(); }));
 	play_.reset(new Button("Play!™", [this]() { OnPlay(); }));
 	HandleReceive("");
+	input_->setMaxWidth(2500);
 	addWidget(input_);
 	addWidget(logout_);
 	addWidget(play_);
-	logout_->CenterAt(-450, 150);
-	play_->CenterAt(450, 150);
+	logout_->CenterAt(-450, -450);
+	play_->CenterAt(450, -450);
 }
 
 void Lobby::OnLogout() {
@@ -46,7 +47,7 @@ void Lobby::OnMessageSent() {
 void Lobby::draw() const {
 	jngl::setFontColor(0, 0, 0);
 	jngl::setFontSize(35);
-	jngl::print(chatText_, -700, 350);
+	jngl::print(chatText_, -700, -250);
 	DrawWidgets();
 }
 

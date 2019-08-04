@@ -39,6 +39,7 @@ if get_option('buildtype') == 'release'
 endif
 
 jngl = subproject('jngl')
+spdlog_dep = subproject('spdlog', default_options : ['tests=false']).get_variable('spdlog_dep')
 
 src = [
 	'src/explosion.cpp',
@@ -90,6 +91,7 @@ executable(
 		dependency('threads'),
 		boost_dep,
 		subproject('cereal').get_variable('cereal_dep'),
+		spdlog_dep,
 	],
 	include_directories : [
 		jngl.get_variable('include'),

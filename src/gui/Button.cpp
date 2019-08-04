@@ -17,13 +17,12 @@ Button::Button(const std::string& text, std::function<void()> callback)
 	SetSprites("button", "button_over", "button_clicked");
 }
 
-void Button::SetText(const std::string& text)
-{
+void Button::SetText(const std::string& text) {
 	text_ = text;
 }
 
-void Button::SetSprites(const std::string& normal, const std::string& mouseOver, const std::string& clicked)
-{
+void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
+                        const std::string& clicked) {
 	texture_ = normal;
 	textureMouseOver_ = mouseOver;
 	textureClicked_ = clicked;
@@ -31,8 +30,7 @@ void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
 	height = jngl::getHeight(getPaths().getGraphics() + texture_) * jngl::getScaleFactor();
 }
 
-void Button::CenterAt(const int xCenter, const int yCenter)
-{
+void Button::CenterAt(const int xCenter, const int yCenter) {
 	x = xCenter;
 	y = yCenter;
 	jngl::setFontSize(fontSize_);
@@ -40,26 +38,23 @@ void Button::CenterAt(const int xCenter, const int yCenter)
 
 void Button::draw() const {
 	int alpha = mouseoverAlpha_;
-	if(clicked_)
-	{
+	if (clicked_) {
 		alpha -= 100;
 	}
 	GetScreen().DrawCenteredScaled(texture_, x, y, 1.0f + (alpha / 6000.0f));
-    if(focus)
-    {
+	if (focus) {
 		GetScreen().DrawCentered(textureMouseOver_, x, y);
-    }
+	}
 	jngl::setSpriteColor(255, 255, 255, alpha);
 	jngl::pushMatrix();
 	GetScreen().DrawCenteredScaled(textureMouseOver_, x, y, 1.0f + (alpha / 6000.0f));
 	jngl::popMatrix();
 	jngl::setSpriteColor(255, 255, 255, 255);
-    if(clicked_)
-    {
-    	GetScreen().DrawCenteredScaled(textureClicked_, x, y, 1.0f + (alpha / 6000.0f));
-    }
-    jngl::setFontColor(255, 255, 255);
-    jngl::setFontSize(fontSize_);
+	if (clicked_) {
+		GetScreen().DrawCenteredScaled(textureClicked_, x, y, 1.0f + (alpha / 6000.0f));
+	}
+	jngl::setFontColor(255, 255, 255);
+	jngl::setFontSize(fontSize_);
 	if (!clicked_) {
 		GetScreen().printCentered(text_, { x, y });
 	} else {
@@ -68,48 +63,39 @@ void Button::draw() const {
 }
 
 void Button::step() {
-	if(!jngl::mouseDown())
-	{
+	if (!jngl::mouseDown()) {
 		clicked_ = false;
 	}
 	const int alphaSpeed = 20;
-	if(focus)
-	{
+	if (focus) {
 		if (jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
 			clicked_ = true;
 			callback_();
 		}
 	}
-	if(Mouseover())
-	{
-		if(mouseoverAlpha_ < 255)
-		{
+	if (Mouseover()) {
+		if (mouseoverAlpha_ < 255) {
 			mouseoverAlpha_ += alphaSpeed;
 		}
-		if(jngl::mousePressed())
-		{
+		if (jngl::mousePressed()) {
 			clicked_ = true;
 			callback_();
 		}
-	}
-	else if(mouseoverAlpha_ > 0)
-	{
+	} else if (mouseoverAlpha_ > 0) {
 		mouseoverAlpha_ -= alphaSpeed;
 	}
-	if(mouseoverAlpha_ > 255)
-	{
+	if (mouseoverAlpha_ > 255) {
 		mouseoverAlpha_ = 255;
 	}
-	if(mouseoverAlpha_ < 0)
-	{
+	if (mouseoverAlpha_ < 0) {
 		mouseoverAlpha_ = 0;
 	}
 }
 
 bool Button::Mouseover() const {
 	const auto mousePos = jngl::getMousePos();
-	return (x - width / 2 <= mousePos.x && mousePos.x < (x + width / 2) &&
-	        y - height / 2 <= mousePos.y && mousePos.y < (y + height / 2));
+	return (x - getWidth() / 2 <= mousePos.x && mousePos.x < (x + getWidth() / 2) &&
+	        y - getHeight() / 2 <= mousePos.y && mousePos.y < (y + getHeight() / 2));
 }
 
 void Button::Connect(std::function<void()> callback) {
