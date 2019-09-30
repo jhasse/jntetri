@@ -4,10 +4,6 @@ Make sure you clone recursively or check out the submodules using `git submodule
 
 ## Windows
 
-Open `JNTETRI.sln` with Visual Studio and press F5.
-
-### MSYS2:
-
 ```
 pacman -S mingw-w64-x86_64-SDL2
 ```
