@@ -43,7 +43,7 @@ ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
 
 	const std::string origGfx = getPaths().getData() + "gfx/x" + std::to_string(originalSize_) + "/";
 	getPaths().setOriginalGfx(origGfx);
-	jngl::setScaleFactor(jngl::Float(jngl::getWindowHeight())/jngl::Float(originalSize_));
+	jngl::setScaleFactor(double(jngl::getWindowHeight()) / double(originalSize_));
 	getPaths().setGraphics(origGfx);
 	ScanPath(jngl::getPrefix() + getPaths().getData() + "gfx/x" + std::to_string(originalSize_), filesToResize_);
 }

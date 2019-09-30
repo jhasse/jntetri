@@ -9,6 +9,7 @@ JNGL_MAIN_BEGIN {
 #ifdef NDEBUG
 	try {
 #endif
+		jngl::App app("JNTETRI");
 		if (!GetProcedure().ShowWindow() && getOptions().fullscreen) {
 			// Try again without fullscreen
 			getOptions().fullscreen = false;
@@ -19,7 +20,7 @@ JNGL_MAIN_BEGIN {
 		jngl::setWork(std::make_shared<Intro>());
 		jngl::setFontSize(jngl::getScaleFactor() * 13);
 		jngl::addJob(std::make_shared<DebugOverlay>());
-		jngl::mainLoop();
+		app.mainLoop();
 		getOptions().Save();
 #ifdef NDEBUG
 	} catch(std::exception& e) {
