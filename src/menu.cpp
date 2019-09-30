@@ -7,7 +7,7 @@
 #include "optionsmenu.hpp"
 #include "engine/screen.hpp"
 #include "Game.hpp"
-#include "SplitScreen.hpp"
+#include "multiplayermenu.hpp"
 
 #include <jngl/all.hpp>
 #include <ctime>
@@ -18,7 +18,7 @@ Menu::Menu()
 	buttonBox_->add("Normal", std::bind(&Menu::Normal, this));
 	buttonBox_->add("50 Lines", std::bind(&Menu::FiftyLines, this));
     buttonBox_->add("Multiplayer", []() {
-		jngl::setWork(std::make_shared<Fade>(std::make_shared<SplitScreen>()));
+		jngl::setWork(std::make_shared<Fade>(std::make_shared<MultiplayerMenu>()));
 	});
 	buttonBox_->add("Options", std::bind(&Menu::OptionsMenuCallback, this));
 	buttonBox_->add("Quit", std::bind(&Menu::QuitGame, this));

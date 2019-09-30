@@ -11,8 +11,9 @@
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>
+#include <spdlog/spdlog.h>
 
-const std::string Login::server_("tsrom.dyndns.org");
+const std::string Login::server_("127.0.0.1");
 const int Login::port_ = 7070;
 const std::string Login::protocolVersion_ = "1";
 
@@ -24,17 +25,20 @@ void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callb
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
 : menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel"), socket_(new Socket) {
 	cancel_.Connect([this]() { OnCancel(); });
+	spdlog::info("Connecting to {}:{}", server_, port_);
 	socket_->Connect(server_, port_, [this]() { HandleConnect(); });
 	cancel_.CenterAt(0, 200);
 }
 
 void Login::HandleConnect() {
 	text_ = "sending ...";
+	spdlog::info("Sending protocol version {}", protocolVersion_);
 	socket_->Send(protocolVersion_, [this]() { ProtocolCheck1(); });
 }
 
 void Login::ProtocolCheck1() {
 	text_ = "receiving ...";
+	spdlog::info("Waiting for server accept connection");
 	socket_->Receive([this](std::string err) { ProtocolCheck2(err); });
 }
 
@@ -46,6 +50,7 @@ void Login::ProtocolCheck2(std::string temp) {
 	} else {
 		std::stringstream sstream;
 		sstream << "login\n" << menu_->GetName() << "\n" << menu_->GetPassword();
+		spdlog::info("Sending {}", sstream.str());
 		socket_->Send(sstream.str(), [this]() { HandleLogin1(); });
 	}
 }

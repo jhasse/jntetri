@@ -15,7 +15,7 @@ ReplayControl::ReplayControl(std::ifstream& fin) : time_(0) {
 	}
 }
 
-void ReplayControl::step(const std::function<void(ControlType)>& Set) {
+bool ReplayControl::step(const std::function<void(ControlType)>& Set) {
 	static int line = 2;
 	while(!data_.empty() && time_ == data_.front().first) {
 		Set(data_.front().second);
@@ -23,7 +23,7 @@ void ReplayControl::step(const std::function<void(ControlType)>& Set) {
 		data_.pop();
 	}
 	if(data_.empty()) {
-		return;
+		return true;
 	}
 
 	if(time_ == 255) {
@@ -36,4 +36,5 @@ void ReplayControl::step(const std::function<void(ControlType)>& Set) {
 	} else {
 		++time_;
 	}
+	return true;
 }

@@ -22,8 +22,9 @@ public:
 	void onFocusChanged() override;
 
 private:
+	void removeLastCharacter();
+
 	mutable std::string text;
-	std::vector<std::string> unicodeChars_;
 	int x_, y_;
 	bool password_;
 	int displayCursor_;

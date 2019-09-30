@@ -5,8 +5,8 @@ add_project_arguments(cxx.get_supported_arguments([
 	'-Wall', '-Wextra',
 	'-Winit-self',
 	'-Winconsistent-missing-override',
-	'-Wpedantic',
-	'-Wfloat-equal',
+	# '-Wpedantic', spdlog
+	# '-Wfloat-equal', spdlog
 	'-Wdelete-non-virtual-dtor',
 	'-Wlogical-op',
 	'-Wduplicated-cond',
@@ -39,6 +39,7 @@ if get_option('buildtype') == 'release'
 endif
 
 jngl = subproject('jngl')
+spdlog_dep = subproject('spdlog', default_options : ['tests=false']).get_variable('spdlog_dep')
 
 src = [
 	'src/explosion.cpp',
@@ -56,6 +57,7 @@ src = [
 	'src/Game.cpp',
 	'src/optionsmenu.cpp',
 	'src/SplitScreen.cpp',
+	'src/NetworkControl.cpp',
 	'src/gui/chooser.cpp',
 	'src/gui/input.cpp',
 	'src/gui/Button.cpp',
@@ -90,6 +92,7 @@ executable(
 		dependency('threads'),
 		boost_dep,
 		subproject('cereal').get_variable('cereal_dep'),
+		spdlog_dep,
 	],
 	include_directories : [
 		jngl.get_variable('include'),

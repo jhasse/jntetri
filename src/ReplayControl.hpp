@@ -8,7 +8,7 @@
 class ReplayControl : public ControlBase {
 public:
 	ReplayControl(std::ifstream&);
-	void step(const std::function<void(ControlType)>&) override;
+	bool step(const std::function<void(ControlType)>&) override;
 
 private:
 	int time_;

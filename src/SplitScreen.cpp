@@ -7,15 +7,18 @@
 #include <jngl/font.hpp>
 #include <sstream>
 
-SplitScreen::SplitScreen() {
+SplitScreen::SplitScreen(std::shared_ptr<ControlBase> opponentControl)
+: opponentControl(opponentControl) {
 	reset();
 }
+
+SplitScreen::~SplitScreen() = default;
 
 void SplitScreen::reset() {
 	freezeCountdown = 0;
 	field1.reset(new Field);
 	field2.reset(new Field);
-	field2->setControl(new Control{std::make_shared<GamepadControl>(1)});
+	field2->setControl(new Control{ opponentControl });
 }
 
 void SplitScreen::step() {

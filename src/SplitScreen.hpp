@@ -3,10 +3,12 @@
 #include "engine/work.hpp"
 
 class Field;
+class ControlBase;
 
 class SplitScreen : public Work {
 public:
-	SplitScreen();
+	SplitScreen(std::shared_ptr<ControlBase> opponentControl);
+	~SplitScreen();
 	void step();
 	void draw() const;
 private:
@@ -17,4 +19,5 @@ private:
 	int wins1 = 0;
 	int wins2 = 0;
 	int freezeCountdown = 0;
+	std::shared_ptr<ControlBase> opponentControl;
 };
