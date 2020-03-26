@@ -19,7 +19,6 @@ public:
 
 private:
     std::string text_;
-	int mousepos_;
 	int mouseoverAlpha_;
 	std::function<void()> callback_;
     bool clicked_;
