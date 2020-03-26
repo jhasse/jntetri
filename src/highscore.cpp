@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <cassert>
+#include <cmath>
 #include <iomanip>
 #include <jngl/all.hpp>
 

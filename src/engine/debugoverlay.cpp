@@ -1,5 +1,6 @@
 #include "debugoverlay.hpp"
 
+#include <cmath>
 #include <jngl/all.hpp>
 
 DebugOverlay::DebugOverlay() {
