@@ -1,6 +1,6 @@
 #pragma once
 
-#include <jngl/color.hpp>
+#include <jngl/Color.hpp>
 
 enum Direction {
 	CLOCKWISE,
