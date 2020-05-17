@@ -1,7 +1,6 @@
 #include "Field.hpp"
 
 #include "engine/screen.hpp"
-#include "engine/options.hpp"
 
 #include <algorithm>
 #include <map>
@@ -11,8 +10,8 @@
 const int Field::width_ = 11;
 const int Field::height_ = 19;
 
-Field::Field(int seed)
-: blockSize_(60), counter_(0), gameOver_(false), score_(0), level_(getOptions().startLevel),
+Field::Field(int seed, const int level)
+: blockSize_(60), counter_(0), gameOver_(false), score_(0), level_(level),
   lines_(0), maxY_(0), pause_(false),
   control_(new Control{ std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0) }),
   randomSeed(seed), linesCleared(0) {

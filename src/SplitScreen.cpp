@@ -16,8 +16,9 @@ SplitScreen::~SplitScreen() = default;
 
 void SplitScreen::reset() {
 	freezeCountdown = 0;
-	field1.reset(new Field);
-	field2.reset(new Field);
+	const int seed = static_cast<int>(std::time(0));
+	field1.reset(new Field(seed, wins1));
+	field2.reset(new Field(seed, wins2));
 	field2->setControl(new Control{ opponentControl });
 }
 

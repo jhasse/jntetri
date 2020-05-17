@@ -1,6 +1,7 @@
 #pragma once
 
 #include "block.hpp"
+#include "engine/options.hpp"
 #include "tetromino.hpp"
 #include "explosion.hpp"
 #include "control.hpp"
@@ -14,7 +15,7 @@
 
 class Field : boost::noncopyable {
 public:
-	Field(int seed = static_cast<int>(std::time(0)));
+	Field(int seed = static_cast<int>(std::time(0)), int level = getOptions().startLevel);
 	void step();
 	void draw() const;
 	void DrawBlock(int x, int y) const;
