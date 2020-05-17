@@ -212,10 +212,6 @@ void Field::draw() const {
 		for (std::vector<Explosion>::const_iterator it = explosions_.begin(); it != end2; ++it) {
 			it->Draw();
 		}
-		auto end3 = shadows.end();
-		for (auto it = shadows.begin(); it != end3; ++it) {
-			//			it->draw();
-		}
 		jngl::popMatrix();
 		if (!gameOver_) {
 			tetromino_->Draw();
@@ -322,14 +318,6 @@ std::mt19937& Field::getRandom() {
 
 int Field::getRandomSeed() const {
 	return randomSeed;
-}
-
-void Field::addShadow(int x, int y) {
-	shadows.emplace_back(x, y, getBlock(x, y - 1));
-}
-
-void Field::clearShadows() {
-	shadows.clear();
 }
 
 int Field::getLinesCleared() const {

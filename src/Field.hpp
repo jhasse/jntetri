@@ -39,8 +39,6 @@ public:
 	Control& getControl() const;
 	std::mt19937& getRandom();
 	int getRandomSeed() const;
-	void addShadow(int x, int y);
-	void clearShadows();
 	int getLinesCleared() const;
 	void addJunk(int nr);
 	double getSecondsPlayed() const;
@@ -50,7 +48,6 @@ private:
 	void ResetCounter();
 	std::vector<Block> blocks_;
 	std::vector<Explosion> explosions_;
-	std::vector<Shadow> shadows;
 	std::shared_ptr<Tetromino> nextTetromino_;
 	std::shared_ptr<Tetromino> tetromino_;
 	const static int width_;

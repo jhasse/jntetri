@@ -7,7 +7,7 @@
 #include <random>
 
 Tetromino::Tetromino(int type, Field& field)
-: field_(field), recreateShadow(true) {
+: field_(field) {
 	assert(0 <= type && type < 7);
 	switch(type) {
 		case 0:{
@@ -104,52 +104,20 @@ void Tetromino::Step() {
 		ChangeX(-1);
 		if (Collided()) {
 			ChangeX(1);
-		} else {
-			recreateShadow = true;
 		}
 	}
 	if (field_.getControl().Check(ControlType::Right)) {
 		ChangeX(1);
 		if (Collided()) {
 			ChangeX(-1);
-		} else {
-			recreateShadow = true;
 		}
 	}
 	if (field_.getControl().Check(ControlType::Rotate)) {
 		Rotate(CLOCKWISE);
-		recreateShadow = true;
 	}
 	if (field_.getControl().Check(ControlType::RotateCounter)) {
 		Rotate(COUNTERCLOCKWISE);
-		recreateShadow = true;
 	}
-	if (recreateShadow) {
-		int minX = 0;
-		int maxX = 0;
-		auto end = blocks_.end();
-		for (auto it = blocks_.begin(); it != end; ++it) {
-			if (it->getX() > maxX) {
-				maxX = it->getX();
-			}
-			if (it->getX() < minX) {
-				minX = it->getX();
-			}
-		}
-		field_.clearShadows();
-		for (int i = minX; i <= maxX; ++i) {
-			int tmpX = x_ + i;
-			int tmpY = y_;
-			while (!field_.checkCollision(tmpX, tmpY)) {
-				--tmpY;
-			}
-			field_.addShadow(tmpX, tmpY+1);
-		}
-		recreateShadow = false;
-	}
-}
-
-void Tetromino::updateShadow() {
 }
 
 void Tetromino::SetX(const int x) {
