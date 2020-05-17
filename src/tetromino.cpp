@@ -7,7 +7,8 @@
 #include <random>
 
 Tetromino::Tetromino(int type, Field& field)
-: field_(field) {
+: field_(field),
+  shadow(6 * Block::size * jngl::getScaleFactor(), 6 * Block::size * jngl::getScaleFactor()) {
 	assert(0 <= type && type < 7);
 	switch(type) {
 		case 0:{
@@ -204,23 +205,65 @@ void Tetromino::moveUp(int amount) {
 }
 
 void Tetromino::Draw() const {
+	{
+		const auto context = shadow.use();
+		jngl::translate(-jngl::getScreenSize().x / 2., 0);
+		jngl::translate(shadow.getSize() / 2);
+		jngl::translate(-Block::size / 2, -Block::size / 2);
+		shadow.clear();
+		jngl::setSpriteColor(0, 0, 0, 10); // 10
+		// at y == 310 no tetromino would be visible
+		const double STEP_SIZE = 2;
+		for (double y = 1; y < 310; y += STEP_SIZE) {
+			jngl::translate(0, STEP_SIZE);
+			jngl::pushMatrix();
+			drawBlocks();
+			jngl::popMatrix();
+		}
+		jngl::setSpriteAlpha(255);
+	}
+	jngl::pushMatrix();
+	field_.Translate(x_ + animationX_, y_ + animationY_);
+	assert(!blocks_.empty());
+	blocks_.front().setSpriteColor();
+	drawBlocks();
+	jngl::setSpriteColor(255, 255, 255);
+	jngl::popMatrix();
+}
+
+void Tetromino::drawShadow() const {
 	jngl::pushMatrix();
 	field_.Translate(x_ + animationX_, y_ + animationY_);
 
-	const int blockSize = field_.getBlockSize();
-	if (rotation_ < 0) { // Clockwise
-		jngl::translate( rotationCenterX_.back() * blockSize, -rotationCenterY_.back() * blockSize);
-		jngl::rotate(rotation_);
-		jngl::translate(-rotationCenterX_.back() * blockSize,  rotationCenterY_.back() * blockSize);
-	} else {
-		jngl::translate( rotationCenterX_.front() * blockSize, -rotationCenterY_.front() * blockSize);
-		jngl::rotate(rotation_);
-		jngl::translate(-rotationCenterX_.front() * blockSize,  rotationCenterY_.front() * blockSize);
-	}
+	jngl::translate(-Block::size * 2.5, -Block::size * 2.5);
+	jngl::setSpriteAlpha(50);
+	const float width = shadow.getSize().x;
+	const float height = shadow.getSize().y;
+	const float extensionHeight = 900; // just long enough that you won't see the end
+	shadow.drawMesh({
+		// top right triangle
+		jngl::Vertex{ .x = 0,     .y = 0,      .u = 0, .v = 1 },
+		jngl::Vertex{ .x = width, .y = 0,      .u = 1, .v = 1 },
+		jngl::Vertex{ .x = width, .y = height, .u = 1, .v = 0 },
 
-	for (auto& block : blocks_) {
-		block.draw();
-	}
+		// bottom left triangle
+		jngl::Vertex{ .x = 0,     .y = 0,      .u = 0, .v = 1 },
+		jngl::Vertex{ .x = 0,     .y = height, .u = 0, .v = 0 },
+		jngl::Vertex{ .x = width, .y = height, .u = 1, .v = 0 },
+
+		// Now extend the end of the shadow (v == 0) to the bottom of the field:
+		// top right triangle
+		jngl::Vertex{ .x = 0,     .y = height + 0,               .u = 0, .v = 0 },
+		jngl::Vertex{ .x = width, .y = height + 0,               .u = 1, .v = 0 },
+		jngl::Vertex{ .x = width, .y = height + extensionHeight, .u = 1, .v = 0 },
+
+		// bottom left triangle
+		jngl::Vertex{ .x = 0,     .y = height + 0,               .u = 0, .v = 0 },
+		jngl::Vertex{ .x = 0,     .y = height + extensionHeight, .u = 0, .v = 0 },
+		jngl::Vertex{ .x = width, .y = height + extensionHeight, .u = 1, .v = 0 },
+	});
+	jngl::setSpriteAlpha(255);
+
 	jngl::popMatrix();
 }
 
@@ -237,4 +280,21 @@ bool Tetromino::Collided() const {
 void Tetromino::drop() {
 	while (MoveDown());
 	animationX_ = animationY_ = 0;
+}
+
+void Tetromino::drawBlocks() const {
+	const int blockSize = field_.getBlockSize();
+	if (rotation_ < 0) { // Clockwise
+		jngl::translate( rotationCenterX_.back() * blockSize, -rotationCenterY_.back() * blockSize);
+		jngl::rotate(rotation_);
+		jngl::translate(-rotationCenterX_.back() * blockSize,  rotationCenterY_.back() * blockSize);
+	} else {
+		jngl::translate( rotationCenterX_.front() * blockSize, -rotationCenterY_.front() * blockSize);
+		jngl::rotate(rotation_);
+		jngl::translate(-rotationCenterX_.front() * blockSize,  rotationCenterY_.front() * blockSize);
+	}
+
+	for (auto& block : blocks_) {
+		block.draw();
+	}
 }

@@ -183,6 +183,10 @@ void Field::Translate(const double x, const double y) const {
 	                height_ * blockSize_ - y * blockSize_);
 }
 
+double Field::getBottomY() const {
+	return height_ * blockSize_;
+}
+
 int Field::GetNextPosition() const {
 	int nextPosition = 900 - (maxY_ - 4) * blockSize_;
 	if (nextPosition > 900) {
@@ -202,12 +206,19 @@ void Field::drawNextTetromino() const {
 void Field::draw() const {
 	GetScreen().DrawCentered("field", 0, 600);
 	if (!pause_) {
+		if (!gameOver_) {
+			tetromino_->drawShadow();
+		}
 		jngl::pushMatrix();
 		Translate(0, 0);
+
 		std::vector<Block>::const_iterator end = blocks_.end();
 		for (std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it) {
+			it->setSpriteColor();
 			it->draw();
 		}
+		jngl::setSpriteColor(255, 255, 255);
+
 		std::vector<Explosion>::const_iterator end2 = explosions_.end();
 		for (std::vector<Explosion>::const_iterator it = explosions_.begin(); it != end2; ++it) {
 			it->Draw();

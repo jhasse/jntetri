@@ -11,7 +11,10 @@ class Block {
 public:
 	Block(int x, int y, jngl::Color color);
 	void step();
+
+	void setSpriteColor() const;
 	void draw() const;
+
 	int getX() const;
 	int getY() const;
 	void setX(int);
@@ -21,10 +24,14 @@ public:
 	void setAnimationY(double);
 	double getAnimationX() const;
 	double getAnimationY() const;
+
+	/// Returns width/height in dp
 	int getSize() const;
+
 	jngl::Color getColor() const;
 	void flash();
 
+	/// width/height in dp
 	const static int size;
 private:
 	int x, y;

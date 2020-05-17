@@ -32,12 +32,14 @@ double Block::getAnimationX() const {
 	return animationX;
 }
 
-void Block::draw() const {
+void Block::setSpriteColor() const {
 	jngl::setSpriteColor(static_cast<unsigned char>(color.getRed() + flashAnimation),
-		                 static_cast<unsigned char>(color.getGreen() + flashAnimation),
-						 static_cast<unsigned char>(color.getBlue() + flashAnimation));
+	                     static_cast<unsigned char>(color.getGreen() + flashAnimation),
+	                     static_cast<unsigned char>(color.getBlue() + flashAnimation));
+}
+
+void Block::draw() const {
 	GetScreen().DrawCentered("block", (x + animationX) * size, -(y + animationY) * size);
-	jngl::setSpriteColor(255, 255, 255);
 }
 
 void Block::rotate(Direction direction, double rotationCenterX, double rotationCenterY) {
