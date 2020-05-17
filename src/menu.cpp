@@ -35,7 +35,7 @@ void Menu::step() {
 }
 
 void Menu::draw() const {
-	jngl::setBackgroundColor(255, 255, 255);
+	jngl::setBackgroundColor(0xffffff_rgb);
 	DrawWidgets();
 	GetScreen().DrawCentered("box", 340, 0);
 
