@@ -1,6 +1,6 @@
 #pragma once
 
-#include <jngl/drawable.hpp>
+#include <jngl/Drawable.hpp>
 
 class Work;
 
