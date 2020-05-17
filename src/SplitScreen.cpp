@@ -30,8 +30,16 @@ void SplitScreen::step() {
 			reset();
 		}
 	} else {
-		field2->addJunk(field1->getLinesCleared());
-		field1->addJunk(field2->getLinesCleared());
+		const auto penalty = [](const int cleared) {
+			switch(cleared) {
+				case 2: return 1;
+				case 3: return 2;
+				case 4: return 4;
+			}
+			return 0;
+		};
+		field2->addJunk(penalty(field1->getLinesCleared()));
+		field1->addJunk(penalty(field2->getLinesCleared()));
 		if (field1->GameOver()) {
 			++wins2;
 			freezeCountdown = 200;
