@@ -25,10 +25,10 @@ void Control::forEach(const std::function<void(ControlType)>& f) {
 
 bool Control::step() {
 	bits_.reset();
-	bool success = true;
+	bool success = false;
 	for (auto& control : controls) {
-		if (!control->step([&](ControlType e) { bits_.set(static_cast<size_t>(e)); })) {
-			success = false;
+		if (control->step([&](ControlType e) { bits_.set(static_cast<size_t>(e)); })) {
+			success = true;
 		}
 	}
 	return success;
