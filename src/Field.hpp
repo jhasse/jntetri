@@ -20,7 +20,7 @@ public:
 	void draw() const;
 	void DrawBlock(int x, int y) const;
 	void AddBlock(const Block&);
-	void Translate(double x, double y) const;
+	[[nodiscard]] jngl::Vec2 indexToPixel(double x, double y) const;
 
 	/// y coordinate in dp of the bottom
 	double getBottomY() const;

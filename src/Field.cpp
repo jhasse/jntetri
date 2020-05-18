@@ -178,9 +178,9 @@ bool Field::GameOver() const {
 	return gameOver_;
 }
 
-void Field::Translate(const double x, const double y) const {
-	jngl::translate(-double(width_ * blockSize_) / 2.0 + (x + 0.5) * blockSize_,
-	                height_ * blockSize_ - y * blockSize_);
+jngl::Vec2 Field::indexToPixel(const double x, const double y) const {
+	return { -double(width_ * blockSize_) / 2.0 + (x + 0.5) * blockSize_,
+	         height_ * blockSize_ - y * blockSize_ };
 }
 
 double Field::getBottomY() const {
@@ -210,7 +210,7 @@ void Field::draw() const {
 			tetromino_->drawShadow();
 		}
 		jngl::pushMatrix();
-		Translate(0, 0);
+		jngl::translate(indexToPixel(0, 0));
 
 		std::vector<Block>::const_iterator end = blocks_.end();
 		for (std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it) {

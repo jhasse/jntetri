@@ -223,7 +223,7 @@ void Tetromino::Draw() const {
 		jngl::setSpriteAlpha(255);
 	}
 	jngl::pushMatrix();
-	field_.Translate(x_ + animationX_, y_ + animationY_);
+	jngl::translate(field_.indexToPixel(x_ + animationX_, y_ + animationY_));
 	assert(!blocks_.empty());
 	blocks_.front().setSpriteColor();
 	drawBlocks();
@@ -233,23 +233,31 @@ void Tetromino::Draw() const {
 
 void Tetromino::drawShadow() const {
 	jngl::pushMatrix();
-	field_.Translate(x_ + animationX_, y_ + animationY_);
+	const auto pos = field_.indexToPixel(x_ + animationX_, y_ + animationY_);
+	jngl::translate(pos);
 
 	jngl::translate(-Block::size * 2.5, -Block::size * 2.5);
 	jngl::setSpriteAlpha(50);
 	const float width = shadow.getSize().x;
-	const float height = shadow.getSize().y;
-	const float extensionHeight = 900; // just long enough that you won't see the end
+	float height = shadow.getSize().y;
+	float minV = 0;
+	float extensionHeight = field_.getBottomY() - pos.y - height / 2.;
+	if (extensionHeight < 0) {
+		height += extensionHeight;
+		minV = -extensionHeight / shadow.getSize().y;
+		assert(minV >= 0 && minV <= 1);
+		extensionHeight = 0;
+	}
 	shadow.drawMesh({
 		// top right triangle
-		jngl::Vertex{ .x = 0,     .y = 0,      .u = 0, .v = 1 },
-		jngl::Vertex{ .x = width, .y = 0,      .u = 1, .v = 1 },
-		jngl::Vertex{ .x = width, .y = height, .u = 1, .v = 0 },
+		jngl::Vertex{ .x = 0,     .y = 0,      .u = 0, .v = 1   },
+		jngl::Vertex{ .x = width, .y = 0,      .u = 1, .v = 1   },
+		jngl::Vertex{ .x = width, .y = height, .u = 1, .v = minV },
 
 		// bottom left triangle
-		jngl::Vertex{ .x = 0,     .y = 0,      .u = 0, .v = 1 },
-		jngl::Vertex{ .x = 0,     .y = height, .u = 0, .v = 0 },
-		jngl::Vertex{ .x = width, .y = height, .u = 1, .v = 0 },
+		jngl::Vertex{ .x = 0,     .y = 0,      .u = 0, .v = 1   },
+		jngl::Vertex{ .x = 0,     .y = height, .u = 0, .v = minV },
+		jngl::Vertex{ .x = width, .y = height, .u = 1, .v = minV },
 
 		// Now extend the end of the shadow (v == 0) to the bottom of the field:
 		// top right triangle
