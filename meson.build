@@ -22,8 +22,8 @@ endif
 
 if host_machine.system() == 'windows' and cxx.get_argument_syntax() != 'msvc'
 	boost_dep = [
-		cxx.find_library('boost_system-mt'),
-		cxx.find_library('boost_filesystem-mt'),
+		cxx.find_library('boost_system-mt-x64'),
+		cxx.find_library('boost_filesystem-mt-x64'),
 		cxx.find_library('ws2_32'),
 	]
 else
