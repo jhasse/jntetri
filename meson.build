@@ -1,4 +1,4 @@
-project('jntetri', ['c', 'cpp'], default_options : ['cpp_std=c++1z'])
+project('jntetri', ['c', 'cpp'], default_options : ['cpp_std=c++17'])
 
 cxx = meson.get_compiler('cpp')
 add_project_arguments(cxx.get_supported_arguments([
@@ -20,7 +20,7 @@ if cxx.get_id() == 'clang'
 	add_global_link_arguments(['-lc++', '-lc++abi'], language : 'cpp')
 endif
 
-if host_machine.system() == 'windows'
+if host_machine.system() == 'windows' and cxx.get_argument_syntax() != 'msvc'
 	boost_dep = [
 		cxx.find_library('boost_system-mt'),
 		cxx.find_library('boost_filesystem-mt'),
