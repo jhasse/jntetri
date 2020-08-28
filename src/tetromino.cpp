@@ -206,11 +206,11 @@ void Tetromino::moveUp(int amount) {
 
 void Tetromino::Draw() const {
 	{
-		const auto context = shadow.use();
+		auto context = shadow.use();
 		jngl::translate(-jngl::getScreenSize().x / 2., 0);
 		jngl::translate(shadow.getSize() / 2);
 		jngl::translate(-Block::size / 2, -Block::size / 2);
-		shadow.clear();
+		context.clear(0xffffff_rgb);
 		jngl::setSpriteColor(0, 0, 0, 10); // 10
 		// at y == 310 no tetromino would be visible
 		const double STEP_SIZE = 2;

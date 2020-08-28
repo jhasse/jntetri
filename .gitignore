@@ -27,6 +27,7 @@ packages/
 /.vscode/cquery*
 /.ccls-cache/
 /compile_commands.json
+/.clangd/
 
 # Meson
 /subprojects/*-*
