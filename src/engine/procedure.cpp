@@ -5,7 +5,6 @@
 
 #include <jngl/all.hpp>
 #include <stdexcept>
-#include <boost/lexical_cast.hpp>
 
 Procedure::Procedure()
 : oldTime_(jngl::getTime()), needDraw_(true), fps_(0), fpsTemp_(0), changeWork_(false),

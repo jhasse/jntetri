@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <cassert>
+#include <string>
 
 ReplayControl::ReplayControl(std::ifstream& fin) : time_(0) {
 	while(fin) {
