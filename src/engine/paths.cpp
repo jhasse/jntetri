@@ -15,13 +15,8 @@
 	#include <experimental/filesystem>
 	namespace fs = std::experimental::filesystem;
 #else
-	#ifdef _MSC_VER
-		#include <filesystem>
-		namespace fs = std::tr2::sys;
-	#else
-		#include <boost/filesystem.hpp>
-		namespace fs = boost::filesystem;
-	#endif
+	#include <filesystem>
+	namespace fs = std::filesystem;
 #endif
 #include <jngl.hpp>
 
