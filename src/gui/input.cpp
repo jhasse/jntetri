@@ -22,7 +22,7 @@ void Input::step() {
 		return;
 	}
 	--displayCursor_;
-	if (displayCursor_ < -35 or !jngl::getTextInput().empty()) {
+	if (displayCursor_ < -35 || !jngl::getTextInput().empty()) {
 		displayCursor_ = 35;
 	}
 	text += jngl::getTextInput();

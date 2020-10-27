@@ -74,7 +74,7 @@ void Highscore::draw() const {
 			score = sstream.str();
 		}
 		jngl::setFontColor(0, 0, 0);
-		if (!foundEntryToBlink and blink_) {
+		if (!foundEntryToBlink && blink_) {
 			Data a = *blink_;
 			Data b = *it;
 			if (a == b) {

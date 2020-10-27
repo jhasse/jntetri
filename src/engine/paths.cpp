@@ -39,10 +39,20 @@ Paths::Paths() {
 	applicationSupportFolder /= programDisplayName;
 	configPath = applicationSupportFolder.string() + "/";
 #else
-	char filename[MAX_PATH];
-	GetModuleFileName(NULL, filename, MAX_PATH);
-	std::string tmp(filename);
-	prefix = tmp.substr(0, tmp.find("\\bin") + 1);
+	const auto findDataDirectory = []() {
+		fs::path binaryPath(jngl::getBinaryPath());
+		fs::current_path(binaryPath);
+		for (size_t i = 0; i < 3; ++i) {
+			for (auto& p : fs::directory_iterator(".")) {
+				const auto tmp = p.path().filename();
+				if (tmp == "data") {
+					return;
+				}
+			}
+			fs::current_path(fs::path(".."));
+		}
+	};
+	findDataDirectory();
 
 	TCHAR szPath[MAX_PATH];
 	if (!SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, szPath))) {
