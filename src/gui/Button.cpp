@@ -73,7 +73,7 @@ void Button::step() {
 			callback_();
 		}
 	}
-	if (Mouseover()) {
+	if (contains(jngl::getMousePos())) {
 		if (mouseoverAlpha_ < 255) {
 			mouseoverAlpha_ += alphaSpeed;
 		}
@@ -90,12 +90,6 @@ void Button::step() {
 	if (mouseoverAlpha_ < 0) {
 		mouseoverAlpha_ = 0;
 	}
-}
-
-bool Button::Mouseover() const {
-	const auto mousePos = jngl::getMousePos();
-	return (x - getWidth() / 2 <= mousePos.x && mousePos.x < (x + getWidth() / 2) &&
-	        y - getHeight() / 2 <= mousePos.y && mousePos.y < (y + getHeight() / 2));
 }
 
 void Button::Connect(std::function<void()> callback) {

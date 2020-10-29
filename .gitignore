@@ -13,6 +13,7 @@ msi/*.wixpdb
 msi/JNTETRI.msi
 msi/data.wxs
 /JNTETRI.opensdf
+/.cache/
 
 # Visual Studio
 *.sdf

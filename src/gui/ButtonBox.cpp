@@ -36,18 +36,6 @@ void ButtonBox::draw() const {
 void ButtonBox::step() {
 }
 
-int ButtonBox::GetMouseover() const
-{
-	for(std::size_t i = 0; i < buttons_.size(); ++i)
-	{
-		if(buttons_[i]->Mouseover())
-		{
-			return static_cast<int>(i);
-		}
-	}
-	return -1;
-}
-
 void ButtonBox::onAdd(Work& work) {
 	for (auto& button : buttons_) {
 		work.addWidget(button);

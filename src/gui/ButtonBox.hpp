@@ -16,9 +16,6 @@ public:
 	void draw() const override;
 	void step() override;
 
-	/// Returns over which button the mouse is over. If there's none -1.
-	int GetMouseover() const;
-
 	void onAdd(Work&) override;
 
 private:

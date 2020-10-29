@@ -14,7 +14,6 @@ public:
 	void SetText(const std::string&);
 	void draw() const override;
 	void step() override;
-	bool Mouseover() const;
 	void CenterAt(int xCenter, int yCenter);
 	void Connect(std::function<void()> callback);
 
