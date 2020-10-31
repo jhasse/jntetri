@@ -16,8 +16,8 @@ MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -200)), password_(new I
 	addWidget(login_);
 	back_.reset(new Button("Back", [this]() { OnBack(); }));
 	addWidget(back_);
-	back_->CenterAt(-350, 280);
-	login_->CenterAt(350, 280);
+	back_->setCenter(-350, 280);
+	login_->setCenter(350, 280);
 	password_->SetPassword(true);
 	name_->setText(getOptions().lastLoginName);
 	if (name_->getText() != "") {

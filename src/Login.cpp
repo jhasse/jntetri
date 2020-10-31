@@ -27,7 +27,7 @@ Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
 	cancel_.Connect([this]() { OnCancel(); });
 	spdlog::info("Connecting to {}:{}", server_, port_);
 	socket_->Connect(server_, port_, [this]() { HandleConnect(); });
-	cancel_.CenterAt(0, 200);
+	cancel_.setCenter(0, 200);
 }
 
 void Login::HandleConnect() {
@@ -66,10 +66,10 @@ void Login::HandleLogin2(std::string temp) {
 	}
 	else if(temp == "unknown name") {
 		text_ = "No user with this name found.\nDo you want to register yourself?";
-		cancel_.CenterAt(-350, 880);
+		cancel_.setCenter(-350, 880);
 		cancel_.SetText("No");
 		Button* yes = new Button("Yes", boost::bind(&Login::Register, this));
-		yes->CenterAt(350, 880);
+		yes->setCenter(350, 880);
 		addWidget(std::shared_ptr<Widget>(yes));
 	}
 	else if (temp == "wrong password") {
@@ -85,7 +85,7 @@ void Login::Register() {
 	std::stringstream sstream;
 	sstream << "register\n" << menu_->GetName() << "\n" << menu_->GetPassword() << "\r\n";
 	socket_->Send(sstream.str(), boost::bind(&Login::HandleRegister1, this));
-	cancel_.CenterAt(0, 800);
+	cancel_.setCenter(0, 800);
 	cancel_.SetText("Cancel");
 	widgets_.clear(); // FIXME: Implement RemoveWidget function
 }

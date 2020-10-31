@@ -21,8 +21,8 @@ Lobby::Lobby(std::shared_ptr<Socket> socket)
 	addWidget(input_);
 	addWidget(logout_);
 	addWidget(play_);
-	logout_->CenterAt(-450, -450);
-	play_->CenterAt(450, -450);
+	logout_->setCenter(-450, -450);
+	play_->setCenter(450, -450);
 }
 
 void Lobby::OnLogout() {

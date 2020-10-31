@@ -25,7 +25,7 @@ void ButtonBox::add(const std::string& text, std::function<void()> function) {
 	                 (buttons_.size() * (buttons_[0]->getHeight() + spacing_) - spacing_) / 2 +
 	                 buttons_[0]->getHeight() / 2;
 	for (auto it = buttons_.begin(); it != end; ++it) {
-		(*it)->CenterAt(xCenter_, yPosButton);
+		(*it)->setCenter(xCenter_, yPosButton);
 		yPosButton += buttons_[0]->getHeight() + spacing_;
 	}
 }

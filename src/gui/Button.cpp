@@ -30,35 +30,32 @@ void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
 	height = jngl::getHeight(getPaths().getGraphics() + texture_) * jngl::getScaleFactor();
 }
 
-void Button::CenterAt(const int xCenter, const int yCenter) {
-	x = xCenter;
-	y = yCenter;
-	jngl::setFontSize(fontSize_);
-}
-
 void Button::draw() const {
 	int alpha = mouseoverAlpha_;
 	if (clicked_) {
 		alpha -= 100;
 	}
-	GetScreen().DrawCenteredScaled(texture_, x, y, 1.0f + (alpha / 6000.0f));
+	GetScreen().DrawCenteredScaled(texture_, getCenter().x, getCenter().y,
+	                               1.0f + (alpha / 6000.0f));
 	if (focus) {
-		GetScreen().DrawCentered(textureMouseOver_, x, y);
+		GetScreen().DrawCentered(textureMouseOver_, getCenter().x, getCenter().y);
 	}
 	jngl::setSpriteColor(255, 255, 255, alpha);
 	jngl::pushMatrix();
-	GetScreen().DrawCenteredScaled(textureMouseOver_, x, y, 1.0f + (alpha / 6000.0f));
+	GetScreen().DrawCenteredScaled(textureMouseOver_, getCenter().x, getCenter().y,
+	                               1.0f + (alpha / 6000.0f));
 	jngl::popMatrix();
 	jngl::setSpriteColor(255, 255, 255, 255);
 	if (clicked_) {
-		GetScreen().DrawCenteredScaled(textureClicked_, x, y, 1.0f + (alpha / 6000.0f));
+		GetScreen().DrawCenteredScaled(textureClicked_, getCenter().x, getCenter().y,
+		                               1.0f + (alpha / 6000.0f));
 	}
 	jngl::setFontColor(255, 255, 255);
 	jngl::setFontSize(fontSize_);
 	if (!clicked_) {
-		GetScreen().printCentered(text_, { x, y });
+		GetScreen().printCentered(text_, getCenter());
 	} else {
-		GetScreen().printCentered(text_, { x + 5, y + 5 });
+		GetScreen().printCentered(text_, { getCenter().x + 5, getCenter().y + 5 });
 	}
 }
 

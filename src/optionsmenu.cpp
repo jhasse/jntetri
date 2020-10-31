@@ -22,7 +22,7 @@ OptionsMenu::OptionsMenu() : startLevel_(new Chooser(0, -300)), startJunks_(new 
 	for (unsigned int i = 0; i < getOptions().startJunks / 2; ++i) {
 		startJunks_->Next();
 	}
-	back_->CenterAt(0, 400);
+	back_->setCenter(0, 400);
 	addWidget(startLevel_);
 	addWidget(startJunks_);
 	addWidget(back_);
