@@ -11,10 +11,10 @@ Chooser::Chooser(const int x, const int y) : previous_(""), next_(""), sprite_(g
 	setCenter(x, y);
 	previous_.Connect([this]() { Previous(); });
 	previous_.SetSprites("chooser_left", "chooser_left_over", "chooser_left_over");
-	previous_.setCenter(x - jngl::getWidth(sprite_) / 2 - previous_.getWidth() / 2, y);
+	previous_.setCenter(x - static_cast<double>(jngl::getWidth(sprite_)) / 2 - previous_.getWidth() / 2, y);
 	next_.Connect([this]() { Next(); });
 	next_.SetSprites("chooser_right", "chooser_right_over", "chooser_right_over");
-	next_.setCenter(x + jngl::getWidth(sprite_) / 2 + next_.getWidth() / 2, y);
+	next_.setCenter(x + static_cast<double>(jngl::getWidth(sprite_)) / 2 + next_.getWidth() / 2, y);
 }
 
 void Chooser::AddValue(int v)
