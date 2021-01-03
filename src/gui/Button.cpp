@@ -9,19 +9,19 @@
 const int Button::fontSize_ = 70;
 
 Button::Button(const std::string& text) : text_(text), mouseoverAlpha_(0), clicked_(false) {
-	SetSprites("button", "button_over", "button_clicked");
+	setSprites("button", "button_over", "button_clicked");
 }
 
 Button::Button(const std::string& text, std::function<void()> callback)
 : text_(text), mouseoverAlpha_(0), callback_(callback), clicked_(false) {
-	SetSprites("button", "button_over", "button_clicked");
+	setSprites("button", "button_over", "button_clicked");
 }
 
 void Button::SetText(const std::string& text) {
 	text_ = text;
 }
 
-void Button::SetSprites(const std::string& normal, const std::string& mouseOver,
+void Button::setSprites(const std::string& normal, const std::string& mouseOver,
                         const std::string& clicked) {
 	texture_ = normal;
 	textureMouseOver_ = mouseOver;

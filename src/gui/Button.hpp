@@ -9,7 +9,7 @@ class Button : public Widget {
 public:
 	Button(const std::string& text);
 	Button(const std::string& text, std::function<void()> callback);
-	void SetSprites(const std::string& normal, const std::string& mouseOver,
+	void setSprites(const std::string& normal, const std::string& mouseOver,
 	                const std::string& clicked);
 	void SetText(const std::string&);
 	void draw() const override;
