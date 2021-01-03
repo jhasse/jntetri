@@ -44,5 +44,6 @@ void Intro::step() {
 	}
 	if ((jngl::mousePressed() || jngl::keyPressed(jngl::key::Any)) && finished_) {
 		jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
+		// jngl::setWork(std::make_shared<Fade>(std::make_shared<ReplayPlayer>("test3.jtr")));
 	}
 }
