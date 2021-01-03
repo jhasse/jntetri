@@ -76,6 +76,29 @@ bool GamepadControl::step(const std::function<void(ControlType)>& Set) {
 	if (controller->pressed(jngl::controller::B)) {
 		Set(ControlType::RotateCounter);
 	}
+
+	// Bastian's Nintendo Steuerung (modern)
+	// if (controller->pressed(jngl::controller::DpadUp)) {
+	// 	Set(ControlType::Drop);
+	// }
+	// if (controller->down(jngl::controller::RightTrigger)) {
+	// 	Set(ControlType::Down);
+	// }
+	// if (controller->pressed(jngl::controller::DpadLeft)) {
+	// 	Set(ControlType::Left);
+	// }
+	// if (controller->pressed(jngl::controller::DpadRight)) {
+	// 	Set(ControlType::Right);
+	// }
+	// if (controller->down(jngl::controller::DpadDown)) {
+	// 	Set(ControlType::Down);
+	// }
+	// if (controller->pressed(jngl::controller::A)) {
+	// 	Set(ControlType::RotateCounter);
+	// }
+	// if (controller->pressed(jngl::controller::B)) {
+	// 	Set(ControlType::Rotate);
+	// }
 	return true;
 }
 
