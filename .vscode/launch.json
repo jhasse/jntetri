@@ -2,6 +2,15 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"type": "gdb",
+			"request": "launch",
+			"name": "jntetri (GDB)",
+			"target": "./build/jntetri",
+			"cwd": "${workspaceRoot}",
+			"valuesFormatting": "prettyPrinters",
+			"preLaunchTask": "build"
+		},
+		{
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
