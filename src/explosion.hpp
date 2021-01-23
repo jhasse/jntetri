@@ -2,6 +2,8 @@
 
 #include "block.hpp"
 
+#include <jngl/sprite.hpp>
+
 class Explosion {
 public:
 	Explosion(const Block&, int numberOfLines);
@@ -12,4 +14,5 @@ private:
 	Block block_;
 	int countdown_;
 	int numberOfLines_;
+	jngl::Sprite sprite;
 };

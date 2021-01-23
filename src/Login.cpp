@@ -23,8 +23,8 @@ void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callb
 }
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
-: menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel"), socket_(new Socket) {
-	cancel_.Connect([this]() { OnCancel(); });
+: menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
+  socket_(new Socket) {
 	spdlog::info("Connecting to {}:{}", server_, port_);
 	socket_->Connect(server_, port_, [this]() { HandleConnect(); });
 	cancel_.setCenter(0, 200);

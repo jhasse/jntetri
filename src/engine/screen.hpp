@@ -10,10 +10,6 @@ class Screen : public Singleton<Screen> {
 public:
 	void DrawCentered(const std::string& filename, double x, double y);
 	void DrawCentered(const std::string& filename, const Vector2d& position);
-	void DrawCenteredScaled(const std::string& filename, double x, double y, float factor);
-	void DrawCenteredScaled(const std::string& filename, double x, double y, float xfactor,
-	                        float yfactor);
-	void DrawScaled(const std::string& filename, double x, double y, float factor);
 	void printCentered(const std::string& text, jngl::Vec2);
 };
 
