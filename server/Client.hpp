@@ -5,7 +5,7 @@
 
 class Server;
 
-class Client : std::enable_shared_from_this<Client> {
+class Client : public std::enable_shared_from_this<Client> {
 public:
 	Client(boost::asio::io_context& context, Server&);
 	void run();
