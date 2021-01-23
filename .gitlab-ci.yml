@@ -4,7 +4,7 @@ linux:
   stage: build
   script:
     - dnf install -y git gcc-c++ fontconfig-devel freetype-devel libvorbis-devel libepoxy-devel libwebp-devel boost-python3-devel python3-devel meson SDL2-devel openal-soft-devel
-    - meson build --werror
+    - meson build
     - ninja -C build
 
 windows:
