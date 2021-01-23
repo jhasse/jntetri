@@ -38,6 +38,12 @@ public:
 	int GetNextPosition() const;
 	void drawNextTetromino() const;
 	void SetPause(bool pause);
+
+	/// also returns true when there are network issues
+	bool getPause() const;
+
+	void setCheckPause(std::function<bool()>);
+
 	bool GameOverAnimationFinished() const;
 	void setControl(Control*);
 	Control& getControl() const;
@@ -64,6 +70,10 @@ private:
 	int lines_;
 	int maxY_;
 	bool pause_;
+
+	/// >0 when there are network issues i.e. control_->step() hasn't returned any data
+	int stepsWithoutPackage = 0;
+
 	bool delay_;
 	std::shared_ptr<Control> control_;
 	bool downKeyReleased_;
@@ -71,4 +81,7 @@ private:
 	int randomSeed;
 	int linesCleared;
 	double secondsPlayed = 0;
+
+	/// If set, we force-pause the game when it returns true
+	std::function<bool()> checkPause;
 };

@@ -11,9 +11,12 @@ public:
 	void run();
 	boost::asio::ip::tcp::socket& getSocket();
 	void setOpponent(std::shared_ptr<Client>);
+	std::string getUsername() const;
+	void forward(uint8_t time, uint8_t command);
 
 private:
 	boost::asio::ip::tcp::socket socket;
 	Server& server;
 	std::shared_ptr<Client> opponent;
+	std::string username;
 };

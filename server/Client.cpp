@@ -51,6 +51,7 @@ void Client::run() {
 		          << "." << std::endl;
 		if (password == "asd") {
 			socket.send(boost::asio::buffer("ok"));
+			username = user;
 			while (auto sstream = receive(socket)) {
 				char command;
 				sstream.get(command);
@@ -66,6 +67,16 @@ void Client::run() {
 					case 'p':
 						server.startMatchmaking(shared_from_this());
 						break;
+					case 'x': {
+						uint8_t time = sstream.get();
+						uint8_t command = sstream.get();
+						if (command != 6) { // FIXME: Use enum class
+							std::cout << "forwarding command " << int(command) << " at time "
+							          << int(time) << std::endl;
+						}
+						opponent->forward(time, command);
+						break;
+					}
 				}
 			}
 		} else {
@@ -78,4 +89,12 @@ void Client::run() {
 
 void Client::setOpponent(std::shared_ptr<Client> opponent) {
 	this->opponent = std::move(opponent);
+}
+
+std::string Client::getUsername() const {
+	return username;
+}
+
+void Client::forward(uint8_t time, uint8_t command) {
+	// TODO: Switch to async server or handle multi-threading
 }

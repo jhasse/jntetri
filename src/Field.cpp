@@ -79,35 +79,42 @@ void Field::step() {
 		blocks_.erase(randomBlock);
 	}
 	if (!gameOver_) {
-		secondsPlayed += 1. / double(jngl::getStepsPerSecond());
-		if (control_->step()) {
-			linesCleared = 0;
-			if (counter_ <= 0) {
-				ResetCounter();
-				if (!tetromino_->MoveDown()) {
-					if (delay_) {
-						NewTetromino();
-						delay_ = false;
+		if (checkPause && checkPause()) { // is our opponent having network issues?
+			SetPause(true);
+		} else {
+			if (control_->step()) {
+				stepsWithoutPackage = 0;
+				secondsPlayed += 1. / double(jngl::getStepsPerSecond());
+				linesCleared = 0;
+				if (counter_ <= 0) {
+					ResetCounter();
+					if (!tetromino_->MoveDown()) {
+						if (delay_) {
+							NewTetromino();
+							delay_ = false;
+						} else {
+							counter_ = 30; // Wait 0.3 seconds so that it's possible to move blocks
+										// below others
+							delay_ = true;
+						}
 					} else {
-						counter_ = 30; // Wait 0.3 seconds so that it's possible to move blocks
-						               // below others
-						delay_ = true;
+						delay_ = false;
+					}
+				}
+				tetromino_->Step();
+				if (control_->Check(ControlType::Drop)) {
+					tetromino_->drop();
+					NewTetromino();
+				}
+				if (control_->Check(ControlType::Down)) {
+					if (downKeyReleased_ && counter_ > 7) {
+						counter_ = 7;
 					}
 				} else {
-					delay_ = false;
-				}
-			}
-			tetromino_->Step();
-			if (control_->Check(ControlType::Drop)) {
-				tetromino_->drop();
-				NewTetromino();
-			}
-			if (control_->Check(ControlType::Down)) {
-				if (downKeyReleased_ && counter_ > 7) {
-					counter_ = 7;
+					downKeyReleased_ = true;
 				}
 			} else {
-				downKeyReleased_ = true;
+				++stepsWithoutPackage;
 			}
 		}
 	}
@@ -205,6 +212,11 @@ void Field::drawNextTetromino() const {
 
 void Field::draw() const {
 	GetScreen().DrawCentered("field", 0, 600);
+	if (stepsWithoutPackage > 0) {
+		jngl::setFontColor(0x000000_rgb);
+		jngl::print(std::string((stepsWithoutPackage / 20) % 4, '.'), { -60, 500 });
+		return;
+	}
 	if (!pause_) {
 		if (!gameOver_) {
 			tetromino_->drawShadow();
@@ -305,6 +317,14 @@ int Field::GetLevel() const {
 void Field::SetPause(bool pause) {
 	pause_ = pause;
 	jngl::setMouseVisible(pause);
+}
+
+bool Field::getPause() const {
+	return pause_ || stepsWithoutPackage > 255;
+}
+
+void Field::setCheckPause(std::function<bool()> checkPause) {
+	this->checkPause = std::move(checkPause);
 }
 
 bool Field::GameOverAnimationFinished() const {

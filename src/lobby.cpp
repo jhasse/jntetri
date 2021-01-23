@@ -76,6 +76,7 @@ void Lobby::HandleReceive(std::string buf) {
 			}
 			case 'p': {
 				// Matchmaking was successful and an opponent found. Let's start the game.
+				spdlog::debug("Starting match making");
 				auto control = std::make_shared<NetworkControl>(socket_);
 				jngl::setWork(std::make_shared<Fade>(std::make_shared<SplitScreen>(control)));
 				break;

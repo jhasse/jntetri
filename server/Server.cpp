@@ -69,6 +69,8 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		// Found opponent. Let's send p back to both clients so that the game starts.
 		matchmaking.back()->setOpponent(client);
 		client->setOpponent(matchmaking.back());
+		std::cout << "Matching '" << matchmaking.back()->getUsername() << "' and '"
+		          << client->getUsername() << "'." << std::endl;
 		matchmaking.back()->getSocket().async_send(
 		    boost::asio::buffer("p\b"), [](const boost::system::error_code& err, size_t bytesSent) {
 			    if (err) {

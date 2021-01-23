@@ -2,6 +2,7 @@
 
 #include "engine/screen.hpp"
 #include "Field.hpp"
+#include "NetworkControl.hpp"
 
 #include <jngl/matrix.hpp>
 #include <jngl/font.hpp>
@@ -20,6 +21,7 @@ void SplitScreen::reset() {
 	field1.reset(new Field(seed, wins1));
 	field2.reset(new Field(seed, wins2));
 	field2->setControl(new Control{ opponentControl });
+	field1->setCheckPause([this]() { return field2->getPause(); });
 }
 
 void SplitScreen::step() {
@@ -48,6 +50,11 @@ void SplitScreen::step() {
 		if (field2->GameOver()) {
 			++wins1;
 			freezeCountdown = 200;
+		}
+
+		// FIXME: We shouldn't know about NetworkControl here
+		if (const auto networkControl = dynamic_cast<NetworkControl*>(opponentControl.get())) {
+			networkControl->stepSend(field1->getControl());
 		}
 	}
 }
