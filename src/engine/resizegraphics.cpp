@@ -66,12 +66,7 @@ bool ResizeGraphics::isFinished(float& percentage) {
 		return false;
 	}
 
-	std::string basedir;
-	if (jngl::getPrefix() == "") {
-		basedir = getPaths().getData() + "gfx/x" + std::to_string(originalSize_);
-	} else {
-		basedir = "gfx/x" + std::to_string(originalSize_);
-	}
+	std::string basedir = getPaths().getData() + "gfx/x" + std::to_string(originalSize_);
 	std::string relativeFilename(filesToResize_[0].substr(basedir.size() + 1));
 	std::string newFilename = getPaths().getGraphics() + relativeFilename;
 
