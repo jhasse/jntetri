@@ -6,16 +6,16 @@
 #include <jngl/all.hpp>
 
 Chooser::Chooser(const int x, const int y)
-: previous_(""), next_(""), sprite_(getPaths().getGraphics() + "chooser") {
+: previous_(
+      "", [this]() { Previous(); }, "chooser_left", "chooser_left_over", "chooser_left_over"),
+  next_(
+      "", [this]() { Next(); }, "chooser_right", "chooser_right_over", "chooser_right_over"),
+  sprite_(getPaths().getGraphics() + "chooser") {
 	width = jngl::getWidth(sprite_) * jngl::getScaleFactor();
 	height = jngl::getHeight(sprite_) * jngl::getScaleFactor();
 	setCenter(x, y);
-	previous_.Connect([this]() { Previous(); });
-	previous_.setSprites("chooser_left", "chooser_left_over", "chooser_left_over");
 	previous_.setCenter(
 	    x - static_cast<double>(jngl::getWidth(sprite_)) / 2 - previous_.getWidth() / 2, y);
-	next_.Connect([this]() { Next(); });
-	next_.setSprites("chooser_right", "chooser_right_over", "chooser_right_over");
 	next_.setCenter(x + static_cast<double>(jngl::getWidth(sprite_)) / 2 + next_.getWidth() / 2, y);
 }
 
