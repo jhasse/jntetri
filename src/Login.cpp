@@ -128,7 +128,7 @@ void Login::draw() const {
 	jngl::drawRect(-jngl::getScreenWidth() / 2, -jngl::getScreenHeight() / 2,
 	               jngl::getScreenWidth(), jngl::getScreenHeight());
 	jngl::setFontColor(0, 0, 0);
-	GetScreen().printCentered(text_, { 0, 0 });
+	GetScreen().printCentered(text_, { 0, -150 });
 	cancel_.draw();
 	DrawWidgets();
 }
