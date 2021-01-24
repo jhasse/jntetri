@@ -13,7 +13,7 @@
 #include <sstream>
 #include <spdlog/spdlog.h>
 
-const std::string Login::server_("127.0.0.1");
+const std::string Login::server_("85.214.187.23");
 const int Login::port_ = 7070;
 const std::string Login::protocolVersion_ = "1";
 

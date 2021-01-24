@@ -72,7 +72,6 @@ void Socket::receive(std::function<void(std::string)> onSuccess) {
 
 void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len,
                             std::function<void(std::string)> onSuccess) {
-	std::cout << len << std::endl;
 	if (len == 0) {
 		return;
 	}

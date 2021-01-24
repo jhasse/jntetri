@@ -6,6 +6,7 @@
 #include "engine/fade.hpp"
 #include "engine/screen.hpp"
 #include "constants.hpp"
+#include "Game.hpp"
 
 #include <jngl/all.hpp>
 
@@ -45,5 +46,7 @@ void Intro::step() {
 	if ((jngl::mousePressed() || jngl::keyPressed(jngl::key::Any)) && finished_) {
 		jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
 		// jngl::setWork(std::make_shared<Fade>(std::make_shared<ReplayPlayer>("test3.jtr")));
+		// jngl::setWork(std::make_shared<Game>(GameType::NORMAL, static_cast<int>(time(0)),
+		// false));
 	}
 }

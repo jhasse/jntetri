@@ -3,9 +3,11 @@
 #include "engine/screen.hpp"
 #include "Field.hpp"
 #include "NetworkControl.hpp"
+#include "NetworkRecorder.hpp"
 
 #include <jngl/matrix.hpp>
 #include <jngl/font.hpp>
+#include <memory>
 #include <sstream>
 
 SplitScreen::SplitScreen(std::shared_ptr<ControlBase> opponentControl)
@@ -17,12 +19,19 @@ SplitScreen::~SplitScreen() = default;
 
 void SplitScreen::reset() {
 	freezeCountdown = 0;
-	const int seed = static_cast<int>(std::time(0));
+	// const int seed = static_cast<int>(std::time(0));
+	const int seed = 123; // FIXME: Exchange seed
 	field1.reset(new Field(seed, wins1));
+	// FIXME: We shouldn't know about NetworkControl here
+	if (const auto networkControl = std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
+		field1->setControl(new NetworkRecorder(
+		    { std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0) },
+		    networkControl));
+	}
 	field2.reset(new Field(seed, wins2));
 	field2->setControl(new Control{ opponentControl });
 	field1->setCheckPause([this]() { return field2->getPause(); });
-}
+    }
 
 void SplitScreen::step() {
 	field1->step();
@@ -50,11 +59,6 @@ void SplitScreen::step() {
 		if (field2->GameOver()) {
 			++wins1;
 			freezeCountdown = 200;
-		}
-
-		// FIXME: We shouldn't know about NetworkControl here
-		if (const auto networkControl = dynamic_cast<NetworkControl*>(opponentControl.get())) {
-			networkControl->stepSend(field1->getControl());
 		}
 	}
 }

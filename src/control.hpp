@@ -45,7 +45,7 @@ public:
 	bool Check(ControlType);
 
 	/// Returns false when no new commands are coming in (e.g. network issues).
-	bool step();
+	virtual bool step();
 
 	void forEach(const std::function<void(ControlType)>&);
 

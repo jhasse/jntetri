@@ -56,6 +56,7 @@ src = [
 	'src/optionsmenu.cpp',
 	'src/SplitScreen.cpp',
 	'src/NetworkControl.cpp',
+	'src/NetworkRecorder.cpp',
 	'src/gui/chooser.cpp',
 	'src/gui/input.cpp',
 	'src/gui/Button.cpp',
