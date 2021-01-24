@@ -6,6 +6,22 @@
 ControlBase::~ControlBase() {
 }
 
+bool ControlBase::step(const std::function<void(ControlType)>& set) {
+	if (junkToAdd > 0) {
+		--junkToAdd;
+		set(ControlType::AddJunk);
+	}
+	return true;
+}
+
+void ControlBase::addJunk() {
+	++junkToAdd;
+}
+
+bool ControlBase::desync() const {
+	return false;
+}
+
 Control::Control(std::initializer_list<std::shared_ptr<ControlBase>> l) : controls(l) {
 }
 
@@ -23,6 +39,21 @@ void Control::forEach(const std::function<void(ControlType)>& f) {
 	}
 }
 
+void Control::addJunk() {
+	for (const auto& control : controls) {
+		control->addJunk();
+	}
+}
+
+bool Control::desync() const {
+	for (const auto& control : controls) {
+		if (control->desync()) {
+			return true;
+		}
+	}
+	return false;
+}
+
 bool Control::step() {
 	bits_.reset();
 	bool success = false;
@@ -35,29 +66,31 @@ bool Control::step() {
 }
 
 bool KeyboardControl::step(const std::function<void(ControlType)>& Set) {
-	if(jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
+	if (jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
 		Set(ControlType::Drop);
 	}
-	if(jngl::keyDown(jngl::key::Down) || jngl::keyDown('k')) {
+	if (jngl::keyDown(jngl::key::Down) || jngl::keyDown('k')) {
 		Set(ControlType::Down);
 	}
-	if(jngl::keyPressed(jngl::key::Left) || jngl::keyPressed('j')) {
+	if (jngl::keyPressed(jngl::key::Left) || jngl::keyPressed('j')) {
 		Set(ControlType::Left);
 	}
-	if(jngl::keyPressed(jngl::key::Right) || jngl::keyPressed('l')) {
+	if (jngl::keyPressed(jngl::key::Right) || jngl::keyPressed('l')) {
 		Set(ControlType::Right);
 	}
-	if(jngl::keyPressed(jngl::key::Up) || jngl::keyPressed('i')) {
+	if (jngl::keyPressed(jngl::key::Up) || jngl::keyPressed('i')) {
 		Set(ControlType::Rotate);
 	}
-	if(jngl::keyPressed(jngl::key::ControlR) || jngl::keyPressed(jngl::key::AltR)) {
+	if (jngl::keyPressed(jngl::key::ControlR) || jngl::keyPressed(jngl::key::AltR)) {
 		Set(ControlType::RotateCounter);
 	}
-	return true;
+	return ControlBase::step(Set);
 }
 
 bool GamepadControl::step(const std::function<void(ControlType)>& Set) {
-	if (!controller) { return false; }
+	if (!controller) {
+		return false;
+	}
 	if (controller->pressed(jngl::controller::A)) {
 		Set(ControlType::Drop);
 	}
@@ -99,7 +132,7 @@ bool GamepadControl::step(const std::function<void(ControlType)>& Set) {
 	// if (controller->pressed(jngl::controller::B)) {
 	// 	Set(ControlType::Rotate);
 	// }
-	return true;
+	return ControlBase::step(Set);
 }
 
 GamepadControl::GamepadControl(const size_t number) {

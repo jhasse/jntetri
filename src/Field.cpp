@@ -35,29 +35,8 @@ Field::Field(int seed, const int level)
 }
 
 void Field::addJunk(int nr) {
-	for (auto& block : blocks_) {
-		block.setY(block.getY() + nr);
-		block.setAnimationY(block.getAnimationY() - nr);
-	}
-
-	if (tetromino_) {
-		tetromino_->moveUp(nr);
-	}
-
-	std::uniform_int_distribution<int> dist(0, width_ - 1);
-	std::mt19937 colorRandom;
-	std::uniform_int_distribution<int> colorDist(0, 255);
 	for (int i = 0; i < nr; ++i) {
-		int leaveOut = dist(random);
-		for (int x = 0; x < width_; ++x) {
-			if (x != leaveOut) {
-				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom),
-				                  colorDist(colorRandom));
-				Block block(x, i, color);
-				block.setAnimationY(-nr);
-				AddBlock(block);
-			}
-		}
+		control_->addJunk();
 	}
 }
 
@@ -114,6 +93,28 @@ void Field::step() {
 					}
 				} else {
 					downKeyReleased_ = true;
+				}
+				if (control_->Check(ControlType::AddJunk)) {
+					for (auto& block : blocks_) {
+						block.setY(block.getY() + 1);
+						block.setAnimationY(block.getAnimationY() - 1);
+					}
+					if (tetromino_) {
+						tetromino_->moveUp(1);
+					}
+					std::uniform_int_distribution<int> dist(0, width_ - 1);
+					std::mt19937 colorRandom;
+					std::uniform_int_distribution<int> colorDist(0, 255);
+					int leaveOut = dist(random);
+					for (int x = 0; x < width_; ++x) {
+						if (x != leaveOut) {
+							jngl::Color color(colorDist(colorRandom), colorDist(colorRandom),
+							                  colorDist(colorRandom));
+							Block block(x, 0, color);
+							block.setAnimationY(-1);
+							AddBlock(block);
+						}
+					}
 				}
 			} else {
 				++stepsWithoutPackage;
@@ -322,7 +323,7 @@ void Field::SetPause(bool pause) {
 }
 
 bool Field::getPause() const {
-	return pause_ || stepsWithoutPackage > 255;
+	return pause_ || control_->desync();
 }
 
 void Field::setCheckPause(std::function<bool()> checkPause) {

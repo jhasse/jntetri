@@ -10,7 +10,7 @@ NetworkControl::NetworkControl(std::shared_ptr<Socket> socket) : socket(std::mov
 
 bool NetworkControl::step(const std::function<void(ControlType)>& set) {
 	socket->step();
-	if (nullPackagesReceived == 0) {
+	if (nullPackagesReceived < 2) {
 		return false;
 	}
 	while ((time % BUFFER_LENGTH) == data.front().first) {
@@ -80,4 +80,8 @@ void NetworkControl::stepSend(Control& control) {
 			sendingInProgress = false;
 		});
 	}
+}
+
+bool NetworkControl::desync() const {
+	return std::abs(time - sendTime) > BUFFER_LENGTH;
 }

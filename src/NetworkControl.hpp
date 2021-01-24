@@ -15,6 +15,8 @@ public:
 
 	void stepSend(Control&);
 
+	bool desync() const override;
+
 private:
 	std::shared_ptr<Socket> socket;
 	std::queue<std::pair<unsigned char, ControlType>> data;

@@ -17,6 +17,7 @@ enum class ControlType {
 	Rotate,
 	RotateCounter,
 	Null,     // dummy package used in network games and replays
+	AddJunk,  // only for multiplayer
 	LastValue // must always be the last (see bitset in Control class)
 };
 
@@ -25,9 +26,16 @@ public:
 	virtual ~ControlBase();
 
 	/// Returns false when no new commands are coming in (e.g. network issues).
-	virtual bool step(const std::function<void(ControlType)>&) = 0;
+	virtual bool step(const std::function<void(ControlType)>&);
+
+	/// step should set ControlType::AddJunk in the next frame
+	virtual void addJunk();
+
+	/// Network issues?
+	virtual bool desync() const;
 
 protected:
+	int junkToAdd = 0;
 };
 
 class Control {
@@ -40,6 +48,11 @@ public:
 	bool step();
 
 	void forEach(const std::function<void(ControlType)>&);
+
+	/// Calls ControlBase::addJunk. Only really relevant when using NetworkControl
+	void addJunk();
+
+	bool desync() const;
 
 protected:
 	std::bitset<static_cast<size_t>(ControlType::LastValue)> bits_;
