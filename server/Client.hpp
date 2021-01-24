@@ -15,6 +15,8 @@ public:
 	void forward(uint8_t time, uint8_t command);
 
 private:
+	void handleRecv(std::stringstream);
+
 	boost::asio::io_context context;
 	boost::asio::ip::tcp::socket socket;
 	Server& server;

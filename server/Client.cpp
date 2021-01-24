@@ -31,6 +31,41 @@ std::stringstream receive(tcp::socket& socket) {
 	}
 }
 
+void asyncReceive(tcp::socket& socket, std::function<void(std::stringstream)> handler) {
+
+	struct ReadHandler {
+		tcp::socket& socket;
+		std::unique_ptr<std::array<char, 128>> buf;
+		std::unique_ptr<std::stringstream> sstream;
+		std::function<void(std::stringstream)> handler;
+
+		ReadHandler(const ReadHandler&) = delete;
+		ReadHandler& operator=(const ReadHandler&) = delete;
+		ReadHandler(ReadHandler&&) = default;
+		~ReadHandler() {
+			if (sstream) {
+				handler(std::move(*sstream));
+			}
+		}
+
+		void operator()(const boost::system::error_code& err, size_t len) {
+			std::cout << "Received " << len << " bytes." << std::endl;
+			for (size_t i = 0; i < len; ++i) {
+				if ((*buf)[i] == DELIMITER) {
+					return;
+				}
+				*sstream << (*buf)[i];
+			}
+			socket.async_receive(boost::asio::buffer(*buf), std::move(*this));
+		}
+	};
+
+	ReadHandler readHandler{ socket, std::make_unique<std::array<char, 128>>(),
+		                     std::make_unique<std::stringstream>(), std::move(handler) };
+
+	socket.async_receive(boost::asio::buffer(*readHandler.buf), std::move(readHandler));
+}
+
 void Client::run() {
 	uint32_t protocolVersion;
 	receive(socket) >> protocolVersion;
@@ -52,33 +87,9 @@ void Client::run() {
 		if (password == "asd") {
 			socket.send(boost::asio::buffer("ok"));
 			username = user;
-			while (auto sstream = receive(socket)) {
-				char command;
-				sstream.get(command);
-				switch (command) {
-					case 'c': {
-						std::string text;
-						std::getline(sstream, text);
-						std::string newChatLine = user + ": " + text;
-						server.addChatLine(newChatLine);
-						std::cout << "Received from " << user << ": " << text << std::endl;
-						break;
-					}
-					case 'p':
-						server.startMatchmaking(shared_from_this());
-						break;
-					case 'x': {
-						uint8_t time = sstream.get();
-						uint8_t command = sstream.get();
-						if (command != 6) { // FIXME: Use enum class
-							std::cout << "forwarding command " << int(command) << " at time "
-							          << int(time) << std::endl;
-						}
-						opponent->forward(time, command);
-						break;
-					}
-				}
-			}
+			asyncReceive(socket,
+			             [this](std::stringstream sstream) { handleRecv(std::move(sstream)); });
+			context.run();
 		} else {
 			socket.send(boost::asio::buffer("wrong password"));
 		}
@@ -97,4 +108,33 @@ std::string Client::getUsername() const {
 
 void Client::forward(uint8_t time, uint8_t command) {
 	// TODO: Switch to async server or handle multi-threading
+}
+
+void Client::handleRecv(std::stringstream sstream) {
+	char command;
+	sstream.get(command);
+	switch (command) {
+		case 'c': {
+			std::string text;
+			std::getline(sstream, text);
+			std::string newChatLine = username + ": " + text;
+			server.addChatLine(newChatLine);
+			std::cout << "Received from " << username << ": " << text << std::endl;
+			break;
+		}
+		case 'p':
+			server.startMatchmaking(shared_from_this());
+			break;
+		case 'x': {
+			uint8_t time = sstream.get();
+			uint8_t command = sstream.get();
+			if (command != 6) { // FIXME: Use enum class
+				std::cout << "forwarding command " << int(command) << " at time " << int(time)
+				          << std::endl;
+			}
+			opponent->forward(time, command);
+			break;
+		}
+	}
+	asyncReceive(socket, [this](std::stringstream sstream) { handleRecv(std::move(sstream)); });
 }
