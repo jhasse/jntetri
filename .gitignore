@@ -1,8 +1,5 @@
 /build*/
 .DS_Store
-xcode/.DS_Store
-xcode/JNTETRI.xcodeproj/xcuserdata/jhasse.xcuserdatad/xcdebugger/Breakpoints.xcbkptlist
-xcode/JNTETRI.xcodeproj/project.xcworkspace/xcuserdata/
 .sconsign.dblite
 bin/
 *.sublime-workspace
