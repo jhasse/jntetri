@@ -208,7 +208,9 @@ void Tetromino::moveUp(int amount) {
 void Tetromino::Draw() const {
 	{
 		auto context = shadow.use();
-		jngl::translate(-jngl::getScreenSize().x / 2., 0);
+		jngl::pushMatrix();
+		jngl::reset();
+		jngl::translate(-jngl::getScreenSize() / 2.);
 		jngl::translate(shadow.getSize() / 2);
 		jngl::translate(-Block::size / 2, -Block::size / 2);
 		context.clear(0xffffff_rgb);
@@ -221,6 +223,7 @@ void Tetromino::Draw() const {
 			drawBlocks();
 			jngl::popMatrix();
 		}
+		jngl::popMatrix();
 		jngl::setSpriteAlpha(255);
 	}
 	jngl::pushMatrix();
