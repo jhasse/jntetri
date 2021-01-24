@@ -90,7 +90,7 @@ Tetromino::Tetromino(int type, Field& field)
 
 	int numberOfRotations = std::uniform_int_distribution<int>(0,3)(field_.getRandom());
 	for (int i = 0; i < numberOfRotations; ++i) {
-		Rotate(CLOCKWISE);
+		Rotate(CLOCKWISE, true);
 	}
 	animationX_ = animationY_ = rotation_ = 0; // Clear animation set by Rotate(CLOCKWISE)
 	x_ = 5;
@@ -114,10 +114,10 @@ void Tetromino::Step() {
 		}
 	}
 	if (field_.getControl().Check(ControlType::Rotate)) {
-		Rotate(CLOCKWISE);
+		Rotate(CLOCKWISE, false);
 	}
 	if (field_.getControl().Check(ControlType::RotateCounter)) {
-		Rotate(COUNTERCLOCKWISE);
+		Rotate(COUNTERCLOCKWISE, false);
 	}
 }
 
@@ -135,8 +135,9 @@ void Tetromino::ChangeY(int c) {
 	animationY_ -= c;
 }
 
-void Tetromino::Rotate(const Direction direction) {
-	bool collidedBeforeRotation = Collided();
+void Tetromino::Rotate(const Direction direction, bool ignoreCollision) {
+	// if ignoreCollision is true, we don't want to make any calls to Collided()
+	bool collidedBeforeRotation = ignoreCollision || Collided();
 	auto end = blocks_.end();
 	for (auto it = blocks_.begin(); it != end; ++it) {
 		if (direction == CLOCKWISE) {
@@ -166,9 +167,9 @@ void Tetromino::Rotate(const Direction direction) {
 						ChangeX(2);
 						// Undo rotation
 						if (direction == CLOCKWISE) {
-							Rotate(COUNTERCLOCKWISE);
+							Rotate(COUNTERCLOCKWISE, true);
 						} else {
-							Rotate(CLOCKWISE);
+							Rotate(CLOCKWISE, true);
 						}
 					}
 				}

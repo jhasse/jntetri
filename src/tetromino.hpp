@@ -18,7 +18,10 @@ public:
 	bool MoveDown();
 	void moveUp(int amount);
 	void AttachToField();
-	void Rotate(Direction);
+
+	/// \a ignoreCollision is used when creating the Tetromino
+	void Rotate(Direction, bool ignoreCollision);
+
 	void RandomRotate();
 	void SetX(int);
 	void drop();
