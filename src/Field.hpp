@@ -47,7 +47,7 @@ public:
 	bool GameOverAnimationFinished() const;
 	void setControl(Control*);
 	Control& getControl() const;
-	std::mt19937& getRandom();
+	unsigned int getRandom();
 	int getRandomSeed() const;
 	int getLinesCleared() const;
 	void addJunk(int nr);

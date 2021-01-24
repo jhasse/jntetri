@@ -88,7 +88,7 @@ Tetromino::Tetromino(int type, Field& field)
 		break;}
 	}
 
-	int numberOfRotations = std::uniform_int_distribution<int>(0,3)(field_.getRandom());
+	int numberOfRotations = field_.getRandom() % 4;
 	for (int i = 0; i < numberOfRotations; ++i) {
 		Rotate(CLOCKWISE, true);
 	}

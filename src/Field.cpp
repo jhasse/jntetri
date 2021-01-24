@@ -19,11 +19,10 @@ Field::Field(int seed, const int level)
 	NewTetromino();
 	NewTetromino();
 	score_ = 0;
-	std::uniform_int_distribution<int> dist(0, width_ - 1);
 	std::mt19937 colorRandom;
 	std::uniform_int_distribution<int> colorDist(0, 255);
 	for (unsigned int i = 0; i < getOptions().startJunks; ++i) {
-		int leaveOut = dist(random);
+		int leaveOut = random() % (width_ - 1);
 		for (int x = 0; x < width_; ++x) {
 			if (x != leaveOut) {
 				jngl::Color color(colorDist(colorRandom), colorDist(colorRandom),
@@ -108,10 +107,9 @@ void Field::step() {
 					if (tetromino_) {
 						tetromino_->moveUp(1);
 					}
-					std::uniform_int_distribution<int> dist(0, width_ - 1);
 					std::mt19937 colorRandom;
 					std::uniform_int_distribution<int> colorDist(0, 255);
-					int leaveOut = dist(random);
+					int leaveOut = random() % (width_ - 1);
 					for (int x = 0; x < width_; ++x) {
 						if (x != leaveOut) {
 							jngl::Color color(colorDist(colorRandom), colorDist(colorRandom),
@@ -173,7 +171,7 @@ void Field::NewTetromino() {
 		CheckLines();
 	}
 	tetromino_ = nextTetromino_;
-	nextTetromino_.reset(new Tetromino(std::uniform_int_distribution<int>(0, 6)(random), *this));
+	nextTetromino_.reset(new Tetromino(random() % 7, *this));
 
 	if (tetromino_) {
 		const int xPositions[] = { 5, 6, 4, 7, 3, 8, 2, 9, 1, 10, 0 };
@@ -352,8 +350,8 @@ Control& Field::getControl() const {
 	return *control_;
 }
 
-std::mt19937& Field::getRandom() {
-	return random;
+unsigned int Field::getRandom() {
+	return random();
 }
 
 int Field::getRandomSeed() const {
