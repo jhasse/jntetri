@@ -14,6 +14,8 @@ public:
 	void step();
 
 private:
+	bool packageFinished(const std::string&) const;
+
 	boost::asio::io_service io_;
 	boost::asio::ip::tcp::socket socket_;
 	void CheckBuffer(std::string&);
