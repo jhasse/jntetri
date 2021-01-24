@@ -17,11 +17,6 @@ const std::string Login::server_("85.214.187.23");
 const int Login::port_ = 7070;
 const std::string Login::protocolVersion_ = "1";
 
-template<class T>
-void Send(boost::asio::ip::tcp::socket& socket, const std::string& text, T callback) {
-	socket.async_send(boost::asio::buffer(text + "\r\n"), callback);
-}
-
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
 : menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
   socket_(new Socket) {
