@@ -49,6 +49,12 @@ void Field::ResetCounter() {
 }
 
 void Field::step() {
+	if (pause_) {
+		if (checkPause && !checkPause()) {
+			SetPause(false);
+		}
+		return;
+	}
 	if (gameOver_) {
 		--counter_;
 		if (counter_ <= 0 && !blocks_.empty()) {
