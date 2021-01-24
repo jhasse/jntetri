@@ -18,7 +18,11 @@ public:
 private:
 	std::shared_ptr<Socket> socket;
 	std::queue<std::pair<unsigned char, ControlType>> data;
+
+	/// The time of the opponent
 	int time = 0;
+
+	uint16_t nullPackagesReceived = 0;
 
 	std::queue<std::pair<unsigned char, ControlType>> sendQueue;
 	int sendTime = 0;

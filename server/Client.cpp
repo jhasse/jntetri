@@ -32,7 +32,6 @@ std::stringstream receive(tcp::socket& socket) {
 }
 
 void asyncReceive(tcp::socket& socket, std::function<void(std::stringstream)> handler) {
-
 	struct ReadHandler {
 		tcp::socket& socket;
 		std::unique_ptr<std::array<char, 128>> buf;
@@ -49,6 +48,9 @@ void asyncReceive(tcp::socket& socket, std::function<void(std::stringstream)> ha
 		}
 
 		void operator()(const boost::system::error_code& err, size_t len) {
+			if (err) {
+				throw std::runtime_error("Receive Error");
+			}
 			std::cout << "Received " << len << " bytes." << std::endl;
 			for (size_t i = 0; i < len; ++i) {
 				if ((*buf)[i] == DELIMITER) {
@@ -107,7 +109,22 @@ std::string Client::getUsername() const {
 }
 
 void Client::forward(uint8_t time, uint8_t command) {
-	// TODO: Switch to async server or handle multi-threading
+	struct WriteHandler {
+		WriteHandler(const WriteHandler&) = delete;
+		WriteHandler& operator=(const WriteHandler&) = delete;
+		WriteHandler(WriteHandler&&) = default;
+		std::array<uint8_t, 4> buf;
+		void operator()(const boost::system::error_code& err, size_t len) {
+			if (err) {
+				throw std::runtime_error("Send Error");
+			}
+			std::cout << "Successfully sent " << buf[0] << " " << int(buf[1]) << " " << int(buf[2])
+			          << std::endl;
+		}
+	};
+
+	WriteHandler writeHandler{ { 'x', time, command, '\b' } };
+	socket.async_send(boost::asio::buffer(writeHandler.buf), std::move(writeHandler));
 }
 
 void Client::handleRecv(std::stringstream sstream) {

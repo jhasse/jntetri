@@ -27,11 +27,16 @@ void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::e
 	std::cout << "New connection." << std::endl;
 	if (!error) {
 		clients.emplace_back(client);
-		threads.emplace_back([client]() {
+		threads.emplace_back([this, client]() {
 			try {
 				client->run();
 			} catch (std::exception& e) {
 				std::cerr << e.what() << std::endl;
+			}
+			std::lock_guard<std::mutex> lock(matchmakingMutex);
+			if (const auto it = std::find(matchmaking.begin(), matchmaking.end(), client);
+			    it != matchmaking.end()) {
+				matchmaking.erase(it);
 			}
 		});
 	}
