@@ -12,6 +12,7 @@ public:
 	void Send(const std::string& data, std::function<void()> onSuccess);
 	void Receive(std::function<void(std::string)> onSuccess);
 	void Step();
+
 private:
 	boost::asio::io_service io_;
 	boost::asio::ip::tcp::socket socket_;
