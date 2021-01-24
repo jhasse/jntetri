@@ -16,10 +16,14 @@ public:
 
 private:
 	void handleRecv(std::stringstream);
+	void asyncReceive(std::function<void(std::stringstream)> handler);
 
 	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;
 	Server& server;
 	std::shared_ptr<Client> opponent;
 	std::string username;
+
+	/// unhandled bytes from the last receive
+	std::string receiveBuffer;
 };

@@ -32,20 +32,28 @@ std::stringstream receive(tcp::socket& socket) {
 	}
 }
 
-void asyncReceive(tcp::socket& socket, std::function<void(std::stringstream)> handler) {
+void Client::asyncReceive(std::function<void(std::stringstream)> handler) {
+	// find any unhandled packages
+	for (int i = 0; i < receiveBuffer.length(); ++i) {
+		if (receiveBuffer[i] == DELIMITER) {
+			std::string package = receiveBuffer.substr(0, i);
+			receiveBuffer = receiveBuffer.substr(i + 1);
+			handler(std::stringstream(package));
+			return;
+		}
+	}
+
 	struct ReadHandler {
 		tcp::socket& socket;
 		std::unique_ptr<std::array<char, 128>> buf;
 		std::unique_ptr<std::stringstream> sstream;
 		std::function<void(std::stringstream)> handler;
+		std::string* clientReceiveBuffer;
 
 		ReadHandler(const ReadHandler&) = delete;
 		ReadHandler& operator=(const ReadHandler&) = delete;
 		ReadHandler(ReadHandler&&) = default;
 		~ReadHandler() {
-			if (sstream) {
-				handler(std::move(*sstream));
-			}
 		}
 
 		void operator()(const boost::system::error_code& err, size_t len) {
@@ -54,17 +62,31 @@ void asyncReceive(tcp::socket& socket, std::function<void(std::stringstream)> ha
 			}
 			std::cout << "Received " << len << " bytes." << std::endl;
 			for (size_t i = 0; i < len; ++i) {
-				if ((*buf)[i] == DELIMITER) {
-					return;
-				}
 				*sstream << (*buf)[i];
 			}
-			socket.async_receive(boost::asio::buffer(*buf), std::move(*this));
+
+			// find packages
+			int start = 0;
+			std::string package;
+			for (int i = 0; i < sstream->str().length(); ++i) {
+				if (package.empty() && sstream->str()[i] == DELIMITER) {
+					package = sstream->str().substr(start, i - start);
+					clientReceiveBuffer->clear();
+				} else {
+					*clientReceiveBuffer += sstream->str()[i];
+				}
+			}
+			if (package.empty()) {
+				socket.async_receive(boost::asio::buffer(*buf), std::move(*this));
+			} else {
+				handler(std::stringstream(package));
+			}
 		}
 	};
 
 	ReadHandler readHandler{ socket, std::make_unique<std::array<char, 128>>(),
-		                     std::make_unique<std::stringstream>(), std::move(handler) };
+		                     std::make_unique<std::stringstream>(receiveBuffer), std::move(handler),
+		                     &receiveBuffer };
 
 	auto mutableBuf = boost::asio::buffer(*readHandler.buf);
 	socket.async_receive(mutableBuf, std::move(readHandler));
@@ -92,8 +114,7 @@ void Client::run() {
 			std::cout << "Accepted password, sending \"ok\\b\" ..." << std::endl;
 			socket.send(boost::asio::buffer({ 'o', 'k', '\b' }));
 			username = user;
-			asyncReceive(socket,
-			             [this](std::stringstream sstream) { handleRecv(std::move(sstream)); });
+			asyncReceive([this](std::stringstream sstream) { handleRecv(std::move(sstream)); });
 			context.run();
 		} else {
 			socket.send(boost::asio::buffer("wrong password\b"));
@@ -156,5 +177,5 @@ void Client::handleRecv(std::stringstream sstream) {
 			break;
 		}
 	}
-	asyncReceive(socket, [this](std::stringstream sstream) { handleRecv(std::move(sstream)); });
+	asyncReceive([this](std::stringstream sstream) { handleRecv(std::move(sstream)); });
 }
