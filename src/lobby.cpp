@@ -8,7 +8,6 @@
 #include "NetworkControl.hpp"
 #include "SplitScreen.hpp"
 
-#include <boost/bind.hpp>
 #include <jngl/all.hpp>
 #include <spdlog/spdlog.h>
 
@@ -31,13 +30,13 @@ void Lobby::OnLogout() {
 
 void Lobby::OnPlay() {
 	play_->setSensitive(false);
-	socket_->Send("p", []() { spdlog::info("Successfully sent 'p'."); });
+	socket_->send("p", []() { spdlog::info("Successfully sent 'p'."); });
 }
 
 void Lobby::step() {
-	socket_->Step();
+	socket_->step();
 	if (jngl::keyPressed(jngl::key::Return)) {
-		socket_->Send(std::string("c") + input_->getText(), [this]() { OnMessageSent(); });
+		socket_->send(std::string("c") + input_->getText(), [this]() { OnMessageSent(); });
 		input_->setSensitive(false);
 	}
 	StepWidgets();
@@ -83,5 +82,5 @@ void Lobby::HandleReceive(std::string buf) {
 			}
 		}
 	}
-	socket_->Receive([this](std::string buf) { HandleReceive(buf); });
+	socket_->receive([this](std::string buf) { HandleReceive(buf); });
 }

@@ -8,7 +8,7 @@
 #include "lobby.hpp"
 
 #include <jngl/all.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>
 #include <spdlog/spdlog.h>
@@ -26,20 +26,20 @@ Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
 : menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
   socket_(new Socket) {
 	spdlog::info("Connecting to {}:{}", server_, port_);
-	socket_->Connect(server_, port_, [this]() { HandleConnect(); });
+	socket_->connect(server_, port_, [this]() { HandleConnect(); });
 	cancel_.setCenter(0, 200);
 }
 
 void Login::HandleConnect() {
 	text_ = "sending ...";
 	spdlog::info("Sending protocol version {}", protocolVersion_);
-	socket_->Send(protocolVersion_, [this]() { ProtocolCheck1(); });
+	socket_->send(protocolVersion_, [this]() { ProtocolCheck1(); });
 }
 
 void Login::ProtocolCheck1() {
 	text_ = "receiving ...";
 	spdlog::info("Waiting for server accept connection");
-	socket_->Receive([this](std::string err) { ProtocolCheck2(err); });
+	socket_->receive([this](std::string err) { ProtocolCheck2(err); });
 }
 
 void Login::ProtocolCheck2(std::string temp) {
@@ -51,12 +51,12 @@ void Login::ProtocolCheck2(std::string temp) {
 		std::stringstream sstream;
 		sstream << "login\n" << menu_->GetName() << "\n" << menu_->GetPassword();
 		spdlog::info("Sending {}", sstream.str());
-		socket_->Send(sstream.str(), [this]() { HandleLogin1(); });
+		socket_->send(sstream.str(), [this]() { HandleLogin1(); });
 	}
 }
 
 void Login::HandleLogin1() {
-	socket_->Receive(boost::bind(&Login::HandleLogin2, this, _1));
+	socket_->receive([this](std::string temp) { HandleLogin2(std::move(temp)); });
 	text_ = "waiting for authentification ...";
 }
 
@@ -84,14 +84,14 @@ void Login::HandleLogin2(std::string temp) {
 void Login::Register() {
 	std::stringstream sstream;
 	sstream << "register\n" << menu_->GetName() << "\n" << menu_->GetPassword() << "\r\n";
-	socket_->Send(sstream.str(), boost::bind(&Login::HandleRegister1, this));
+	socket_->send(sstream.str(), boost::bind(&Login::HandleRegister1, this));
 	cancel_.setCenter(0, 800);
 	cancel_.SetText("Cancel");
 	widgets_.clear(); // FIXME: Implement RemoveWidget function
 }
 
 void Login::HandleRegister1() {
-	socket_->Receive(boost::bind(&Login::HandleRegister2, this, _1));
+	socket_->receive([this](std::string temp) { HandleRegister2(std::move(temp)); });
 	text_ = "please wait ...";
 }
 
@@ -107,7 +107,7 @@ void Login::HandleRegister2(std::string temp) {
 
 void Login::step() {
 	try {
-		socket_->Step();
+		socket_->step();
 	} catch(std::exception& e) {
 		text_ = "Exception: ";
 		text_ += e.what();

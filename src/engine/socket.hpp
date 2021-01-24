@@ -8,10 +8,10 @@
 class Socket : boost::noncopyable {
 public:
 	Socket();
-	void Connect(const std::string& server, int port, std::function<void()> onSuccess);
-	void Send(const std::string& data, std::function<void()> onSuccess);
-	void Receive(std::function<void(std::string)> onSuccess);
-	void Step();
+	void connect(const std::string& server, int port, std::function<void()> onSuccess);
+	void send(const std::string& data, std::function<void()> onSuccess);
+	void receive(std::function<void(std::string)> onSuccess);
+	void step();
 
 private:
 	boost::asio::io_service io_;

@@ -1,14 +1,14 @@
 #include "socket.hpp"
 
 #include <iostream>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 const std::string delimiter = "\b";
 
 Socket::Socket() : socket_(io_) {
 }
 
-void Socket::Step() {
+void Socket::step() {
 	io_.poll();
 }
 
@@ -20,7 +20,7 @@ void CallbackWrapper(const boost::system::error_code& err, std::function<void()>
 	}
 }
 
-void Socket::Connect(const std::string& server, int port, std::function<void()> onSuccess) {
+void Socket::connect(const std::string& server, int port, std::function<void()> onSuccess) {
 	using boost::asio::ip::tcp;
 	auto resolver = std::make_shared<tcp::resolver>(io_);
 	tcp::resolver::query query(server, "http");
@@ -38,7 +38,7 @@ void Socket::Connect(const std::string& server, int port, std::function<void()> 
 	});
 }
 
-void Socket::Send(const std::string& data, std::function<void()> onSuccess) {
+void Socket::send(const std::string& data, std::function<void()> onSuccess) {
 	socket_.async_send(boost::asio::buffer(data + delimiter),
 	                   boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
 }
@@ -57,7 +57,7 @@ void Socket::CheckBuffer(std::string& buf) {
 	}
 }
 
-void Socket::Receive(std::function<void(std::string)> onSuccess) {
+void Socket::receive(std::function<void(std::string)> onSuccess) {
 	if (tempBuffer_ == "") {
 		socket_.async_receive(boost::asio::buffer(buf_),
 		                      boost::bind(&Socket::ReceiveWrapper, this,

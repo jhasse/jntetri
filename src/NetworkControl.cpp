@@ -5,11 +5,11 @@
 #include <spdlog/spdlog.h>
 
 NetworkControl::NetworkControl(std::shared_ptr<Socket> socket) : socket(std::move(socket)) {
-	this->socket->Receive([this](std::string buf) { handleReceive(buf); });
+	this->socket->receive([this](std::string buf) { handleReceive(buf); });
 }
 
 bool NetworkControl::step(const std::function<void(ControlType)>& set) {
-	socket->Step();
+	socket->step();
 
 	while (!data.empty() && time == data.front().first) {
 		set(data.front().second); // execute command
@@ -55,7 +55,7 @@ void NetworkControl::handleReceive(std::string buf) {
 				spdlog::error("Unknown package: {}", buf);
 				break;
 		}
-		socket->Receive([this](std::string buf) { handleReceive(buf); });
+		socket->receive([this](std::string buf) { handleReceive(buf); });
 	}
 }
 
@@ -75,7 +75,7 @@ void NetworkControl::stepSend(Control& control) {
 		std::string buf("x");
 		buf += uint8_t(sendQueue.front().first);
 		buf += uint8_t(sendQueue.front().second);
-		socket->Send(buf, [this]() {
+		socket->send(buf, [this]() {
 			sendQueue.pop();
 			spdlog::debug("sent package success.");
 			sendingInProgress = false;
