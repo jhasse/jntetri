@@ -2,6 +2,7 @@
 
 #include <boost/asio.hpp>
 #include <mutex>
+#include <thread>
 
 class Client;
 

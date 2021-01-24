@@ -7,8 +7,7 @@
 
 using boost::asio::ip::tcp;
 
-Server::Server()
-: socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)), strand(context) {
+Server::Server() : socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)) {
 }
 
 Server::~Server() {
