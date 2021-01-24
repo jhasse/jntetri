@@ -39,8 +39,12 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 }
 
 void Socket::send(const std::string& data, std::function<void()> onSuccess) {
-	socket_.async_send(boost::asio::buffer(data + delimiter),
-	                   boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
+	auto buf = std::make_unique<std::string>(data + delimiter);
+	auto mutableBuf = boost::asio::buffer(*buf);
+	socket_.async_send(mutableBuf, [this, buf = std::move(buf), onSuccess = std::move(onSuccess)](
+	                                   const boost::system::error_code& err, size_t) {
+		CallbackWrapper(err, std::move(onSuccess));
+	});
 }
 
 void Socket::CheckBuffer(std::string& buf) {
