@@ -2,12 +2,13 @@
 
 #include "Client.hpp"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <iostream>
 
 using boost::asio::ip::tcp;
 
-Server::Server() : socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)) {
+Server::Server()
+: socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)), strand(context) {
 }
 
 Server::~Server() {
@@ -38,10 +39,12 @@ void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::e
 }
 
 void Server::startAccept() {
-	auto newClient = std::make_shared<Client>(context, *this);
-	acceptor.async_accept(
-	    newClient->getSocket(),
-	    boost::bind(&Server::handleAccept, this, newClient, boost::asio::placeholders::error));
+	auto newClient = std::make_shared<Client>(*this);
+	// Client has its own io_context, but we want to handle accept within our own io_context,
+	// therefore wrap the handler with our strand.
+	acceptor.async_accept(newClient->getSocket(),
+	                      strand.wrap(boost::bind(&Server::handleAccept, this, newClient,
+	                                              boost::asio::placeholders::error)));
 }
 
 void Server::addChatLine(std::string line) {

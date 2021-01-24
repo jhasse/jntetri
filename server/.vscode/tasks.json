@@ -6,7 +6,12 @@
 		{
 			"label": "build",
 			"type": "shell",
-			"command": "ja"
+			"command": "ja",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }

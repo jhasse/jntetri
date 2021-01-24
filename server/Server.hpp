@@ -21,6 +21,7 @@ private:
 	boost::asio::io_context context;
 	boost::asio::ip::tcp::socket socket;
 	boost::asio::ip::tcp::acceptor acceptor;
+	boost::asio::io_context::strand strand;
 	std::vector<std::shared_ptr<Client>> clients;
 
 	std::mutex chatTextMutex;

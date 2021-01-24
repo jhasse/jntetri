@@ -7,7 +7,7 @@ class Server;
 
 class Client : public std::enable_shared_from_this<Client> {
 public:
-	Client(boost::asio::io_context& context, Server&);
+	Client(Server&);
 	void run();
 	boost::asio::ip::tcp::socket& getSocket();
 	void setOpponent(std::shared_ptr<Client>);
@@ -15,6 +15,7 @@ public:
 	void forward(uint8_t time, uint8_t command);
 
 private:
+	boost::asio::io_context context;
 	boost::asio::ip::tcp::socket socket;
 	Server& server;
 	std::shared_ptr<Client> opponent;

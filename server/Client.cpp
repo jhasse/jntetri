@@ -7,7 +7,7 @@
 
 using boost::asio::ip::tcp;
 
-Client::Client(boost::asio::io_context& context, Server& server) : socket(context), server(server) {
+Client::Client(Server& server) : socket(context), server(server) {
 }
 
 tcp::socket& Client::getSocket() {
