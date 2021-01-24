@@ -49,26 +49,19 @@ void Socket::send(const std::string& data, std::function<void()> onSuccess) {
 
 void Socket::CheckBuffer(std::string& buf) {
 	size_t pos = buf.find_first_of(delimiter);
-	if (pos != std::string::npos) {
-		if (pos + delimiter.size() < buf.size()) {
-			tempBuffer_ = buf.substr(pos + delimiter.size());
-		} else {
-			tempBuffer_ = "";
-		}
-		buf = buf.substr(0, pos);
-	} else {
-		tempBuffer_ = "";
-	}
+	assert(pos != std::string::npos);
+	receiveBuffer = buf.substr(pos + delimiter.size());
+	buf = buf.substr(0, pos);
 }
 
 void Socket::receive(std::function<void(std::string)> onSuccess) {
-	if (tempBuffer_ == "") {
+	if (receiveBuffer.find_first_of(delimiter) == std::string::npos) {
 		socket_.async_receive(boost::asio::buffer(buf_),
 		                      boost::bind(&Socket::ReceiveWrapper, this,
 		                                  boost::asio::placeholders::error,
 		                                  boost::asio::placeholders::bytes_transferred, onSuccess));
 	} else {
-		std::string temp = tempBuffer_;
+		std::string temp = receiveBuffer;
 		CheckBuffer(temp);
 		onSuccess(temp);
 	}
@@ -82,7 +75,16 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len,
 	if (err) {
 		throw std::runtime_error("socket error");
 	}
-	std::string temp(buf_.begin(), len - delimiter.size());
-	CheckBuffer(temp);
-	onSuccess(temp);
+	receiveBuffer += std::string(&buf_[0], len);
+	if (receiveBuffer.find_first_of(delimiter) == std::string::npos) {
+		// haven't received a full package yet
+		socket_.async_receive(boost::asio::buffer(buf_),
+		                      boost::bind(&Socket::ReceiveWrapper, this,
+		                                  boost::asio::placeholders::error,
+		                                  boost::asio::placeholders::bytes_transferred, onSuccess));
+	} else {
+		std::string temp = receiveBuffer;
+		CheckBuffer(temp);
+		onSuccess(temp);
+	}
 }

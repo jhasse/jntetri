@@ -21,5 +21,6 @@ private:
 	                    std::function<void(std::string)>);
 	boost::array<char, 1024> buf_;
 	boost::asio::streambuf streamBuffer_;
-	std::string tempBuffer_;
+
+	std::string receiveBuffer;
 };
