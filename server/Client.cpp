@@ -4,6 +4,7 @@
 
 #include <boost/array.hpp>
 #include <iostream>
+#include <thread>
 
 using boost::asio::ip::tcp;
 

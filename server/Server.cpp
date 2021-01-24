@@ -45,11 +45,9 @@ void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::e
 
 void Server::startAccept() {
 	auto newClient = std::make_shared<Client>(*this);
-	// Client has its own io_context, but we want to handle accept within our own io_context,
-	// therefore wrap the handler with our strand.
-	acceptor.async_accept(newClient->getSocket(),
-	                      strand.wrap(boost::bind(&Server::handleAccept, this, newClient,
-	                                              boost::asio::placeholders::error)));
+	acceptor.async_accept(
+	    newClient->getSocket(),
+	    boost::bind(&Server::handleAccept, this, newClient, boost::asio::placeholders::error));
 }
 
 void Server::addChatLine(std::string line) {

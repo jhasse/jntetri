@@ -17,7 +17,7 @@ public:
 private:
 	void handleRecv(std::stringstream);
 
-	boost::asio::io_context context;
+	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;
 	Server& server;
 	std::shared_ptr<Client> opponent;

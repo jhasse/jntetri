@@ -18,10 +18,9 @@ public:
 private:
 	constexpr static auto JNTETRI_PORT = 7070;
 	std::vector<std::thread> threads;
-	boost::asio::io_context context;
+	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;
 	boost::asio::ip::tcp::acceptor acceptor;
-	boost::asio::io_context::strand strand;
 	std::vector<std::shared_ptr<Client>> clients;
 
 	std::mutex chatTextMutex;
