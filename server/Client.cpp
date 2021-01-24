@@ -32,13 +32,14 @@ std::stringstream receive(tcp::socket& socket) {
 	}
 }
 
-void Client::asyncReceive(std::function<void(std::stringstream)> handler) {
+void Client::asyncReceive(std::function<void(std::string)> handler) {
 	// find any unhandled packages
 	for (int i = 0; i < receiveBuffer.length(); ++i) {
-		if (receiveBuffer[i] == DELIMITER) {
+		if (/*FIXME*/ i > 0 && receiveBuffer[i - 1] != 'x' && receiveBuffer[i] == DELIMITER) {
 			std::string package = receiveBuffer.substr(0, i);
 			receiveBuffer = receiveBuffer.substr(i + 1);
-			handler(std::stringstream(package));
+			std::cout << "Using receiveBuffer." << std::endl;
+			handler(package);
 			return;
 		}
 	}
@@ -46,8 +47,7 @@ void Client::asyncReceive(std::function<void(std::stringstream)> handler) {
 	struct ReadHandler {
 		tcp::socket& socket;
 		std::unique_ptr<std::array<char, 128>> buf;
-		std::unique_ptr<std::stringstream> sstream;
-		std::function<void(std::stringstream)> handler;
+		std::function<void(std::string)> handler;
 		std::string* clientReceiveBuffer;
 
 		ReadHandler(const ReadHandler&) = delete;
@@ -60,32 +60,41 @@ void Client::asyncReceive(std::function<void(std::stringstream)> handler) {
 			if (err) {
 				throw std::runtime_error("Receive Error");
 			}
-			std::cout << "Received " << len << " bytes." << std::endl;
+			std::string tmp(&((*buf)[0]), len);
+			std::cout << "Received " << len << " bytes:";
 			for (size_t i = 0; i < len; ++i) {
-				*sstream << (*buf)[i];
+				std::cout << " " << int((*buf)[i]);
 			}
+			std::cout << std::endl;
 
 			// find packages
 			int start = 0;
 			std::string package;
-			for (int i = 0; i < sstream->str().length(); ++i) {
-				if (package.empty() && sstream->str()[i] == DELIMITER) {
-					package = sstream->str().substr(start, i - start);
+			for (int i = 0; i < tmp.length(); ++i) {
+				if (package.empty() && /*FIXME*/ i > 0 && tmp[i - 1] != 'x' &&
+				    tmp[i] == DELIMITER) {
+					package = tmp.substr(start, i - start);
 					clientReceiveBuffer->clear();
+					std::string tmp(&((*buf)[0]), len);
+					std::cout << "Found package:";
+					for (size_t j = 0; j < i - start; ++j) {
+						std::cout << " " << int(package[j]);
+					}
+					std::cout << std::endl;
+
 				} else {
-					*clientReceiveBuffer += sstream->str()[i];
+					*clientReceiveBuffer += tmp[i];
 				}
 			}
 			if (package.empty()) {
 				socket.async_receive(boost::asio::buffer(*buf), std::move(*this));
 			} else {
-				handler(std::stringstream(package));
+				handler(package);
 			}
 		}
 	};
 
-	ReadHandler readHandler{ socket, std::make_unique<std::array<char, 128>>(),
-		                     std::make_unique<std::stringstream>(receiveBuffer), std::move(handler),
+	ReadHandler readHandler{ socket, std::make_unique<std::array<char, 128>>(), std::move(handler),
 		                     &receiveBuffer };
 
 	auto mutableBuf = boost::asio::buffer(*readHandler.buf);
@@ -114,7 +123,7 @@ void Client::run() {
 			std::cout << "Accepted password, sending \"ok\\b\" ..." << std::endl;
 			socket.send(boost::asio::buffer({ 'o', 'k', '\b' }));
 			username = user;
-			asyncReceive([this](std::stringstream sstream) { handleRecv(std::move(sstream)); });
+			asyncReceive([this](std::string sstream) { handleRecv(std::move(sstream)); });
 			context.run();
 		} else {
 			socket.send(boost::asio::buffer("wrong password\b"));
@@ -151,12 +160,11 @@ void Client::forward(uint8_t time, uint8_t command) {
 	socket.async_send(boost::asio::buffer(writeHandler.buf), std::move(writeHandler));
 }
 
-void Client::handleRecv(std::stringstream sstream) {
-	char command;
-	sstream.get(command);
-	switch (command) {
+void Client::handleRecv(std::string buf) {
+	switch (buf[0]) {
 		case 'c': {
 			std::string text;
+			std::stringstream sstream(buf.substr(1));
 			std::getline(sstream, text);
 			std::string newChatLine = username + ": " + text;
 			server.addChatLine(newChatLine);
@@ -167,8 +175,9 @@ void Client::handleRecv(std::stringstream sstream) {
 			server.startMatchmaking(shared_from_this());
 			break;
 		case 'x': {
-			uint8_t time = sstream.get();
-			uint8_t command = sstream.get();
+			assert(buf.length() == 3);
+			uint8_t time = buf[1];
+			uint8_t command = buf[2];
 			if (command != 6) { // FIXME: Use enum class
 				std::cout << "forwarding command " << int(command) << " at time " << int(time)
 				          << std::endl;
@@ -177,5 +186,5 @@ void Client::handleRecv(std::stringstream sstream) {
 			break;
 		}
 	}
-	asyncReceive([this](std::stringstream sstream) { handleRecv(std::move(sstream)); });
+	asyncReceive([this](std::string sstream) { handleRecv(std::move(sstream)); });
 }

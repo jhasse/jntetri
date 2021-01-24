@@ -3,11 +3,14 @@
 #include "Intro.hpp"
 #include "engine/debugoverlay.hpp"
 
+#include <spdlog/spdlog.h>
 #include <jngl/all.hpp>
 
 JNGL_MAIN_BEGIN {
 #ifdef NDEBUG
 	try {
+#else
+	spdlog::set_level(spdlog::level::debug);
 #endif
 		jngl::App app("JNTETRI");
 		if (!GetProcedure().ShowWindow() && getOptions().fullscreen) {

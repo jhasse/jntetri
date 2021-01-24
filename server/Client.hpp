@@ -15,8 +15,8 @@ public:
 	void forward(uint8_t time, uint8_t command);
 
 private:
-	void handleRecv(std::stringstream);
-	void asyncReceive(std::function<void(std::stringstream)> handler);
+	void handleRecv(std::string);
+	void asyncReceive(std::function<void(std::string)> handler);
 
 	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;

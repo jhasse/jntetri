@@ -1,4 +1,5 @@
 #include "socket.hpp"
+#include "spdlog/spdlog.h"
 
 #include <iostream>
 #include <boost/bind/bind.hpp>
@@ -70,11 +71,14 @@ void Socket::receive(std::function<void(std::string)> onSuccess) {
 void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len,
                             std::function<void(std::string)> onSuccess) {
 	if (len == 0) {
+		spdlog::warn("len == 0");
 		return;
 	}
 	if (err) {
 		throw std::runtime_error("socket error");
 	}
+	spdlog::debug("receiveBuffer increased from {} to {}", receiveBuffer.size(),
+	              receiveBuffer.size() + len);
 	receiveBuffer += std::string(&buf_[0], len);
 	if (receiveBuffer.find_first_of(delimiter) == std::string::npos) {
 		// haven't received a full package yet

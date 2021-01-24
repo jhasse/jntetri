@@ -79,14 +79,14 @@ void NetworkControl::handleReceive(std::string buf) {
 }
 
 void NetworkControl::stepSend(Control& control) {
+	if (sendTime % BUFFER_LENGTH == 0) {
+		sendQueue.push(std::pair<uint8_t, ControlType>(0, ControlType::Null));
+	}
 	control.forEach([this](ControlType c) {
 		sendQueue.push(std::pair<uint8_t, ControlType>(sendTime % BUFFER_LENGTH, c));
 	});
 
 	++sendTime;
-	if (sendTime % BUFFER_LENGTH == 0) {
-		sendQueue.push(std::pair<uint8_t, ControlType>(0, ControlType::Null));
-	}
 }
 
 bool NetworkControl::desync() const {
@@ -95,5 +95,5 @@ bool NetworkControl::desync() const {
 	        << "  nullPackagesReceived: " << nullPackagesReceived
 	        << "  sendQueue.size(): " << sendQueue.size();
 	jngl::setTitle(sstream.str());
-	return std::abs(time - sendTime) > BUFFER_LENGTH * 2;
+	return std::abs(time - sendTime) > 1000;
 }

@@ -77,20 +77,23 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		std::cout << "Matching '" << matchmaking.back()->getUsername() << "' and '"
 		          << client->getUsername() << "'." << std::endl;
 		matchmaking.back()->getSocket().async_send(
-		    boost::asio::buffer("p\b"), [](const boost::system::error_code& err, size_t bytesSent) {
+		    boost::asio::buffer({ 'p', '\b' }),
+		    [](const boost::system::error_code& err, size_t bytesSent) {
 			    if (err) {
 				    std::cerr << "Couldn't send 'p' to client." << std::endl;
 			    } else {
 				    std::cout << "Sent " << bytesSent << " bytes." << std::endl;
 			    }
 		    });
-		client->getSocket().async_send(
-		    boost::asio::buffer("p\b"), [](const boost::system::error_code& err, size_t bytesSent) {
-			    if (err) {
-				    std::cerr << "Couldn't send 'p' to client." << std::endl;
-			    } else {
-				    std::cout << "Sent " << bytesSent << " bytes." << std::endl;
-			    }
-		    });
+		client->getSocket().async_send(boost::asio::buffer({ 'p', '\b' }),
+		                               [](const boost::system::error_code& err, size_t bytesSent) {
+			                               if (err) {
+				                               std::cerr << "Couldn't send 'p' to client."
+				                                         << std::endl;
+			                               } else {
+				                               std::cout << "Sent " << bytesSent << " bytes."
+				                                         << std::endl;
+			                               }
+		                               });
 	}
 }

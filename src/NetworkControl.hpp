@@ -31,5 +31,5 @@ private:
 
 	bool sendingInProgress = false;
 
-	const int BUFFER_LENGTH = 255;
+	const int BUFFER_LENGTH = 50;
 };
