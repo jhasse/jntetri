@@ -17,6 +17,9 @@ public:
 
 	bool desync() const override;
 
+	void sendQuit();
+	std::shared_ptr<Socket> getSocket();
+
 private:
 	std::shared_ptr<Socket> socket;
 	std::queue<std::pair<unsigned char, ControlType>> data;

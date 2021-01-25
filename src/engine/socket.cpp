@@ -13,10 +13,13 @@ void Socket::step() {
 	io_.poll();
 }
 
-void CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess) {
+void Socket::CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess) {
 	if (err) {
 		throw std::runtime_error("socket error");
 	} else {
+		socket_.async_receive(
+		    boost::asio::buffer(buf_),
+		    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
 		onSuccess();
 	}
 }
@@ -35,7 +38,7 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 		}
 		tcp::endpoint endpoint(endpointIterator->endpoint().address(), port);
 		socket_.async_connect(
-		    endpoint, boost::bind(CallbackWrapper, boost::asio::placeholders::error, onSuccess));
+		    endpoint, boost::bind(&Socket::CallbackWrapper, this, boost::asio::placeholders::error, onSuccess));
 	});
 }
 
@@ -60,41 +63,28 @@ void Socket::CheckBuffer(std::string& buf) {
 }
 
 void Socket::receive(std::function<void(std::string)> onSuccess) {
-	if (receiveBuffer.find_first_of(delimiter) == std::string::npos) {
-		socket_.async_receive(boost::asio::buffer(buf_),
-		                      boost::bind(&Socket::ReceiveWrapper, this,
-		                                  boost::asio::placeholders::error,
-		                                  boost::asio::placeholders::bytes_transferred, onSuccess));
-	} else {
-		std::string temp = receiveBuffer;
-		CheckBuffer(temp);
-		onSuccess(temp);
-	}
+	onReceiveSuccess = std::move(onSuccess);
 }
 
-void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len,
-                            std::function<void(std::string)> onSuccess) {
-	if (len == 0) {
-		spdlog::warn("len == 0");
-		return;
-	}
+void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 	if (err) {
 		throw std::runtime_error("socket error");
 	}
-	spdlog::debug("receiveBuffer increased from {} to {}", receiveBuffer.size(),
-	              receiveBuffer.size() + len);
-	receiveBuffer += std::string(&buf_[0], len);
-	if (!packageFinished(receiveBuffer)) {
-		// haven't received a full package yet
-		socket_.async_receive(boost::asio::buffer(buf_),
-		                      boost::bind(&Socket::ReceiveWrapper, this,
-		                                  boost::asio::placeholders::error,
-		                                  boost::asio::placeholders::bytes_transferred, onSuccess));
+	if (len == 0) {
+		spdlog::warn("len == 0");
 	} else {
-		std::string temp = receiveBuffer;
-		CheckBuffer(temp);
-		onSuccess(temp);
+		spdlog::debug("receiveBuffer increased from {} to {}", receiveBuffer.size(),
+		              receiveBuffer.size() + len);
+		receiveBuffer += std::string(&buf_[0], len);
+		if (packageFinished(receiveBuffer)) {
+			std::string temp = receiveBuffer;
+			CheckBuffer(temp);
+			onReceiveSuccess(temp);
+		}
 	}
+	socket_.async_receive(
+	    boost::asio::buffer(buf_),
+	    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
 }
 
 bool Socket::packageFinished(const std::string& buf) const {

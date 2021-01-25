@@ -4,6 +4,7 @@
 #include "Field.hpp"
 #include "NetworkControl.hpp"
 #include "NetworkRecorder.hpp"
+#include "lobby.hpp"
 
 #include <jngl/matrix.hpp>
 #include <jngl/font.hpp>
@@ -39,7 +40,12 @@ void SplitScreen::step() {
 	if (freezeCountdown > 0) {
 		--freezeCountdown;
 		if (freezeCountdown == 1) {
-			reset();
+			if (const auto networkControl =
+			        std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
+				jngl::setWork<Lobby>(networkControl->getSocket());
+			} else {
+				reset();
+			}
 		}
 	} else {
 		const auto penalty = [](const int cleared) {
@@ -55,10 +61,18 @@ void SplitScreen::step() {
 		if (field1->GameOver()) {
 			++wins2;
 			freezeCountdown = 200;
+			if (const auto networkControl =
+			        std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
+				networkControl->sendQuit();
+			}
 		}
 		if (field2->GameOver()) {
 			++wins1;
 			freezeCountdown = 200;
+			if (const auto networkControl =
+			        std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
+				networkControl->sendQuit();
+			}
 		}
 	}
 }

@@ -70,6 +70,8 @@ void NetworkControl::handleReceive(std::string buf) {
 				    std::pair<unsigned char, ControlType>(time, static_cast<ControlType>(control)));
 				break;
 			}
+			case 'q':
+				return; // Don't receive! Back to lobby
 			default:
 				spdlog::error("Unknown package: {}", buf);
 				break;
@@ -96,4 +98,15 @@ bool NetworkControl::desync() const {
 	        << "  sendQueue.size(): " << sendQueue.size();
 	jngl::setTitle(sstream.str());
 	return std::abs(time - sendTime) > 1000;
+}
+
+void NetworkControl::sendQuit() {
+	std::string buf("q");
+	socket->send(buf, [this]() {
+		spdlog::info("sent quit success.");
+	});
+}
+
+std::shared_ptr<Socket> NetworkControl::getSocket() {
+	return socket;
 }
