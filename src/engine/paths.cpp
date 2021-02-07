@@ -6,9 +6,6 @@
 	#include <windows.h>
 	#include <shlobj.h>
 #endif
-#ifdef __APPLE__
-	#include <CoreServices/CoreServices.h>
-#endif
 #include <iostream>
 #include <sstream>
 #ifdef __linux__
@@ -30,14 +27,7 @@ Paths::Paths() {
 	configPath = path.str();
 #elif defined(__APPLE__)
 	fs::current_path(fs::path(jngl::getBinaryPath()) / fs::path(".."));
-
-	FSRef ref;
-	FSFindFolder(kUserDomain, kApplicationSupportFolderType, kCreateFolder, &ref);
-	char path[PATH_MAX];
-	FSRefMakePath(&ref, (UInt8*)&path, PATH_MAX);
-	boost::filesystem::path applicationSupportFolder(path);
-	applicationSupportFolder /= programDisplayName;
-	configPath = applicationSupportFolder.string() + "/";
+	configPath = jngl::getConfigPath();
 #else
 	const auto findDataDirectory = []() {
 		fs::path binaryPath(jngl::getBinaryPath());
