@@ -10,8 +10,11 @@ FetchContent_Declare(spdlog
 FetchContent_MakeAvailable(spdlog)
 
 FetchContent_Declare(cereal
-	URL https://github.com/USCiLab/cereal/archive/v1.3.0.tar.gz
-	URL_HASH SHA1=e37634e0ee4063ac4694a65f5ae4742d164f5764)
+	GIT_REPOSITORY https://github.com/USCiLab/cereal.git
+	GIT_TAG 64f50dbd5cecdaba785217e2b0aeea3a4f1cdfab)
+set(SKIP_PERFORMANCE_COMPARISON ON CACHE BOOL "Skip building performance comparison (requires boost)" FORCE)
+set(SKIP_PORTABILITY_TEST ON CACHE BOOL "Skip portability (32 bit) tests" FORCE)
+set(WITH_WERROR OFF CACHE BOOL "Compile with '-Werror' C++ compiler flag" FORCE)
 FetchContent_MakeAvailable(cereal)
 
 add_subdirectory(subprojects/jngl)
