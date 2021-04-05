@@ -15,17 +15,4 @@ Procedure& GetProcedure() {
 	return *Procedure::handle();
 }
 
-bool Procedure::ShowWindow() {
-	const Options& options = getOptions();
-	try {
-		jngl::hideWindow();
-		jngl::showWindow(programDisplayName + " " + programVersion, options.windowWidth,
-		                 options.windowHeight, options.fullscreen);
-	} catch (std::runtime_error& err) {
-		jngl::errorMessage(err.what());
-		return false;
-	}
-	return true;
-}
-
 const double Procedure::timePerStep_ = 1.0 / 100.0;
