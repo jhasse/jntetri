@@ -9,3 +9,4 @@ linux:
 
 variables:
   CLICOLOR_FORCE: "1"
+  GIT_SUBMODULE_STRATEGY: recursive

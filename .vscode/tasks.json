@@ -2,7 +2,6 @@
 	"version": "2.0.0",
 	"windows": {
 		"command": "C:\\msys64\\usr\\bin\\bash.exe",
-		"type": "process",
 		"args": ["-lc", "clear && cd \"${workspaceRoot}\" && ([ -d build ] || meson build) && ninja -C build | cat"],
 	},
 	"linux": {
