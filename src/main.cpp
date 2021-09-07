@@ -13,6 +13,7 @@ std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters& param
 	spdlog::set_level(spdlog::level::debug);
 #endif
 	params.displayName = programDisplayName;
+	params.screenSize = { 1280, 720 };
 	return []() {
 		jngl::setAntiAliasing(true);
 		jngl::setIcon("share/icons/jntetri.png");
