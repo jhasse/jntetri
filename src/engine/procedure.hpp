@@ -10,7 +10,7 @@ class Procedure : public Singleton<Procedure> {
 public:
 	Procedure();
 	void MainLoop();
-	bool ShowWindow();
+
 private:
 	double oldTime_;
 	bool needDraw_;
