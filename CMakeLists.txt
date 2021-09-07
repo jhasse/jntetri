@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.15)
 
 project(jntetri)
 
+if(NOT MSVC)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color")
+endif()
+
 include(server/cmake/CPM.cmake)
 CPMAddPackage(
 	NAME nlohmann_json
