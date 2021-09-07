@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ControlType.hpp"
+
 #include <bitset>
 #include <functional>
 #include <memory>
@@ -8,18 +10,6 @@
 namespace jngl {
 class Controller;
 }
-
-enum class ControlType {
-	Drop,
-	Left,
-	Right,
-	Down,
-	Rotate,
-	RotateCounter,
-	Null,     // dummy package used in network games and replays
-	AddJunk,  // only for multiplayer
-	LastValue // must always be the last (see bitset in Control class)
-};
 
 class ControlBase {
 public:
