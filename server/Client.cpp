@@ -108,7 +108,7 @@ void Client::run() {
 	if (protocolVersion != 1) {
 		return;
 	}
-	socket.send(boost::asio::buffer({ 'o', 'k', '\b' }));
+	socket.send(boost::asio::buffer({ 'o', 'k', DELIMITER }));
 	std::cout << "Sent \"ok\\b\"." << std::endl;
 	auto sstream = receive(socket);
 	std::string command;
@@ -121,12 +121,12 @@ void Client::run() {
 		          << "." << std::endl;
 		if (password == "asd") {
 			std::cout << "Accepted password, sending \"ok\\b\" ..." << std::endl;
-			socket.send(boost::asio::buffer({ 'o', 'k', '\b' }));
+			socket.send(boost::asio::buffer({ 'o', 'k', DELIMITER }));
 			username = user;
 			asyncReceive([this](std::string sstream) { handleRecv(std::move(sstream)); });
 			context.run();
 		} else {
-			socket.send(boost::asio::buffer("wrong password\b"));
+			socket.send(boost::asio::buffer("wrong password" + std::string(1, DELIMITER)));
 		}
 	} else {
 		throw std::runtime_error("Unknown command '" + command + "'.");
@@ -156,7 +156,7 @@ void Client::forward(uint8_t time, uint8_t command) {
 		}
 	};
 
-	WriteHandler writeHandler{ { 'x', time, command, '\b' } };
+	WriteHandler writeHandler{ { 'x', time, command, DELIMITER } };
 	socket.async_send(boost::asio::buffer(writeHandler.buf), std::move(writeHandler));
 }
 
