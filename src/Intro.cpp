@@ -1,12 +1,13 @@
 #include "Intro.hpp"
 
-#include "engine/procedure.hpp"
-#include "engine/options.hpp"
-#include "menu.hpp"
-#include "engine/fade.hpp"
-#include "engine/screen.hpp"
 #include "constants.hpp"
+#include "engine/fade.hpp"
+#include "engine/options.hpp"
+#include "engine/procedure.hpp"
+#include "engine/screen.hpp"
 #include "Game.hpp"
+#include "menu.hpp"
+#include "multiplayermenu.hpp"
 
 #include <jngl/all.hpp>
 
@@ -49,7 +50,20 @@ void Intro::step() {
 	bool anyKeyPressed = true;
 #endif
 	if (anyKeyPressed && finished_) {
-		jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
+		bool login = false;
+		for (const auto& arg : jngl::getArgs()) {
+			if (arg == "--login") {
+				login = true;
+			}
+			if (login) {
+				getOptions().lastLoginName = arg;
+			}
+		}
+		if (login) {
+			jngl::setWork<MultiplayerMenu>();
+		} else {
+			jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
+		}
 		// jngl::setWork(std::make_shared<Fade>(std::make_shared<ReplayPlayer>("test3.jtr")));
 		// jngl::setWork(std::make_shared<Game>(GameType::NORMAL, static_cast<int>(time(0)),
 		// false));
