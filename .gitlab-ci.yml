@@ -3,7 +3,7 @@ image: fedora:32
 linux:
   stage: build
   script:
-    - dnf install -y git gcc-c++ fontconfig-devel freetype-devel libvorbis-devel libepoxy-devel libwebp-devel boost-python3-devel python3-devel cmake ninja SDL2-devel openal-soft-devel
+    - dnf install -y git gcc-c++ fontconfig-devel freetype-devel libvorbis-devel libepoxy-devel libwebp-devel boost-python3-devel python3-devel cmake ninja-build SDL2-devel openal-soft-devel
     - cmake -Bbuild -GNinja
     - ninja -C build
 

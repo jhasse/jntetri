@@ -16,6 +16,8 @@ public:
 	void OnLogin();
 	std::string GetName() const;
 	std::string GetPassword() const;
+	void login(const std::string& name, const std::string& password);
+
 private:
 	std::shared_ptr<Button> back_;
 	std::shared_ptr<Button> login_;
