@@ -2,11 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(jntetri-server)
 
 include(cmake/CPM.cmake)
-CPMAddPackage(
-  NAME boost-cmake
-  GITHUB_REPOSITORY Orphis/boost-cmake
-  VERSION 1.67.0
-)
+CPMAddPackage("gh:Orphis/boost-cmake#7f97a08b64bd5d2e53e932ddf80c40544cf45edf@1.71.0")
 find_package(Threads REQUIRED)
 file(GLOB SRC *.cpp)
 add_executable(jntetri-server ${SRC})
