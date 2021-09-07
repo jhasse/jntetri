@@ -3,6 +3,7 @@
 #include "engine/socket.hpp"
 #include "jngl/window.hpp"
 
+#include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
 NetworkControl::NetworkControl(std::shared_ptr<Socket> socket) : socket(std::move(socket)) {
@@ -12,10 +13,12 @@ NetworkControl::NetworkControl(std::shared_ptr<Socket> socket) : socket(std::mov
 bool NetworkControl::step(const std::function<void(ControlType)>& set) {
 	if (!sendQueue.empty() && !sendingInProgress) {
 		sendingInProgress = true;
-		std::string buf("x");
-		buf += uint8_t(sendQueue.front().first);
-		buf += uint8_t(sendQueue.front().second);
-		socket->send(buf, [this]() {
+		nlohmann::json j = {
+			{ "type", "game" },
+			{ "time", sendQueue.front().first },
+			{ "control", sendQueue.front().second },
+		};
+		socket->send(std::string("x") + j.dump(), [this]() {
 			sendQueue.pop();
 			spdlog::info("sent package success. {} to go.", sendQueue.size());
 			sendingInProgress = false;
@@ -47,34 +50,26 @@ bool NetworkControl::step(const std::function<void(ControlType)>& set) {
 }
 
 void NetworkControl::handleReceive(std::string buf) {
-	if (buf.length() > 0) {
-		char actionType = buf[0];
-		buf = buf.substr(1);
-		switch (actionType) {
-			case 'x': {
-				if (buf.length() != 2) {
-					spdlog::error("invalid x package of length {}: {}", buf.length(), buf);
-					break;
-				}
-				uint8_t time = buf[0];
-				uint8_t control = buf[1];
-				if (control >= static_cast<int>(ControlType::LastValue)) {
-					spdlog::error("invalid control type in package: {}", control);
-					break;
-				}
+	if (buf.length() > 1) {
+		spdlog::debug("Received: " + buf);
+		auto j = nlohmann::json::parse(buf.substr(1) /* remove x */);
+		if (j["type"] == "game") {
+			uint8_t time = j["time"].get<uint8_t>();
+			uint8_t control = j["control"].get<uint8_t>();
+			if (control >= static_cast<int>(ControlType::LastValue)) {
+				spdlog::error("invalid control type in package: {}", control);
+			} else {
 				if (control == static_cast<uint8_t>(ControlType::Null)) {
 					spdlog::info("Null package received.");
 					++nullPackagesReceived;
 				}
 				data.push(
 				    std::pair<unsigned char, ControlType>(time, static_cast<ControlType>(control)));
-				break;
 			}
-			case 'q':
-				return; // Don't receive! Back to lobby
-			default:
-				spdlog::error("Unknown package: {}", buf);
-				break;
+		} else if (j["type"] == "quit") {
+			return; // Don't receive! Back to lobby
+		} else {
+			spdlog::error("Unknown package: {}", buf);
 		}
 		socket->receive([this](std::string buf) { handleReceive(buf); });
 	}
