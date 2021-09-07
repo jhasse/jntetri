@@ -5,6 +5,7 @@
 #include "engine/options.hpp"
 #include "engine/procedure.hpp"
 #include "engine/screen.hpp"
+#include "fonts.hpp"
 #include "Game.hpp"
 #include "menu.hpp"
 #include "multiplayermenu.hpp"
@@ -26,6 +27,7 @@ void Intro::draw() const {
 	if (resizeGraphics_.isFinished(percentage)) {
 		finished_ = true;
 		jngl::setFontColor(0, 0, 0, blink_ > 255 ? 510 - blink_ : blink_);
+		fonts::label(); // TODO: find a better way to load all fonts
 		GetScreen().printCentered("Press any key to continue", { 0, 0 });
 	} else {
 		GetScreen().printCentered(std::to_string(int(percentage)) + " %", { 0, 0 });

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "block.hpp"
+#include "DesyncInfo.hpp"
 #include "engine/options.hpp"
 #include "tetromino.hpp"
 #include "explosion.hpp"
@@ -12,6 +13,7 @@
 #include <ctime>
 #include <boost/noncopyable.hpp>
 #include <memory>
+#include <optional>
 
 class Field : boost::noncopyable {
 public:
@@ -86,4 +88,6 @@ private:
 
 	/// If set, we force-pause the game when it returns true
 	std::function<bool()> checkDesync;
+
+	std::optional<DesyncInfo> desyncInfo;
 };

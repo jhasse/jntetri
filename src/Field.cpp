@@ -48,10 +48,14 @@ void Field::ResetCounter() {
 }
 
 void Field::step() {
-	if (pause_) {
-		if (checkDesync && !checkDesync()) {
-			SetPause(false);
+	if (desyncInfo) {
+		desyncInfo->step();
+		if (!checkDesync()) {
+			desyncInfo = std::nullopt;
 		}
+		return;
+	}
+	if (pause_) {
 		return;
 	}
 	if (gameOver_) {
@@ -65,7 +69,7 @@ void Field::step() {
 		}
 	} else {
 		if (checkDesync && checkDesync()) { // is our opponent having network issues?
-			SetPause(true);
+			desyncInfo = DesyncInfo();
 		} else {
 			if (!control_->step()) {
 				++stepsWithoutPackage;
@@ -224,7 +228,9 @@ void Field::draw() const {
 		jngl::print(std::string((stepsWithoutPackage / 20) % 4, '.'), { -60, 500 });
 		return;
 	}
-	if (!pause_) {
+	if (desyncInfo) {
+		desyncInfo->draw();
+	} else if (!pause_) {
 		if (!gameOver_) {
 			tetromino_->drawShadow();
 		}
