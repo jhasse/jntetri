@@ -5,6 +5,9 @@
 #include <boost/array.hpp>
 #include <iostream>
 #include <thread>
+#include <nlohmann/json.hpp>
+
+#include "NetworkConstants.hpp"
 
 using boost::asio::ip::tcp;
 
@@ -14,8 +17,6 @@ Client::Client(Server& server) : socket(context), server(server) {
 tcp::socket& Client::getSocket() {
 	return socket;
 }
-
-const char DELIMITER = '\b';
 
 std::stringstream receive(tcp::socket& socket) {
 	std::stringstream sstream;
@@ -105,7 +106,7 @@ void Client::run() {
 	uint32_t protocolVersion;
 	receive(socket) >> protocolVersion;
 	std::cout << "Protocol version: " << protocolVersion << std::endl;
-	if (protocolVersion != 1) {
+	if (protocolVersion != PROTOCOL_VERSION) {
 		return;
 	}
 	socket.send(boost::asio::buffer({ 'o', 'k', DELIMITER }));
