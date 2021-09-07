@@ -17,8 +17,8 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 	if (err) {
 		throw std::runtime_error("socket error");
 	} else {
-		socket_.async_receive(
-		    boost::asio::buffer(buf_),
+		boost::asio::async_read_until(
+		    socket_, streamBuffer_, DELIMITER,
 		    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
 		onSuccess();
 	}
@@ -51,17 +51,6 @@ void Socket::send(const std::string& data, std::function<void()> onSuccess) {
 	});
 }
 
-void Socket::CheckBuffer(std::string& buf) {
-	for (size_t pos = 0; pos < buf.length(); ++pos) {
-		if (/*FIXME*/ pos > 0 && buf[pos - 1] != 'x' && buf[pos] == DELIMITER[0]) {
-			receiveBuffer = buf.substr(pos + 1);
-			buf = buf.substr(0, pos);
-			return;
-		}
-	}
-	assert(false);
-}
-
 void Socket::receive(std::function<void(std::string)> onSuccess) {
 	onReceiveSuccess = std::move(onSuccess);
 }
@@ -73,17 +62,14 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 	if (len == 0) {
 		spdlog::warn("len == 0");
 	} else {
-		spdlog::debug("receiveBuffer increased from {} to {}", receiveBuffer.size(),
-		              receiveBuffer.size() + len);
-		receiveBuffer += std::string(&buf_[0], len);
-		if (packageFinished(receiveBuffer)) {
-			std::string temp = receiveBuffer;
-			CheckBuffer(temp);
-			onReceiveSuccess(temp);
-		}
+		std::istream is(&streamBuffer_);
+		std::string buf;
+		std::getline(is, buf, DELIMITER[0]);
+		// spdlog::debug("Received: buf.size(): {}, len: {}, buf: {}", buf.size(), len, buf);
+		onReceiveSuccess(buf);
 	}
-	socket_.async_receive(
-	    boost::asio::buffer(buf_),
+	boost::asio::async_read_until(
+	    socket_, streamBuffer_, DELIMITER,
 	    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
 }
 

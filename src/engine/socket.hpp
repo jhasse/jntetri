@@ -18,13 +18,10 @@ private:
 
 	boost::asio::io_service io_;
 	boost::asio::ip::tcp::socket socket_;
-	void CheckBuffer(std::string&);
 	void CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess);
 	void ReceiveWrapper(const boost::system::error_code& err, size_t);
 	boost::array<char, 1024> buf_;
 	boost::asio::streambuf streamBuffer_;
-
-	std::string receiveBuffer;
 
 	std::function<void(std::string)> onReceiveSuccess;
 };
