@@ -7,7 +7,7 @@
 /// Info box that will be shown in the field when there are desync issues
 class DesyncInfo {
 public:
-	DesyncInfo();
+	explicit DesyncInfo(std::function<void()> userQuitCallback);
 
 	void step();
 	void draw() const;

@@ -1,5 +1,6 @@
 #include "SplitScreen.hpp"
 
+#include "engine/fade.hpp"
 #include "engine/screen.hpp"
 #include "Field.hpp"
 #include "NetworkControl.hpp"
@@ -28,6 +29,10 @@ void SplitScreen::reset() {
 		field1->setControl(new NetworkRecorder(
 		    { std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0) },
 		    networkControl));
+		field1->onUserQuit([networkControl]() {
+			networkControl->sendQuit();
+			jngl::setWork<Fade>(std::make_shared<Lobby>(networkControl->getSocket()));
+		});
 	}
 	field2.reset(new Field(seed, wins2));
 	field2->setControl(new Control{ opponentControl });
@@ -79,7 +84,7 @@ void SplitScreen::step() {
 
 void SplitScreen::draw() const {
 	jngl::pushMatrix();
-	jngl::translate(-660, -600);
+	jngl::translate(-660, 0);
 	field1->draw();
 	jngl::translate(1320, 0);
 	field2->draw();

@@ -2,20 +2,23 @@
 
 #include "fonts.hpp"
 
+#include <jngl/matrix.hpp>
 #include <spdlog/spdlog.h>
 
-DesyncInfo::DesyncInfo()
-: text(fonts::label(), "no connection"),
-  cancel("Disconnect", [this] { spdlog::info("DesyncInfo: Disconnect button clicked."); }) {
-	text.setCenter(0, 300);
-	cancel.setCenter(0, 500);
+DesyncInfo::DesyncInfo(std::function<void()> userQuitCallback)
+: text(fonts::label(), "no connection"), cancel("Disconnect", std::move(userQuitCallback)) {
+	text.setCenter(0, -300);
+	cancel.setCenter(-660, -100);
 }
 
 void DesyncInfo::step() {
-	// cancel.step();
+	cancel.step();
 }
 
 void DesyncInfo::draw() const {
 	text.draw();
-	// cancel.draw();
+	jngl::pushMatrix();
+	jngl::translate(660, 0); // FIXME: This undos the translation in SplitScreen.cpp
+	cancel.draw();
+	jngl::popMatrix();
 }

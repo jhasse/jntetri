@@ -69,7 +69,7 @@ void Field::step() {
 		}
 	} else {
 		if (checkDesync && checkDesync()) { // is our opponent having network issues?
-			desyncInfo = DesyncInfo();
+			desyncInfo = DesyncInfo(onUserQuitCallback);
 		} else {
 			if (!control_->step()) {
 				++stepsWithoutPackage;
@@ -198,7 +198,7 @@ bool Field::GameOver() const {
 
 jngl::Vec2 Field::indexToPixel(const double x, const double y) const {
 	return { -double(width_ * blockSize_) / 2.0 + (x + 0.5) * blockSize_,
-	         height_ * blockSize_ - y * blockSize_ };
+		     height_ * blockSize_ - y * blockSize_ - 600 };
 }
 
 double Field::getBottomY() const {
@@ -206,23 +206,26 @@ double Field::getBottomY() const {
 }
 
 int Field::GetNextPosition() const {
-	int nextPosition = 900 - (maxY_ - 4) * blockSize_;
-	if (nextPosition > 900) {
-		return 900;
+	int nextPosition = 300 - (maxY_ - 4) * blockSize_;
+	if (nextPosition > 300) {
+		return 300;
 	}
-	if (nextPosition < 175) {
-		return 175;
+	if (nextPosition < -425) {
+		return -425;
 	}
 	return nextPosition;
 }
 
 void Field::drawNextTetromino() const {
 	jngl::print("Next:", -100, -75);
+	jngl::pushMatrix();
+	jngl::translate(0, 600);
 	nextTetromino_->Draw();
+	jngl::popMatrix();
 }
 
 void Field::draw() const {
-	GetScreen().DrawCentered("field", 0, 600);
+	GetScreen().DrawCentered("field", 0, 0);
 	if (stepsWithoutPackage > 0) {
 		jngl::setFontColor(0x000000_rgb);
 		jngl::print(std::string((stepsWithoutPackage / 20) % 4, '.'), { -60, 500 });
@@ -338,6 +341,10 @@ bool Field::desync() const {
 
 void Field::setCheckDesync(std::function<bool()> checkDesync) {
 	this->checkDesync = std::move(checkDesync);
+}
+
+void Field::onUserQuit(std::function<void()> onUserQuitCallback) {
+	this->onUserQuitCallback = std::move(onUserQuitCallback);
 }
 
 bool Field::GameOverAnimationFinished() const {

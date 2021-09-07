@@ -86,7 +86,6 @@ void Game::draw() const {
 	jngl::pushMatrix();
 	jngl::rotate(rotateDegree_);
 	jngl::scale(1 + rotateDegree_ / 270);
-	jngl::translate(0, -jngl::getScreenHeight() / 2);
 
 	field_.draw();
 	if (!rotateScreen_) {
@@ -97,16 +96,16 @@ void Game::draw() const {
 		field_.drawNextTetromino();
 		jngl::popMatrix();
 		if (type_ == GameType::FIFTYLINES) {
-			DrawTime(450, 100);
+			DrawTime(450, -500);
 		} else {
-			jngl::print("Score: ", 450, 100);
-			jngl::print(std::to_string(field_.GetScore()), 450, 200);
-			DrawTime(450, 820);
+			jngl::print("Score: ", 450, -500);
+			jngl::print(std::to_string(field_.GetScore()), 450, -400);
+			DrawTime(450, 220);
 		}
-		jngl::print("Level: ", 450, 340);
-		jngl::print(std::to_string(field_.GetLevel()), 450, 440);
-		jngl::print("Lines: ", 450, 580);
-		jngl::print(std::to_string(field_.GetLines()), 450, 680);
+		jngl::print("Level: ", 450, -260);
+		jngl::print(std::to_string(field_.GetLevel()), 450, -160);
+		jngl::print("Lines: ", 450, -20);
+		jngl::print(std::to_string(field_.GetLines()), 450, 80);
 	}
 	jngl::popMatrix();
 }

@@ -48,6 +48,8 @@ public:
 	/// paused
 	void setCheckDesync(std::function<bool()>);
 
+	void onUserQuit(std::function<void()>);
+
 	bool GameOverAnimationFinished() const;
 	void setControl(Control*);
 	Control& getControl() const;
@@ -90,4 +92,5 @@ private:
 	std::function<bool()> checkDesync;
 
 	std::optional<DesyncInfo> desyncInfo;
+	std::function<void()> onUserQuitCallback;
 };
