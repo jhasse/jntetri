@@ -13,7 +13,9 @@ void Fade::step()
 {
 	const int maxAlpha = 255;
 	fadeCount_ += speed_;
-	if(fadeCount_ >= 2 * maxAlpha) // Finished?
+#ifdef NDEBUG
+	if (fadeCount_ >= 2 * maxAlpha) // Finished?
+#endif
 	{
 		jngl::setWork(work_);
 	}

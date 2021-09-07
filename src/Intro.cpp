@@ -43,7 +43,12 @@ void Intro::step() {
 	if (blink_ > 2 * 255) {
 		blink_ = 0;
 	}
-	if ((jngl::mousePressed() || jngl::keyPressed(jngl::key::Any)) && finished_) {
+#ifdef NDEBUG
+	bool anyKeyPressed = jngl::mousePressed() || jngl::keyPressed(jngl::key::Any);
+#else
+	bool anyKeyPressed = true;
+#endif
+	if (anyKeyPressed && finished_) {
 		jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
 		// jngl::setWork(std::make_shared<Fade>(std::make_shared<ReplayPlayer>("test3.jtr")));
 		// jngl::setWork(std::make_shared<Game>(GameType::NORMAL, static_cast<int>(time(0)),
