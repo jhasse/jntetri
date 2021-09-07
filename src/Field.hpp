@@ -39,10 +39,12 @@ public:
 	void drawNextTetromino() const;
 	void SetPause(bool pause);
 
-	/// also returns true when there are network issues
-	bool getPause() const;
+	/// returns true when there are network issues
+	bool desync() const;
 
-	void setCheckPause(std::function<bool()>);
+	/// the function will be called to check if there's a network desync and the game should be
+	/// paused
+	void setCheckDesync(std::function<bool()>);
 
 	bool GameOverAnimationFinished() const;
 	void setControl(Control*);
@@ -83,5 +85,5 @@ private:
 	double secondsPlayed = 0;
 
 	/// If set, we force-pause the game when it returns true
-	std::function<bool()> checkPause;
+	std::function<bool()> checkDesync;
 };

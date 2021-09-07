@@ -31,8 +31,8 @@ void SplitScreen::reset() {
 	}
 	field2.reset(new Field(seed, wins2));
 	field2->setControl(new Control{ opponentControl });
-	field1->setCheckPause([this]() { return field2->getPause(); });
-    }
+	field1->setCheckDesync([this]() { return field2->desync(); });
+}
 
 void SplitScreen::step() {
 	field1->step();

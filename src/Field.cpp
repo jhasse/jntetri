@@ -49,7 +49,7 @@ void Field::ResetCounter() {
 
 void Field::step() {
 	if (pause_) {
-		if (checkPause && !checkPause()) {
+		if (checkDesync && !checkDesync()) {
 			SetPause(false);
 		}
 		return;
@@ -64,7 +64,7 @@ void Field::step() {
 			blocks_.erase(randomBlock);
 		}
 	} else {
-		if (checkPause && checkPause()) { // is our opponent having network issues?
+		if (checkDesync && checkDesync()) { // is our opponent having network issues?
 			SetPause(true);
 		} else {
 			if (!control_->step()) {
@@ -326,12 +326,12 @@ void Field::SetPause(bool pause) {
 	jngl::setMouseVisible(pause);
 }
 
-bool Field::getPause() const {
-	return pause_ || control_->desync();
+bool Field::desync() const {
+	return control_->desync();
 }
 
-void Field::setCheckPause(std::function<bool()> checkPause) {
-	this->checkPause = std::move(checkPause);
+void Field::setCheckDesync(std::function<bool()> checkDesync) {
+	this->checkDesync = std::move(checkDesync);
 }
 
 bool Field::GameOverAnimationFinished() const {
