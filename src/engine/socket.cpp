@@ -1,10 +1,10 @@
 #include "socket.hpp"
-#include "spdlog/spdlog.h"
+
+#include "../../server/NetworkConstants.hpp"
 
 #include <iostream>
 #include <boost/bind/bind.hpp>
-
-const std::string delimiter = "\b";
+#include <spdlog/spdlog.h>
 
 Socket::Socket() : socket_(io_) {
 }
@@ -43,7 +43,7 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 }
 
 void Socket::send(const std::string& data, std::function<void()> onSuccess) {
-	auto buf = std::make_unique<std::string>(data + delimiter);
+	auto buf = std::make_unique<std::string>(data + DELIMITER);
 	auto mutableBuf = boost::asio::buffer(*buf);
 	socket_.async_send(mutableBuf, [this, buf = std::move(buf), onSuccess = std::move(onSuccess)](
 	                                   const boost::system::error_code& err, size_t) {
@@ -53,7 +53,7 @@ void Socket::send(const std::string& data, std::function<void()> onSuccess) {
 
 void Socket::CheckBuffer(std::string& buf) {
 	for (size_t pos = 0; pos < buf.length(); ++pos) {
-		if (/*FIXME*/ pos > 0 && buf[pos - 1] != 'x' && buf[pos] == delimiter[0]) {
+		if (/*FIXME*/ pos > 0 && buf[pos - 1] != 'x' && buf[pos] == DELIMITER[0]) {
 			receiveBuffer = buf.substr(pos + 1);
 			buf = buf.substr(0, pos);
 			return;
@@ -89,7 +89,7 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 
 bool Socket::packageFinished(const std::string& buf) const {
 	for (size_t i = 0; i < buf.length(); ++i) {
-		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == delimiter[0]) {
+		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == DELIMITER[0]) {
 			return true;
 		}
 	}
