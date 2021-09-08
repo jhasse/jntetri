@@ -15,6 +15,7 @@ Client::Client(Server& server) : socket(context), server(server) {
 	commands["login"] = std::bind(&Client::login, this, std::placeholders::_1);
 	commands["chat"] = std::bind(&Client::chat, this, std::placeholders::_1);
 	commands["game"] = std::bind(&Client::game, this, std::placeholders::_1);
+	commands["play"] = std::bind(&Client::play, this, std::placeholders::_1);
 }
 
 tcp::socket& Client::getSocket() {
