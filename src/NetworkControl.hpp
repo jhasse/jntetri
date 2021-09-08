@@ -2,7 +2,10 @@
 
 #include "control.hpp"
 
+#include <nlohmann/json.hpp>
 #include <queue>
+
+using nlohmann::json;
 
 class Socket;
 
@@ -11,7 +14,7 @@ class NetworkControl : public ControlBase {
 public:
 	NetworkControl(std::shared_ptr<Socket> socket);
 	bool step(const std::function<void(ControlType)>&) override;
-	void handleReceive(std::string buf);
+	void handleReceive(json buf);
 
 	void stepSend(Control&);
 

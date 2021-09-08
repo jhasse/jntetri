@@ -51,7 +51,11 @@ void Socket::send(const std::string& data, std::function<void()> onSuccess) {
 	});
 }
 
-void Socket::receive(std::function<void(std::string)> onSuccess) {
+void Socket::send(const json& data, std::function<void()> onSuccess) {
+	send(data.dump(), std::move(onSuccess));
+}
+
+void Socket::receive(std::function<void(json)> onSuccess) {
 	onReceiveSuccess = std::move(onSuccess);
 }
 
@@ -65,8 +69,9 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 		std::istream is(&streamBuffer_);
 		std::string buf;
 		std::getline(is, buf, DELIMITER[0]);
-		// spdlog::debug("Received: buf.size(): {}, len: {}, buf: {}", buf.size(), len, buf);
-		onReceiveSuccess(buf);
+		spdlog::debug("Received: buf.size(): {}, len: {}, buf: {}", buf.size(), len, buf);
+		auto data = json::parse(buf);
+		onReceiveSuccess(std::move(data));
 	}
 	boost::asio::async_read_until(
 	    socket_, streamBuffer_, DELIMITER,

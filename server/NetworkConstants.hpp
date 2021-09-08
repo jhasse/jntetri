@@ -3,4 +3,4 @@
 #include <string>
 
 const std::string DELIMITER = "\b";
-const uint32_t PROTOCOL_VERSION = 1;
+const uint32_t PROTOCOL_VERSION = 2;
