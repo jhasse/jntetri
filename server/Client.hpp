@@ -18,7 +18,6 @@ public:
 private:
 	void handleRecv(std::string);
 	void handleData(const boost::system::error_code& e, std::size_t size);
-	void asyncReceive(std::function<void(std::string)> handler);
 
 	void login(nlohmann::json data);
 	void chat(nlohmann::json data);

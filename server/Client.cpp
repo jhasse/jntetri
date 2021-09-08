@@ -21,92 +21,8 @@ tcp::socket& Client::getSocket() {
 	return socket;
 }
 
-std::stringstream receive(tcp::socket& socket) {
-	std::stringstream sstream;
-	while (true) {
-		boost::array<char, 128> buf;
-		const size_t len = socket.read_some(boost::asio::buffer(buf));
-		std::cout << "Received " << len << " bytes." << std::endl;
-		for (size_t i = 0; i < len; ++i) {
-			if (buf[i] == DELIMITER[0]) {
-				return sstream;
-			}
-			sstream << buf[i];
-		}
-	}
-}
-
-
-void Client::asyncReceive(std::function<void(std::string)> handler) {
-	// find any unhandled packages
-	for (int i = 0; i < receiveBuffer.length(); ++i) {
-		if (/*FIXME*/ i > 0 && receiveBuffer[i - 1] != 'x' && receiveBuffer[i] == DELIMITER[0]) {
-			std::string package = receiveBuffer.substr(0, i);
-			receiveBuffer = receiveBuffer.substr(i + 1);
-			std::cout << "Using receiveBuffer." << std::endl;
-			handler(package);
-			return;
-		}
-	}
-
-	struct ReadHandler {
-		tcp::socket& socket;
-		std::unique_ptr<std::array<char, 128>> buf;
-		std::function<void(std::string)> handler;
-		std::string* clientReceiveBuffer;
-
-		ReadHandler(const ReadHandler&) = delete;
-		ReadHandler& operator=(const ReadHandler&) = delete;
-		ReadHandler(ReadHandler&&) = default;
-		~ReadHandler() {
-		}
-
-		void operator()(const boost::system::error_code& err, size_t len) {
-			if (err) {
-				throw std::runtime_error("Receive Error");
-			}
-			std::string tmp(&((*buf)[0]), len);
-			std::cout << "Received " << len << " bytes:";
-			for (size_t i = 0; i < len; ++i) {
-				std::cout << " " << int((*buf)[i]);
-			}
-			std::cout << std::endl;
-
-			int start = 0;
-			std::string package;
-			for (int i = 0; i < tmp.length(); ++i) {
-				if (package.empty() && /*FIXME*/ i > 0 && tmp[i - 1] != 'x' &&
-				    tmp[i] == DELIMITER[0]) {
-					package = tmp.substr(start, i - start);
-					clientReceiveBuffer->clear();
-					std::string tmp(&((*buf)[0]), len);
-					std::cout << "Found package:";
-					for (size_t j = 0; j < i - start; ++j) {
-						std::cout << " " << int(package[j]);
-					}
-					std::cout << std::endl;
-
-				} else {
-					*clientReceiveBuffer += tmp[i];
-				}
-			}
-			if (package.empty()) {
-				socket.async_receive(boost::asio::buffer(*buf), std::move(*this));
-			} else {
-				handler(package);
-			}
-		}
-	};
-
-	ReadHandler readHandler{ socket, std::make_unique<std::array<char, 128>>(), std::move(handler),
-		                     &receiveBuffer };
-
-	auto mutableBuf = boost::asio::buffer(*readHandler.buf);
-	socket.async_receive(mutableBuf, std::move(readHandler));
-}
-
 void Client::login(nlohmann::json data) {
-	std::string user = data["user"];
+	std::string user = data["name"];
 	std::string password = data["password"];
 	std::cout << "Logging in '" << user << "' with password of length " << password.size();
 	if (password == "asd") {
@@ -134,7 +50,7 @@ void Client::game(nlohmann::json data) {
 }
 
 void Client::okMsg() {
-	socket.send(boost::asio::buffer("{\"type\": \"ok\"}\n"));
+	socket.send(boost::asio::buffer(std::string("{\"type\": \"ok\"}") + DELIMITER));
 	std::cout << "Sent \"ok\"." << std::endl;
 }
 
@@ -161,6 +77,9 @@ void Client::run() {
 		std::string line;
 		boost::system::error_code code;
 		std::size_t s = read_until(socket, data_received, "\n", code);
+		if(s == 0) {
+			return;
+		}
 		std::cout << "Got data size " << s << " error: " << code << std::endl;
 		std::istream is(&data_received);
 		while(std::getline(is, line)) {
