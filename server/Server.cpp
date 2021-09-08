@@ -69,5 +69,6 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		std::cout << "Matching '" << matchmaking.back()->getUsername() << "' and '"
 		          << client->getUsername() << "'." << std::endl;
 		matchmaking.back()->sendStartGame();
+		client->sendStartGame();
 	}	
 }
