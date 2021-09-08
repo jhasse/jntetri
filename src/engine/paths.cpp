@@ -8,13 +8,8 @@
 #endif
 #include <iostream>
 #include <sstream>
-#ifdef __linux__
-	#include <experimental/filesystem>
-	namespace fs = std::experimental::filesystem;
-#else
-	#include <filesystem>
-	namespace fs = std::filesystem;
-#endif
+#include <filesystem>
+namespace fs = std::filesystem;
 #include <jngl.hpp>
 
 #ifndef __IPHONE_OS_VERSION_MIN_REQUIRED
