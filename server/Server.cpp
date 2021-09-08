@@ -87,9 +87,9 @@ bool Server::registerUser(std::string username, std::string password) {
 	auto user = userDB.find(username);
 	if(user == userDB.end()) {
 		userDB[username] = password;
-		return false;
-	} else {
 		return true;
+	} else {
+		return false;
 	}
 }
 

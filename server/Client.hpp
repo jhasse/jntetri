@@ -28,7 +28,7 @@ private:
 	void register_user(nlohmann::json data);
 
 	void okMsg();
-	void errAndDisconnect(std::string type, std::string msg);
+	void errAndDisconnect(std::string type, std::string msg, bool really_disconnect = true);
 	bool running = true;
 
 	std::map<std::string, std::pair<bool, std::function<void(nlohmann::json)>>> commands;

@@ -30,7 +30,7 @@ void Client::login(nlohmann::json data) {
 	          << std::endl;
 	switch(server.checkLogin(user, password)) {
 		case UserDoesNotExist:
-			errAndDisconnect("unknown name", "");
+			errAndDisconnect("unknown name", "", false);
 			break;
 		case PasswordOK:
 			std::cout << "Accepted password, sending \"ok\\b\" ..." << std::endl;
@@ -38,14 +38,14 @@ void Client::login(nlohmann::json data) {
 			okMsg();
 			break;
 		case PasswordWrong:
-			errAndDisconnect("wrong password", "");
+			errAndDisconnect("wrong password", "", false);
 			break;
 	}
 }
 
 void Client::register_user(nlohmann::json data) {
 	std::string user = data["name"];
-	std::string pw = data["pw"];
+	std::string pw = data["password"];
 
 	if(server.registerUser(username, pw)) {
 		okMsg();
@@ -83,14 +83,16 @@ void Client::okMsg() {
 	std::cout << "Sent \"ok\"." << std::endl;
 }
 
-void Client::errAndDisconnect(std::string type, std::string msg) {
+void Client::errAndDisconnect(std::string type, std::string msg, bool really_disconnect) {
 	auto j = nlohmann::json { {"type", type }};
 	if(msg != "") {
 		j["msg"] = msg;
 	}
 	socket.send(boost::asio::buffer(j.dump() + DELIMITER));
 	std::cout << "Sent " << j.dump() << std::endl;
-	running = false;
+	if(really_disconnect) {
+		running = false;
+	}
 }
 
 void Client::run() {
