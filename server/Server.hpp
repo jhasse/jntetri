@@ -16,7 +16,7 @@ public:
 	void startAccept();
 	void addChatLine(std::string);
 	void startMatchmaking(std::shared_ptr<Client>);
-	
+
 	LoginState checkLogin(std::string username, std::string password);
 	bool registerUser(std::string username, std::string password);
 
@@ -26,6 +26,8 @@ private:
 	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;
 	boost::asio::ip::tcp::acceptor acceptor;
+
+	std::mutex clientsMutex;
 	std::vector<std::shared_ptr<Client>> clients;
 
 	std::mutex chatTextMutex;

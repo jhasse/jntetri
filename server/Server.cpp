@@ -28,17 +28,26 @@ void Server::run() {
 void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::error_code& error) {
 	std::cout << "New connection." << std::endl;
 	if (!error) {
-		clients.emplace_back(client);
+		{
+			std::lock_guard<std::mutex> lock(clientsMutex);
+			clients.emplace_back(client);
+		}
 		threads.emplace_back([this, client]() {
 			try {
 				client->run();
 			} catch (std::exception& e) {
 				std::cerr << e.what() << std::endl;
 			}
-			std::lock_guard<std::mutex> lock(matchmakingMutex);
-			if (const auto it = std::find(matchmaking.begin(), matchmaking.end(), client);
-			    it != matchmaking.end()) {
-				matchmaking.erase(it);
+			{
+				std::lock_guard<std::mutex> lock(matchmakingMutex);
+				if (const auto it = std::find(matchmaking.begin(), matchmaking.end(), client);
+				    it != matchmaking.end()) {
+					matchmaking.erase(it);
+				}
+			}
+			{
+				std::lock_guard<std::mutex> lock(clientsMutex);
+				clients.erase(std::find(clients.begin(), clients.end(), client));
 			}
 		});
 	}
@@ -55,8 +64,11 @@ void Server::startAccept() {
 void Server::addChatLine(std::string line) {
 	std::lock_guard<std::mutex> lock(chatTextMutex);
 	chatText += line;
-	for (const auto& client : clients) {
-		client->sendChatLine(line);
+	{
+		std::lock_guard<std::mutex> lock(clientsMutex);
+		for (const auto& client : clients) {
+			client->sendChatLine(line);
+		}
 	}
 }
 
@@ -74,7 +86,7 @@ LoginState Server::checkLogin(std::string username, std::string password) {
 bool Server::registerUser(std::string username, std::string password) {
 	auto user = userDB.find(username);
 	if(user == userDB.end()) {
-		userDB[username] == password;
+		userDB[username] = password;
 		return false;
 	} else {
 		return true;
@@ -93,5 +105,5 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		          << client->getUsername() << "'." << std::endl;
 		matchmaking.back()->sendStartGame();
 		client->sendStartGame();
-	}	
+	}
 }
