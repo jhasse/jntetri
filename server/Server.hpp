@@ -1,5 +1,6 @@
 #pragma once
 
+#include "LoginState.hpp"
 #include <boost/asio.hpp>
 #include <mutex>
 #include <thread>
@@ -15,6 +16,7 @@ public:
 	void startAccept();
 	void addChatLine(std::string);
 	void startMatchmaking(std::shared_ptr<Client>);
+	LoginState checkLogin(std::string username, std::string password);
 
 private:
 	constexpr static auto JNTETRI_PORT = 7070;
@@ -26,6 +28,7 @@ private:
 
 	std::mutex chatTextMutex;
 	std::string chatText;
+	std::map<std::string, std::string> userDB;
 
 	std::mutex matchmakingMutex;
 	std::vector<std::shared_ptr<Client>> matchmaking;

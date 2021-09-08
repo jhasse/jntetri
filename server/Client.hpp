@@ -25,12 +25,13 @@ private:
 	void chat(nlohmann::json data);
 	void play(nlohmann::json data);
 	void game(nlohmann::json data);
+	void register_user(nlohmann::json data);
 
 	void okMsg();
-	void errAndDisconnect(std::string msg);
+	void errAndDisconnect(std::string type, std::string msg);
 	bool running = true;
 
-	std::map<std::string, std::function<void(nlohmann::json)>> commands;
+	std::map<std::string, std::pair<bool, std::function<void(nlohmann::json)>>> commands;
 	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;
 	boost::asio::streambuf data_received;

@@ -9,6 +9,8 @@
 using boost::asio::ip::tcp;
 
 Server::Server() : socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)) {
+	userDB["rechts"] = "asd";
+	userDB["links"] = "asd";
 }
 
 Server::~Server() {
@@ -55,6 +57,17 @@ void Server::addChatLine(std::string line) {
 	chatText += line;
 	for (const auto& client : clients) {
 		client->sendChatLine(line);
+	}
+}
+
+LoginState Server::checkLogin(std::string username, std::string password) {
+	auto user = userDB.find(username);
+	if(user == userDB.end()) {
+		return UserDoesNotExist;
+	} else if(user->second == password) {
+		return PasswordOK;
+	} else {
+		return PasswordWrong;
 	}
 }
 

@@ -12,10 +12,11 @@
 using boost::asio::ip::tcp;
 
 Client::Client(Server& server) : socket(context), server(server) {
-	commands["login"] = std::bind(&Client::login, this, std::placeholders::_1);
-	commands["chat"] = std::bind(&Client::chat, this, std::placeholders::_1);
-	commands["game"] = std::bind(&Client::game, this, std::placeholders::_1);
-	commands["play"] = std::bind(&Client::play, this, std::placeholders::_1);
+	commands["login"] = {false, std::bind(&Client::login, this, std::placeholders::_1)};
+	commands["chat"] = {true, std::bind(&Client::chat, this, std::placeholders::_1)};
+	commands["game"] = {true, std::bind(&Client::game, this, std::placeholders::_1)};
+	commands["play"] = {true, std::bind(&Client::play, this, std::placeholders::_1)};
+	commands["register"] = {true, std::bind(&Client::register_user, this, std::placeholders::_1)};
 }
 
 tcp::socket& Client::getSocket() {
@@ -27,13 +28,24 @@ void Client::login(nlohmann::json data) {
 	std::string password = data["password"];
 	std::cout << "Logging in '" << user << "' with password of length " << password.size()
 	          << std::endl;
-	if (password == "asd") {
-		std::cout << "Accepted password, sending \"ok\\b\" ..." << std::endl;
-		username = user;
-		okMsg();
-	} else {
-		errAndDisconnect("wrong password");
+	switch(server.checkLogin(user, password)) {
+		case UserDoesNotExist:
+			errAndDisconnect("unknown name", "");
+			break;
+		case PasswordOK:
+			std::cout << "Accepted password, sending \"ok\\b\" ..." << std::endl;
+			username = user;
+			okMsg();
+			break;
+		case PasswordWrong:
+			errAndDisconnect("wrong password", "");
+			break;
 	}
+}
+
+void Client::register_user(nlohmann::json data) {
+	std::string username = data["name"];
+	std::string pw = data["pw"];
 }
 
 void Client::chat(nlohmann::json data) {
@@ -64,9 +76,13 @@ void Client::okMsg() {
 	std::cout << "Sent \"ok\"." << std::endl;
 }
 
-void Client::errAndDisconnect(std::string msg) {
-	socket.send(boost::asio::buffer(std::string("{\"type\": \"error\"}") + DELIMITER));
-	std::cout << "Sent \"error\" with msg: " << msg << std::endl;
+void Client::errAndDisconnect(std::string type, std::string msg) {
+	auto j = nlohmann::json { {"type", type }};
+	if(msg != "") {
+		j["msg"] = msg;
+	}
+	socket.send(boost::asio::buffer(j.dump() + DELIMITER));
+	std::cout << "Sent " << j.dump() << std::endl;
 	running = false;
 }
 
@@ -78,7 +94,7 @@ void Client::run() {
 	is.ignore();
 	std::cout << "Protocol version: " << protocolVersion << std::endl;
 	if (protocolVersion != PROTOCOL_VERSION) {
-		errAndDisconnect("Protocol version mismatch!");
+		errAndDisconnect("error", "Protocol version mismatch!");
 		return;
 	}
 	okMsg();
@@ -96,7 +112,14 @@ void Client::run() {
 			auto data = nlohmann::json::parse(line);
 			std::cout << "Got data " << data.dump() << std::endl;
 			std::cout << "Processing command " << data["type"] << std::endl;
-			commands[data["type"]](data);
+			auto current_cmd = commands.find(data["type"]);
+			if(current_cmd == commands.end()) {
+				errAndDisconnect("error", "Unknown command!");
+			} else if (current_cmd->second.first && username == "") {
+				errAndDisconnect("error", "You need to be logged in to use this command!");
+			} else {
+				current_cmd->second.second(data);
+			}
 		}
 	}
 }
