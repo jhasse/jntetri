@@ -228,7 +228,7 @@ void Field::draw() const {
 	GetScreen().DrawCentered("field", 0, 0);
 	if (stepsWithoutPackage > 0) {
 		jngl::setFontColor(0x000000_rgb);
-		jngl::print(std::string((stepsWithoutPackage / 20) % 4, '.'), { -60, 500 });
+		jngl::print(std::string((stepsWithoutPackage / 20) % 4, '.'), { -60, -100 });
 		return;
 	}
 	if (desyncInfo) {

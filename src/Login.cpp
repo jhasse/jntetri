@@ -94,7 +94,7 @@ void Login::HandleRegister2(json temp) {
 		GoToLobby();
 	} else {
 		text_ = "Error: ";
-		text_ += temp;
+		text_ += temp.dump();
 		OnError();
 	}
 }

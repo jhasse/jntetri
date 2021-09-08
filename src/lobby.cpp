@@ -3,7 +3,7 @@
 #include "engine/fade.hpp"
 #include "engine/procedure.hpp"
 #include "engine/screen.hpp"
-#include "gui/Button.hpp"
+#include "gui/MessageBox.hpp"
 #include "multiplayermenu.hpp"
 #include "NetworkControl.hpp"
 #include "SplitScreen.hpp"
@@ -35,7 +35,12 @@ void Lobby::OnPlay() {
 }
 
 void Lobby::step() {
-	socket_->step();
+	try {
+		socket_->step();
+	} catch (std::exception& e) {
+		jngl::setWork(std::make_shared<Fade>(
+		    std::make_shared<MessageBox>(e.what(), std::make_shared<MultiplayerMenu>())));
+	}
 	if (jngl::keyPressed(jngl::key::Return)) {
 		nlohmann::json j = {
 			{ "type", "chat" },
