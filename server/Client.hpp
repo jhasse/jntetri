@@ -2,6 +2,7 @@
 
 #include <boost/asio.hpp>
 #include <memory>
+#include <nlohmann/json.hpp>
 
 class Server;
 
@@ -16,10 +17,21 @@ public:
 
 private:
 	void handleRecv(std::string);
+	void handleData(const boost::system::error_code& e, std::size_t size);
 	void asyncReceive(std::function<void(std::string)> handler);
 
+	void login(nlohmann::json data);
+	void chat(nlohmann::json data);
+	void play(nlohmann::json data);
+
+	void okMsg();
+	void errAndDisconnect(std::string msg);
+	bool running = true;
+
+	std::map<std::string, std::function<void(nlohmann::json)>> commands;
 	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;
+	boost::asio::streambuf data_received;
 	Server& server;
 	std::shared_ptr<Client> opponent;
 	std::string username;
