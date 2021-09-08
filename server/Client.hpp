@@ -12,6 +12,8 @@ public:
 	void run();
 	boost::asio::ip::tcp::socket& getSocket();
 	void setOpponent(std::shared_ptr<Client>);
+	void sendStartGame();
+	void sendChatLine(std::string line);
 	std::string getUsername() const;
 	void forward(uint8_t time, uint8_t command);
 

@@ -54,16 +54,7 @@ void Server::addChatLine(std::string line) {
 	std::lock_guard<std::mutex> lock(chatTextMutex);
 	chatText += line;
 	for (const auto& client : clients) {
-		client->getSocket().async_send(boost::asio::buffer("c" + line + DELIMITER),
-		                               [](const boost::system::error_code& err, size_t bytesSent) {
-			                               if (err) {
-				                               std::cerr << "Couldn't send update to client."
-				                                         << std::endl;
-			                               } else {
-				                               std::cout << "Sent " << bytesSent << " bytes."
-				                                         << std::endl;
-			                               }
-		                               });
+		client->sendChatLine(line);
 	}
 }
 
@@ -77,24 +68,6 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		client->setOpponent(matchmaking.back());
 		std::cout << "Matching '" << matchmaking.back()->getUsername() << "' and '"
 		          << client->getUsername() << "'." << std::endl;
-		matchmaking.back()->getSocket().async_send(
-		    boost::asio::buffer({ 'p', DELIMITER[0] }),
-		    [](const boost::system::error_code& err, size_t bytesSent) {
-			    if (err) {
-				    std::cerr << "Couldn't send 'p' to client." << std::endl;
-			    } else {
-				    std::cout << "Sent " << bytesSent << " bytes." << std::endl;
-			    }
-		    });
-		client->getSocket().async_send(boost::asio::buffer({ 'p', DELIMITER[0] }),
-		                               [](const boost::system::error_code& err, size_t bytesSent) {
-			                               if (err) {
-				                               std::cerr << "Couldn't send 'p' to client."
-				                                         << std::endl;
-			                               } else {
-				                               std::cout << "Sent " << bytesSent << " bytes."
-				                                         << std::endl;
-			                               }
-		                               });
-	}
+		matchmaking.back()->sendStartGame();
+	}	
 }

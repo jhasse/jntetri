@@ -47,6 +47,15 @@ void Client::play(nlohmann::json data) {
 	server.startMatchmaking(shared_from_this());
 }
 
+void Client::sendStartGame() {
+	socket.send(boost::asio::buffer(std::string("{\"type\": \"play\"}") + DELIMITER));
+}
+
+void Client::sendChatLine(std::string line) {
+	auto j = nlohmann::json { {"type", "chat"}, {"text", line} };
+	socket.send(boost::asio::buffer(j.dump() + DELIMITER));
+}
+
 void Client::game(nlohmann::json data) {
 	opponent->forward(data["time"].get<uint8_t>(), data["control"].get<uint8_t>());
 }
