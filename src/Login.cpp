@@ -14,7 +14,8 @@
 #include <sstream>
 #include <spdlog/spdlog.h>
 
-const std::string Login::server_("127.0.0.1"); //("85.214.187.23");
+const std::string Login::server_("127.0.0.1");
+// const std::string Login::server_("85.214.187.23");
 const int Login::port_ = 7070;
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
@@ -60,10 +61,10 @@ void Login::HandleLogin2(json temp) {
 		GoToLobby();
 	} else if (temp["type"] == "unknown name") {
 		text_ = "No user with this name found.\nDo you want to register yourself?";
-		cancel_.setCenter(-350, 880);
+		cancel_.setCenter(-350, 280);
 		cancel_.SetText("No");
 		Button* yes = new Button("Yes", boost::bind(&Login::Register, this));
-		yes->setCenter(350, 880);
+		yes->setCenter(350, 280);
 		addWidget(std::shared_ptr<Widget>(yes));
 	} else if (temp["type"] == "wrong password") {
 		text_ = "The password you've entered\nis wrong. Please try again.";
@@ -75,11 +76,12 @@ void Login::HandleLogin2(json temp) {
 }
 
 void Login::Register() {
-	socket_->send(json{ { "type", "register" },
-	                    { "name", menu_->GetName() },
-	                    { "password", menu_->GetPassword() } },
-	              boost::bind(&Login::HandleRegister1, this));
-	cancel_.setCenter(0, 800);
+	json j{ { "type", "register" },
+		    { "name", menu_->GetName() },
+		    { "password", menu_->GetPassword() } };
+	spdlog::info("Sending: {}", j.dump());
+	socket_->send(j, boost::bind(&Login::HandleRegister1, this));
+	cancel_.setCenter(0, 200);
 	cancel_.SetText("Cancel");
 	widgets_.clear(); // FIXME: Implement RemoveWidget function
 }
@@ -90,6 +92,7 @@ void Login::HandleRegister1() {
 }
 
 void Login::HandleRegister2(json temp) {
+	spdlog::debug("HandleRegister2");
 	if (temp["type"] == "ok") {
 		GoToLobby();
 	} else {

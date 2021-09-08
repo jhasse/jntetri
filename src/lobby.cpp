@@ -46,6 +46,7 @@ void Lobby::step() {
 			{ "type", "chat" },
 			{ "text", input_->getText() },
 		};
+		spdlog::debug("Sending: {}", j.dump());
 		socket_->send(j, [this]() { OnMessageSent(); });
 		input_->setSensitive(false);
 	}
