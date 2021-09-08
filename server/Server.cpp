@@ -71,6 +71,16 @@ LoginState Server::checkLogin(std::string username, std::string password) {
 	}
 }
 
+bool Server::registerUser(std::string username, std::string password) {
+	auto user = userDB.find(username);
+	if(user == userDB.end()) {
+		userDB[username] == password;
+		return false;
+	} else {
+		return true;
+	}
+}
+
 void Server::startMatchmaking(std::shared_ptr<Client> client) {
 	std::lock_guard<std::mutex> lock(matchmakingMutex);
 	if (matchmaking.empty()) {

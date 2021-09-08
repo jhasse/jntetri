@@ -16,7 +16,9 @@ public:
 	void startAccept();
 	void addChatLine(std::string);
 	void startMatchmaking(std::shared_ptr<Client>);
+	
 	LoginState checkLogin(std::string username, std::string password);
+	bool registerUser(std::string username, std::string password);
 
 private:
 	constexpr static auto JNTETRI_PORT = 7070;

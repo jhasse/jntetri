@@ -16,7 +16,7 @@ Client::Client(Server& server) : socket(context), server(server) {
 	commands["chat"] = {true, std::bind(&Client::chat, this, std::placeholders::_1)};
 	commands["game"] = {true, std::bind(&Client::game, this, std::placeholders::_1)};
 	commands["play"] = {true, std::bind(&Client::play, this, std::placeholders::_1)};
-	commands["register"] = {true, std::bind(&Client::register_user, this, std::placeholders::_1)};
+	commands["register"] = {false, std::bind(&Client::register_user, this, std::placeholders::_1)};
 }
 
 tcp::socket& Client::getSocket() {
@@ -44,8 +44,15 @@ void Client::login(nlohmann::json data) {
 }
 
 void Client::register_user(nlohmann::json data) {
-	std::string username = data["name"];
+	std::string user = data["name"];
 	std::string pw = data["pw"];
+
+	if(server.registerUser(username, pw)) {
+		okMsg();
+		username = user;
+	} else {
+		errAndDisconnect("error", "Something went wrong during register!");
+	}
 }
 
 void Client::chat(nlohmann::json data) {
