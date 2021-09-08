@@ -40,7 +40,6 @@ void Client::chat(nlohmann::json data) {
 	std::string newChatLine = username + ": " + data["text"].get<std::string>();
 	server.addChatLine(newChatLine);
 	std::cout << "Received from " << username << ": " << data["text"] << std::endl;
-	okMsg();
 }
 
 void Client::play(nlohmann::json data) {
