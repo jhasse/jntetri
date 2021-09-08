@@ -2,13 +2,8 @@
 
 #include <deque>
 
-#ifdef __linux__
-	#include <experimental/filesystem>
-	namespace fs = std::experimental::filesystem;
-#else
-	#include <filesystem>
-	namespace fs = std::filesystem;
-#endif
+#include <filesystem>
+namespace fs = std::filesystem;
 
 class ResizeGraphics {
 public:
