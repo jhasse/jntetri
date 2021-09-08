@@ -24,7 +24,8 @@ tcp::socket& Client::getSocket() {
 void Client::login(nlohmann::json data) {
 	std::string user = data["name"];
 	std::string password = data["password"];
-	std::cout << "Logging in '" << user << "' with password of length " << password.size();
+	std::cout << "Logging in '" << user << "' with password of length " << password.size()
+	          << std::endl;
 	if (password == "asd") {
 		std::cout << "Accepted password, sending \"ok\\b\" ..." << std::endl;
 		username = user;
@@ -35,9 +36,9 @@ void Client::login(nlohmann::json data) {
 }
 
 void Client::chat(nlohmann::json data) {
-	std::string newChatLine = data["username"].get<std::string>() + ": " + data["text"].get<std::string>();
+	std::string newChatLine = username + ": " + data["text"].get<std::string>();
 	server.addChatLine(newChatLine);
-	std::cout << "Received from " << data["username"] << ": " << data["text"] << std::endl;
+	std::cout << "Received from " << username << ": " << data["text"] << std::endl;
 	okMsg();
 }
 
@@ -55,7 +56,7 @@ void Client::okMsg() {
 }
 
 void Client::errAndDisconnect(std::string msg) {
-	socket.send(boost::asio::buffer("{\"type\": \"error\"}\n"));
+	socket.send(boost::asio::buffer(std::string("{\"type\": \"error\"}") + DELIMITER));
 	std::cout << "Sent \"error\" with msg: " << msg << std::endl;
 	running = false;
 }
@@ -72,7 +73,7 @@ void Client::run() {
 		return;
 	}
 	okMsg();
-	
+
 	while(running) {
 		std::string line;
 		boost::system::error_code code;

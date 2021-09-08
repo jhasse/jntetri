@@ -39,7 +39,7 @@ void Lobby::step() {
 	if (jngl::keyPressed(jngl::key::Return)) {
 		nlohmann::json j = {
 			{ "type", "chat" },
-			{ "chat", input_->getText() },
+			{ "text", input_->getText() },
 		};
 		socket_->send(j, [this]() { OnMessageSent(); });
 		input_->setSensitive(false);
@@ -61,7 +61,7 @@ void Lobby::draw() const {
 
 void Lobby::handleReceive(json buf) {
 	if (buf["type"] == "chat") {
-		chatText_ += buf["chat"];
+		chatText_ += buf["text"];
 		chatText_ += '\n';
 		int lineCount = 0;
 		size_t pos = 0;

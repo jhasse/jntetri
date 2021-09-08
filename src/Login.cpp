@@ -69,7 +69,7 @@ void Login::HandleLogin2(json temp) {
 		text_ = "The password you've entered\nis wrong. Please try again.";
 	} else {
 		text_ = "Error: ";
-		text_ += temp;
+		text_ += temp.dump();
 		OnError();
 	}
 }
