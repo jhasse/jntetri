@@ -13,11 +13,14 @@ public:
 	Lobby(std::shared_ptr<Socket>);
 	void step();
 	void draw() const;
-	void HandleReceive(std::string);
+	void handleReceive(json);
 	void OnMessageSent();
 	void OnLogout();
 	void OnPlay();
+
 private:
+	void startReceiving();
+
 	std::shared_ptr<Socket> socket_;
 	std::string chatText_;
 	std::shared_ptr<Input> input_;

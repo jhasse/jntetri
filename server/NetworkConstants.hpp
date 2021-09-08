@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
-const char DELIMITER = '\n';
-const char PROTOCOL_VERSION = 2;
+const std::string DELIMITER = "\n";
+const int PROTOCOL_VERSION = 2;

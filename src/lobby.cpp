@@ -9,13 +9,14 @@
 #include "SplitScreen.hpp"
 
 #include <jngl/all.hpp>
+#include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
 Lobby::Lobby(std::shared_ptr<Socket> socket)
 : socket_(socket), chatText_(""), input_(new Input(-700, 500)) {
 	logout_.reset(new Button("Logout", [this]() { OnLogout(); }));
 	play_.reset(new Button("Play!™", [this]() { OnPlay(); }));
-	HandleReceive("");
+	startReceiving();
 	input_->setMaxWidth(2500);
 	addWidget(input_);
 	addWidget(logout_);
@@ -30,13 +31,17 @@ void Lobby::OnLogout() {
 
 void Lobby::OnPlay() {
 	play_->setSensitive(false);
-	socket_->send("p", []() { spdlog::info("Successfully sent 'p'."); });
+	socket_->send(json{ { "type", "play" } }, []() { spdlog::info("Successfully sent 'play'."); });
 }
 
 void Lobby::step() {
 	socket_->step();
 	if (jngl::keyPressed(jngl::key::Return)) {
-		socket_->send(std::string("c") + input_->getText(), [this]() { OnMessageSent(); });
+		nlohmann::json j = {
+			{ "type", "chat" },
+			{ "chat", input_->getText() },
+		};
+		socket_->send(j, [this]() { OnMessageSent(); });
 		input_->setSensitive(false);
 	}
 	StepWidgets();
@@ -54,33 +59,31 @@ void Lobby::draw() const {
 	DrawWidgets();
 }
 
-void Lobby::HandleReceive(std::string buf) {
-	if (buf.length() > 0) {
-		char actionType = buf[0];
-		buf = buf.substr(1);
-		switch (actionType) {
-			case 'c': {
-				chatText_ += buf;
-				chatText_ += '\n';
-				int lineCount = 0;
-				size_t pos = 0;
-				while ((pos = chatText_.find_first_of("\n", pos + 1)) != std::string::npos) {
-					++lineCount;
-				}
-				if (lineCount > 8) {
-					pos = chatText_.find_first_of("\n");
-					chatText_ = chatText_.substr(pos + 1);
-				}
-				break;
-			}
-			case 'p': {
-				// Matchmaking was successful and an opponent found. Let's start the game.
-				spdlog::debug("Starting match making");
-				auto control = std::make_shared<NetworkControl>(socket_);
-				jngl::setWork(std::make_shared<Fade>(std::make_shared<SplitScreen>(control)));
-				return; // move out of Lobby loop
-			}
+void Lobby::handleReceive(json buf) {
+	if (buf["type"] == "chat") {
+		chatText_ += buf["chat"];
+		chatText_ += '\n';
+		int lineCount = 0;
+		size_t pos = 0;
+		while ((pos = chatText_.find_first_of("\n", pos + 1)) != std::string::npos) {
+			++lineCount;
 		}
+		if (lineCount > 8) {
+			pos = chatText_.find_first_of("\n");
+			chatText_ = chatText_.substr(pos + 1);
+		}
+	} else if (buf["type"] == "play") {
+		// Matchmaking was successful and an opponent found. Let's start the game.
+		spdlog::debug("Starting match making");
+		auto control = std::make_shared<NetworkControl>(socket_);
+		jngl::setWork(std::make_shared<Fade>(std::make_shared<SplitScreen>(control)));
+		return; // move out of Lobby loop
+	} else {
+		spdlog::warn("Received unknown type: {}", buf);
 	}
-	socket_->receive([this](std::string buf) { HandleReceive(buf); });
+	startReceiving();
+}
+
+void Lobby::startReceiving() {
+	socket_->receive([this](json buf) { handleReceive(std::move(buf)); });
 }

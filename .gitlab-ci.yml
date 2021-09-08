@@ -1,18 +1,12 @@
-image: fedora:32
+image: fedora:34
 
 linux:
   stage: build
   script:
-    - dnf install -y git gcc-c++ fontconfig-devel freetype-devel libvorbis-devel libepoxy-devel libwebp-devel boost-python3-devel python3-devel meson SDL2-devel openal-soft-devel
-    - meson build
-    - ninja -C build
-
-windows:
-  stage: build
-  script:
-    - dnf install -y git meson mingw64-pkg-config mingw64-libvorbis mingw64-SDL2 mingw64-fontconfig mingw64-libjpeg-turbo mingw64-libwebp mingw64-boost mingw64-dlfcn mingw64-libepoxy mingw64-openal-soft wine-core gcc-c++
-    - meson build --buildtype release --cross-file mingw.ini
+    - dnf install -y git gcc-c++ fontconfig-devel freetype-devel libvorbis-devel libepoxy-devel libwebp-devel boost-python3-devel python3-devel cmake ninja-build SDL2-devel openal-soft-devel
+    - cmake -Bbuild -GNinja
     - ninja -C build
 
 variables:
   CLICOLOR_FORCE: "1"
+  GIT_SUBMODULE_STRATEGY: recursive

@@ -1,10 +1,10 @@
 #include "socket.hpp"
-#include "spdlog/spdlog.h"
+
+#include "../../server/NetworkConstants.hpp"
 
 #include <iostream>
 #include <boost/bind/bind.hpp>
-
-const std::string delimiter = "\b";
+#include <spdlog/spdlog.h>
 
 Socket::Socket() : socket_(io_) {
 }
@@ -17,8 +17,8 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 	if (err) {
 		throw std::runtime_error("socket error");
 	} else {
-		socket_.async_receive(
-		    boost::asio::buffer(buf_),
+		boost::asio::async_read_until(
+		    socket_, streamBuffer_, DELIMITER,
 		    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
 		onSuccess();
 	}
@@ -43,7 +43,7 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 }
 
 void Socket::send(const std::string& data, std::function<void()> onSuccess) {
-	auto buf = std::make_unique<std::string>(data + delimiter);
+	auto buf = std::make_unique<std::string>(data + DELIMITER);
 	auto mutableBuf = boost::asio::buffer(*buf);
 	socket_.async_send(mutableBuf, [this, buf = std::move(buf), onSuccess = std::move(onSuccess)](
 	                                   const boost::system::error_code& err, size_t) {
@@ -51,18 +51,11 @@ void Socket::send(const std::string& data, std::function<void()> onSuccess) {
 	});
 }
 
-void Socket::CheckBuffer(std::string& buf) {
-	for (size_t pos = 0; pos < buf.length(); ++pos) {
-		if (/*FIXME*/ pos > 0 && buf[pos - 1] != 'x' && buf[pos] == delimiter[0]) {
-			receiveBuffer = buf.substr(pos + 1);
-			buf = buf.substr(0, pos);
-			return;
-		}
-	}
-	assert(false);
+void Socket::send(const json& data, std::function<void()> onSuccess) {
+	send(data.dump(), std::move(onSuccess));
 }
 
-void Socket::receive(std::function<void(std::string)> onSuccess) {
+void Socket::receive(std::function<void(json)> onSuccess) {
 	onReceiveSuccess = std::move(onSuccess);
 }
 
@@ -73,23 +66,21 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 	if (len == 0) {
 		spdlog::warn("len == 0");
 	} else {
-		spdlog::debug("receiveBuffer increased from {} to {}", receiveBuffer.size(),
-		              receiveBuffer.size() + len);
-		receiveBuffer += std::string(&buf_[0], len);
-		if (packageFinished(receiveBuffer)) {
-			std::string temp = receiveBuffer;
-			CheckBuffer(temp);
-			onReceiveSuccess(temp);
-		}
+		std::istream is(&streamBuffer_);
+		std::string buf;
+		std::getline(is, buf, DELIMITER[0]);
+		spdlog::debug("Received: buf.size(): {}, len: {}, buf: {}", buf.size(), len, buf);
+		auto data = json::parse(buf);
+		onReceiveSuccess(std::move(data));
 	}
-	socket_.async_receive(
-	    boost::asio::buffer(buf_),
+	boost::asio::async_read_until(
+	    socket_, streamBuffer_, DELIMITER,
 	    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
 }
 
 bool Socket::packageFinished(const std::string& buf) const {
 	for (size_t i = 0; i < buf.length(); ++i) {
-		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == delimiter[0]) {
+		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == DELIMITER[0]) {
 			return true;
 		}
 	}

@@ -23,6 +23,7 @@ private:
 	void login(nlohmann::json data);
 	void chat(nlohmann::json data);
 	void play(nlohmann::json data);
+	void game(nlohmann::json data);
 
 	void okMsg();
 	void errAndDisconnect(std::string msg);

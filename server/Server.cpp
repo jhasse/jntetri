@@ -1,6 +1,7 @@
 #include "Server.hpp"
 
 #include "Client.hpp"
+#include "NetworkConstants.hpp"
 
 #include <boost/bind/bind.hpp>
 #include <iostream>
@@ -53,7 +54,7 @@ void Server::addChatLine(std::string line) {
 	std::lock_guard<std::mutex> lock(chatTextMutex);
 	chatText += line;
 	for (const auto& client : clients) {
-		client->getSocket().async_send(boost::asio::buffer("c" + line + "\b"),
+		client->getSocket().async_send(boost::asio::buffer("c" + line + DELIMITER),
 		                               [](const boost::system::error_code& err, size_t bytesSent) {
 			                               if (err) {
 				                               std::cerr << "Couldn't send update to client."
@@ -77,7 +78,7 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		std::cout << "Matching '" << matchmaking.back()->getUsername() << "' and '"
 		          << client->getUsername() << "'." << std::endl;
 		matchmaking.back()->getSocket().async_send(
-		    boost::asio::buffer({ 'p', '\b' }),
+		    boost::asio::buffer({ 'p', DELIMITER[0] }),
 		    [](const boost::system::error_code& err, size_t bytesSent) {
 			    if (err) {
 				    std::cerr << "Couldn't send 'p' to client." << std::endl;
@@ -85,7 +86,7 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 				    std::cout << "Sent " << bytesSent << " bytes." << std::endl;
 			    }
 		    });
-		client->getSocket().async_send(boost::asio::buffer({ 'p', '\b' }),
+		client->getSocket().async_send(boost::asio::buffer({ 'p', DELIMITER[0] }),
 		                               [](const boost::system::error_code& err, size_t bytesSent) {
 			                               if (err) {
 				                               std::cerr << "Couldn't send 'p' to client."
