@@ -8,7 +8,7 @@
 
 Tetromino::Tetromino(int type, Field& field)
 : field_(field),
-  shadow(6 * Block::size * jngl::getScaleFactor(), 6 * Block::size * jngl::getScaleFactor()) {
+  shadow(jngl::ScaleablePixels(6 * Block::size), jngl::ScaleablePixels(6 * Block::size)) {
 	assert(0 <= type && type < 7);
 	switch(type) {
 		case 0:{
