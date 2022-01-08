@@ -3,7 +3,12 @@
 #include "../engine/work.hpp"
 #include "Button.hpp"
 
-#include <jngl.hpp>
+#include <jngl/text.hpp>
+#include <jngl/work.hpp>
+
+#ifdef _WIN32
+#undef MessageBox
+#endif
 
 class MessageBox : public Work {
 public:
