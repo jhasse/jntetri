@@ -1,7 +1,9 @@
 #pragma once
 
 #include "LoginState.hpp"
+
 #include <boost/asio.hpp>
+#include <map>
 #include <mutex>
 #include <thread>
 
