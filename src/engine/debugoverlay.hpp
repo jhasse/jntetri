@@ -10,7 +10,6 @@ public:
 	void draw() const override;
 private:
 	bool visible = false;
-	jngl::Text fps;
-	double fpsTemp = 0.0;
-	int fpsCounter = 0;
+	mutable jngl::Text fps;
+	mutable double lastDraw = 0;
 };
