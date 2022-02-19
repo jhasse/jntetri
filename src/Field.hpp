@@ -6,7 +6,6 @@
 #include "tetromino.hpp"
 #include "explosion.hpp"
 #include "control.hpp"
-#include "shadow.hpp"
 
 #include <vector>
 #include <random>
