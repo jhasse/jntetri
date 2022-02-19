@@ -11,7 +11,9 @@ Fade::Fade(std::shared_ptr<Work> work, int speed)
 
 void Fade::step()
 {
+#ifdef NDEBUG
 	const int maxAlpha = 255;
+#endif
 	fadeCount_ += speed_;
 #ifdef NDEBUG
 	if (fadeCount_ >= 2 * maxAlpha) // Finished?
