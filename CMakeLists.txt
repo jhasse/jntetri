@@ -40,4 +40,6 @@ if(MSVC)
 	add_custom_command(TARGET jntetri COMMAND ${CMAKE_COMMAND} -E copy
 		${PROJECT_SOURCE_DIR}/subprojects/jngl/lib/msvc/x86_64/epoxy-0.dll
 		"$<TARGET_FILE_DIR:jntetri>")
+elseif(WIN32)
+	target_link_libraries(jntetri PRIVATE ws2_32)
 endif()
