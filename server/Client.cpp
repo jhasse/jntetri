@@ -47,7 +47,7 @@ void Client::register_user(nlohmann::json data) {
 	std::string user = data["name"];
 	std::string pw = data["password"];
 
-	if(server.registerUser(username, pw)) {
+	if(server.registerUser(user, pw)) {
 		okMsg();
 		username = user;
 	} else {
