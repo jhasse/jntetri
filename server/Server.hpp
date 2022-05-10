@@ -24,11 +24,14 @@ public:
 	bool registerUser(std::string username, std::string password);
 
 private:
+	void printStats(const boost::system::error_code&);
+
 	constexpr static auto JNTETRI_PORT = 7070;
 	std::vector<std::thread> threads;
 	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;
 	boost::asio::ip::tcp::acceptor acceptor;
+	boost::asio::deadline_timer timer;
 
 	std::mutex clientsMutex;
 	std::vector<std::shared_ptr<Client>> clients;

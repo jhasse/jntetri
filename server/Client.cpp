@@ -17,6 +17,7 @@ Client::Client(Server& server) : socket(context), server(server) {
 	commands["game"] = {true, std::bind(&Client::game, this, std::placeholders::_1)};
 	commands["play"] = {true, std::bind(&Client::play, this, std::placeholders::_1)};
 	commands["register"] = {false, std::bind(&Client::register_user, this, std::placeholders::_1)};
+	commands["quit"] = {true, std::bind(&Client::quit, this, std::placeholders::_1)};
 }
 
 tcp::socket& Client::getSocket() {
@@ -65,6 +66,13 @@ void Client::play(nlohmann::json data) {
 	server.startMatchmaking(shared_from_this());
 }
 
+void Client::quit(nlohmann::json) {
+	if (opponent) {
+		opponent->sendOpponentQuit();
+		opponent.reset();
+	}
+}
+
 void Client::sendStartGame() {
 	socket.send(boost::asio::buffer(std::string("{\"type\": \"play\"}") + DELIMITER));
 }
@@ -74,8 +82,23 @@ void Client::sendChatLine(std::string line) {
 	socket.send(boost::asio::buffer(j.dump() + DELIMITER));
 }
 
+void Client::sendOpponentQuit() {
+	auto j = nlohmann::json { {"type", "opponentQuit"} };
+	socket.send(boost::asio::buffer(j.dump() + DELIMITER));
+}
+
 void Client::game(nlohmann::json data) {
-	opponent->forward(data["time"].get<uint8_t>(), data["control"].get<uint8_t>());
+	if (!opponent) {
+		std::cerr << "Can't process \"game\" without opponent!" << std::endl;
+		return;
+	}
+	try {
+		opponent->forward(data["time"].get<uint8_t>(), data["control"].get<uint8_t>());
+	} catch(boost::system::system_error& e) {
+		std::cout << "Opponent " << opponent->getUsername() << " disconnected: " <<  e.what() << std::endl;
+		opponent.reset();
+		socket.send(boost::asio::buffer(std::string("{\"type\": \"disconnected\"}") + DELIMITER));
+	}
 }
 
 void Client::okMsg() {
@@ -131,6 +154,7 @@ void Client::run() {
 			}
 		}
 	}
+	std::cout << "Client " << username << " exiting." << std::endl;
 }
 
 void Client::setOpponent(std::shared_ptr<Client> opponent) {

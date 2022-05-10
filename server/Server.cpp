@@ -11,10 +11,11 @@ using boost::asio::ip::tcp;
 
 Server::Server()
 : socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)),
-  sql(soci::sqlite3, "jntetri.sqlite") {
+  timer(context, boost::posix_time::seconds(15)), sql(soci::sqlite3, "jntetri.sqlite") {
 	sql << "CREATE TABLE IF NOT EXISTS users ("
 	       "username VARCHAR(80) UNIQUE NOT NULL,"
 	       "password VARCHAR(256) NOT NULL)";
+	timer.async_wait([this](const auto& e) { printStats(e); });
 }
 
 Server::~Server() {
@@ -40,8 +41,9 @@ void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::e
 			try {
 				client->run();
 			} catch (std::exception& e) {
-				std::cerr << e.what() << std::endl;
+				std::cerr << "Client " << client->getUsername() << ": " << e.what() << std::endl;
 			}
+			std::cout << "Client " << client->getUsername() << " disconnected." << std::endl;
 			{
 				std::lock_guard<std::mutex> lock(matchmakingMutex);
 				if (const auto it = std::find(matchmaking.begin(), matchmaking.end(), client);
@@ -115,4 +117,10 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		matchmaking.back()->sendStartGame();
 		client->sendStartGame();
 	}
+}
+
+void Server::printStats(const boost::system::error_code&) {
+	std::cout << "Connected clients: " << clients.size() << std::endl;
+	timer.expires_from_now(boost::posix_time::seconds(15));
+	timer.async_wait([this](const auto& e) { printStats(e); });
 }
