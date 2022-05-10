@@ -7,6 +7,16 @@ linux:
     - cmake -Bbuild -GNinja
     - ninja -C build
 
+server:
+  image: ubuntu:20.04
+  stage: build
+  script:
+    - apt-get update && apt-get install -y cmake ninja-build libsoci-dev libsqlite3-dev g++ git libboost-system-dev
+    - cd server
+    - cmake -Bbuild -GNinja
+    - cmake --build build
+
 variables:
   CLICOLOR_FORCE: "1"
   GIT_SUBMODULE_STRATEGY: recursive
+  DEBIAN_FRONTEND: noninteractive
