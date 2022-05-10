@@ -5,6 +5,7 @@
 #include <boost/asio.hpp>
 #include <map>
 #include <mutex>
+#include <soci/soci.h>
 #include <thread>
 
 class Client;
@@ -34,8 +35,9 @@ private:
 
 	std::mutex chatTextMutex;
 	std::string chatText;
-	std::map<std::string, std::string> userDB;
 
 	std::mutex matchmakingMutex;
 	std::vector<std::shared_ptr<Client>> matchmaking;
+
+	soci::session sql;
 };

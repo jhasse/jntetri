@@ -5,12 +5,16 @@
 
 #include <boost/bind/bind.hpp>
 #include <iostream>
+#include <soci/sqlite3/soci-sqlite3.h>
 
 using boost::asio::ip::tcp;
 
-Server::Server() : socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)) {
-	userDB["rechts"] = "asd";
-	userDB["links"] = "asd";
+Server::Server()
+: socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)),
+  sql(soci::sqlite3, "jntetri.sqlite") {
+	sql << "CREATE TABLE IF NOT EXISTS users ("
+	       "username VARCHAR(80) UNIQUE NOT NULL,"
+	       "password VARCHAR(256) NOT NULL)";
 }
 
 Server::~Server() {
@@ -73,24 +77,29 @@ void Server::addChatLine(std::string line) {
 }
 
 LoginState Server::checkLogin(std::string username, std::string password) {
-	auto user = userDB.find(username);
-	if(user == userDB.end()) {
-		return UserDoesNotExist;
-	} else if(user->second == password) {
-		return PasswordOK;
-	} else {
-		return PasswordWrong;
+	soci::rowset<soci::row> rs =
+	    (sql.prepare << "select password from users where username = :username",
+	     soci::use(username, "username"));
+	std::optional<std::string> realPassword;
+	for (const auto& row : rs) {
+		assert(!realPassword);
+		realPassword = row.get<std::string>(0);
 	}
+	if (realPassword) {
+		return (*realPassword == password) ? PasswordOK : PasswordWrong;
+	}
+	return UserDoesNotExist;
 }
 
 bool Server::registerUser(std::string username, std::string password) {
-	auto user = userDB.find(username);
-	if(user == userDB.end()) {
-		userDB[username] = password;
-		return true;
-	} else {
+	try {
+		sql << "insert into users (username, password) values(:username, :password)",
+		    soci::use(username), soci::use(password);
+	} catch (soci::soci_error& e) {
+		std::cerr << e.what() << std::endl;
 		return false;
 	}
+	return true;
 }
 
 void Server::startMatchmaking(std::shared_ptr<Client> client) {
