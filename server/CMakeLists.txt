@@ -3,12 +3,15 @@ project(jntetri-server)
 
 include(cmake/CPM.cmake)
 
-CPMAddPackage(
-	NAME Boost
-	VERSION 1.77.0
-	GITHUB_REPOSITORY "boostorg/boost"
-	GIT_TAG "boost-1.77.0"
-)
+find_package(Boost COMPONENTS system)
+if(NOT Boost_FOUND)
+	CPMAddPackage(
+		NAME Boost
+		VERSION 1.77.0
+		GITHUB_REPOSITORY "boostorg/boost"
+		GIT_TAG "boost-1.77.0"
+	)
+endif()
 CPMAddPackage(
 	NAME nlohmann_json
 	URL "https://github.com/nlohmann/json/archive/refs/tags/v3.10.2.tar.gz"
@@ -17,6 +20,6 @@ CPMAddPackage(
 find_package(Threads REQUIRED)
 file(GLOB SRC *.cpp)
 add_executable(jntetri-server ${SRC})
-target_link_libraries(jntetri-server PRIVATE Boost::asio Threads::Threads nlohmann_json::nlohmann_json soci_core soci_sqlite3)
+target_link_libraries(jntetri-server PRIVATE Boost::system Threads::Threads nlohmann_json::nlohmann_json soci_core soci_sqlite3)
 target_include_directories(jntetri-server PRIVATE /usr/include/soci) # TODO: This seems wrong
 target_compile_features(jntetri-server PRIVATE cxx_std_17)
