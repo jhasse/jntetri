@@ -14,8 +14,8 @@
 #include <sstream>
 #include <spdlog/spdlog.h>
 
-const std::string Login::server_("127.0.0.1");
-// const std::string Login::server_("85.214.187.23");
+// const std::string Login::server_("127.0.0.1");
+const std::string Login::server_("85.214.187.23");
 const int Login::port_ = 7070;
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
@@ -68,6 +68,7 @@ void Login::HandleLogin2(json temp) {
 		addWidget(std::shared_ptr<Widget>(yes));
 	} else if (temp["type"] == "wrong password") {
 		text_ = "The password you've entered\nis wrong. Please try again.";
+		OnError();
 	} else {
 		text_ = "Error: ";
 		text_ += temp.dump();
@@ -136,4 +137,5 @@ void Login::OnCancel() {
 
 void Login::OnError() {
 	cancel_.SetText("OK");
+	cancel_.setFocus(true);
 }
