@@ -3,7 +3,7 @@
 #include "../gui/widget.hpp"
 
 #include <algorithm>
-#include <jngl/input.hpp>
+#include <jngl.hpp>
 
 Work::~Work() {
 }
@@ -47,8 +47,16 @@ void Work::StepWidgets() {
 	if (widgets_.empty()) {
 		return;
 	}
+	jngl::setCursor(jngl::Cursor::ARROW);
 	for (auto w : widgets_) {
+		bool focus = w->getFocus();
 		w->step();
+		if (!focus && w->getFocus()) { // the widget requests focus
+			focusedWidget_->setFocus(false);
+			focusedWidget_ = w;
+		} else if (focus && !w->getFocus()) { // the widget wants to lose focus
+			FocusNext();
+		}
 	}
 	StepFocus();
 }

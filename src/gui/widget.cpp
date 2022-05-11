@@ -8,6 +8,10 @@ void Widget::setSensitive(const bool sensitive) {
 	this->sensitive = sensitive;
 }
 
+bool Widget::getFocus() const {
+	return focus;
+}
+
 void Widget::setFocus(const bool focus) {
 	bool old = this->focus;
 	this->focus = focus;

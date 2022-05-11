@@ -18,6 +18,14 @@ void Input::onFocusChanged() {
 }
 
 void Input::step() {
+	const auto mousePos = jngl::getMousePos();
+	if (mousePos.x > x_ && mousePos.y > y_ && mousePos.x < x_ + maxWidth &&
+	    mousePos.y < y_ + 94 /* TODO: Do not hardcode */) {
+		jngl::setCursor(jngl::Cursor::I);
+		if (jngl::mousePressed()) {
+			setFocus(true);
+		}
+	}
 	if (!sensitive || !focus) {
 		return;
 	}
