@@ -24,7 +24,7 @@ void ScanPath(fs::path path, std::deque<std::string>& filesToResize) {
 }
 
 ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
-	fs::path path(jngl::getPrefix() + getPaths().getData() + "gfx");
+	fs::path path(jngl::getPrefix() + "gfx");
 	fs::directory_iterator end;
 	for (fs::directory_iterator it(path); it != end; ++it) {
 		if (fs::is_directory(it->status())) {
@@ -41,11 +41,11 @@ ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
 		}
 	}
 
-	const std::string origGfx = getPaths().getData() + "gfx/x" + std::to_string(originalSize_) + "/";
+	const std::string origGfx = "gfx/x" + std::to_string(originalSize_) + "/";
 	getPaths().setOriginalGfx(origGfx);
 	jngl::setScaleFactor(double(jngl::getWindowHeight()) / double(originalSize_));
 	getPaths().setGraphics(origGfx);
-	ScanPath(jngl::getPrefix() + getPaths().getData() + "gfx/x" + std::to_string(originalSize_), filesToResize_);
+	ScanPath(jngl::getPrefix() + "gfx/x" + std::to_string(originalSize_), filesToResize_);
 }
 
 ResizeGraphics::~ResizeGraphics() {
@@ -66,7 +66,7 @@ bool ResizeGraphics::isFinished(float& percentage) {
 		return false;
 	}
 
-	std::string basedir = getPaths().getData() + "gfx/x" + std::to_string(originalSize_);
+	std::string basedir = "gfx/x" + std::to_string(originalSize_);
 	std::string relativeFilename(filesToResize_[0].substr(basedir.size() + 1));
 	std::string newFilename = getPaths().getGraphics() + relativeFilename;
 
