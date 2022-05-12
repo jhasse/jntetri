@@ -16,7 +16,7 @@ std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters& param
 	params.screenSize = { 1280, 720 };
 	return []() {
 		jngl::setAntiAliasing(true);
-		jngl::setIcon("share/icons/jntetri.png");
+		jngl::setIcon("icon");
 		jngl::setFontSize(jngl::getScaleFactor() * 13);
 		jngl::addJob(std::make_shared<DebugOverlay>());
 		return std::make_shared<Intro>();

@@ -16,12 +16,10 @@ void Socket::step() {
 void Socket::CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess) {
 	if (err) {
 		throw std::runtime_error("socket error");
-	} else {
-		boost::asio::async_read_until(
-		    socket_, streamBuffer_, DELIMITER,
-		    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
-		onSuccess();
 	}
+	socket_.async_receive(boost::asio::buffer(receiveBuffer), 0,
+	    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
+	onSuccess();
 }
 
 void Socket::connect(const std::string& server, int port, std::function<void()> onSuccess) {
@@ -43,6 +41,7 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 }
 
 void Socket::send(const std::string& data, std::function<void()> onSuccess) {
+	spdlog::trace("sending {}", data);
 	auto buf = std::make_unique<std::string>(data + DELIMITER);
 	auto mutableBuf = boost::asio::buffer(*buf);
 	socket_.async_send(mutableBuf, [this, buf = std::move(buf), onSuccess = std::move(onSuccess)](
@@ -66,15 +65,17 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 	if (len == 0) {
 		spdlog::warn("len == 0");
 	} else {
-		std::istream is(&streamBuffer_);
-		std::string buf;
-		std::getline(is, buf, DELIMITER[0]);
-		spdlog::debug("Received: buf.size(): {}, len: {}, buf: {}", buf.size(), len, buf);
-		auto data = json::parse(buf);
-		onReceiveSuccess(std::move(data));
+		buffer.append(receiveBuffer.data(), len);
+		while (true) {
+			size_t pos = buffer.find(DELIMITER[0]);
+			if (pos == std::string::npos) {
+				break;
+			}
+			onReceiveSuccess(json::parse(buffer.substr(0, pos)));
+			buffer = buffer.substr(pos + 1);
+		}
 	}
-	boost::asio::async_read_until(
-	    socket_, streamBuffer_, DELIMITER,
+	socket_.async_receive(boost::asio::buffer(receiveBuffer), 0,
 	    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
 }
 
