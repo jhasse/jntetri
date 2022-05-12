@@ -10,7 +10,7 @@ class Server;
 
 class Client : public std::enable_shared_from_this<Client> {
 public:
-	Client(Server&);
+	Client(Server&, boost::asio::io_service&);
 	void run(boost::asio::yield_context);
 	boost::asio::ip::tcp::socket& getSocket();
 	void setOpponent(std::shared_ptr<Client>);
@@ -39,7 +39,6 @@ private:
 	/// <name, <needsLogin, callback>>
 	std::map<std::string, std::pair<bool, std::function<void(boost::asio::yield_context, nlohmann::json)>>> commands;
 
-	boost::asio::io_service context;
 	boost::asio::ip::tcp::socket socket;
 	boost::asio::streambuf data_received;
 	Server& server;

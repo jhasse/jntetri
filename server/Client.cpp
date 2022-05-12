@@ -13,7 +13,8 @@
 
 using boost::asio::ip::tcp;
 
-Client::Client(Server& server) : socket(context), server(server) {
+Client::Client(Server& server, boost::asio::io_service& context)
+: socket(context), server(server) {
 	commands["login"] = {false, std::bind(&Client::login, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["chat"] = {true, std::bind(&Client::chat, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["game"] = {true, std::bind(&Client::game, this, std::placeholders::_1, std::placeholders::_2)};

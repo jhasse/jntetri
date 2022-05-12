@@ -35,7 +35,7 @@ void Server::run() {
 
 void Server::doAccept(boost::asio::yield_context yield) {
 	while (true) {
-		auto client = std::make_shared<Client>(*this);
+		auto client = std::make_shared<Client>(*this, context);
 		acceptor.async_accept(client->getSocket(), yield);
 		spdlog::info("new connection");
 		{
