@@ -6,15 +6,18 @@
 #include <boost/bind/bind.hpp>
 #include <iostream>
 #include <soci/sqlite3/soci-sqlite3.h>
+#include <spdlog/spdlog.h>
+#include <optional>
 
 using boost::asio::ip::tcp;
 
 Server::Server()
 : socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)),
-  sql(soci::sqlite3, "jntetri.sqlite") {
+  timer(context, boost::posix_time::seconds(15)), sql(soci::sqlite3, "jntetri.sqlite") {
 	sql << "CREATE TABLE IF NOT EXISTS users ("
 	       "username VARCHAR(80) UNIQUE NOT NULL,"
 	       "password VARCHAR(256) NOT NULL)";
+	timer.async_wait([this](const auto& e) { printStats(e); });
 }
 
 Server::~Server() {
@@ -25,23 +28,27 @@ Server::~Server() {
 }
 
 void Server::run() {
-	startAccept();
+	boost::asio::spawn(context, [this](boost::asio::yield_context yield) { doAccept(yield); });
+	spdlog::info("start");
 	context.run();
 }
 
-void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::error_code& error) {
-	std::cout << "New connection." << std::endl;
-	if (!error) {
+void Server::doAccept(boost::asio::yield_context yield) {
+	while (true) {
+		auto client = std::make_shared<Client>(*this, context);
+		acceptor.async_accept(client->getSocket(), yield);
+		spdlog::info("new connection");
 		{
 			std::lock_guard<std::mutex> lock(clientsMutex);
 			clients.emplace_back(client);
 		}
-		threads.emplace_back([this, client]() {
+		boost::asio::spawn(context, [this, client](boost::asio::yield_context yield) {
 			try {
-				client->run();
+				client->run(yield);
 			} catch (std::exception& e) {
-				std::cerr << e.what() << std::endl;
+				client->log().error(e.what());
 			}
+			client->log().info("disconnected");
 			{
 				std::lock_guard<std::mutex> lock(matchmakingMutex);
 				if (const auto it = std::find(matchmaking.begin(), matchmaking.end(), client);
@@ -55,23 +62,15 @@ void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::e
 			}
 		});
 	}
-	startAccept();
 }
 
-void Server::startAccept() {
-	auto newClient = std::make_shared<Client>(*this);
-	acceptor.async_accept(
-	    newClient->getSocket(),
-	    boost::bind(&Server::handleAccept, this, newClient, boost::asio::placeholders::error));
-}
-
-void Server::addChatLine(std::string line) {
+void Server::addChatLine(boost::asio::yield_context yield, std::string line) {
 	std::lock_guard<std::mutex> lock(chatTextMutex);
 	chatText += line;
 	{
 		std::lock_guard<std::mutex> lock(clientsMutex);
 		for (const auto& client : clients) {
-			client->sendChatLine(line);
+			client->sendChatLine(yield, line);
 		}
 	}
 }
@@ -96,13 +95,13 @@ bool Server::registerUser(std::string username, std::string password) {
 		sql << "insert into users (username, password) values(:username, :password)",
 		    soci::use(username), soci::use(password);
 	} catch (soci::soci_error& e) {
-		std::cerr << e.what() << std::endl;
+		spdlog::error(e.what());
 		return false;
 	}
 	return true;
 }
 
-void Server::startMatchmaking(std::shared_ptr<Client> client) {
+void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<Client> client) {
 	std::lock_guard<std::mutex> lock(matchmakingMutex);
 	if (matchmaking.empty()) {
 		matchmaking.emplace_back(client);
@@ -110,9 +109,14 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		// Found opponent. Let's send p back to both clients so that the game starts.
 		matchmaking.back()->setOpponent(client);
 		client->setOpponent(matchmaking.back());
-		std::cout << "Matching '" << matchmaking.back()->getUsername() << "' and '"
-		          << client->getUsername() << "'." << std::endl;
-		matchmaking.back()->sendStartGame();
-		client->sendStartGame();
+		spdlog::info("matching '{}' and '{}'", matchmaking.back()->getUsername(), client->getUsername());
+		matchmaking.back()->sendStartGame(yield);
+		client->sendStartGame(yield);
 	}
+}
+
+void Server::printStats(const boost::system::error_code&) {
+	spdlog::trace("connected clients: {}", clients.size());
+	timer.expires_from_now(boost::posix_time::seconds(15));
+	timer.async_wait([this](const auto& e) { printStats(e); });
 }
