@@ -11,7 +11,10 @@
 			"program": "${workspaceFolder}/build/jntetri-server",
 			"args": [],
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "build"
+			"preLaunchTask": "build",
+			"env": {
+				"SPDLOG_LEVEL": "trace"
+			}
 		}
 	]
 }

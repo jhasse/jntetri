@@ -6,6 +6,7 @@
 #include <boost/bind/bind.hpp>
 #include <iostream>
 #include <soci/sqlite3/soci-sqlite3.h>
+#include <spdlog/spdlog.h>
 
 using boost::asio::ip::tcp;
 
@@ -27,11 +28,12 @@ Server::~Server() {
 
 void Server::run() {
 	startAccept();
+	spdlog::info("start");
 	context.run();
 }
 
 void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::error_code& error) {
-	std::cout << "New connection." << std::endl;
+	spdlog::info("new connection");
 	if (!error) {
 		{
 			std::lock_guard<std::mutex> lock(clientsMutex);
@@ -41,9 +43,9 @@ void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::e
 			try {
 				client->run();
 			} catch (std::exception& e) {
-				std::cerr << "Client " << client->getUsername() << ": " << e.what() << std::endl;
+				client->log().error(e.what());
 			}
-			std::cout << "Client " << client->getUsername() << " disconnected." << std::endl;
+			client->log().info("disconnected");
 			{
 				std::lock_guard<std::mutex> lock(matchmakingMutex);
 				if (const auto it = std::find(matchmaking.begin(), matchmaking.end(), client);
@@ -98,7 +100,7 @@ bool Server::registerUser(std::string username, std::string password) {
 		sql << "insert into users (username, password) values(:username, :password)",
 		    soci::use(username), soci::use(password);
 	} catch (soci::soci_error& e) {
-		std::cerr << e.what() << std::endl;
+		spdlog::error(e.what());
 		return false;
 	}
 	return true;
@@ -112,15 +114,14 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		// Found opponent. Let's send p back to both clients so that the game starts.
 		matchmaking.back()->setOpponent(client);
 		client->setOpponent(matchmaking.back());
-		std::cout << "Matching '" << matchmaking.back()->getUsername() << "' and '"
-		          << client->getUsername() << "'." << std::endl;
+		spdlog::info("matching '{}' and '{}'", matchmaking.back()->getUsername(), client->getUsername());
 		matchmaking.back()->sendStartGame();
 		client->sendStartGame();
 	}
 }
 
 void Server::printStats(const boost::system::error_code&) {
-	std::cout << "Connected clients: " << clients.size() << std::endl;
+	spdlog::trace("connected clients: {}", clients.size());
 	timer.expires_from_now(boost::posix_time::seconds(15));
 	timer.async_wait([this](const auto& e) { printStats(e); });
 }

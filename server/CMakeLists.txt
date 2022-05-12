@@ -16,10 +16,18 @@ CPMAddPackage(
 	NAME nlohmann_json
 	URL "https://github.com/nlohmann/json/archive/refs/tags/v3.10.2.tar.gz"
 )
+CPMAddPackage("gh:gabime/spdlog@1.8.2")
 
 find_package(Threads REQUIRED)
 file(GLOB SRC *.cpp)
 add_executable(jntetri-server ${SRC})
-target_link_libraries(jntetri-server PRIVATE Boost::system Threads::Threads nlohmann_json::nlohmann_json soci_core soci_sqlite3)
+target_link_libraries(jntetri-server PRIVATE
+	Boost::system
+	Threads::Threads
+	nlohmann_json::nlohmann_json
+	soci_core
+	soci_sqlite3
+	spdlog
+)
 target_include_directories(jntetri-server PRIVATE /usr/include/soci) # TODO: This seems wrong
 target_compile_features(jntetri-server PRIVATE cxx_std_17)

@@ -1,13 +1,15 @@
 #include "Client.hpp"
 
 #include "Server.hpp"
+#include "NetworkConstants.hpp"
 
 #include <boost/array.hpp>
-#include <iostream>
-#include <thread>
-#include <nlohmann/json.hpp>
 #include <boost/bind.hpp>
-#include "NetworkConstants.hpp"
+#include <iostream>
+#include <nlohmann/json.hpp>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+#include <thread>
 
 using boost::asio::ip::tcp;
 
@@ -27,14 +29,14 @@ tcp::socket& Client::getSocket() {
 void Client::login(nlohmann::json data) {
 	std::string user = data["name"];
 	std::string password = data["password"];
-	std::cout << "Logging in '" << user << "' with password of length " << password.size()
-	          << std::endl;
+	spdlog::info("login attempt from '{}' with password of length {}", user, password.size());
 	switch(server.checkLogin(user, password)) {
 		case UserDoesNotExist:
 			errAndDisconnect("unknown name", "", false);
 			break;
 		case PasswordOK:
-			std::cout << "Accepted password, sending \"ok\\b\" ..." << std::endl;
+			createLogger("client " + user);
+			log().info("accepted password, sending \"ok\" ...");
 			username = user;
 			okMsg();
 			break;
@@ -59,7 +61,7 @@ void Client::register_user(nlohmann::json data) {
 void Client::chat(nlohmann::json data) {
 	std::string newChatLine = username + ": " + data["text"].get<std::string>();
 	server.addChatLine(newChatLine);
-	std::cout << "Received from " << username << ": " << data["text"] << std::endl;
+	log().trace("chat: {}", data["text"]);
 }
 
 void Client::play(nlohmann::json data) {
@@ -89,13 +91,13 @@ void Client::sendOpponentQuit() {
 
 void Client::game(nlohmann::json data) {
 	if (!opponent) {
-		std::cerr << "Can't process \"game\" without opponent!" << std::endl;
+		spdlog::error("Can't process \"game\" without opponent!");
 		return;
 	}
 	try {
 		opponent->forward(data["time"].get<uint8_t>(), data["control"].get<uint8_t>());
 	} catch(boost::system::system_error& e) {
-		std::cout << "Opponent " << opponent->getUsername() << " disconnected: " <<  e.what() << std::endl;
+		log().warn("opponent {} disconnected: {}", opponent->getUsername(), e.what());
 		opponent.reset();
 		socket.send(boost::asio::buffer(std::string("{\"type\": \"disconnected\"}") + DELIMITER));
 	}
@@ -103,7 +105,7 @@ void Client::game(nlohmann::json data) {
 
 void Client::okMsg() {
 	socket.send(boost::asio::buffer(std::string("{\"type\": \"ok\"}") + DELIMITER));
-	std::cout << "Sent \"ok\"." << std::endl;
+	log().trace("sent \"ok\"");
 }
 
 void Client::errAndDisconnect(std::string type, std::string msg, bool really_disconnect) {
@@ -112,7 +114,7 @@ void Client::errAndDisconnect(std::string type, std::string msg, bool really_dis
 		j["msg"] = msg;
 	}
 	socket.send(boost::asio::buffer(j.dump() + DELIMITER));
-	std::cout << "Sent " << j.dump() << std::endl;
+	log().trace("sent {}", j.dump());
 	if(really_disconnect) {
 		running = false;
 	}
@@ -124,8 +126,8 @@ void Client::run() {
 	std::istream is(&data_received);
 	is >> protocolVersion;
 	is.ignore();
-	std::cout << "Protocol version: " << protocolVersion << std::endl;
 	if (protocolVersion != PROTOCOL_VERSION) {
+		log().error("protocol version: ", protocolVersion);
 		errAndDisconnect("error", "Protocol version mismatch!");
 		return;
 	}
@@ -138,12 +140,11 @@ void Client::run() {
 		if(s == 0) {
 			return;
 		}
-		std::cout << "Got data size " << s << " error: " << code << std::endl;
+		log().trace("got data size {}, error: {}", s, code);
 		std::istream is(&data_received);
 		while(std::getline(is, line)) {
 			auto data = nlohmann::json::parse(line);
-			std::cout << "Got data " << data.dump() << std::endl;
-			std::cout << "Processing command " << data["type"] << std::endl;
+			log().trace("got data {}", data.dump());
 			auto current_cmd = commands.find(data["type"]);
 			if(current_cmd == commands.end()) {
 				errAndDisconnect("error", "Unknown command!");
@@ -173,4 +174,19 @@ void Client::forward(uint8_t time, uint8_t command) {
 	};
 
 	socket.send(boost::asio::buffer(j.dump() + DELIMITER));
+}
+
+void Client::createLogger(const std::string& name) {
+	try {
+		logger = spdlog::stdout_color_mt(name, spdlog::color_mode::always);
+	} catch (spdlog::spdlog_ex&) {
+		logger = spdlog::get(name);
+	}
+}
+
+spdlog::logger& Client::log() {
+	if (!logger) {
+		createLogger("unnamed client " + std::to_string(ptrdiff_t(this)));
+	}
+	return *logger;
 }

@@ -3,6 +3,7 @@
 #include <boost/asio.hpp>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <spdlog/logger.h>
 
 class Server;
 
@@ -17,6 +18,7 @@ public:
 	void sendOpponentQuit();
 	std::string getUsername() const;
 	void forward(uint8_t time, uint8_t command);
+	spdlog::logger& log();
 
 private:
 	void handleRecv(std::string);
@@ -45,4 +47,7 @@ private:
 
 	/// unhandled bytes from the last receive
 	std::string receiveBuffer;
+
+	void createLogger(const std::string& name);
+	std::shared_ptr<spdlog::logger> logger;
 };
