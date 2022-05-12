@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(jntetri-server)
 
+string(APPEND CMAKE_CXX_FLAGS -fdiagnostics-color)
+
 include(cmake/CPM.cmake)
 
-find_package(Boost COMPONENTS system)
+find_package(Boost COMPONENTS coroutine system thread)
 if(NOT Boost_FOUND)
 	CPMAddPackage(
 		NAME Boost
@@ -22,6 +24,7 @@ find_package(Threads REQUIRED)
 file(GLOB SRC *.cpp)
 add_executable(jntetri-server ${SRC})
 target_link_libraries(jntetri-server PRIVATE
+	Boost::coroutine
 	Boost::system
 	Threads::Threads
 	nlohmann_json::nlohmann_json

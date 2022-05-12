@@ -28,21 +28,23 @@ Server::~Server() {
 }
 
 void Server::run() {
-	startAccept();
+	boost::asio::spawn(context, [this](boost::asio::yield_context yield) { doAccept(yield); });
 	spdlog::info("start");
 	context.run();
 }
 
-void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::error_code& error) {
-	spdlog::info("new connection");
-	if (!error) {
+void Server::doAccept(boost::asio::yield_context yield) {
+	while (true) {
+		auto client = std::make_shared<Client>(*this);
+		acceptor.async_accept(client->getSocket(), yield);
+		spdlog::info("new connection");
 		{
 			std::lock_guard<std::mutex> lock(clientsMutex);
 			clients.emplace_back(client);
 		}
-		threads.emplace_back([this, client]() {
+		boost::asio::spawn(context, [this, client](boost::asio::yield_context yield) {
 			try {
-				client->run();
+				client->run(yield);
 			} catch (std::exception& e) {
 				client->log().error(e.what());
 			}
@@ -60,23 +62,15 @@ void Server::handleAccept(std::shared_ptr<Client> client, const boost::system::e
 			}
 		});
 	}
-	startAccept();
 }
 
-void Server::startAccept() {
-	auto newClient = std::make_shared<Client>(*this);
-	acceptor.async_accept(
-	    newClient->getSocket(),
-	    boost::bind(&Server::handleAccept, this, newClient, boost::asio::placeholders::error));
-}
-
-void Server::addChatLine(std::string line) {
+void Server::addChatLine(boost::asio::yield_context yield, std::string line) {
 	std::lock_guard<std::mutex> lock(chatTextMutex);
 	chatText += line;
 	{
 		std::lock_guard<std::mutex> lock(clientsMutex);
 		for (const auto& client : clients) {
-			client->sendChatLine(line);
+			client->sendChatLine(yield, line);
 		}
 	}
 }
@@ -107,7 +101,7 @@ bool Server::registerUser(std::string username, std::string password) {
 	return true;
 }
 
-void Server::startMatchmaking(std::shared_ptr<Client> client) {
+void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<Client> client) {
 	std::lock_guard<std::mutex> lock(matchmakingMutex);
 	if (matchmaking.empty()) {
 		matchmaking.emplace_back(client);
@@ -116,8 +110,8 @@ void Server::startMatchmaking(std::shared_ptr<Client> client) {
 		matchmaking.back()->setOpponent(client);
 		client->setOpponent(matchmaking.back());
 		spdlog::info("matching '{}' and '{}'", matchmaking.back()->getUsername(), client->getUsername());
-		matchmaking.back()->sendStartGame();
-		client->sendStartGame();
+		matchmaking.back()->sendStartGame(yield);
+		client->sendStartGame(yield);
 	}
 }
 

@@ -3,6 +3,7 @@
 #include "LoginState.hpp"
 
 #include <boost/asio.hpp>
+#include <boost/asio/spawn.hpp>
 #include <map>
 #include <mutex>
 #include <soci/soci.h>
@@ -16,9 +17,9 @@ public:
 	~Server();
 	void run();
 	void handleAccept(std::shared_ptr<Client> client, const boost::system::error_code& error);
-	void startAccept();
-	void addChatLine(std::string);
-	void startMatchmaking(std::shared_ptr<Client>);
+	void doAccept(boost::asio::yield_context);
+	void addChatLine(boost::asio::yield_context, std::string);
+	void startMatchmaking(boost::asio::yield_context, std::shared_ptr<Client>);
 
 	LoginState checkLogin(std::string username, std::string password);
 	bool registerUser(std::string username, std::string password);
