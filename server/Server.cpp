@@ -7,6 +7,7 @@
 #include <iostream>
 #include <soci/sqlite3/soci-sqlite3.h>
 #include <spdlog/spdlog.h>
+#include <optional>
 
 using boost::asio::ip::tcp;
 
