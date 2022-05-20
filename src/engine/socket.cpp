@@ -71,7 +71,9 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 			if (pos == std::string::npos) {
 				break;
 			}
-			onReceiveSuccess(json::parse(buffer.substr(0, pos)));
+			auto package = buffer.substr(0, pos);
+			spdlog::trace("received `{}`", package);
+			onReceiveSuccess(json::parse(package));
 			buffer = buffer.substr(pos + 1);
 		}
 	}

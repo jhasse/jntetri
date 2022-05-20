@@ -58,6 +58,14 @@ void Field::step() {
 	if (pause_) {
 		return;
 	}
+	if (checkDesync && checkDesync()) { // is our opponent having network issues?
+		desyncInfo = DesyncInfo(onUserQuitCallback);
+	} else {
+		if (!control_->step()) {
+			++stepsWithoutPackage;
+			return;
+		}
+	}
 	if (gameOver_) {
 		--counter_;
 		if (counter_ <= 0 && !blocks_.empty()) {
@@ -68,63 +76,55 @@ void Field::step() {
 			blocks_.erase(randomBlock);
 		}
 	} else {
-		if (checkDesync && checkDesync()) { // is our opponent having network issues?
-			desyncInfo = DesyncInfo(onUserQuitCallback);
-		} else {
-			if (!control_->step()) {
-				++stepsWithoutPackage;
-				return;
-			}
-			--counter_;
-			stepsWithoutPackage = 0;
-			secondsPlayed += 1. / double(jngl::getStepsPerSecond());
-			linesCleared = 0;
-			if (counter_ <= 0) {
-				ResetCounter();
-				if (!tetromino_->MoveDown()) {
-					if (delay_) {
-						NewTetromino();
-						delay_ = false;
-					} else {
-						counter_ = 30; // Wait 0.3 seconds so that it's possible to move blocks
-						               // below others
-						delay_ = true;
-					}
-				} else {
+		--counter_;
+		stepsWithoutPackage = 0;
+		secondsPlayed += 1. / double(jngl::getStepsPerSecond());
+		linesCleared = 0;
+		if (counter_ <= 0) {
+			ResetCounter();
+			if (!tetromino_->MoveDown()) {
+				if (delay_) {
+					NewTetromino();
 					delay_ = false;
-				}
-			}
-			tetromino_->Step();
-			if (control_->Check(ControlType::Drop)) {
-				tetromino_->drop();
-				NewTetromino();
-			}
-			if (control_->Check(ControlType::Down)) {
-				if (downKeyReleased_ && counter_ > 7) {
-					counter_ = 7;
+				} else {
+					counter_ = 30; // Wait 0.3 seconds so that it's possible to move blocks
+					               // below others
+					delay_ = true;
 				}
 			} else {
-				downKeyReleased_ = true;
+				delay_ = false;
 			}
-			if (control_->Check(ControlType::AddJunk)) {
-				for (auto& block : blocks_) {
-					block.setY(block.getY() + 1);
-					block.setAnimationY(block.getAnimationY() - 1);
-				}
-				if (tetromino_) {
-					tetromino_->moveUp(1);
-				}
-				std::mt19937 colorRandom;
-				std::uniform_int_distribution<int> colorDist(0, 255);
-				int leaveOut = random() % (width_ - 1);
-				for (int x = 0; x < width_; ++x) {
-					if (x != leaveOut) {
-						jngl::Color color(colorDist(colorRandom), colorDist(colorRandom),
-						                  colorDist(colorRandom));
-						Block block(x, 0, color);
-						block.setAnimationY(-1);
-						AddBlock(block);
-					}
+		}
+		tetromino_->Step();
+		if (control_->Check(ControlType::Drop)) {
+			tetromino_->drop();
+			NewTetromino();
+		}
+		if (control_->Check(ControlType::Down)) {
+			if (downKeyReleased_ && counter_ > 7) {
+				counter_ = 7;
+			}
+		} else {
+			downKeyReleased_ = true;
+		}
+		if (control_->Check(ControlType::AddJunk)) {
+			for (auto& block : blocks_) {
+				block.setY(block.getY() + 1);
+				block.setAnimationY(block.getAnimationY() - 1);
+			}
+			if (tetromino_) {
+				tetromino_->moveUp(1);
+			}
+			std::mt19937 colorRandom;
+			std::uniform_int_distribution<int> colorDist(0, 255);
+			int leaveOut = random() % (width_ - 1);
+			for (int x = 0; x < width_; ++x) {
+				if (x != leaveOut) {
+					jngl::Color color(colorDist(colorRandom), colorDist(colorRandom),
+					                  colorDist(colorRandom));
+					Block block(x, 0, color);
+					block.setAnimationY(-1);
+					AddBlock(block);
 				}
 			}
 		}

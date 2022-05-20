@@ -20,7 +20,7 @@ bool NetworkControl::step(const std::function<void(ControlType)>& set) {
 		};
 		socket->send(j, [this]() {
 			sendQueue.pop();
-			spdlog::info("sent package success. {} to go.", sendQueue.size());
+			// spdlog::info("sent package success. {} to go.", sendQueue.size());
 			sendingInProgress = false;
 		});
 	}
@@ -57,14 +57,14 @@ void NetworkControl::handleReceive(json j) {
 			spdlog::error("invalid control type in package: {}", control);
 		} else {
 			if (control == static_cast<uint8_t>(ControlType::Null)) {
-				spdlog::info("Null package received.");
+				// spdlog::info("Null package received.");
 				++nullPackagesReceived;
 			}
 			data.push(
 			    std::pair<unsigned char, ControlType>(time, static_cast<ControlType>(control)));
 		}
-	} else if (j["type"] == "quit") {
-		return; // Don't receive! Back to lobby
+	} else if (j["type"] == "quit" || j["type"] == "opponentQuit") {
+		// TODO: Show this to the user somehow
 	} else {
 		spdlog::error("Unknown package: {}", j);
 	}
