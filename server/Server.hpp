@@ -20,6 +20,7 @@ public:
 	void doAccept(boost::asio::yield_context);
 	void addChatLine(boost::asio::yield_context, std::string);
 	void startMatchmaking(boost::asio::yield_context, std::shared_ptr<Client>);
+	std::string loginAndGetWelcomeMessage(boost::asio::yield_context yield, const std::string& username);
 
 	LoginState checkLogin(std::string username, std::string password);
 	bool registerUser(std::string username, std::string password);

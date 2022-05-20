@@ -35,12 +35,15 @@ void Client::login(boost::asio::yield_context yield, nlohmann::json data) {
 		case UserDoesNotExist:
 			errAndDisconnect(yield, "unknown name", "", false);
 			break;
-		case PasswordOK:
+		case PasswordOK: {
 			createLogger("client " + user);
 			log().info("accepted password, sending \"ok\" ...");
+			const auto msg = server.loginAndGetWelcomeMessage(yield, user);
 			username = user;
 			okMsg(yield);
+			sendChatLine(yield, msg);
 			break;
+		}
 		case PasswordWrong:
 			errAndDisconnect(yield, "wrong password", "", false);
 			break;
@@ -81,6 +84,9 @@ void Client::sendStartGame(boost::asio::yield_context yield) {
 }
 
 void Client::sendChatLine(boost::asio::yield_context yield, std::string line) {
+	if (username.empty() /* not logged in yet? */) {
+		return;
+	}
 	auto j = nlohmann::json { {"type", "chat"}, {"text", line} };
 	socket.async_send(boost::asio::buffer(j.dump() + DELIMITER), yield);
 }

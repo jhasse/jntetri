@@ -56,9 +56,13 @@ void Server::doAccept(boost::asio::yield_context yield) {
 					matchmaking.erase(it);
 				}
 			}
+			const auto username = client->getUsername();
 			{
 				std::lock_guard<std::mutex> lock(clientsMutex);
 				clients.erase(std::find(clients.begin(), clients.end(), client));
+			}
+			if (!username.empty()) {
+				addChatLine(yield, fmt::format("{} left.", username));
 			}
 		});
 	}
@@ -105,6 +109,7 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 	std::lock_guard<std::mutex> lock(matchmakingMutex);
 	if (matchmaking.empty()) {
 		matchmaking.emplace_back(client);
+		addChatLine(yield, client->getUsername() + " started matchmaking.");
 	} else {
 		// Found opponent. Let's send p back to both clients so that the game starts.
 		matchmaking.back()->setOpponent(client);
@@ -113,6 +118,11 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 		matchmaking.back()->sendStartGame(yield);
 		client->sendStartGame(yield);
 	}
+}
+
+std::string Server::loginAndGetWelcomeMessage(boost::asio::yield_context yield, const std::string& username) {
+	addChatLine(yield, fmt::format("{} joined.", username));
+	return fmt::format("{} user{} online.", clients.size(), clients.size() == 1 ? "" : "s");
 }
 
 void Server::printStats(const boost::system::error_code&) {
