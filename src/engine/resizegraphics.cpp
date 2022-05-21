@@ -23,26 +23,9 @@ void ScanPath(fs::path path, std::deque<std::string>& filesToResize) {
 	}
 }
 
-ResizeGraphics::ResizeGraphics() : originalSize_(-1) {
-	fs::path path(jngl::getPrefix() + "gfx");
-	fs::directory_iterator end;
-	for (fs::directory_iterator it(path); it != end; ++it) {
-		if (fs::is_directory(it->status())) {
-			std::string name = it->path().string(); // e.g. /gfx/x1200
-			try {
-				auto tmp = boost::lexical_cast<int>(name.substr(name.rfind("x") + 1));
-				if (tmp > originalSize_) {
-					originalSize_ = tmp;
-					jngl::debug("Original screen height: "); jngl::debugLn(originalSize_);
-				}
-			} catch(boost::bad_lexical_cast&) {
-				// Bad cast, this doesn't seem to be the right directory
-			}
-		}
-	}
-
+ResizeGraphics::ResizeGraphics() : originalSize_(1200) {
 	const std::string origGfx = "gfx/x" + std::to_string(originalSize_) + "/";
-	getPaths().setOriginalGfx(origGfx);
+	getPaths().setOriginalGfx("gfx/x1200");
 	jngl::setScaleFactor(double(jngl::getWindowHeight()) / double(originalSize_));
 	getPaths().setGraphics(origGfx);
 	ScanPath(jngl::getPrefix() + "gfx/x" + std::to_string(originalSize_), filesToResize_);
