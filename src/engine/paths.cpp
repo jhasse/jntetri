@@ -18,18 +18,12 @@ Paths::Paths() {
 	std::stringstream path;
 	path << getenv("HOME") << "/.config/" << programDisplayName << "/";
 	configPath = path.str();
-#elif defined(__APPLE__)
-	configPath = jngl::getConfigPath();
 #else
-	TCHAR szPath[MAX_PATH];
-	if (!SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, szPath))) {
-		throw std::runtime_error("Couldn't get %AppData% location!");
-	}
-	std::stringstream path;
-	path << szPath << "/" << programDisplayName << "/";
-	configPath = path.str();
+	configPath = jngl::getConfigPath();
 #endif
+#ifndef EMSCRIPTEN
 	fs::create_directory(configPath);
+#endif
 #else
 Paths::Paths() : configPath(jngl::getConfigPath()) {
 #endif
