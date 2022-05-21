@@ -66,18 +66,10 @@ void SplitScreen::step() {
 		if (field1->GameOver()) {
 			++wins2;
 			freezeCountdown = 200;
-			if (const auto networkControl =
-			        std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
-				networkControl->sendQuit();
-			}
 		}
 		if (field2->GameOver()) {
 			++wins1;
 			freezeCountdown = 200;
-			if (const auto networkControl =
-			        std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
-				networkControl->sendQuit();
-			}
 		}
 	}
 }

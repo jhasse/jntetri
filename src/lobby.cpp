@@ -74,7 +74,7 @@ void Lobby::handleReceive(json buf) {
 		while ((pos = chatText_.find_first_of("\n", pos + 1)) != std::string::npos) {
 			++lineCount;
 		}
-		if (lineCount > 8) {
+		if (lineCount > 13) {
 			pos = chatText_.find_first_of("\n");
 			chatText_ = chatText_.substr(pos + 1);
 		}
