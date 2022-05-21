@@ -17,6 +17,7 @@ std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters& param
 	return []() {
 		jngl::setAntiAliasing(true);
 		jngl::setIcon("icon");
+		jngl::setFont("Inter-ExtraLight.ttf");
 		jngl::setFontSize(jngl::getScaleFactor() * 13);
 		jngl::addJob(std::make_shared<DebugOverlay>());
 		return std::make_shared<Intro>();
