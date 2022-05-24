@@ -42,7 +42,7 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 
 void Socket::send(const std::string& data, std::function<void()> onSuccess) {
 	spdlog::trace("sending {}", data);
-	auto buf = std::make_unique<std::string>(data + DELIMITER);
+	auto buf = std::make_unique<std::string>(data + "\n");
 	auto mutableBuf = boost::asio::buffer(*buf);
 	socket_.async_send(mutableBuf, [this, buf = std::move(buf), onSuccess = std::move(onSuccess)](
 	                                   const boost::system::error_code& err, size_t) {
@@ -67,7 +67,7 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 	} else {
 		buffer.append(receiveBuffer.data(), len);
 		while (true) {
-			size_t pos = buffer.find(DELIMITER[0]);
+			size_t pos = buffer.find('\n');
 			if (pos == std::string::npos) {
 				break;
 			}
@@ -83,7 +83,7 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 
 bool Socket::packageFinished(const std::string& buf) const {
 	for (size_t i = 0; i < buf.length(); ++i) {
-		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == DELIMITER[0]) {
+		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == '\n') {
 			return true;
 		}
 	}
