@@ -9,7 +9,7 @@
 
 #include <jngl/all.hpp>
 
-MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -200)), password_(new Input(50, -100)) {
+MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -240)), password_(new Input(50, -100)) {
 	addWidget(name_);
 	addWidget(password_);
 	login_.reset(new Button("Login", [this]() { OnLogin(); }));
@@ -34,7 +34,7 @@ void MultiplayerMenu::step() {
 
 void MultiplayerMenu::draw() const {
 	jngl::setFontColor(0, 0, 0);
-	jngl::print("Name:", -500, -200);
+	jngl::print("Name:", -500, -240);
 	jngl::print("Password:", -500, -100);
 	DrawWidgets();
 }

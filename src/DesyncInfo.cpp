@@ -3,7 +3,6 @@
 #include "fonts.hpp"
 
 #include <jngl/matrix.hpp>
-#include <spdlog/spdlog.h>
 
 DesyncInfo::DesyncInfo(std::function<void()> userQuitCallback)
 : text(fonts::label(), "no connection"), cancel("Disconnect", std::move(userQuitCallback)) {
