@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Socket.hpp"
+
 #include <boost/asio.hpp>
 #include <boost/asio/spawn.hpp>
 #include <memory>
@@ -10,9 +12,8 @@ class Server;
 
 class Client : public std::enable_shared_from_this<Client> {
 public:
-	Client(Server&, boost::asio::io_service&);
+	Client(Server&, boost::asio::ip::tcp::socket);
 	void run(boost::asio::yield_context);
-	boost::asio::ip::tcp::socket& getSocket();
 	void setOpponent(std::shared_ptr<Client>);
 	void sendStartGame(boost::asio::yield_context);
 	void sendChatLine(boost::asio::yield_context, std::string line);
@@ -39,14 +40,10 @@ private:
 	/// <name, <needsLogin, callback>>
 	std::map<std::string, std::pair<bool, std::function<void(boost::asio::yield_context, nlohmann::json)>>> commands;
 
-	boost::asio::ip::tcp::socket socket;
-	boost::asio::streambuf data_received;
+	Socket socket;
 	Server& server;
 	std::shared_ptr<Client> opponent;
 	std::string username;
-
-	/// unhandled bytes from the last receive
-	std::string receiveBuffer;
 
 	void createLogger(const std::string& name);
 	std::shared_ptr<spdlog::logger> logger;
