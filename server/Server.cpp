@@ -118,6 +118,7 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 		spdlog::info("matching '{}' and '{}'", matchmaking.back()->getUsername(), client->getUsername());
 		matchmaking.back()->sendStartGame(yield);
 		client->sendStartGame(yield);
+		matchmaking.pop_back();
 	}
 }
 
