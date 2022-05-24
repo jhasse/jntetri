@@ -35,8 +35,9 @@ void Server::run() {
 
 void Server::doAccept(boost::asio::yield_context yield) {
 	while (true) {
-		auto client = std::make_shared<Client>(*this, context);
-		acceptor.async_accept(client->getSocket(), yield);
+		boost::asio::ip::tcp::socket socket(context);
+		acceptor.async_accept(socket, yield);
+		auto client = std::make_shared<Client>(*this, std::move(socket));
 		spdlog::info("new connection");
 		{
 			std::lock_guard<std::mutex> lock(clientsMutex);

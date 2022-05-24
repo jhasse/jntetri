@@ -13,18 +13,14 @@
 
 using boost::asio::ip::tcp;
 
-Client::Client(Server& server, boost::asio::io_service& context)
-: socket(context), server(server) {
+Client::Client(Server& server, boost::asio::ip::tcp::socket socket)
+: socket(std::move(socket)), server(server) {
 	commands["login"] = {false, std::bind(&Client::login, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["chat"] = {true, std::bind(&Client::chat, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["game"] = {true, std::bind(&Client::game, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["play"] = {true, std::bind(&Client::play, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["register"] = {false, std::bind(&Client::register_user, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["quit"] = {true, std::bind(&Client::quit, this, std::placeholders::_1, std::placeholders::_2)};
-}
-
-tcp::socket& Client::getSocket() {
-	return socket;
 }
 
 void Client::login(boost::asio::yield_context yield, nlohmann::json data) {
@@ -80,7 +76,7 @@ void Client::quit(boost::asio::yield_context yield, nlohmann::json) {
 }
 
 void Client::sendStartGame(boost::asio::yield_context yield) {
-	socket.async_send(boost::asio::buffer(std::string("{\"type\": \"play\"}") + DELIMITER), yield);
+	socket.send(yield, "{\"type\": \"play\"}");
 }
 
 void Client::sendChatLine(boost::asio::yield_context yield, std::string line) {
@@ -88,12 +84,12 @@ void Client::sendChatLine(boost::asio::yield_context yield, std::string line) {
 		return;
 	}
 	auto j = nlohmann::json { {"type", "chat"}, {"text", line} };
-	socket.async_send(boost::asio::buffer(j.dump() + DELIMITER), yield);
+	socket.send(yield, j.dump());
 }
 
 void Client::sendOpponentQuit(boost::asio::yield_context yield) {
 	auto j = nlohmann::json { {"type", "opponentQuit"} };
-	socket.async_send(boost::asio::buffer(j.dump() + DELIMITER), yield);
+	socket.send(yield, j.dump());
 }
 
 void Client::game(boost::asio::yield_context yield, nlohmann::json data) {
@@ -106,12 +102,12 @@ void Client::game(boost::asio::yield_context yield, nlohmann::json data) {
 	} catch(boost::system::system_error& e) {
 		log().warn("opponent {} disconnected: {}", opponent->getUsername(), e.what());
 		opponent.reset();
-		socket.async_send(boost::asio::buffer(std::string("{\"type\": \"disconnected\"}") + DELIMITER), yield);
+		socket.send(yield, "{\"type\": \"disconnected\"}");
 	}
 }
 
 void Client::okMsg(boost::asio::yield_context yield) {
-	socket.async_send(boost::asio::buffer(std::string("{\"type\": \"ok\"}") + DELIMITER), yield);
+	socket.send(yield, "{\"type\": \"ok\"}");
 	log().trace("sent \"ok\"");
 }
 
@@ -121,7 +117,7 @@ void Client::errAndDisconnect(boost::asio::yield_context yield, std::string type
 	if(msg != "") {
 		j["msg"] = msg;
 	}
-	socket.async_send(boost::asio::buffer(j.dump() + DELIMITER), yield);
+	socket.send(yield, j.dump());
 	log().trace("sent {}", j.dump());
 	if(really_disconnect) {
 		running = false;
@@ -130,10 +126,8 @@ void Client::errAndDisconnect(boost::asio::yield_context yield, std::string type
 
 void Client::run(boost::asio::yield_context yield) {
 	uint32_t protocolVersion;
-	std::size_t s = async_read_until(socket, data_received, "\n", yield);
-	std::istream is(&data_received);
+	std::istringstream is(socket.receive(yield));
 	is >> protocolVersion;
-	is.ignore();
 	if (protocolVersion != PROTOCOL_VERSION) {
 		log().error("protocol version: ", protocolVersion);
 		errAndDisconnect(yield, "error", "Protocol version mismatch!");
@@ -142,24 +136,16 @@ void Client::run(boost::asio::yield_context yield) {
 	okMsg(yield);
 
 	while(running) {
-		std::string line;
-		std::size_t s = async_read_until(socket, data_received, "\n", yield);
-		if(s == 0) {
-			return;
-		}
-		log().trace("got data size {}", s);
-		std::istream is(&data_received);
-		while(std::getline(is, line)) {
-			auto data = nlohmann::json::parse(line);
-			log().trace("got data {}", data.dump());
-			auto current_cmd = commands.find(data["type"]);
-			if(current_cmd == commands.end()) {
-				errAndDisconnect(yield, "error", "Unknown command!");
-			} else if (current_cmd->second.first && username == "") {
-				errAndDisconnect(yield, "error", "You need to be logged in to use this command!");
-			} else {
-				current_cmd->second.second(yield, data);
-			}
+		std::string line = socket.receive(yield);
+		auto data = nlohmann::json::parse(line);
+		log().trace("got data {}", data.dump());
+		auto current_cmd = commands.find(data["type"]);
+		if(current_cmd == commands.end()) {
+			errAndDisconnect(yield, "error", "Unknown command!");
+		} else if (current_cmd->second.first && username == "") {
+			errAndDisconnect(yield, "error", "You need to be logged in to use this command!");
+		} else {
+			current_cmd->second.second(yield, data);
 		}
 	}
 	std::cout << "Client " << username << " exiting." << std::endl;
@@ -180,7 +166,7 @@ void Client::forward(boost::asio::yield_context yield, uint8_t time, uint8_t com
 		{ "time", time },
 	};
 
-	socket.async_send(boost::asio::buffer(j.dump() + DELIMITER), yield);
+	socket.send(yield, j.dump());
 }
 
 void Client::createLogger(const std::string& name) {
