@@ -8,13 +8,14 @@
 #include <jngl/all.hpp>
 #include <jngl/init.hpp>
 
-std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters& params) {
+jngl::AppParameters jnglInit() {
+	jngl::AppParameters params;
 #ifndef NDEBUG
 	spdlog::set_level(spdlog::level::trace);
 #endif
 	params.displayName = programDisplayName;
 	params.screenSize = { 1280, 720 };
-	return []() {
+	params.start = []() {
 		jngl::setAntiAliasing(true);
 		jngl::setIcon("icon");
 		jngl::setFont("Inter-ExtraLight.ttf");
@@ -22,4 +23,5 @@ std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters& param
 		jngl::addJob(std::make_shared<DebugOverlay>());
 		return std::make_shared<Intro>();
 	};
+	return params;
 }

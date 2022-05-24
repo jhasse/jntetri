@@ -11,7 +11,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
 	set(USE_FLAGS "-g -s USE_SDL=2 -s USE_FREETYPE=1 -s USE_VORBIS=1 -s USE_LIBPNG=1 -s DISABLE_EXCEPTION_CATCHING=0")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS} -s WEBSOCKET_URL=wss://babynamensuche.de -s ASSERTIONS=1 -s FULL_ES3=1 -s INITIAL_MEMORY=1024MB --preload-file data --source-map-base http://127.0.0.1:8000/ ") #-s ALLOW_MEMORY_GROWTH=1 --source-map-base http://127.0.0.1:8000/ -g
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS} -s WEBSOCKET_URL=wss://babynamensuche.de -s ASSERTIONS=1 -s FULL_ES3=1 -s INITIAL_MEMORY=1024MB --source-map-base http://127.0.0.1:8000/ ") #-s ALLOW_MEMORY_GROWTH=1 --source-map-base http://127.0.0.1:8000/ -g
 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
 endif()
 
@@ -50,4 +50,8 @@ if(MSVC)
 		"$<TARGET_FILE_DIR:jntetri>")
 elseif(WIN32)
 	target_link_libraries(jntetri PRIVATE ws2_32)
+endif()
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+	target_link_options(jntetri PRIVATE --preload-file data)
 endif()
