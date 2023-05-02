@@ -16,6 +16,27 @@ server:
     - cmake -Bbuild -GNinja
     - cmake --build build
 
+web:
+  image: emscripten/emsdk
+  stage: build
+  script:
+    - apt-get update && apt-get install -y ninja-build libboost-dev
+    - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0
+    - mv data/ build-web/
+    - ninja -Cbuild-web
+
+pages:
+  stage: deploy
+  dependencies:
+    - web
+  script:
+  - mv build-web public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+
 variables:
   CLICOLOR_FORCE: "1"
   GIT_SUBMODULE_STRATEGY: recursive
