@@ -8,7 +8,7 @@
 #include "gui/Button.hpp"
 #include "lobby.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 #include <boost/bind/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>

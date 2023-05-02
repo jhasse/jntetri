@@ -9,7 +9,6 @@
 #include "Game.hpp"
 #include "multiplayermenu.hpp"
 
-#include <jngl/all.hpp>
 #include <ctime>
 
 Menu::Menu()

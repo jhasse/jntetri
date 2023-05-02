@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <map>
 #include <set>
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 const int Field::width_ = 11;
 const int Field::height_ = 19;

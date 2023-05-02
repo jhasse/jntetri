@@ -7,8 +7,6 @@
 #include "menu.hpp"
 #include "engine/fade.hpp"
 
-#include <jngl/all.hpp>
-
 PauseMenu::PauseMenu(std::shared_ptr<Game> game)
 : work(jngl::getWork()), buttonBox_(new ButtonBox), game(std::move(game)) {
 	this->game->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly

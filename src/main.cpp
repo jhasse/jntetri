@@ -5,7 +5,7 @@
 #include "constants.hpp"
 
 #include <spdlog/spdlog.h>
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 #include <jngl/init.hpp>
 
 jngl::AppParameters jnglInit() {

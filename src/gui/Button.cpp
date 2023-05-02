@@ -4,7 +4,7 @@
 #include "../engine/screen.hpp"
 #include "jngl/matrix.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 #include <string>
 
 const int Button::fontSize_ = 70;

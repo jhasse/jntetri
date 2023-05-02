@@ -10,7 +10,7 @@
 #include "menu.hpp"
 #include "multiplayermenu.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 Intro::Intro() : blink_(0), finished_(false) {
 }
