@@ -16,6 +16,31 @@ server:
     - cmake -Bbuild -GNinja
     - cmake --build build
 
+web:
+  image: emscripten/emsdk
+  stage: build
+  script:
+    - apt-get update && apt-get install -y ninja-build
+    - cd /tmp
+    - curl --silent -O -L https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2
+    - tar --wildcards -xf *.tar.bz2 'boost_1_*_0/boost'
+    - cd -
+    - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0 -DBoost_INCLUDE_DIR=/tmp/boost_1_80_0
+    - mv data/ build-web/
+    - ninja -Cbuild-web jntetri
+
+pages:
+  stage: deploy
+  dependencies:
+    - web
+  script:
+  - mv build-web public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+
 variables:
   CLICOLOR_FORCE: "1"
   GIT_SUBMODULE_STRATEGY: recursive
