@@ -28,9 +28,9 @@ web:
     - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0 -DBoost_INCLUDE_DIR=/tmp/boost_1_80_0
     - mv data/ build-web/
     - ninja -Cbuild-web jntetri
-artifacts:
-  paths:
-  - build-web/
+  artifacts:
+    paths:
+    - build-web/
 
 pages:
   stage: deploy
