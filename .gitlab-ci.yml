@@ -38,6 +38,7 @@ pages:
     - web
   script:
   - mv build-web public
+  - mv web/index.html public/
   artifacts:
     paths:
     - public
