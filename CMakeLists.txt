@@ -22,7 +22,7 @@ endif()
 include(server/cmake/CPM.cmake)
 CPMAddPackage(
 	NAME nlohmann_json
-	URL "https://github.com/nlohmann/json/archive/refs/tags/v3.10.2.tar.gz"
+	URL "https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz"
 )
 
 include(FetchContent)
