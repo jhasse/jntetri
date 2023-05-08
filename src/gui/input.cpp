@@ -1,6 +1,6 @@
 #include "input.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 Input::Input(int x, int y) : x_(x), y_(y), password_(false), displayCursor_(0) {
 }

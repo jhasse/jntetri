@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "menu.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 GameOverScreen::GameOverScreen(Game* game) : game_(game), blink_(0), highscore_(game_->getType()),
 input_(new Input(-160, 200)), work_(jngl::getWork()) {

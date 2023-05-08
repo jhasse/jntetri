@@ -6,7 +6,7 @@
 #include "pausemenu.hpp"
 #include "replayrecorder.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 #include <sstream>
 #include <iomanip>
 #include <boost/lexical_cast.hpp>

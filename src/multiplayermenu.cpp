@@ -7,7 +7,7 @@
 #include "menu.hpp"
 #include "Login.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -240)), password_(new Input(50, -100)) {
 	addWidget(name_);

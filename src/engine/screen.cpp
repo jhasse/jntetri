@@ -2,7 +2,7 @@
 #include "paths.hpp"
 #include "options.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 void Screen::DrawCentered(const std::string& filename, const double x, const double y)
 {

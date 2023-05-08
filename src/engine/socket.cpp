@@ -24,6 +24,7 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 
 void Socket::connect(const std::string& server, int port, std::function<void()> onSuccess) {
 	using boost::asio::ip::tcp;
+#ifndef __EMSCRIPTEN__
 	auto resolver = std::make_shared<tcp::resolver>(io_);
 	tcp::resolver::query query(server, "http");
 	resolver->async_resolve(query, [this, port, resolver,
@@ -38,11 +39,16 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 		socket_.async_connect(
 		    endpoint, boost::bind(&Socket::CallbackWrapper, this, boost::asio::placeholders::error, onSuccess));
 	});
+#else
+	tcp::endpoint endpoint(boost::asio::ip::address::from_string(server), port);
+	socket_.async_connect(endpoint, boost::bind(&Socket::CallbackWrapper, this,
+	                                            boost::asio::placeholders::error, onSuccess));
+#endif
 }
 
 void Socket::send(const std::string& data, std::function<void()> onSuccess) {
 	spdlog::trace("sending {}", data);
-	auto buf = std::make_unique<std::string>(data + DELIMITER);
+	auto buf = std::make_unique<std::string>(data + "\n");
 	auto mutableBuf = boost::asio::buffer(*buf);
 	socket_.async_send(mutableBuf, [this, buf = std::move(buf), onSuccess = std::move(onSuccess)](
 	                                   const boost::system::error_code& err, size_t) {
@@ -67,7 +73,7 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 	} else {
 		buffer.append(receiveBuffer.data(), len);
 		while (true) {
-			size_t pos = buffer.find(DELIMITER[0]);
+			size_t pos = buffer.find('\n');
 			if (pos == std::string::npos) {
 				break;
 			}
@@ -83,7 +89,7 @@ void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
 
 bool Socket::packageFinished(const std::string& buf) const {
 	for (size_t i = 0; i < buf.length(); ++i) {
-		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == DELIMITER[0]) {
+		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == '\n') {
 			return true;
 		}
 	}

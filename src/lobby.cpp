@@ -8,7 +8,7 @@
 #include "NetworkControl.hpp"
 #include "SplitScreen.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 

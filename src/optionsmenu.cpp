@@ -6,7 +6,7 @@
 #include "engine/screen.hpp"
 #include "menu.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 OptionsMenu::OptionsMenu() : startLevel_(new Chooser(0, -300)), startJunks_(new Chooser(0, 100)) {
 	back_.reset(new Button("Back", std::bind(&OptionsMenu::OnBack, this)));

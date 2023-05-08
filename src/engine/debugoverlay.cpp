@@ -1,7 +1,7 @@
 #include "debugoverlay.hpp"
 
 #include <cmath>
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 DebugOverlay::DebugOverlay() {
 	fps.setTop(1);

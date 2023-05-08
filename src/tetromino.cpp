@@ -3,7 +3,6 @@
 #include "Field.hpp"
 #include "engine/screen.hpp"
 
-#include <jngl/all.hpp>
 #include <random>
 
 Tetromino::Tetromino(int type, Field& field)

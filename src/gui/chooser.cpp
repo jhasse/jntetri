@@ -3,7 +3,7 @@
 #include "../engine/screen.hpp"
 #include "../engine/paths.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 Chooser::Chooser(const int x, const int y)
 : previous_(

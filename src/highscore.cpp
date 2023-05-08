@@ -7,7 +7,7 @@
 #include <cassert>
 #include <cmath>
 #include <iomanip>
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 Data::Data() : score(0), time(0)
 {

@@ -3,7 +3,7 @@
 #include "screen.hpp"
 #include "../constants.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 #include <stdexcept>
 
 Procedure::Procedure()

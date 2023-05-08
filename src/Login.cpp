@@ -8,21 +8,33 @@
 #include "gui/Button.hpp"
 #include "lobby.hpp"
 
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 #include <boost/bind/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>
 #include <spdlog/spdlog.h>
 
+#ifdef __EMSCRIPTEN__
+const std::string Login::server_("89.58.48.219"); // boomshine.de
+const int Login::port_ = 9999;
+#else
 // const std::string Login::server_("127.0.0.1");
-const std::string Login::server_("85.214.187.23");
+const std::string Login::server_("89.58.48.219"); // boomshine.de
+// const std::string Login::server_("85.214.187.23"); // babynamensuche.de
 const int Login::port_ = 7070;
+#endif
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
 : menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
   socket_(new Socket) {
 	spdlog::info("Connecting to {}:{}", server_, port_);
-	socket_->connect(server_, port_, [this]() { HandleConnect(); });
+	try {
+		socket_->connect(server_, port_, [this]() { HandleConnect(); });
+	} catch(std::exception& e) {
+		text_ = "Exception: ";
+		text_ += e.what();
+		OnError();
+	}
 	cancel_.setCenter(0, 200);
 }
 

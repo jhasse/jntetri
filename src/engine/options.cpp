@@ -4,7 +4,7 @@
 #include <cereal/archives/json.hpp>
 #include <fstream>
 #include <iostream>
-#include <jngl/all.hpp>
+#include <jngl.hpp>
 
 Options::Options() : filename(getPaths().getConfig() + "options.json") {
 	const int BORDER = 50;
