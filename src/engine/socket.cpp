@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <boost/bind/bind.hpp>
-#include <boost/asio/spawn.hpp>
+#include <boost/asio/co_spawn.hpp>
 #include <spdlog/spdlog.h>
 
 Socket::Socket() : socket_(io_) {
@@ -18,12 +18,13 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 	if (err) {
 		throw std::runtime_error("socket error");
 	}
-	boost::asio::spawn(io_, [this](boost::asio::yield_context yield) {
+	boost::asio::co_spawn(io_, [this]() -> boost::asio::awaitable<void> {
 		while (true) {
 			size_t pos = buffer.find('\n');
 			if (pos == std::string::npos) {
 				std::array<char, 1024> receiveBuffer{};
-				size_t len = socket_.async_receive(boost::asio::buffer(receiveBuffer), 0, yield);
+				size_t len = co_await socket_.async_receive(boost::asio::buffer(receiveBuffer), 0,
+				                                            boost::asio::use_awaitable);
 				buffer.append(receiveBuffer.data(), len);
 				continue;
 			}
@@ -32,7 +33,7 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 			buffer = buffer.substr(pos + 1);
 			onReceiveSuccess(json::parse(package));
 		}
-	});
+	}, boost::asio::detached);
 	onSuccess();
 }
 
