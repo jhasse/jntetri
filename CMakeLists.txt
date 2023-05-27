@@ -44,7 +44,11 @@ add_subdirectory(subprojects/jngl)
 
 file(GLOB SRC src/*.cpp src/engine/*.cpp src/gui/*.cpp)
 add_executable(jntetri ${SRC})
-target_link_libraries(jntetri PRIVATE cereal jngl spdlog nlohmann_json::nlohmann_json)
+find_package(Boost COMPONENTS coroutine system thread)
+
+target_link_libraries(jntetri PRIVATE cereal jngl spdlog nlohmann_json::nlohmann_json
+	Boost::coroutine
+)
 set_property(TARGET jntetri PROPERTY CXX_STANDARD 20)
 
 if(MSVC)

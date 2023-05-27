@@ -18,12 +18,9 @@ public:
 	void step();
 
 private:
-	bool packageFinished(const std::string&) const;
-
 	boost::asio::io_service io_;
 	boost::asio::ip::tcp::socket socket_;
 	void CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess);
-	void ReceiveWrapper(const boost::system::error_code& err, size_t);
 	std::string buffer;
 	std::array<char, 1024> receiveBuffer;
 

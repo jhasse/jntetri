@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <boost/bind/bind.hpp>
+#include <boost/asio/spawn.hpp>
 #include <spdlog/spdlog.h>
 
 Socket::Socket() : socket_(io_) {
@@ -17,8 +18,21 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 	if (err) {
 		throw std::runtime_error("socket error");
 	}
-	socket_.async_receive(boost::asio::buffer(receiveBuffer), 0,
-	    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
+	boost::asio::spawn(io_, [this](boost::asio::yield_context yield) {
+		while (true) {
+			size_t pos = buffer.find('\n');
+			if (pos == std::string::npos) {
+				std::array<char, 1024> receiveBuffer{};
+				size_t len = socket_.async_receive(boost::asio::buffer(receiveBuffer), 0, yield);
+				buffer.append(receiveBuffer.data(), len);
+				continue;
+			}
+			auto package = buffer.substr(0, pos);
+			// spdlog::trace("received `{}`", package);
+			buffer = buffer.substr(pos + 1);
+			onReceiveSuccess(json::parse(package));
+		}
+	});
 	onSuccess();
 }
 
@@ -62,36 +76,4 @@ void Socket::send(const json& data, std::function<void()> onSuccess) {
 
 void Socket::receive(std::function<void(json)> onSuccess) {
 	onReceiveSuccess = std::move(onSuccess);
-}
-
-void Socket::ReceiveWrapper(const boost::system::error_code& err, size_t len) {
-	if (err) {
-		throw std::runtime_error("socket error");
-	}
-	if (len == 0) {
-		spdlog::warn("len == 0");
-	} else {
-		buffer.append(receiveBuffer.data(), len);
-		while (true) {
-			size_t pos = buffer.find('\n');
-			if (pos == std::string::npos) {
-				break;
-			}
-			auto package = buffer.substr(0, pos);
-			spdlog::trace("received `{}`", package);
-			onReceiveSuccess(json::parse(package));
-			buffer = buffer.substr(pos + 1);
-		}
-	}
-	socket_.async_receive(boost::asio::buffer(receiveBuffer), 0,
-	    [this](const boost::system::error_code& err, size_t len) { ReceiveWrapper(err, len); });
-}
-
-bool Socket::packageFinished(const std::string& buf) const {
-	for (size_t i = 0; i < buf.length(); ++i) {
-		if (/*FIXME*/ i > 0 && buf[i - 1] != 'x' && buf[i] == '\n') {
-			return true;
-		}
-	}
-	return false;
 }
