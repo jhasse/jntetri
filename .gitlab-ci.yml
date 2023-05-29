@@ -25,7 +25,7 @@ web:
     - curl --silent -O -L https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.bz2
     - tar --wildcards -xf *.tar.bz2 'boost_1_*_0/boost'
     - cd -
-    - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0 -DBoost_INCLUDE_DIR=/tmp/boost_1_80_0
+    - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0 -DBoost_INCLUDE_DIR=/tmp/boost_1_82_0
     - mv data/ build-web/
     - ninja -Cbuild-web jntetri
   artifacts:
