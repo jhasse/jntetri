@@ -10,7 +10,7 @@
 const int Field::width_ = 11;
 const int Field::height_ = 19;
 
-Field::Field(int seed, const int level)
+Field::Field(int seed, const int level, const uint32_t startJunks)
 : blockSize_(60), counter_(0), gameOver_(false), score_(0), level_(level),
   lines_(0), maxY_(0), pause_(false),
   control_(new Control{ std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0) }),
@@ -21,7 +21,7 @@ Field::Field(int seed, const int level)
 	score_ = 0;
 	std::mt19937 colorRandom;
 	std::uniform_int_distribution<int> colorDist(0, 255);
-	for (unsigned int i = 0; i < getOptions().startJunks; ++i) {
+	for (unsigned int i = 0; i < startJunks; ++i) {
 		int leaveOut = random() % (width_ - 1);
 		for (int x = 0; x < width_; ++x) {
 			if (x != leaveOut) {

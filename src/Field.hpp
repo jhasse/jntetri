@@ -2,7 +2,6 @@
 
 #include "block.hpp"
 #include "DesyncInfo.hpp"
-#include "engine/options.hpp"
 #include "tetromino.hpp"
 #include "explosion.hpp"
 #include "control.hpp"
@@ -16,7 +15,7 @@
 
 class Field : boost::noncopyable {
 public:
-	Field(int seed = static_cast<int>(std::time(0)), int level = getOptions().startLevel);
+	Field(int seed, int level, uint32_t startJunks);
 	void step();
 	void draw() const;
 	void DrawBlock(int x, int y) const;

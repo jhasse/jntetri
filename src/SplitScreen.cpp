@@ -23,7 +23,7 @@ void SplitScreen::reset() {
 	freezeCountdown = 0;
 	// const int seed = static_cast<int>(std::time(0));
 	const int seed = 123; // FIXME: Exchange seed
-	field1.reset(new Field(seed, wins1));
+	field1.reset(new Field(seed, wins1, 0));
 	// FIXME: We shouldn't know about NetworkControl here
 	if (const auto networkControl = std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
 		field1->setControl(new NetworkRecorder(
@@ -34,7 +34,7 @@ void SplitScreen::reset() {
 			jngl::setWork<Fade>(std::make_shared<Lobby>(networkControl->getSocket()));
 		});
 	}
-	field2.reset(new Field(seed, wins2));
+	field2.reset(new Field(seed, wins2, 0));
 	field2->setControl(new Control{ opponentControl });
 	field1->setCheckDesync([this]() { return field2->desync(); });
 }

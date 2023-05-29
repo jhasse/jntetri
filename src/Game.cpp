@@ -1,6 +1,7 @@
 #include "Game.hpp"
 
 #include "engine/screen.hpp"
+#include "engine/options.hpp"
 #include "engine/procedure.hpp"
 #include "gameoverscreen.hpp"
 #include "pausemenu.hpp"
@@ -12,8 +13,9 @@
 #include <boost/lexical_cast.hpp>
 
 Game::Game(const GameType type, const int seed, const bool replay)
-: field_(seed), type_(type), nextPosition_(field_.GetNextPosition()),
-  oldNextPosition_(nextPosition_), rotateScreen_(false), rotateDegree_(0) {
+: field_(seed, getOptions().startLevel, getOptions().startJunks), type_(type),
+  nextPosition_(field_.GetNextPosition()), oldNextPosition_(nextPosition_), rotateScreen_(false),
+  rotateDegree_(0) {
 	if (!replay) { // Don't record when we're playing back a replay
 		replayRecorder = std::make_unique<ReplayRecorder>(field_, type);
 	}
