@@ -112,6 +112,11 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 		matchmaking.emplace_back(client);
 		addChatLine(yield, client->getUsername() + " started matchmaking.");
 	} else {
+		for (const auto& existingClient : matchmaking) {
+			if (existingClient == client) {
+				return; // somehow matchmaking was requested twice
+			}
+		}
 		// Found opponent. Let's send p back to both clients so that the game starts.
 		matchmaking.back()->setOpponent(client);
 		client->setOpponent(matchmaking.back());
