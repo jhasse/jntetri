@@ -220,7 +220,7 @@ void Field::drawNextTetromino() const {
 	jngl::print("Next:", -100, -75);
 	jngl::pushMatrix();
 	jngl::translate(0, 600);
-	nextTetromino_->Draw();
+	nextTetromino_->draw(false);
 	jngl::popMatrix();
 }
 
@@ -253,7 +253,7 @@ void Field::draw() const {
 		}
 		jngl::popMatrix();
 		if (!gameOver_) {
-			tetromino_->Draw();
+			tetromino_->draw(true);
 		}
 	}
 }

@@ -86,7 +86,12 @@ void SplitScreen::draw() const {
 	jngl::translate(-180, -500);
 	field1->drawNextTetromino();
 	jngl::translate(330, 0);
+
+	jngl::setFontColor(0, 0, 0, 150);
+	jngl::setSpriteAlpha(150);
 	field2->drawNextTetromino();
+	jngl::setFontColor(0, 0, 0, 255);
+	jngl::setSpriteAlpha(255);
 	jngl::popMatrix();
 	std::stringstream sstream;
 	sstream << wins1 << " : " << wins2;

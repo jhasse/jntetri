@@ -204,8 +204,8 @@ void Tetromino::moveUp(int amount) {
 	animationY_ -= amount;
 }
 
-void Tetromino::Draw() const {
-	{
+void Tetromino::draw(bool withShadow) const {
+	if (withShadow) {
 		auto context = shadow.use();
 		jngl::translate(-Block::size / 2., -Block::size / 2.);
 		context.clear();

@@ -12,7 +12,7 @@ class Tetromino {
 public:
 	Tetromino(int type, Field&);
 	void Step();
-	void Draw() const;
+	void draw(bool withShadow) const;
 	void drawShadow() const;
 	bool Collided() const;
 	bool MoveDown();
