@@ -51,8 +51,10 @@ void Client::register_user(boost::asio::yield_context yield, nlohmann::json data
 	std::string pw = data["password"];
 
 	if(server.registerUser(user, pw)) {
+		const auto msg = server.loginAndGetWelcomeMessage(yield, user);
 		okMsg(yield);
 		username = user;
+		sendChatLine(yield, msg);
 	} else {
 		errAndDisconnect(yield, "error", "Something went wrong during register!");
 	}
