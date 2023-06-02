@@ -31,10 +31,15 @@ void Work::FocusNext() {
 }
 
 void Work::StepFocus() {
-	if (jngl::keyPressed(jngl::key::Down) || jngl::keyPressed(jngl::key::Tab)) {
+	if (jngl::keyPressed(jngl::key::Down) ||
+	    (!jngl::keyDown(jngl::key::ShiftL) && jngl::keyPressed(jngl::key::Tab))) {
 		FocusNext();
+		while (!focusedWidget_->getSensitive()) {
+			FocusNext();
+		}
 	}
-	if (jngl::keyPressed(jngl::key::Up)) {
+	if (jngl::keyPressed(jngl::key::Up) ||
+	    (jngl::keyDown(jngl::key::ShiftL) && jngl::keyPressed(jngl::key::Tab))) {
 		FocusPrevious();
 		while (!focusedWidget_->getSensitive()) {
 			FocusPrevious();
