@@ -22,15 +22,15 @@ bool operator==(const Data& a, const Data& b)
 Highscore::Highscore(GameType type) : type_(type), blink_(nullptr) {
 	switch (type) {
 		case GameType::NORMAL:
-			filename_ = getPaths().getConfig() + "normal.txt";
+			filename_ = "normal.txt";
 			break;
 		case GameType::FIFTYLINES:
-			filename_ = getPaths().getConfig() + "fiftylines.txt";
+			filename_ = "fiftylines.txt";
 			break;
 	}
-	std::ifstream fin(filename_);
-	if(fin)
-	{
+	const auto value = jngl::readConfig(filename_);
+	if (!value.empty()) {
+		std::istringstream fin(value);
 		for(int i = 0; i < 5; ++i)
 		{
 			Data temp;
@@ -114,11 +114,12 @@ bool Highscore::isHighscore(Data data) const {
 }
 
 void Highscore::save() const {
-	std::ofstream fout(filename_);
+	std::ostringstream fout;
 	auto end = highscores_.end();
 	for (auto it = highscores_.begin(); it != end; ++it) {
 		fout << it->name << std::endl << it->score << " " << it->time << std::endl;
 	}
+	jngl::writeConfig(filename_, fout.str());
 }
 
 void Highscore::Blink(Data d)

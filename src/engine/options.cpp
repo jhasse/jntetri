@@ -6,7 +6,7 @@
 #include <iostream>
 #include <jngl.hpp>
 
-Options::Options() : filename(getPaths().getConfig() + "options.json") {
+Options::Options() : filename("options.json") {
 	const int BORDER = 50;
 	const int dpiFactor = std::max(std::min(
 		(jngl::getDesktopWidth() - BORDER) / windowWidth,
@@ -15,7 +15,7 @@ Options::Options() : filename(getPaths().getConfig() + "options.json") {
 	windowWidth *= dpiFactor;
 	windowHeight *= dpiFactor;
 	try {
-		std::ifstream ifs(filename);
+		std::istringstream ifs(jngl::readConfig(filename));
 		cereal::JSONInputArchive archive(ifs);
 		archive >> cereal::make_nvp("options", *this);
 	} catch(std::exception& e) {
@@ -24,9 +24,12 @@ Options::Options() : filename(getPaths().getConfig() + "options.json") {
 }
 
 void Options::Save() const {
-	std::ofstream ofs(filename);
-	cereal::JSONOutputArchive archive(ofs);
-	archive << cereal::make_nvp("options", *this);
+	std::ostringstream ofs;
+	{
+		cereal::JSONOutputArchive archive(ofs);
+		archive << cereal::make_nvp("options", *this);
+	}
+	jngl::writeConfig(filename, ofs.str());
 }
 
 Options& getOptions() {
