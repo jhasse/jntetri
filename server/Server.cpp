@@ -22,9 +22,6 @@ Server::Server()
 
 Server::~Server() {
 	socket.close();
-	for (auto& thread : threads) {
-		thread.join();
-	}
 }
 
 void Server::run() {
