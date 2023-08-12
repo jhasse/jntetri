@@ -71,7 +71,8 @@ void Field::step() {
 		if (counter_ <= 0 && !blocks_.empty()) {
 			counter_ = 5;
 			std::vector<Block>::iterator randomBlock =
-			    blocks_.begin() + (random() % (blocks_.size() - 1));
+			    blocks_.size() == 1 ? blocks_.begin()
+			                        : (blocks_.begin() + (random() % (blocks_.size() - 1)));
 			explosions_.push_back(Explosion(*randomBlock, 1));
 			blocks_.erase(randomBlock);
 		}
