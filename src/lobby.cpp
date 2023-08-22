@@ -84,6 +84,9 @@ void Lobby::handleReceive(json buf) {
 		auto control = std::make_shared<NetworkControl>(socket_);
 		jngl::setWork(std::make_shared<Fade>(std::make_shared<SplitScreen>(control)));
 		return; // move out of Lobby loop
+	} else if (buf["type"] == "error") {
+		jngl::setWork<MessageBox>(buf["msg"], std::make_shared<MultiplayerMenu>());
+		return;
 	} else {
 		spdlog::warn("Received unknown type: {}", buf);
 	}

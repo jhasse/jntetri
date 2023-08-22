@@ -18,9 +18,11 @@ public:
 	void sendStartGame(boost::asio::yield_context);
 	void sendChatLine(boost::asio::yield_context, std::string line);
 	void sendOpponentQuit(boost::asio::yield_context);
+	bool isLoggedIn() const;
 	std::string getUsername() const;
 	void forward(boost::asio::yield_context, uint8_t time, uint8_t command);
 	spdlog::logger& log();
+	void kick(std::string reason);
 
 private:
 	void handleRecv(std::string);
@@ -47,4 +49,6 @@ private:
 
 	void createLogger(const std::string& name);
 	std::shared_ptr<spdlog::logger> logger;
+
+	std::optional<std::string> kickReason;
 };

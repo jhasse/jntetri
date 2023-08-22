@@ -10,6 +10,7 @@ public:
 
 	std::string receive(boost::asio::yield_context);
 	void send(boost::asio::yield_context, const std::string&);
+	void cancel();
 
 private:
 	boost::asio::ip::tcp::socket socket;

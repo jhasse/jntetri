@@ -87,7 +87,16 @@ LoginState Server::checkLogin(std::string username, std::string password) {
 		realPassword = row.get<std::string>(0);
 	}
 	if (realPassword) {
-		return (*realPassword == password) ? LoginState::PasswordOK : LoginState::PasswordWrong;
+		if (*realPassword == password) {
+			// kick all other devices of this user:
+			for (const auto& client : clients) {
+				if (client->isLoggedIn() && client->getUsername() == username) {
+					client->kick("Someone logged in from another device.");
+				}
+			}
+			return LoginState::PasswordOK;
+		}
+		return LoginState::PasswordWrong;
 	}
 	return LoginState::UserDoesNotExist;
 }
@@ -126,7 +135,9 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 
 std::string Server::loginAndGetWelcomeMessage(boost::asio::yield_context yield, const std::string& username) {
 	addChatLine(yield, fmt::format("{} joined.", username));
-	return fmt::format("{} user{} online.", clients.size(), clients.size() == 1 ? "" : "s");
+	size_t loggedIn = std::count_if(clients.begin(), clients.end(),
+	                                [](const auto& client) { return client->isLoggedIn(); });
+	return fmt::format("{} user{} online.", loggedIn, loggedIn == 1 ? "" : "s");
 }
 
 void Server::printStats(const boost::system::error_code&) {

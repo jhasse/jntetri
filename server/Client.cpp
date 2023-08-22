@@ -32,8 +32,8 @@ void Client::login(boost::asio::yield_context yield, nlohmann::json data) {
 		case LoginState::PasswordOK: {
 			createLogger("client " + user);
 			log().info("accepted password, sending \"ok\" ...");
-			const auto msg = server.loginAndGetWelcomeMessage(yield, user);
 			username = user;
+			const auto msg = server.loginAndGetWelcomeMessage(yield, user);
 			okMsg(yield);
 			sendChatLine(yield, msg);
 			break;
@@ -58,9 +58,9 @@ void Client::register_user(boost::asio::yield_context yield, nlohmann::json data
 	}
 
 	if(server.registerUser(user, pw)) {
+		username = user;
 		const auto msg = server.loginAndGetWelcomeMessage(yield, user);
 		okMsg(yield);
-		username = user;
 		sendChatLine(yield, msg);
 	} else {
 		errAndDisconnect(yield, "error", "Something went wrong during register!");
@@ -89,7 +89,7 @@ void Client::sendStartGame(boost::asio::yield_context yield) {
 }
 
 void Client::sendChatLine(boost::asio::yield_context yield, std::string line) {
-	if (!username /* not logged in yet? */) {
+	if (!isLoggedIn()) {
 		return;
 	}
 	auto j = nlohmann::json { {"type", "chat"}, {"text", line} };
@@ -144,17 +144,28 @@ void Client::run(boost::asio::yield_context yield) {
 	}
 	okMsg(yield);
 
-	while(running) {
-		std::string line = socket.receive(yield);
-		auto data = nlohmann::json::parse(line);
-		log().trace("got data {}", data.dump());
-		auto current_cmd = commands.find(data["type"]);
-		if(current_cmd == commands.end()) {
-			errAndDisconnect(yield, "error", "Unknown command!");
-		} else if (current_cmd->second.first && !username) {
-			errAndDisconnect(yield, "error", "You need to be logged in to use this command!");
-		} else {
-			current_cmd->second.second(yield, data);
+	while (running) {
+		try {
+			std::string line = socket.receive(yield);
+			auto data = nlohmann::json::parse(line);
+			log().trace("got data {}", data.dump());
+			auto current_cmd = commands.find(data["type"]);
+			if (current_cmd == commands.end()) {
+				errAndDisconnect(yield, "error", "Unknown command!");
+			} else if (current_cmd->second.first && !isLoggedIn()) {
+				errAndDisconnect(yield, "error", "You need to be logged in to use this command!");
+			} else {
+				current_cmd->second.second(yield, data);
+			}
+		} catch (const boost::system::system_error& e) {
+			if (e.code() == boost::asio::error::operation_aborted) {
+				if (kickReason) {
+					errAndDisconnect(yield, "error", *kickReason);
+					break;
+				}
+			} else {
+				throw e;
+			}
 		}
 	}
 	if (username) {
@@ -164,6 +175,10 @@ void Client::run(boost::asio::yield_context yield) {
 
 void Client::setOpponent(std::shared_ptr<Client> opponent) {
 	this->opponent = std::move(opponent);
+}
+
+bool Client::isLoggedIn() const {
+	return username.has_value() && !kickReason;
 }
 
 std::string Client::getUsername() const {
@@ -193,4 +208,9 @@ spdlog::logger& Client::log() {
 		createLogger("unnamed client " + std::to_string(ptrdiff_t(this)));
 	}
 	return *logger;
+}
+
+void Client::kick(std::string reason) {
+	socket.cancel();
+	kickReason = reason;
 }

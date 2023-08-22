@@ -24,3 +24,7 @@ std::string Socket::receive(boost::asio::yield_context yield) {
 void Socket::send(boost::asio::yield_context yield, const std::string& package) {
 	socket.async_send(boost::asio::buffer(package + "\n"), yield);
 }
+
+void Socket::cancel() {
+	socket.cancel();
+}
