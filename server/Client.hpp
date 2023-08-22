@@ -43,7 +43,7 @@ private:
 	Socket socket;
 	Server& server;
 	std::shared_ptr<Client> opponent;
-	std::string username;
+	std::optional<std::string> username;
 
 	void createLogger(const std::string& name);
 	std::shared_ptr<spdlog::logger> logger;

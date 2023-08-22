@@ -87,9 +87,9 @@ LoginState Server::checkLogin(std::string username, std::string password) {
 		realPassword = row.get<std::string>(0);
 	}
 	if (realPassword) {
-		return (*realPassword == password) ? PasswordOK : PasswordWrong;
+		return (*realPassword == password) ? LoginState::PasswordOK : LoginState::PasswordWrong;
 	}
-	return UserDoesNotExist;
+	return LoginState::UserDoesNotExist;
 }
 
 bool Server::registerUser(std::string username, std::string password) {

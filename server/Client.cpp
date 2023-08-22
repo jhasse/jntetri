@@ -11,8 +11,6 @@
 #include <spdlog/spdlog.h>
 #include <thread>
 
-using boost::asio::ip::tcp;
-
 Client::Client(Server& server, boost::asio::ip::tcp::socket socket)
 : socket(std::move(socket)), server(server) {
 	commands["login"] = {false, std::bind(&Client::login, this, std::placeholders::_1, std::placeholders::_2)};
@@ -28,10 +26,10 @@ void Client::login(boost::asio::yield_context yield, nlohmann::json data) {
 	std::string password = data["password"];
 	spdlog::info("login attempt from '{}' with password of length {}", user, password.size());
 	switch(server.checkLogin(user, password)) {
-		case UserDoesNotExist:
+		case LoginState::UserDoesNotExist:
 			errAndDisconnect(yield, "unknown name", "", false);
 			break;
-		case PasswordOK: {
+		case LoginState::PasswordOK: {
 			createLogger("client " + user);
 			log().info("accepted password, sending \"ok\" ...");
 			const auto msg = server.loginAndGetWelcomeMessage(yield, user);
@@ -40,7 +38,7 @@ void Client::login(boost::asio::yield_context yield, nlohmann::json data) {
 			sendChatLine(yield, msg);
 			break;
 		}
-		case PasswordWrong:
+		case LoginState::PasswordWrong:
 			errAndDisconnect(yield, "wrong password", "", false);
 			break;
 	}
@@ -49,6 +47,15 @@ void Client::login(boost::asio::yield_context yield, nlohmann::json data) {
 void Client::register_user(boost::asio::yield_context yield, nlohmann::json data) {
 	std::string user = data["name"];
 	std::string pw = data["password"];
+
+	std::string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_";
+	for (char c : user) {
+		if (validChars.find(c) == std::string::npos) {
+			errAndDisconnect(yield, "error",
+			                 "You're username may only contain latin letters, numbers or hypens.");
+			return;
+		}
+	}
 
 	if(server.registerUser(user, pw)) {
 		const auto msg = server.loginAndGetWelcomeMessage(yield, user);
@@ -61,7 +68,7 @@ void Client::register_user(boost::asio::yield_context yield, nlohmann::json data
 }
 
 void Client::chat(boost::asio::yield_context yield, nlohmann::json data) {
-	std::string newChatLine = username + ": " + data["text"].get<std::string>();
+	std::string newChatLine = *username + ": " + data["text"].get<std::string>();
 	server.addChatLine(yield, newChatLine);
 	log().trace("chat: {}", data["text"]);
 }
@@ -82,7 +89,7 @@ void Client::sendStartGame(boost::asio::yield_context yield) {
 }
 
 void Client::sendChatLine(boost::asio::yield_context yield, std::string line) {
-	if (username.empty() /* not logged in yet? */) {
+	if (!username /* not logged in yet? */) {
 		return;
 	}
 	auto j = nlohmann::json { {"type", "chat"}, {"text", line} };
@@ -144,13 +151,15 @@ void Client::run(boost::asio::yield_context yield) {
 		auto current_cmd = commands.find(data["type"]);
 		if(current_cmd == commands.end()) {
 			errAndDisconnect(yield, "error", "Unknown command!");
-		} else if (current_cmd->second.first && username == "") {
+		} else if (current_cmd->second.first && !username) {
 			errAndDisconnect(yield, "error", "You need to be logged in to use this command!");
 		} else {
 			current_cmd->second.second(yield, data);
 		}
 	}
-	std::cout << "Client " << username << " exiting." << std::endl;
+	if (username) {
+		std::cout << "Client " << *username << " exiting." << std::endl;
+	}
 }
 
 void Client::setOpponent(std::shared_ptr<Client> opponent) {
@@ -158,7 +167,7 @@ void Client::setOpponent(std::shared_ptr<Client> opponent) {
 }
 
 std::string Client::getUsername() const {
-	return username;
+	return username ? *username : "<invalid>";
 }
 
 void Client::forward(boost::asio::yield_context yield, uint8_t time, uint8_t command) {

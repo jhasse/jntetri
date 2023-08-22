@@ -1,5 +1,5 @@
 #pragma once
 
-enum LoginState {
+enum class LoginState {
 	PasswordWrong, UserDoesNotExist, PasswordOK
 };
