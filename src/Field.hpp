@@ -71,8 +71,8 @@ private:
 	bool gameOver_;
 	int score_;
 	int level_;
-	int lines_;
-	int maxY_;
+	int lines;
+	int maxY;
 	bool pause_;
 
 	/// >0 when there are network issues i.e. control_->step() hasn't returned any data

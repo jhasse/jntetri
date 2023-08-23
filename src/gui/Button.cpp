@@ -7,11 +7,11 @@
 #include <jngl.hpp>
 #include <string>
 
-const int Button::fontSize_ = 70;
+const int Button::fontSize = 70;
 
 Button::Button(const std::string& text, std::function<void()> callback, const std::string& normal,
                const std::string& mouseOver, const std::string& clicked)
-: text_(text), mouseoverAlpha_(0), callback_(callback), clicked_(false),
+: text_(text), mouseoverAlpha(0), callback(callback), clicked(false),
   sprite(getPaths().getGraphics() + normal), spriteMouseOver(getPaths().getGraphics() + mouseOver),
   spriteClicked(getPaths().getGraphics() + clicked) {
 	width = sprite.getWidth() * jngl::getScaleFactor();
@@ -23,8 +23,8 @@ void Button::SetText(const std::string& text) {
 }
 
 void Button::draw() const {
-	int alpha = mouseoverAlpha_;
-	if (clicked_) {
+	int alpha = mouseoverAlpha;
+	if (clicked) {
 		alpha -= 100;
 	}
 	auto mv = jngl::modelview().translate(getCenter());
@@ -37,12 +37,12 @@ void Button::draw() const {
 	spriteMouseOver.draw(mv.scale(1.0f + (alpha / 6000.0f)));
 	jngl::popMatrix();
 	jngl::setSpriteColor(255, 255, 255, 255);
-	if (clicked_) {
+	if (clicked) {
 		spriteClicked.draw(mv.scale(1.0f + (alpha / 6000.0f)));
 	}
 	jngl::setFontColor(255, 255, 255);
-	jngl::setFontSize(fontSize_);
-	if (!clicked_) {
+	jngl::setFontSize(fontSize);
+	if (!clicked) {
 		GetScreen().printCentered(text_, getCenter());
 	} else {
 		GetScreen().printCentered(text_, { getCenter().x + 5, getCenter().y + 5 });
@@ -51,30 +51,30 @@ void Button::draw() const {
 
 void Button::step() {
 	if (!jngl::mouseDown()) {
-		clicked_ = false;
+		clicked = false;
 	}
 	const int alphaSpeed = 20;
 	if (focus) {
 		if (jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
-			clicked_ = true;
-			callback_();
+			clicked = true;
+			callback();
 		}
 	}
 	if (sensitive && contains(jngl::getMousePos())) {
-		if (mouseoverAlpha_ < 255) {
-			mouseoverAlpha_ += alphaSpeed;
+		if (mouseoverAlpha < 255) {
+			mouseoverAlpha += alphaSpeed;
 		}
 		if (jngl::mousePressed()) {
-			clicked_ = true;
-			callback_();
+			clicked = true;
+			callback();
 		}
-	} else if (mouseoverAlpha_ > 0) {
-		mouseoverAlpha_ -= alphaSpeed;
+	} else if (mouseoverAlpha > 0) {
+		mouseoverAlpha -= alphaSpeed;
 	}
-	if (mouseoverAlpha_ > 255) {
-		mouseoverAlpha_ = 255;
+	if (mouseoverAlpha > 255) {
+		mouseoverAlpha = 255;
 	}
-	if (mouseoverAlpha_ < 0) {
-		mouseoverAlpha_ = 0;
+	if (mouseoverAlpha < 0) {
+		mouseoverAlpha = 0;
 	}
 }

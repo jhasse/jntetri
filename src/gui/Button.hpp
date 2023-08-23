@@ -17,11 +17,11 @@ public:
 
 private:
 	std::string text_;
-	int mouseoverAlpha_;
-	std::function<void()> callback_;
-	bool clicked_;
+	int mouseoverAlpha;
+	std::function<void()> callback;
+	bool clicked;
 	jngl::Sprite sprite;
 	jngl::Sprite spriteMouseOver;
 	jngl::Sprite spriteClicked;
-	const static int fontSize_;
+	const static int fontSize;
 };

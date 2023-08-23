@@ -11,8 +11,8 @@ const int Field::width_ = 11;
 const int Field::height_ = 19;
 
 Field::Field(int seed, const int level, const uint32_t startJunks)
-: blockSize_(60), counter_(0), gameOver_(false), score_(0), level_(level),
-  lines_(0), maxY_(0), pause_(false),
+: blockSize_(60), counter_(0), gameOver_(false), score_(0), level_(level), lines(0), maxY(0),
+  pause_(false),
   control_(new Control{ std::make_shared<KeyboardControl>(), std::make_shared<GamepadControl>(0) }),
   randomSeed(seed), linesCleared(0) {
 	random.seed(seed);
@@ -135,7 +135,7 @@ void Field::step() {
 		b.step();
 	}
 
-	if ((level_ + 1) * 10 <= lines_) {
+	if ((level_ + 1) * 10 <= lines) {
 		++level_;
 	}
 
@@ -207,7 +207,7 @@ double Field::getBottomY() const {
 }
 
 int Field::GetNextPosition() const {
-	int nextPosition = 300 - (maxY_ - 4) * blockSize_;
+	int nextPosition = 300 - (maxY - 4) * blockSize_;
 	if (nextPosition > 300) {
 		return 300;
 	}
@@ -284,8 +284,8 @@ bool Field::checkCollision(const int x, const int y) const {
 
 void Field::AddBlock(const Block& block) {
 	blocks_.push_back(block);
-	if (blocks_.back().getY() > maxY_) {
-		maxY_ = blocks_.back().getY();
+	if (blocks_.back().getY() > maxY) {
+		maxY = blocks_.back().getY();
 	}
 
 	// Copy the current animation
@@ -315,8 +315,8 @@ void Field::removeLine(const int y, const int numberOfLines) {
 			it->setAnimationY(it->getAnimationY() + 1);
 		}
 	}
-	++lines_;
-	--maxY_;
+	++lines;
+	--maxY;
 }
 
 int Field::GetScore() const {
@@ -324,7 +324,7 @@ int Field::GetScore() const {
 }
 
 int Field::GetLines() const {
-	return lines_;
+	return lines;
 }
 
 int Field::GetLevel() const {

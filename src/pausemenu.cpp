@@ -8,12 +8,12 @@
 #include "engine/fade.hpp"
 
 PauseMenu::PauseMenu(std::shared_ptr<Game> game)
-: work(jngl::getWork()), buttonBox_(new ButtonBox), game(std::move(game)) {
+: work(jngl::getWork()), buttonBox(new ButtonBox), game(std::move(game)) {
 	this->game->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
-	buttonBox_->add("Resume", std::bind(&PauseMenu::Continue, this));
-	buttonBox_->add("Menu", std::bind(&PauseMenu::QuitToMenu, this));
-	buttonBox_->add("Quit", jngl::quit);
-	addWidget(buttonBox_);
+	buttonBox->add("Resume", std::bind(&PauseMenu::Continue, this));
+	buttonBox->add("Menu", std::bind(&PauseMenu::QuitToMenu, this));
+	buttonBox->add("Quit", jngl::quit);
+	addWidget(buttonBox);
 }
 
 void PauseMenu::step() {

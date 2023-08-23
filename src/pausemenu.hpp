@@ -16,6 +16,6 @@ public:
 
 private:
 	std::shared_ptr<jngl::Work> work;
-	std::shared_ptr<ButtonBox> buttonBox_;
+	std::shared_ptr<ButtonBox> buttonBox;
 	std::shared_ptr<Game> game;
 };
