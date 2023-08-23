@@ -5,7 +5,7 @@
 #include "engine/procedure.hpp"
 #include "gameoverscreen.hpp"
 #include "pausemenu.hpp"
-#include "replayrecorder.hpp"
+#include "ReplayRecorder.hpp"
 
 #include <jngl.hpp>
 #include <sstream>
