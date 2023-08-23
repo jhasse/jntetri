@@ -5,6 +5,7 @@
 #include <boost/asio.hpp>
 #include <boost/asio/spawn.hpp>
 #include <memory>
+#include <optional>
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
