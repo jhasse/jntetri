@@ -36,10 +36,7 @@ void Server::doAccept(boost::asio::yield_context yield) {
 		acceptor.async_accept(socket, yield);
 		auto client = std::make_shared<Client>(*this, std::move(socket));
 		spdlog::info("new connection");
-		{
-			std::lock_guard<std::mutex> lock(clientsMutex);
-			clients.emplace_back(client);
-		}
+		clients.emplace_back(client);
 		boost::asio::spawn(context, [this, client](boost::asio::yield_context yield) {
 			try {
 				client->run(yield);
@@ -55,10 +52,7 @@ void Server::doAccept(boost::asio::yield_context yield) {
 				}
 			}
 			const auto username = client->getUsername();
-			{
-				std::lock_guard<std::mutex> lock(clientsMutex);
-				clients.erase(std::find(clients.begin(), clients.end(), client));
-			}
+			clients.erase(std::find(clients.begin(), clients.end(), client));
 			if (!username.empty()) {
 				addChatLine(yield, fmt::format("{} left.", username));
 			}
@@ -67,11 +61,9 @@ void Server::doAccept(boost::asio::yield_context yield) {
 }
 
 void Server::addChatLine(boost::asio::yield_context yield, std::string line) {
-	std::lock_guard<std::mutex> lock(chatTextMutex);
 	chatText += line;
-	{
-		std::lock_guard<std::mutex> lock(clientsMutex);
-		for (const auto& client : clients) {
+	for (const auto& client : clients) {
+		if (client->isLoggedIn()) {
 			client->sendChatLine(yield, line);
 		}
 	}

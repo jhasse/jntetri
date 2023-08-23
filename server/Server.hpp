@@ -34,10 +34,8 @@ private:
 	boost::asio::ip::tcp::acceptor acceptor;
 	boost::asio::deadline_timer timer;
 
-	std::mutex clientsMutex;
 	std::vector<std::shared_ptr<Client>> clients;
 
-	std::mutex chatTextMutex;
 	std::string chatText;
 
 	std::mutex matchmakingMutex;

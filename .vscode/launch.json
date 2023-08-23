@@ -13,7 +13,7 @@
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "Debug",
+			"name": "jntetri (lldb)",
 			"program": "${workspaceRoot}/build/jntetri",
 			"args": [],
 			"cwd": "${workspaceRoot}",

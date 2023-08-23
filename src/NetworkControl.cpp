@@ -1,7 +1,11 @@
 #include "NetworkControl.hpp"
 
 #include "engine/socket.hpp"
+#include "gui/MessageBox.hpp"
 #include "jngl/window.hpp"
+#include "jngl/work.hpp"
+#include "lobby.hpp"
+#include "multiplayermenu.hpp"
 
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -63,10 +67,19 @@ void NetworkControl::handleReceive(json j) {
 			data.push(
 			    std::pair<unsigned char, ControlType>(time, static_cast<ControlType>(control)));
 		}
-	} else if (j["type"] == "quit" || j["type"] == "opponentQuit") {
-		// TODO: Show this to the user somehow
+	} else if (j["type"] == "opponentQuit") {
+		jngl::setWork<MessageBox>("Your opponent left.",
+		                          std::make_shared<Lobby>(std::move(socket)));
+		return;
+	} else if (j["type"] == "disconnected") {
+		jngl::setWork<MessageBox>("Your opponent disconnected.",
+		                          std::make_shared<Lobby>(std::move(socket)));
+		return;
+	} else if (j["type"] == "error") {
+		jngl::setWork<MessageBox>(j["msg"], std::make_shared<MultiplayerMenu>());
+		return;
 	} else {
-		spdlog::error("Unknown package: {}", j);
+		spdlog::error("Unknown package: {}", j.dump());
 	}
 	socket->receive([this](json buf) { handleReceive(std::move(buf)); });
 }
