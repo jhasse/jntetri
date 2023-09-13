@@ -7,12 +7,12 @@ class ControlBase;
 
 class SplitScreen : public Work {
 public:
-	SplitScreen(std::shared_ptr<ControlBase> opponentControl);
+	SplitScreen(std::shared_ptr<ControlBase> opponentControl, int32_t seed);
 	~SplitScreen();
 	void step();
 	void draw() const;
 private:
-	void reset();
+	void reset(int32_t seed);
 
 	std::unique_ptr<Field> field1;
 	std::unique_ptr<Field> field2;

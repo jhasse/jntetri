@@ -84,8 +84,8 @@ void Client::quit(boost::asio::yield_context yield, nlohmann::json) {
 	}
 }
 
-void Client::sendStartGame(boost::asio::yield_context yield) {
-	socket.send(yield, "{\"type\": \"play\"}");
+void Client::sendStartGame(boost::asio::yield_context yield, const int32_t seed) {
+	socket.send(yield, fmt::format("{{\"type\": \"play\", \"seed\": {} }}", seed));
 }
 
 void Client::sendChatLine(boost::asio::yield_context yield, std::string line) {

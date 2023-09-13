@@ -119,8 +119,9 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 		matchmaking.back()->setOpponent(client);
 		client->setOpponent(matchmaking.back());
 		spdlog::info("matching '{}' and '{}'", matchmaking.back()->getUsername(), client->getUsername());
-		matchmaking.back()->sendStartGame(yield);
-		client->sendStartGame(yield);
+		const int32_t seed = rand();
+		matchmaking.back()->sendStartGame(yield, seed);
+		client->sendStartGame(yield, seed);
 		matchmaking.pop_back();
 	}
 }

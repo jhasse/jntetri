@@ -12,17 +12,15 @@
 #include <memory>
 #include <sstream>
 
-SplitScreen::SplitScreen(std::shared_ptr<ControlBase> opponentControl)
+SplitScreen::SplitScreen(std::shared_ptr<ControlBase> opponentControl, const int32_t seed)
 : opponentControl(opponentControl) {
-	reset();
+	reset(seed);
 }
 
 SplitScreen::~SplitScreen() = default;
 
-void SplitScreen::reset() {
+void SplitScreen::reset(const int32_t seed) {
 	freezeCountdown = 0;
-	// const int seed = static_cast<int>(std::time(0));
-	const int seed = 123; // FIXME: Exchange seed
 	field1.reset(new Field(seed, wins1, 0));
 	// FIXME: We shouldn't know about NetworkControl here
 	if (const auto networkControl = std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
@@ -49,7 +47,7 @@ void SplitScreen::step() {
 			        std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
 				jngl::setWork<Lobby>(networkControl->getSocket());
 			} else {
-				reset();
+				reset(123); // TODO: Decide on next seed
 			}
 		}
 	} else {

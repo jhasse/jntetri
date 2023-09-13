@@ -16,7 +16,7 @@ public:
 	Client(Server&, boost::asio::ip::tcp::socket);
 	void run(boost::asio::yield_context);
 	void setOpponent(std::shared_ptr<Client>);
-	void sendStartGame(boost::asio::yield_context);
+	void sendStartGame(boost::asio::yield_context, int32_t seed);
 	void sendChatLine(boost::asio::yield_context, std::string line);
 	void sendOpponentQuit(boost::asio::yield_context);
 	bool isLoggedIn() const;
