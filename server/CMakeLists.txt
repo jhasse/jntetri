@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(jntetri-server)
 
+if(NOT MSVC)
 string(APPEND CMAKE_CXX_FLAGS -fdiagnostics-color)
+endif()
 
-include(cmake/CPM.cmake)
+include(../subprojects/jngl/cmake/CPM.cmake)
 
 find_package(Boost COMPONENTS coroutine system thread)
 if(NOT Boost_FOUND)

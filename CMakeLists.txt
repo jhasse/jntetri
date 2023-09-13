@@ -19,7 +19,7 @@ if (TARGET_WASM)
 	add_link_options("SHELL:-s USE_PTHREADS")
 endif()
 
-include(server/cmake/CPM.cmake)
+include(subprojects/jngl/cmake/CPM.cmake)
 CPMAddPackage(
 	NAME nlohmann_json
 	URL "https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz"
