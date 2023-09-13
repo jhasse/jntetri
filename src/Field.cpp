@@ -232,7 +232,7 @@ void Field::draw() const {
 		jngl::print(std::string((stepsWithoutPackage / 20) % 4, '.'), { -60, -100 });
 		return;
 	}
-	if (desyncInfo) {
+	if (desyncInfo && desyncInfo->getStepsAlive() > 0.5 * jngl::getStepsPerSecond()) {
 		desyncInfo->draw();
 	} else if (!pause_) {
 		if (!gameOver_) {

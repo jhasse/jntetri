@@ -11,8 +11,10 @@ public:
 
 	void step();
 	void draw() const;
+	uint32_t getStepsAlive() const;
 
 private:
 	jngl::TextLine text;
 	Button cancel;
+	uint32_t stepsAlive = 0;
 };
