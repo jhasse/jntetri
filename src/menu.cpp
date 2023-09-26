@@ -23,7 +23,9 @@ Menu::Menu()
 	// 	jngl::setWork(std::make_shared<Fade>(std::make_shared<SplitScreen>(std::make_shared<GamepadControl>(1))));
 	// });
 	buttonBox_->add("Options", std::bind(&Menu::OptionsMenuCallback, this));
-	buttonBox_->add("Quit", std::bind(&Menu::QuitGame, this));
+	if (jngl::canQuit()) {
+		buttonBox_->add("Quit", std::bind(&Menu::QuitGame, this));
+	}
 	addWidget(buttonBox_);
 }
 
