@@ -9,4 +9,4 @@ class CustomHandler (SimpleHTTPRequestHandler):
 		SimpleHTTPRequestHandler.end_headers(self)
 
 if __name__ == '__main__':
-	test(CustomHandler, HTTPServer, port=8000)
+	test(CustomHandler, HTTPServer, port=8000, bind='localhost')
