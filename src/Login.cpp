@@ -148,6 +148,21 @@ void Login::OnCancel() {
 }
 
 void Login::OnError() {
+	// hacked together algorithm to word wrap long error messages:
+	size_t pos = 42;
+	while (jngl::getTextWidth(text_) > jngl::getScreenWidth() && pos < text_.size()) {
+		size_t i = pos;
+		while (i > 0 && text_[i - 1] != ' ') {
+			if (text_[i] == '\n') {
+				i = pos;
+				break;
+			}
+			--i;
+		}
+		text_.insert(text_.begin() + i, '\n');
+		pos += 42;
+	}
+
 	cancel_.SetText("OK");
 	cancel_.setFocus(true);
 }
