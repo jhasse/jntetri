@@ -17,7 +17,6 @@ public:
 	std::string GetName() const;
 	std::string GetPassword() const;
 	void login(const std::string& name, const std::string& password);
-	bool getQuickLogin() const;
 
 private:
 	std::shared_ptr<Button> back_;

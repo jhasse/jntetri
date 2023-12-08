@@ -29,8 +29,8 @@ MultiplayerMenu::MultiplayerMenu(const bool quickLogin)
 void MultiplayerMenu::step() {
 	StepWidgets();
 	if (jngl::keyPressed(jngl::key::Return) || quickLogin) {
-		quickLogin = false; // if an error happens we will be reactivated
 		OnLogin();
+		quickLogin = false; // if an error happens we will be reactivated
 	}
 }
 
@@ -46,8 +46,8 @@ void MultiplayerMenu::OnBack() const {
 }
 
 void MultiplayerMenu::OnLogin() {
-	jngl::setWork(
-	    std::make_shared<Login>(std::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork())));
+	jngl::setWork(std::make_shared<Login>(
+	    std::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork()), quickLogin));
 }
 
 std::string MultiplayerMenu::GetName() const {
@@ -56,8 +56,4 @@ std::string MultiplayerMenu::GetName() const {
 
 std::string MultiplayerMenu::GetPassword() const {
 	return password_->getText();
-}
-
-bool MultiplayerMenu::getQuickLogin() const {
-	return quickLogin;
 }

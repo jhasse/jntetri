@@ -9,7 +9,7 @@
 
 class Login : public Work {
 public:
-	Login(std::shared_ptr<MultiplayerMenu>);
+	Login(std::shared_ptr<MultiplayerMenu>, bool quickLogin);
 	void step();
 	void draw() const;
 	void HandleConnect();
@@ -32,4 +32,5 @@ private:
 	const static std::string protocolVersion_;
 	Button cancel_;
 	std::shared_ptr<Socket> socket_;
+	bool quickLogin;
 };

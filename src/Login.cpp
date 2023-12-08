@@ -24,9 +24,9 @@ const std::string Login::server_("89.58.48.219"); // boomshine.de
 const int Login::port_ = 7070;
 #endif
 
-Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu)
+Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu, bool quickLogin)
 : menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
-  socket_(new Socket) {
+  socket_(new Socket), quickLogin(quickLogin) {
 	spdlog::info("Connecting to {}:{}", server_, port_);
 	try {
 		socket_->connect(server_, port_, [this]() { HandleConnect(); });
@@ -148,7 +148,7 @@ void Login::GoToLobby(std::string username) {
 	getOptions().lastLoginName = std::move(username);
 	getOptions().Save();
 	jngl::setWork(std::make_shared<Fade>(
-	    std::make_shared<Lobby>(std::move(socket_), menu_->getQuickLogin())));
+	    std::make_shared<Lobby>(std::move(socket_), quickLogin)));
 }
 
 void Login::draw() const {
