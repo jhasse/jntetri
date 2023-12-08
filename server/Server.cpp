@@ -149,7 +149,8 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 std::string Server::loginAndGetWelcomeMessage(boost::asio::yield_context yield, const std::string& username) {
 	addChatLine(yield, fmt::format("{} joined.", username));
 	size_t loggedIn = std::count_if(clients.begin(), clients.end(),
-	                                [](const auto& client) { return client->isLoggedIn(); });
+	                                [](const auto& client) { return client->isLoggedIn(); }) +
+	                  1 /* the current user doesn't count yet*/;
 	return fmt::format("{} user{} online.", loggedIn, loggedIn == 1 ? "" : "s");
 }
 

@@ -120,8 +120,8 @@ void Client::game(boost::asio::yield_context yield, nlohmann::json data) {
 void Client::loginAs(boost::asio::yield_context yield, std::string name) {
 	createLogger("client " + name);
 	log().info("logged in, sending \"ok\" ...");
-	username = std::move(name);
 	const auto msg = server.loginAndGetWelcomeMessage(yield, *username);
+	username = std::move(name);
 	okMsg(yield);
 	sendChatLine(yield, msg);
 }
