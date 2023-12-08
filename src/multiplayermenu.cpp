@@ -29,6 +29,7 @@ MultiplayerMenu::MultiplayerMenu(const bool quickLogin)
 void MultiplayerMenu::step() {
 	StepWidgets();
 	if (jngl::keyPressed(jngl::key::Return) || quickLogin) {
+		quickLogin = false; // if an error happens we will be reactivated
 		OnLogin();
 	}
 }
