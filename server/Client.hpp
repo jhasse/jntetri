@@ -30,12 +30,14 @@ private:
 	void handleData(const boost::system::error_code& e, std::size_t size);
 
 	void login(boost::asio::yield_context, nlohmann::json data);
+	void login_anonymous(boost::asio::yield_context, nlohmann::json data);
 	void chat(boost::asio::yield_context, nlohmann::json data);
 	void play(boost::asio::yield_context, nlohmann::json data);
 	void quit(boost::asio::yield_context, nlohmann::json);
 	void game(boost::asio::yield_context, nlohmann::json data);
 	void register_user(boost::asio::yield_context, nlohmann::json data);
 
+	void loginAs(boost::asio::yield_context, std::string name);
 	void okMsg(boost::asio::yield_context);
 	void errAndDisconnect(boost::asio::yield_context, std::string type, std::string msg, bool really_disconnect = true);
 	bool running = true;

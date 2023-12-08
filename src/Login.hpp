@@ -22,7 +22,7 @@ public:
 	void Register();
 	void HandleRegister1();
 	void HandleRegister2(json);
-	void GoToLobby();
+	void GoToLobby(std::string username);
 
 private:
 	std::shared_ptr<MultiplayerMenu> menu_;

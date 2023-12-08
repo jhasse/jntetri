@@ -11,9 +11,12 @@
 #include <spdlog/spdlog.h>
 #include <thread>
 
+using nlohmann::json;
+
 Client::Client(Server& server, boost::asio::ip::tcp::socket socket)
 : socket(std::move(socket)), server(server) {
 	commands["login"] = {false, std::bind(&Client::login, this, std::placeholders::_1, std::placeholders::_2)};
+	commands["login_anonymous"] = {false, std::bind(&Client::login_anonymous, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["chat"] = {true, std::bind(&Client::chat, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["game"] = {true, std::bind(&Client::game, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["play"] = {true, std::bind(&Client::play, this, std::placeholders::_1, std::placeholders::_2)};
@@ -30,18 +33,17 @@ void Client::login(boost::asio::yield_context yield, nlohmann::json data) {
 			errAndDisconnect(yield, "unknown name", "", false);
 			break;
 		case LoginState::PasswordOK: {
-			createLogger("client " + user);
-			log().info("accepted password, sending \"ok\" ...");
-			username = user;
-			const auto msg = server.loginAndGetWelcomeMessage(yield, user);
-			okMsg(yield);
-			sendChatLine(yield, msg);
+			loginAs(yield, std::move(user));
 			break;
 		}
 		case LoginState::PasswordWrong:
 			errAndDisconnect(yield, "wrong password", "", false);
 			break;
 	}
+}
+
+void Client::login_anonymous(boost::asio::yield_context yield, nlohmann::json data) {
+	loginAs(yield, server.createAnonymousUser());
 }
 
 void Client::register_user(boost::asio::yield_context yield, nlohmann::json data) {
@@ -115,8 +117,17 @@ void Client::game(boost::asio::yield_context yield, nlohmann::json data) {
 	}
 }
 
+void Client::loginAs(boost::asio::yield_context yield, std::string name) {
+	createLogger("client " + name);
+	log().info("logged in, sending \"ok\" ...");
+	username = std::move(name);
+	const auto msg = server.loginAndGetWelcomeMessage(yield, *username);
+	okMsg(yield);
+	sendChatLine(yield, msg);
+}
+
 void Client::okMsg(boost::asio::yield_context yield) {
-	socket.send(yield, "{\"type\": \"ok\"}");
+	socket.send(yield, json{ { "type", "ok" }, { "name", *username } }.dump());
 	log().trace("sent \"ok\"");
 }
 

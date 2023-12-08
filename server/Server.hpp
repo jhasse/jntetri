@@ -25,6 +25,9 @@ public:
 	LoginState checkLogin(std::string username, std::string password);
 	bool registerUser(std::string username, std::string password);
 
+	/// creates a new user with a random name with no password
+	std::string createAnonymousUser();
+
 private:
 	void printStats(const boost::system::error_code&);
 

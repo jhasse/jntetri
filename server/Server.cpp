@@ -104,6 +104,26 @@ bool Server::registerUser(std::string username, std::string password) {
 	return true;
 }
 
+std::string Server::createAnonymousUser() {
+	for (int i = 0; i < 10; ++i) {
+		std::string name = "user" + std::to_string(rand() % 999999);
+		if (registerUser(name, "")) {
+			return name;
+		}
+		// already exists? Maybe we can login without a password:
+		switch (checkLogin(name, "")) {
+			case LoginState::PasswordWrong:
+				break;
+			case LoginState::UserDoesNotExist:
+				assert(false);
+				break;
+			case LoginState::PasswordOK:
+				return name;
+		}
+	}
+	throw std::runtime_error("Couldn't generate a random username!");
+}
+
 void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<Client> client) {
 	std::lock_guard<std::mutex> lock(matchmakingMutex);
 	if (matchmaking.empty()) {

@@ -6,6 +6,7 @@
 #include <spdlog/spdlog.h>
 
 int main(int argc, char** argv) {
+	srand(time(nullptr));
 	spdlog::cfg::load_env_levels();
 	spdlog::cfg::load_argv_levels(argc, argv);
 	spdlog::set_default_logger(spdlog::stdout_color_mt("server", spdlog::color_mode::always));

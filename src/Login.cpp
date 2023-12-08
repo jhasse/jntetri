@@ -56,10 +56,21 @@ void Login::ProtocolCheck2(json temp) {
 		text_ += temp;
 		OnError();
 	} else {
-		socket_->send(json{ { "type", "login" },
-		                    { "name", menu_->GetName() },
-		                    { "password", menu_->GetPassword() } },
-		              [this]() { HandleLogin1(); });
+		if (menu_->GetName().empty()) {
+			if (!menu_->GetPassword().empty()) {
+				text_ = "Name must not be empty!";
+				return OnError();
+			}
+			socket_->send(json{ { "type", "login_anonymous" } }, [this]() {
+				socket_->receive([this](json temp) { HandleLogin2(std::move(temp)); });
+				text_ = "waiting for authentification ...";
+			});
+		} else {
+			socket_->send(json{ { "type", "login" },
+			                    { "name", menu_->GetName() },
+			                    { "password", menu_->GetPassword() } },
+			              [this]() { HandleLogin1(); });
+		}
 	}
 }
 
@@ -70,7 +81,7 @@ void Login::HandleLogin1() {
 
 void Login::HandleLogin2(json temp) {
 	if (temp["type"] == "ok") {
-		GoToLobby();
+		GoToLobby(temp["name"]);
 	} else if (temp["type"] == "unknown name") {
 		text_ = "No user with this name found.\nDo you want to register yourself?";
 		cancel_.setCenter(-350, 280);
@@ -107,7 +118,7 @@ void Login::HandleRegister1() {
 void Login::HandleRegister2(json temp) {
 	spdlog::debug("HandleRegister2");
 	if (temp["type"] == "ok") {
-		GoToLobby();
+		GoToLobby(temp["name"]);
 	} else {
 		text_ = "Error: ";
 		text_ += temp.dump();
@@ -127,8 +138,8 @@ void Login::step() {
 	StepWidgets();
 }
 
-void Login::GoToLobby() {
-	getOptions().lastLoginName = menu_->GetName();
+void Login::GoToLobby(std::string username) {
+	getOptions().lastLoginName = std::move(username);
 	jngl::setWork(std::make_shared<Fade>(std::make_shared<Lobby>(socket_)));
 }
 

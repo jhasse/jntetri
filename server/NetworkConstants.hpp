@@ -1,3 +1,3 @@
 #pragma once
 
-const int PROTOCOL_VERSION = 2;
+const int PROTOCOL_VERSION = 3;
