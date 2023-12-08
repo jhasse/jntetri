@@ -52,10 +52,7 @@ target_link_libraries(jntetri PRIVATE cereal jngl spdlog nlohmann_json::nlohmann
 set_property(TARGET jntetri PROPERTY CXX_STANDARD 20)
 
 if(MSVC)
-	target_compile_definitions(jntetri PRIVATE BOOST_ALL_NO_LIB)
-	add_custom_command(TARGET jntetri COMMAND ${CMAKE_COMMAND} -E copy
-		${PROJECT_SOURCE_DIR}/subprojects/jngl/lib/msvc/x86_64/epoxy-0.dll
-		"$<TARGET_FILE_DIR:jntetri>")
+	target_compile_definitions(jntetri PRIVATE BOOST_ALL_NO_LIB _WIN32_WINNT=0x0601)
 elseif(WIN32)
 	target_link_libraries(jntetri PRIVATE ws2_32)
 endif()
