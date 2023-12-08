@@ -53,7 +53,11 @@ void Login::ProtocolCheck1() {
 void Login::ProtocolCheck2(json temp) {
 	if (temp["type"] != "ok") {
 		text_ = "Error: ";
-		text_ += temp;
+		if (const std::string msg = temp["msg"]; !msg.empty()) {
+			text_ += msg;
+		} else {
+			text_ += temp.dump();
+		}
 		OnError();
 	} else {
 		if (menu_->GetName().empty()) {
