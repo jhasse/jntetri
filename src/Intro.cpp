@@ -47,7 +47,8 @@ void Intro::step() {
 		blink_ = 0;
 	}
 #ifdef NDEBUG
-	bool anyKeyPressed = jngl::mousePressed() || jngl::keyPressed(jngl::key::Any);
+	bool anyKeyPressed = jngl::mousePressed() || jngl::keyPressed(jngl::key::Any) ||
+	                     getOptions().lastLoginName.empty();
 #else
 	bool anyKeyPressed = true;
 #endif
