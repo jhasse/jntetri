@@ -96,11 +96,13 @@ void NetworkControl::stepSend(Control& control) {
 }
 
 bool NetworkControl::desync() const {
+#ifndef NDEBUG
 	std::stringstream sstream;
 	sstream << "time: " << time << "  sendTime: " << sendTime
 	        << "  nullPackagesReceived: " << nullPackagesReceived
 	        << "  sendQueue.size(): " << sendQueue.size();
 	jngl::setTitle(sstream.str());
+#endif
 	return std::abs(time - sendTime) > 1000;
 }
 
