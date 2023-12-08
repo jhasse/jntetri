@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(jntetri-server)
 
 if(NOT MSVC)
-string(APPEND CMAKE_CXX_FLAGS -fdiagnostics-color)
+	string(APPEND CMAKE_CXX_FLAGS -fdiagnostics-color)
 endif()
 
 include(../subprojects/jngl/cmake/CPM.cmake)
@@ -11,9 +11,9 @@ find_package(Boost COMPONENTS coroutine system thread)
 if(NOT Boost_FOUND)
 	CPMAddPackage(
 		NAME Boost
-		VERSION 1.77.0
+		VERSION 1.82.0
 		GITHUB_REPOSITORY "boostorg/boost"
-		GIT_TAG "boost-1.77.0"
+		GIT_TAG "boost-1.82.0"
 	)
 endif()
 CPMAddPackage(
@@ -26,6 +26,7 @@ find_package(Threads REQUIRED)
 file(GLOB SRC *.cpp)
 add_executable(jntetri-server ${SRC})
 target_link_libraries(jntetri-server PRIVATE
+	Boost::headers
 	Boost::coroutine
 	Boost::system
 	Threads::Threads
