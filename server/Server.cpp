@@ -51,10 +51,9 @@ void Server::doAccept(boost::asio::yield_context yield) {
 					matchmaking.erase(it);
 				}
 			}
-			const auto username = client->getUsername();
 			clients.erase(std::find(clients.begin(), clients.end(), client));
-			if (!username.empty()) {
-				addChatLine(yield, fmt::format("{} left.", username));
+			if (client->isLoggedIn()) {
+				addChatLine(yield, fmt::format("{} left.", client->getUsername()));
 			}
 		});
 	}
