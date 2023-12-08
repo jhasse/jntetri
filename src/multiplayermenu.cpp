@@ -9,7 +9,8 @@
 
 #include <jngl.hpp>
 
-MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -240)), password_(new Input(50, -100)) {
+MultiplayerMenu::MultiplayerMenu(const bool quickLogin)
+: name_(new Input(50, -240)), password_(new Input(50, -100)), quickLogin(quickLogin) {
 	addWidget(name_);
 	addWidget(password_);
 	login_.reset(new Button("Login", [this]() { OnLogin(); }));
@@ -27,7 +28,7 @@ MultiplayerMenu::MultiplayerMenu() : name_(new Input(50, -240)), password_(new I
 
 void MultiplayerMenu::step() {
 	StepWidgets();
-	if (jngl::keyPressed(jngl::key::Return)) {
+	if (jngl::keyPressed(jngl::key::Return) || quickLogin) {
 		OnLogin();
 	}
 }
@@ -54,4 +55,8 @@ std::string MultiplayerMenu::GetName() const {
 
 std::string MultiplayerMenu::GetPassword() const {
 	return password_->getText();
+}
+
+bool MultiplayerMenu::getQuickLogin() const {
+	return quickLogin;
 }

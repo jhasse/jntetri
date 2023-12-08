@@ -12,7 +12,7 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
-Lobby::Lobby(std::shared_ptr<Socket> socket)
+Lobby::Lobby(std::shared_ptr<Socket> socket, bool quickLogin)
 : socket_(socket), chatText_(""), input_(new Input(-700, 500)) {
 	logout_.reset(new Button("Logout", [this]() { OnLogout(); }));
 	play_.reset(new Button("Play!™", [this]() { OnPlay(); }));
@@ -23,10 +23,13 @@ Lobby::Lobby(std::shared_ptr<Socket> socket)
 	addWidget(play_);
 	logout_->setCenter(-450, -450);
 	play_->setCenter(450, -450);
+	if (quickLogin) {
+		OnPlay();
+	}
 }
 
 void Lobby::OnLogout() {
-	jngl::setWork(std::make_shared<Fade>(std::make_shared<MultiplayerMenu>()));
+	jngl::setWork(std::make_shared<Fade>(std::make_shared<MultiplayerMenu>(false)));
 }
 
 void Lobby::OnPlay() {
@@ -39,7 +42,7 @@ void Lobby::step() {
 		socket_->step();
 	} catch (std::exception& e) {
 		jngl::setWork(std::make_shared<Fade>(
-		    std::make_shared<MessageBox>(e.what(), std::make_shared<MultiplayerMenu>())));
+		    std::make_shared<MessageBox>(e.what(), std::make_shared<MultiplayerMenu>(false))));
 	}
 	if (jngl::keyPressed(jngl::key::Return)) {
 		nlohmann::json j = {
@@ -86,7 +89,7 @@ void Lobby::handleReceive(json buf) {
 		    std::make_shared<SplitScreen>(control, buf["seed"].get<int32_t>())));
 		return; // move out of Lobby loop
 	} else if (buf["type"] == "error") {
-		jngl::setWork<MessageBox>(buf["msg"], std::make_shared<MultiplayerMenu>());
+		jngl::setWork<MessageBox>(buf["msg"], std::make_shared<MultiplayerMenu>(false));
 		return;
 	} else {
 		spdlog::warn("Received unknown type: {}", buf);

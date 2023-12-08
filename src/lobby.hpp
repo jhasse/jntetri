@@ -10,7 +10,8 @@ class Button;
 
 class Lobby : public Work {
 public:
-	Lobby(std::shared_ptr<Socket>);
+	/// if quickLogin is set, immediately starts matchmaking
+	Lobby(std::shared_ptr<Socket>, bool quickLogin);
 	void step();
 	void draw() const;
 	void handleReceive(json);

@@ -29,7 +29,7 @@ void SplitScreen::reset(const int32_t seed) {
 		    networkControl));
 		field1->onUserQuit([networkControl]() {
 			networkControl->sendQuit();
-			jngl::setWork<Fade>(std::make_shared<Lobby>(networkControl->getSocket()));
+			jngl::setWork<Fade>(std::make_shared<Lobby>(networkControl->getSocket(), false));
 		});
 	}
 	field2.reset(new Field(seed, wins2, 0));
@@ -45,7 +45,7 @@ void SplitScreen::step() {
 		if (freezeCountdown == 1) {
 			if (const auto networkControl =
 			        std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
-				jngl::setWork<Lobby>(networkControl->getSocket());
+				jngl::setWork<Lobby>(networkControl->getSocket(), false);
 			} else {
 				reset(123); // TODO: Decide on next seed
 			}

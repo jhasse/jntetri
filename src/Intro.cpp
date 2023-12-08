@@ -62,9 +62,13 @@ void Intro::step() {
 			}
 		}
 		if (login) {
-			jngl::setWork<MultiplayerMenu>();
+			jngl::setWork<MultiplayerMenu>(false);
 		} else {
-			jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
+			if (getOptions().lastLoginName.empty()) {
+				jngl::setWork<MultiplayerMenu>(true);
+			} else {
+				jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
+			}
 		}
 		// jngl::setWork(std::make_shared<Fade>(std::make_shared<ReplayPlayer>("test3.jtr")));
 		// jngl::setWork(std::make_shared<Game>(GameType::NORMAL, static_cast<int>(time(0)),

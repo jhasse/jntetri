@@ -16,8 +16,8 @@ Menu::Menu()
   fiftyLinesHighscore_(GameType::FIFTYLINES) {
 	buttonBox_->add("Normal", std::bind(&Menu::Normal, this));
 	buttonBox_->add("50 Lines", std::bind(&Menu::FiftyLines, this));
-    buttonBox_->add("Multiplayer", []() {
-		jngl::setWork(std::make_shared<Fade>(std::make_shared<MultiplayerMenu>()));
+	buttonBox_->add("Multiplayer", []() {
+		jngl::setWork(std::make_shared<Fade>(std::make_shared<MultiplayerMenu>(false)));
 	});
 	// buttonBox_->add("Multiplayer", []() {
 	// 	jngl::setWork(std::make_shared<Fade>(std::make_shared<SplitScreen>(std::make_shared<GamepadControl>(1))));

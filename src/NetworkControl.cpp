@@ -69,14 +69,14 @@ void NetworkControl::handleReceive(json j) {
 		}
 	} else if (j["type"] == "opponentQuit") {
 		jngl::setWork<MessageBox>("Your opponent left.",
-		                          std::make_shared<Lobby>(std::move(socket)));
+		                          std::make_shared<Lobby>(std::move(socket), false));
 		return;
 	} else if (j["type"] == "disconnected") {
 		jngl::setWork<MessageBox>("Your opponent disconnected.",
-		                          std::make_shared<Lobby>(std::move(socket)));
+		                          std::make_shared<Lobby>(std::move(socket), false));
 		return;
 	} else if (j["type"] == "error") {
-		jngl::setWork<MessageBox>(j["msg"], std::make_shared<MultiplayerMenu>());
+		jngl::setWork<MessageBox>(j["msg"], std::make_shared<MultiplayerMenu>(false));
 		return;
 	} else {
 		spdlog::error("Unknown package: {}", j.dump());

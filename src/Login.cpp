@@ -128,7 +128,9 @@ void Login::HandleRegister2(json temp) {
 
 void Login::step() {
 	try {
-		socket_->step();
+		if (socket_) {
+			socket_->step();
+		}
 	} catch(std::exception& e) {
 		text_ = "Exception: ";
 		text_ += e.what();
@@ -140,7 +142,9 @@ void Login::step() {
 
 void Login::GoToLobby(std::string username) {
 	getOptions().lastLoginName = std::move(username);
-	jngl::setWork(std::make_shared<Fade>(std::make_shared<Lobby>(socket_)));
+	getOptions().Save();
+	jngl::setWork(std::make_shared<Fade>(
+	    std::make_shared<Lobby>(std::move(socket_), menu_->getQuickLogin())));
 }
 
 void Login::draw() const {
