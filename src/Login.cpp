@@ -2,7 +2,6 @@
 
 #include "../server/NetworkConstants.hpp"
 #include "engine/screen.hpp"
-#include "engine/procedure.hpp"
 #include "engine/fade.hpp"
 #include "engine/options.hpp"
 #include "gui/Button.hpp"
@@ -25,7 +24,7 @@ const int Login::port_ = 7070;
 #endif
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu, bool quickLogin)
-: menu_(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
+: menu(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
   socket_(new Socket), quickLogin(quickLogin) {
 	spdlog::info("Connecting to {}:{}", server_, port_);
 	try {
@@ -60,8 +59,8 @@ void Login::ProtocolCheck2(json temp) {
 		}
 		OnError();
 	} else {
-		if (menu_->GetName().empty()) {
-			if (!menu_->GetPassword().empty()) {
+		if (menu->GetName().empty()) {
+			if (!menu->GetPassword().empty()) {
 				text_ = "Name must not be empty!";
 				return OnError();
 			}
@@ -71,8 +70,8 @@ void Login::ProtocolCheck2(json temp) {
 			});
 		} else {
 			socket_->send(json{ { "type", "login" },
-			                    { "name", menu_->GetName() },
-			                    { "password", menu_->GetPassword() } },
+			                    { "name", menu->GetName() },
+			                    { "password", menu->GetPassword() } },
 			              [this]() { HandleLogin1(); });
 		}
 	}
@@ -105,8 +104,8 @@ void Login::HandleLogin2(json temp) {
 
 void Login::Register() {
 	json j{ { "type", "register" },
-		    { "name", menu_->GetName() },
-		    { "password", menu_->GetPassword() } };
+		    { "name", menu->GetName() },
+		    { "password", menu->GetPassword() } };
 	spdlog::info("Sending: {}", j.dump());
 	socket_->send(j, boost::bind(&Login::HandleRegister1, this));
 	cancel_.setCenter(0, 200);
@@ -152,7 +151,7 @@ void Login::GoToLobby(std::string username) {
 }
 
 void Login::draw() const {
-	menu_->draw();
+	menu->draw();
 	jngl::setColor(255, 255, 255, 220);
 	jngl::drawRect(-jngl::getScreenWidth() / 2, -jngl::getScreenHeight() / 2,
 	               jngl::getScreenWidth(), jngl::getScreenHeight());
@@ -163,7 +162,7 @@ void Login::draw() const {
 }
 
 void Login::OnCancel() {
-	jngl::setWork(menu_);
+	jngl::setWork(menu);
 }
 
 void Login::OnError() {
