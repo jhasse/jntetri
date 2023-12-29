@@ -1,13 +1,11 @@
 #include "menu.hpp"
 
-#include "engine/paths.hpp"
-#include "engine/procedure.hpp"
-#include "engine/fade.hpp"
-#include "gui/ButtonBox.hpp"
-#include "optionsmenu.hpp"
-#include "engine/screen.hpp"
 #include "Game.hpp"
+#include "engine/fade.hpp"
+#include "engine/screen.hpp"
+#include "gui/ButtonBox.hpp"
 #include "multiplayermenu.hpp"
+#include "optionsmenu.hpp"
 
 #include <ctime>
 

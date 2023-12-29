@@ -2,9 +2,9 @@
 
 #include "Block.hpp"
 
+#include <deque>
 #include <jngl.hpp>
 #include <vector>
-#include <deque>
 
 class Field;
 

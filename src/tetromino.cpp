@@ -1,9 +1,6 @@
 #include "tetromino.hpp"
 
 #include "Field.hpp"
-#include "engine/screen.hpp"
-
-#include <random>
 
 Tetromino::Tetromino(int type, Field& field)
 : field_(field),

@@ -1,11 +1,9 @@
 #include "pausemenu.hpp"
 
-#include "engine/procedure.hpp"
-#include "engine/screen.hpp"
 #include "Game.hpp"
+#include "engine/fade.hpp"
 #include "gui/ButtonBox.hpp"
 #include "menu.hpp"
-#include "engine/fade.hpp"
 
 PauseMenu::PauseMenu(std::shared_ptr<Game> game)
 : work(jngl::getWork()), buttonBox(new ButtonBox), game(std::move(game)) {

@@ -1,12 +1,10 @@
 #include "lobby.hpp"
 
-#include "engine/fade.hpp"
-#include "engine/procedure.hpp"
-#include "engine/screen.hpp"
-#include "gui/MessageBox.hpp"
-#include "multiplayermenu.hpp"
 #include "NetworkControl.hpp"
 #include "SplitScreen.hpp"
+#include "engine/fade.hpp"
+#include "gui/MessageBox.hpp"
+#include "multiplayermenu.hpp"
 
 #include <jngl.hpp>
 #include <nlohmann/json.hpp>

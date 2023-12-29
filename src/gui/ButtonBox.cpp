@@ -1,7 +1,7 @@
 #include "ButtonBox.hpp"
 
-#include "Button.hpp"
 #include "../engine/work.hpp"
+#include "Button.hpp"
 
 const int ButtonBox::spacing_ = 30;
 
