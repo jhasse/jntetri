@@ -5,7 +5,7 @@
 			"type": "gdb",
 			"request": "launch",
 			"name": "jntetri (GDB)",
-			"target": "./build/jntetri",
+			"target": "./build/Debug/jntetri",
 			"cwd": "${workspaceRoot}",
 			"valuesFormatting": "prettyPrinters",
 			"preLaunchTask": "build"
@@ -14,7 +14,7 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "jntetri (lldb)",
-			"program": "${workspaceRoot}/build/jntetri",
+			"program": "${workspaceRoot}/build/Debug/jntetri",
 			"args": [],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": "build"
