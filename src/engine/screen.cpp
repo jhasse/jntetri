@@ -5,7 +5,7 @@
 
 void Screen::DrawCentered(const std::string& filename, const double x, const double y)
 {
-	const std::string filepath = getPaths().getGraphics() + filename;
+	const std::string filepath = "gfx/" + filename;
 	jngl::draw(filepath,
 	           x - jngl::getWidth(filepath) / 2.0,
 	           y - jngl::getHeight(filepath) / 2.0);

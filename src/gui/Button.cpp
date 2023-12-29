@@ -1,6 +1,5 @@
 #include "Button.hpp"
 
-#include "../engine/paths.hpp"
 #include "../engine/screen.hpp"
 #include "jngl/matrix.hpp"
 
@@ -11,9 +10,8 @@ const int Button::fontSize = 70;
 
 Button::Button(const std::string& text, std::function<void()> callback, const std::string& normal,
                const std::string& mouseOver, const std::string& clicked)
-: text_(text), mouseoverAlpha(0), callback(callback), clicked(false),
-  sprite(getPaths().getGraphics() + normal), spriteMouseOver(getPaths().getGraphics() + mouseOver),
-  spriteClicked(getPaths().getGraphics() + clicked) {
+: text_(text), mouseoverAlpha(0), callback(callback), clicked(false), sprite("gfx/" + normal),
+  spriteMouseOver("gfx/" + mouseOver), spriteClicked("gfx/" + clicked) {
 	width = sprite.getWidth() * jngl::getScaleFactor();
 	height = sprite.getHeight() * jngl::getScaleFactor();
 }

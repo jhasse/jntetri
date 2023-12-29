@@ -19,12 +19,9 @@ void ScanPath(fs::path path, std::deque<std::string>& filesToResize) {
 	}
 }
 
-ResizeGraphics::ResizeGraphics() : originalSize_(1200) {
-	const std::string origGfx = "gfx/x" + std::to_string(originalSize_) + "/";
-	getPaths().setOriginalGfx("gfx/x1200");
-	jngl::setScaleFactor(double(jngl::getWindowHeight()) / double(originalSize_));
-	getPaths().setGraphics(origGfx);
-	ScanPath(jngl::getPrefix() + "gfx/x" + std::to_string(originalSize_), filesToResize_);
+ResizeGraphics::ResizeGraphics() {
+	jngl::setScaleFactor(static_cast<double>(jngl::getWindowHeight()) / 1200.);
+	ScanPath(jngl::getPrefix() + "gfx", filesToResize_);
 }
 
 ResizeGraphics::~ResizeGraphics() {
@@ -45,9 +42,7 @@ bool ResizeGraphics::isFinished(float& percentage) {
 		return false;
 	}
 
-	std::string basedir = "gfx/x" + std::to_string(originalSize_);
-	std::string relativeFilename(filesToResize_[0].substr(basedir.size() + 1));
-	std::string newFilename = getPaths().getGraphics() + relativeFilename;
+	std::string newFilename = filesToResize_[0];
 
 	jngl::load(newFilename.substr(0, newFilename.size()-5));
 	filesToResize_.pop_front();

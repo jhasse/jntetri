@@ -1,7 +1,6 @@
 #include "chooser.hpp"
 
 #include "../engine/screen.hpp"
-#include "../engine/paths.hpp"
 
 #include <jngl.hpp>
 
@@ -10,7 +9,7 @@ Chooser::Chooser(const int x, const int y)
       "", [this]() { Previous(); }, "chooser_left", "chooser_left_over", "chooser_left_over"),
   next_(
       "", [this]() { Next(); }, "chooser_right", "chooser_right_over", "chooser_right_over"),
-  sprite_(getPaths().getGraphics() + "chooser") {
+  sprite_("gfx/chooser") {
 	width = jngl::getWidth(sprite_) * jngl::getScaleFactor();
 	height = jngl::getHeight(sprite_) * jngl::getScaleFactor();
 	setCenter(x, y);
