@@ -26,7 +26,3 @@ packages/
 /.ccls-cache/
 /compile_commands.json
 /.clangd/
-
-# Meson
-/subprojects/*-*
-/subprojects/packagecache/
