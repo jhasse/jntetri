@@ -1,9 +1,8 @@
 #include "gameoverscreen.hpp"
 
-#include "engine/procedure.hpp"
 #include "engine/screen.hpp"
 #include "engine/fade.hpp"
-#include "engine/options.hpp"
+#include "engine/Options.hpp"
 #include "Game.hpp"
 #include "menu.hpp"
 

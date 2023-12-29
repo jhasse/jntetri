@@ -1,6 +1,5 @@
 #include "screen.hpp"
 #include "paths.hpp"
-#include "options.hpp"
 
 #include <jngl.hpp>
 

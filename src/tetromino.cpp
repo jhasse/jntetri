@@ -101,15 +101,15 @@ void Tetromino::Step() {
 	animationY_ *= 0.8;
 	rotation_ *= 0.8;
 	if (field_.getControl().Check(ControlType::Left)) {
-		ChangeX(-1);
+		changeX(-1);
 		if (Collided()) {
-			ChangeX(1);
+			changeX(1);
 		}
 	}
 	if (field_.getControl().Check(ControlType::Right)) {
-		ChangeX(1);
+		changeX(1);
 		if (Collided()) {
-			ChangeX(-1);
+			changeX(-1);
 		}
 	}
 	if (field_.getControl().Check(ControlType::Rotate)) {
@@ -124,12 +124,12 @@ void Tetromino::SetX(const int x) {
 	x_ = x;
 }
 
-void Tetromino::ChangeX(int c) {
+void Tetromino::changeX(int c) {
 	x_ += c;
 	animationX_ -= c;
 }
 
-void Tetromino::ChangeY(int c) {
+void Tetromino::changeY(int c) {
 	y_ += c;
 	animationY_ -= c;
 }
@@ -155,15 +155,15 @@ void Tetromino::Rotate(const Direction direction, bool ignoreCollision) {
 		rotation_ += 90;
 	}
 	if (!collidedBeforeRotation && Collided()) {
-		ChangeX(1);
+		changeX(1);
 		if (Collided()) {
-			ChangeX(-2);
+			changeX(-2);
 			if (Collided()) {
-				ChangeX(3);
+				changeX(3);
 				if (Collided()) {
-					ChangeX(-4);
+					changeX(-4);
 					if (Collided()) {
-						ChangeX(2);
+						changeX(2);
 						// Undo rotation
 						if (direction == CLOCKWISE) {
 							Rotate(COUNTERCLOCKWISE, true);

@@ -1,8 +1,7 @@
 #include "optionsmenu.hpp"
 
 #include "engine/fade.hpp"
-#include "engine/options.hpp"
-#include "engine/procedure.hpp"
+#include "engine/Options.hpp"
 #include "engine/screen.hpp"
 #include "menu.hpp"
 

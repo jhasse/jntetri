@@ -1,10 +1,7 @@
 #include "procedure.hpp"
-#include "options.hpp"
-#include "screen.hpp"
 #include "../constants.hpp"
 
 #include <jngl.hpp>
-#include <stdexcept>
 
 Procedure::Procedure()
 : oldTime_(jngl::getTime()), needDraw_(true), fps_(0), fpsTemp_(0), changeWork_(false),

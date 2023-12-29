@@ -1,11 +1,7 @@
 #include "resizegraphics.hpp"
 #include "paths.hpp"
-#include "options.hpp"
-#include "screen.hpp"
 
 #include <jngl.hpp>
-#include <iostream>
-#include <fstream>
 #include <boost/lexical_cast.hpp>
 
 void ScanPath(fs::path path, std::deque<std::string>& filesToResize) {

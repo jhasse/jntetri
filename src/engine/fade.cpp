@@ -1,7 +1,4 @@
 #include "fade.hpp"
-#include "procedure.hpp"
-#include "options.hpp"
-#include "screen.hpp"
 
 #include <jngl.hpp>
 

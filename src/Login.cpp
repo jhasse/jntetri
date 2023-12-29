@@ -3,14 +3,13 @@
 #include "../server/NetworkConstants.hpp"
 #include "engine/screen.hpp"
 #include "engine/fade.hpp"
-#include "engine/options.hpp"
+#include "engine/Options.hpp"
 #include "gui/Button.hpp"
 #include "lobby.hpp"
 
 #include <jngl.hpp>
 #include <boost/bind/bind.hpp>
 #include <boost/lexical_cast.hpp>
-#include <sstream>
 #include <spdlog/spdlog.h>
 
 #ifdef __EMSCRIPTEN__

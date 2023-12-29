@@ -1,8 +1,7 @@
 #include "Game.hpp"
 
 #include "engine/screen.hpp"
-#include "engine/options.hpp"
-#include "engine/procedure.hpp"
+#include "engine/Options.hpp"
 #include "gameoverscreen.hpp"
 #include "pausemenu.hpp"
 #include "ReplayRecorder.hpp"

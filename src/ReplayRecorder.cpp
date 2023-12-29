@@ -1,7 +1,7 @@
 #include "ReplayRecorder.hpp"
 
 #include "Field.hpp"
-#include "engine/options.hpp"
+#include "engine/Options.hpp"
 
 ReplayRecorder::ReplayRecorder(Field& field, const GameType gameType)
 : fout("testReplay.jtr"), field_(field), time_(0) {

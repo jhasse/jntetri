@@ -1,10 +1,6 @@
 #include "paths.hpp"
-#include "options.hpp"
 #include "../constants.hpp"
 
-#include <iostream>
-#include <sstream>
-#include <filesystem>
 #include <jngl.hpp>
 
 Paths::Paths() {
