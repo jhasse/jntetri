@@ -1,8 +1,6 @@
 #include "ButtonBox.hpp"
 
-#include "../engine/options.hpp"
-#include "../engine/screen.hpp"
-#include "../engine/procedure.hpp"
+#include "../engine/work.hpp"
 #include "Button.hpp"
 
 const int ButtonBox::spacing_ = 30;

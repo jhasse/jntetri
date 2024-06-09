@@ -25,7 +25,7 @@ public:
 	void GoToLobby(std::string username);
 
 private:
-	std::shared_ptr<MultiplayerMenu> menu_;
+	std::shared_ptr<MultiplayerMenu> menu;
 	std::string text_;
 	const static std::string server_;
 	const static int port_;

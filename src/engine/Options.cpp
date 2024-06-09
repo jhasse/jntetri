@@ -1,4 +1,4 @@
-#include "options.hpp"
+#include "Options.hpp"
 #include "paths.hpp"
 
 #include <cereal/archives/json.hpp>

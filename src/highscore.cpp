@@ -1,6 +1,4 @@
 #include "highscore.hpp"
-#include "engine/paths.hpp"
-#include "engine/screen.hpp"
 
 #include <fstream>
 #include <stdexcept>

@@ -1,13 +1,10 @@
 #include "explosion.hpp"
 
-#include "engine/paths.hpp"
-#include "engine/screen.hpp"
-
 #include <jngl.hpp>
 
 Explosion::Explosion(const Block& block, const int numberOfLines)
 : block_(block), countdown_(255), numberOfLines_(numberOfLines),
-  sprite(getPaths().getGraphics() + (numberOfLines == 4 ? "explosion4" : "explosion")) {
+  sprite(std::string("gfx/") + (numberOfLines == 4 ? "explosion4" : "explosion")) {
 }
 
 void Explosion::Step() {

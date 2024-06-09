@@ -2,7 +2,7 @@
 
 #include "Game.hpp"
 #include "ReplayControl.hpp"
-#include "engine/options.hpp"
+#include "engine/Options.hpp"
 
 #include <jngl/input.hpp>
 

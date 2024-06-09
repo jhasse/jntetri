@@ -1,10 +1,10 @@
 #pragma once
 
-#include "block.hpp"
+#include "Block.hpp"
 
+#include <deque>
 #include <jngl.hpp>
 #include <vector>
-#include <deque>
 
 class Field;
 
@@ -28,8 +28,8 @@ public:
 
 private:
 	void drawBlocks() const;
-	void ChangeX(int);
-	void ChangeY(int);
+	void changeX(int);
+	void changeY(int);
 
 	std::vector<Block> blocks_;
 	Field& field_;

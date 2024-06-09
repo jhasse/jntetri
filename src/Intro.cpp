@@ -2,11 +2,9 @@
 
 #include "constants.hpp"
 #include "engine/fade.hpp"
-#include "engine/options.hpp"
-#include "engine/procedure.hpp"
+#include "engine/Options.hpp"
 #include "engine/screen.hpp"
 #include "fonts.hpp"
-#include "Game.hpp"
 #include "menu.hpp"
 #include "multiplayermenu.hpp"
 
