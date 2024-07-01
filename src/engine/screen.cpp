@@ -11,11 +11,6 @@ void Screen::DrawCentered(const std::string& filename, const double x, const dou
 	           y - jngl::getHeight(filepath) / 2.0);
 }
 
-void Screen::DrawCentered(const std::string& filename, const Vector2d& position)
-{
-	GetScreen().DrawCentered(filename, position.X(), position.Y());
-}
-
 Screen& GetScreen() {
 	return *Screen::handle();
 }

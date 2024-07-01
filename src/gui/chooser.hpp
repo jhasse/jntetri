@@ -15,7 +15,7 @@ public:
 	void Previous();
 	void Next();
 private:
-	typedef std::list<int> ArrayType;
+	using ArrayType = std::list<int>;
 	ArrayType values_;
 	ArrayType::const_iterator activeValue_;
 	Button previous_;
