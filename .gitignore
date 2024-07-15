@@ -26,3 +26,6 @@ packages/
 /.ccls-cache/
 /compile_commands.json
 /.clangd/
+
+# GitLab CI
+/.gitlab-ci-local/

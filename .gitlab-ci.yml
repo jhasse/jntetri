@@ -17,7 +17,7 @@ server:
     - cmake --build build
 
 web:
-  image: emscripten/emsdk
+  image: emscripten/emsdk:3.1.61
   stage: build
   script:
     - apt-get update && apt-get install -y ninja-build
