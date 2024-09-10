@@ -34,7 +34,6 @@ void Game::step() {
 		pauseTime_ = jngl::getTime();
 		jngl::setWork(std::make_shared<GameOverScreen>(this));
 	} else {
-		field_.SetPause(false);
 		field_.step();
 		if (replayRecorder) {
 			replayRecorder->Step();
@@ -48,7 +47,7 @@ void Game::step() {
 	if (pauseTime_ > 0.0001 && !field_.GameOver()) {
 		pauseTime_ = 0;
 	}
-	if (jngl::keyPressed('p') || jngl::keyPressed(jngl::key::Escape)) {
+	if (jngl::keyPressed('p')) {
 		onQuitEvent(); // Pause
 	}
 }
@@ -132,4 +131,8 @@ bool Game::gameOver() const {
 
 bool Game::isReplay() const {
 	return replayRecorder == nullptr;
+}
+
+void Game::onLoad() {
+	field_.SetPause(false);
 }

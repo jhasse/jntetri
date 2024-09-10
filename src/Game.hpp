@@ -24,6 +24,8 @@ public:
 	bool isReplay() const;
 
 protected:
+	void onLoad() override;
+
 	Field field_;
 	GameType type_;
 	double nextPosition_;
