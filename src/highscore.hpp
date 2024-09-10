@@ -3,8 +3,8 @@
 #include "gametype.hpp"
 
 #include <list>
+#include <memory>
 #include <string>
-#include <boost/shared_ptr.hpp>
 
 struct Data {
 	Data();

@@ -2,7 +2,6 @@
 #include "paths.hpp"
 
 #include <jngl.hpp>
-#include <boost/lexical_cast.hpp>
 
 void ScanPath(fs::path path, std::deque<std::string>& filesToResize) {
 	fs::directory_iterator end;

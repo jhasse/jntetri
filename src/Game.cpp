@@ -9,7 +9,6 @@
 #include <jngl.hpp>
 #include <sstream>
 #include <iomanip>
-#include <boost/lexical_cast.hpp>
 
 Game::Game(const GameType type, const int seed, const bool replay)
 : field_(seed, getOptions().startLevel, getOptions().startJunks), type_(type),

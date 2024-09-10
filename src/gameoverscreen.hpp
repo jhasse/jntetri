@@ -4,8 +4,6 @@
 #include "gui/input.hpp"
 #include "highscore.hpp"
 
-#include <boost/shared_ptr.hpp>
-
 namespace jngl {
 	class Work;
 }

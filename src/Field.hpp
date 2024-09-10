@@ -9,13 +9,16 @@
 #include <vector>
 #include <random>
 #include <ctime>
-#include <boost/noncopyable.hpp>
 #include <memory>
 #include <optional>
 
-class Field : boost::noncopyable {
+class Field {
 public:
 	Field(int seed, int level, uint32_t startJunks);
+	Field(const Field&) = delete;
+	Field(Field&&) = delete;
+	Field& operator=(const Field&) = delete;
+	Field& operator=(Field&&) = delete;
 	void step();
 	void draw() const;
 	void DrawBlock(int x, int y) const;

@@ -3,14 +3,17 @@
 #include "engine/work.hpp"
 
 #include <memory>
-#include <boost/noncopyable.hpp>
 #include <fstream>
 
 class Game;
 
-class ReplayPlayer : public Work, boost::noncopyable {
+class ReplayPlayer : public Work {
 public:
 	ReplayPlayer(const std::string& filename);
+	ReplayPlayer(const ReplayPlayer&) = delete;
+	ReplayPlayer(ReplayPlayer&&) = delete;
+	ReplayPlayer& operator=(const ReplayPlayer&) = delete;
+	ReplayPlayer& operator=(ReplayPlayer&&) = delete;
 	~ReplayPlayer();
 	void step();
 	void draw() const;

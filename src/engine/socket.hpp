@@ -1,16 +1,19 @@
 #pragma once
 
-#include <boost/noncopyable.hpp>
-#include <boost/asio.hpp>
 #include <boost/array.hpp>
+#include <boost/asio.hpp>
 #include <functional>
 #include <nlohmann/json.hpp>
 
 using nlohmann::json;
 
-class Socket : boost::noncopyable {
+class Socket {
 public:
 	Socket();
+	Socket(const Socket&) = delete;
+	Socket(Socket&&) = delete;
+	Socket& operator=(const Socket&) = delete;
+	Socket& operator=(Socket&&) = delete;
 	void connect(const std::string& server, int port, std::function<void()> onSuccess);
 	void send(const std::string& data, std::function<void()> onSuccess);
 	void send(const json& data, std::function<void()> onSuccess);
