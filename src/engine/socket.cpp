@@ -2,8 +2,6 @@
 
 #include "../../server/NetworkConstants.hpp"
 
-#include <iostream>
-#include <boost/bind/bind.hpp>
 #include <boost/asio/co_spawn.hpp>
 #include <spdlog/spdlog.h>
 
@@ -51,13 +49,15 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 			throw std::runtime_error(sstream.str());
 		}
 		tcp::endpoint endpoint(endpointIterator->endpoint().address(), port);
-		socket_.async_connect(
-		    endpoint, boost::bind(&Socket::CallbackWrapper, this, boost::asio::placeholders::error, onSuccess));
+		socket_.async_connect(endpoint, [this, onSuccess](const boost::system::error_code& err) {
+			CallbackWrapper(err, onSuccess);
+		});
 	});
 #else
 	tcp::endpoint endpoint(boost::asio::ip::address::from_string(server), port);
-	socket_.async_connect(endpoint, boost::bind(&Socket::CallbackWrapper, this,
-	                                            boost::asio::placeholders::error, onSuccess));
+	socket_.async_connect(endpoint, [this, onSuccess](const boost::system::error_code& err) {
+		CallbackWrapper(err, onSuccess);
+	});
 #endif
 }
 
