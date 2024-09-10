@@ -2,14 +2,14 @@
 	"version": "2.0.0",
 	"windows": {
 		"command": "C:\\msys64\\usr\\bin\\bash.exe",
-		"args": ["-lc", "clear && cd \"${workspaceRoot}\" && ([ -d build ] || cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Debug) && ninja -C build | cat"],
+		"args": ["-lc", "clear && cd \"${workspaceRoot}\" && ([ -d build ] || cmake -Bbuild -G\"Ninja Multi-Config\" -DCMAKE_BUILD_TYPE=Debug) && ninja -C build | cat"],
 	},
 	"linux": {
-		"args": ["-lc", "clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Debug) && ninja -C build && $@"],
+		"args": ["-lc", "clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || cmake -Bbuild -G\"Ninja Multi-Config\" -DCMAKE_BUILD_TYPE=Debug) && ninja -C build && $@"],
 		"command": "/bin/bash"
 	},
 	"osx": {
-		"args": ["-lc", "clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Debug) && ninja -C build && $@"],
+		"args": ["-lc", "clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || cmake -Bbuild -G\"Ninja Multi-Config\" -DCMAKE_BUILD_TYPE=Debug) && ninja -C build && $@"],
 		"command": "/bin/bash"
 	},
 	"options": {
