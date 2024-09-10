@@ -3,7 +3,6 @@
 #include "Client.hpp"
 #include "NetworkConstants.hpp"
 
-#include <boost/bind/bind.hpp>
 #include <iostream>
 #include <soci/sqlite3/soci-sqlite3.h>
 #include <spdlog/spdlog.h>

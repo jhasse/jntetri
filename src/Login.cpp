@@ -9,7 +9,6 @@
 
 #include <jngl.hpp>
 #include <boost/bind/bind.hpp>
-#include <boost/lexical_cast.hpp>
 #include <spdlog/spdlog.h>
 
 #ifdef __EMSCRIPTEN__

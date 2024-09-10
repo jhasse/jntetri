@@ -1,6 +1,5 @@
 #pragma once
 
-#include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <functional>
 #include <nlohmann/json.hpp>
