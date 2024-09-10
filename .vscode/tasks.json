@@ -1,8 +1,7 @@
 {
 	"version": "2.0.0",
 	"windows": {
-		"command": "C:\\msys64\\usr\\bin\\bash.exe",
-		"args": ["-lc", "clear && cd \"${workspaceRoot}\" && ([ -d build ] || cmake -Bbuild -G\"Ninja Multi-Config\" -DCMAKE_BUILD_TYPE=Debug) && ninja -C build | cat"],
+		"command": ".vscode/build.bat",
 	},
 	"linux": {
 		"args": ["-lc", "clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || cmake -Bbuild -G\"Ninja Multi-Config\" -DCMAKE_BUILD_TYPE=Debug) && ninja -C build && $@"],
