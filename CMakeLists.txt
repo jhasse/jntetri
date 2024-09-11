@@ -4,7 +4,9 @@ project(jntetri)
 
 if(NOT MSVC)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color -Wall -Wextra -Winit-self -Wpedantic -Wdelete-non-virtual-dtor -Wlogical-op -Wduplicated-cond -Wduplicated-branches")
+	# -Wno-implicit-fallthrough', # cereal
+	# -Wno-class-memaccess', # cereal")
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
@@ -13,7 +15,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
 	string(APPEND CMAKE_EXE_LINKER_FLAGS
 		" ${USE_FLAGS} -s WEBSOCKET_URL=wss://jntetri.boomshine.de -s ASSERTIONS=1 -s FULL_ES3=1 "
-		"-s INITIAL_MEMORY=1024MB --pre-js ${CMAKE_CURRENT_SOURCE_DIR}/web/pre.js -lidbfs.js")
+		"--pre-js ${CMAKE_CURRENT_SOURCE_DIR}/web/pre.js -lidbfs.js")
 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
 endif()
 if (TARGET_WASM)
@@ -46,7 +48,7 @@ file(GLOB SRC src/*.cpp src/engine/*.cpp src/gui/*.cpp)
 add_executable(jntetri ${SRC})
 find_package(Boost COMPONENTS coroutine system thread)
 
-target_link_libraries(jntetri PRIVATE cereal jngl spdlog nlohmann_json::nlohmann_json Boost::headers)
+target_link_libraries(jntetri PRIVATE cereal jngl spdlog nlohmann_json::nlohmann_json Boost::boost)
 set_property(TARGET jntetri PROPERTY CXX_STANDARD 20)
 
 if(MSVC)
