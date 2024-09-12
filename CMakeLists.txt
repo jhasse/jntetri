@@ -4,7 +4,7 @@ project(jntetri)
 
 if(NOT MSVC)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color -Wall -Wextra -Winit-self -Wpedantic -Wdelete-non-virtual-dtor -Wlogical-op -Wduplicated-cond -Wduplicated-branches")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color -Wall -Wextra -Winit-self -Wpedantic -Wdelete-non-virtual-dtor")
 	# -Wno-implicit-fallthrough', # cereal
 	# -Wno-class-memaccess', # cereal")
 endif()
