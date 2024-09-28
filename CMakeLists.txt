@@ -31,10 +31,10 @@ CPMAddPackage(
 
 include(FetchContent)
 
-FetchContent_Declare(spdlog
-	URL https://github.com/gabime/spdlog/archive/v1.8.0.tar.gz
-	URL_HASH SHA1=9b4302c3d77d7f84ab1a6547d9bcc2f849672e11)
-FetchContent_MakeAvailable(spdlog)
+CPMAddPackage(
+	NAME spdlog
+	URL https://github.com/gabime/spdlog/archive/v1.13.0.tar.gz
+	URL_HASH SHA1=2042a47b2076cbdcd33e648b0df031cb03963097)
 
 CPMAddPackage(
 	NAME cereal
