@@ -107,7 +107,7 @@ bool NetworkControl::desync() const {
 }
 
 void NetworkControl::sendQuit() {
-	socket->send(json{ { "type", "quit" } }, [this]() { spdlog::info("sent quit success."); });
+	socket->send(json{ { "type", "quit" } }, []() { spdlog::info("sent quit success."); });
 }
 
 std::shared_ptr<Socket> NetworkControl::getSocket() {

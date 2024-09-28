@@ -12,6 +12,7 @@ Checks: '
        ,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
        ,-clang-diagnostic-unused-command-line-argument,
        ,-cppcoreguidelines-avoid-c-arrays,
+       ,-cppcoreguidelines-avoid-const-or-ref-data-members,
        ,-cppcoreguidelines-avoid-magic-numbers,
        ,-cppcoreguidelines-avoid-non-const-global-variables,
        ,-cppcoreguidelines-init-variables,

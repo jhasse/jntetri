@@ -9,10 +9,9 @@ class ReplayRecorder;
 class Game : public Work, public std::enable_shared_from_this<Game> {
 public:
 	Game(GameType, int seed, bool replay);
-	virtual ~Game();
-	virtual void step();
-	virtual void draw() const;
-	void onQuitEvent();
+	~Game() override;
+	void step() override;
+	void draw() const override;
 	Field& GetField();
 	double GetTime() const;
 	bool GameOverAnimationFinished() const;
@@ -24,6 +23,7 @@ public:
 	bool isReplay() const;
 
 protected:
+	void onQuitEvent() override;
 	void onLoad() override;
 
 	Field field_;

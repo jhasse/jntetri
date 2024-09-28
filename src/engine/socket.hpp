@@ -24,7 +24,6 @@ private:
 	boost::asio::ip::tcp::socket socket_;
 	void CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess);
 	std::string buffer;
-	std::array<char, 1024> receiveBuffer;
 
 	std::function<void(json)> onReceiveSuccess;
 };
