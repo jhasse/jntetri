@@ -9,7 +9,7 @@
 
 namespace jngl {
 class Controller;
-}
+} // namespace jngl
 
 class ControlBase {
 public:
@@ -56,7 +56,7 @@ public:
 
 class GamepadControl : public ControlBase {
 public:
-	GamepadControl(size_t number);
+	explicit GamepadControl(size_t number);
 	bool step(const std::function<void(ControlType)>&) override;
 
 private:

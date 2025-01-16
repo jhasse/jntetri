@@ -1,11 +1,9 @@
 #include "Field.hpp"
 
-#include "engine/screen.hpp"
-
 #include <algorithm>
+#include <jngl.hpp>
 #include <map>
 #include <set>
-#include <jngl.hpp>
 
 const int Field::width_ = 11;
 const int Field::height_ = 19;
@@ -180,8 +178,8 @@ void Field::NewTetromino() {
 
 	if (tetromino_) {
 		const int xPositions[] = { 5, 6, 4, 7, 3, 8, 2, 9, 1, 10, 0 };
-		for (int i = 0; i < 11; ++i) {
-			tetromino_->SetX(xPositions[i]);
+		for (int xPosition : xPositions) {
+			tetromino_->SetX(xPosition);
 			if (!tetromino_->Collided()) {
 				return;
 			}
@@ -226,7 +224,7 @@ void Field::drawNextTetromino() const {
 }
 
 void Field::draw() const {
-	GetScreen().DrawCentered("field", 0, 0);
+	bg.draw();
 	if (stepsWithoutPackage > 0) {
 		jngl::setFontColor(0x000000_rgb);
 		jngl::print(std::string((stepsWithoutPackage / 20) % 4, '.'), { -60, -100 });

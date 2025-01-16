@@ -2,9 +2,9 @@
 
 #include "Block.hpp"
 #include "DesyncInfo.hpp"
-#include "tetromino.hpp"
-#include "explosion.hpp"
 #include "control.hpp"
+#include "explosion.hpp"
+#include "tetromino.hpp"
 
 #include <vector>
 #include <random>
@@ -94,4 +94,6 @@ private:
 
 	std::optional<DesyncInfo> desyncInfo;
 	std::function<void()> onUserQuitCallback;
+
+	jngl::Sprite bg{ "gfx/field" };
 };

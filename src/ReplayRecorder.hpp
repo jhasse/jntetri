@@ -1,6 +1,6 @@
 #pragma once
 
-#include "control.hpp"
+#include "ControlType.hpp"
 #include "gametype.hpp"
 
 #include <fstream>

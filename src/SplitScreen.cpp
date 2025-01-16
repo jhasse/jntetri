@@ -1,19 +1,20 @@
 #include "SplitScreen.hpp"
 
-#include "engine/fade.hpp"
-#include "engine/screen.hpp"
 #include "Field.hpp"
 #include "NetworkControl.hpp"
 #include "NetworkRecorder.hpp"
+#include "engine/fade.hpp"
+#include "engine/screen.hpp"
 #include "lobby.hpp"
 
-#include <jngl/matrix.hpp>
 #include <jngl/font.hpp>
+#include <jngl/matrix.hpp>
 #include <memory>
 #include <sstream>
+#include <utility>
 
 SplitScreen::SplitScreen(std::shared_ptr<ControlBase> opponentControl, const int32_t seed)
-: opponentControl(opponentControl) {
+: opponentControl(std::move(opponentControl)) {
 	reset(seed);
 }
 

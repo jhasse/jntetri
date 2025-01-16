@@ -1,14 +1,13 @@
 #include "Game.hpp"
 
-#include "engine/screen.hpp"
+#include "ReplayRecorder.hpp"
 #include "engine/Options.hpp"
 #include "gameoverscreen.hpp"
 #include "pausemenu.hpp"
-#include "ReplayRecorder.hpp"
 
+#include <iomanip>
 #include <jngl.hpp>
 #include <sstream>
-#include <iomanip>
 
 Game::Game(const GameType type, const int seed, const bool replay)
 : field_(seed, getOptions().startLevel, getOptions().startJunks), type_(type),
