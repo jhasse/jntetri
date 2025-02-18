@@ -22,15 +22,22 @@ web:
   script:
     - apt-get update && apt-get install -y ninja-build
     - cd /tmp
-    - curl --silent -O -L https://archives.boost.io/release/1.82.0/source/boost_1_82_0.tar.bz2
+    - curl --silent -O -L https://archives.boost.io/release/1.85.0/source/boost_1_85_0.tar.bz2
     - tar --wildcards -xf *.tar.bz2 'boost_1_*_0/boost'
     - cd -
-    - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0 -DBoost_INCLUDE_DIR=/tmp/boost_1_82_0
+    - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0 -DBoost_INCLUDE_DIR=/tmp/boost_1_85_0
     - mv data/ build-web/
-    - ninja -Cbuild-web jntetri
+    - cd build-web
+    - ninja jntetri
+    - mkdir ../public
+    - mv jntetri.data ../public/
+    - mv jntetri.js ../public/
+    - mv jntetri.wasm ../public/
+    - mv jntetri.worker.js ../public/
+    - cp ../web/index.html ../public/
   artifacts:
     paths:
-    - build-web/
+    - public/
 
 docker-build:
   image: docker:latest
