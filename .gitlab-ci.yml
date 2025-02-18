@@ -65,8 +65,7 @@ pages:
   dependencies:
     - web
   script:
-  - mv build-web public
-  - mv web/index.html public/
+  - echo
   artifacts:
     paths:
     - public
