@@ -3,7 +3,7 @@
 #include "widget.hpp"
 
 #include <functional>
-#include <jngl/sprite.hpp>
+#include <jngl/Sprite.hpp>
 #include <string>
 
 class Button : public Widget {

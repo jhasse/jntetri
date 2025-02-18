@@ -2,7 +2,7 @@
 
 #include "engine/screen.hpp"
 
-#include <jngl/sprite.hpp>
+#include <jngl/Sprite.hpp>
 
 const int Block::size = 60;
 

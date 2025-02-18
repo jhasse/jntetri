@@ -2,7 +2,7 @@
 
 #include "Block.hpp"
 
-#include <jngl/sprite.hpp>
+#include <jngl/Sprite.hpp>
 
 class Explosion {
 public:
