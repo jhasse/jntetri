@@ -35,8 +35,6 @@ void Fade::draw() const
 		work_->draw();
 	}
 	const int alpha = static_cast<int>(fadeCount_ > maxAlpha ? 2 * maxAlpha - fadeCount_ : fadeCount_);
-	jngl::setColor(0, 0, 0, alpha);
-	jngl::drawRect(-jngl::getScreenWidth() / 2.0 - 1, -jngl::getScreenHeight() / 2.0 - 1,
-	               jngl::getScreenWidth() + 2, jngl::getScreenHeight() + 2);
-	jngl::setColor(255, 255, 255, 255);
+	jngl::drawRect(jngl::modelview().translate(-jngl::getScreenSize() / 2), jngl::getScreenSize(),
+	               jngl::Rgba::u8(0, 0, 0, alpha));
 }
