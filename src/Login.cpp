@@ -9,7 +9,6 @@
 
 #include <jngl.hpp>
 #include <boost/bind/bind.hpp>
-#include <spdlog/spdlog.h>
 
 #ifdef __EMSCRIPTEN__
 const std::string Login::server_("89.58.48.219"); // boomshine.de
@@ -24,7 +23,7 @@ const int Login::port_ = 7070;
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu, bool quickLogin)
 : menu(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
   socket_(new Socket), quickLogin(quickLogin) {
-	spdlog::info("Connecting to {}:{}", server_, port_);
+	jngl::info("Connecting to {}:{}", server_, port_);
 	try {
 		socket_->connect(server_, port_, [this]() { HandleConnect(); });
 	} catch(std::exception& e) {
@@ -37,13 +36,13 @@ Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu, bool quickLogin)
 
 void Login::HandleConnect() {
 	text_ = "sending ...";
-	spdlog::info("Sending protocol version {}", PROTOCOL_VERSION);
+	jngl::info("Sending protocol version {}", PROTOCOL_VERSION);
 	socket_->send(std::to_string(PROTOCOL_VERSION), [this]() { ProtocolCheck1(); });
 }
 
 void Login::ProtocolCheck1() {
 	text_ = "receiving ...";
-	spdlog::info("Waiting for server accept connection");
+	jngl::info("Waiting for server accept connection");
 	socket_->receive([this](json data) { ProtocolCheck2(std::move(data)); });
 }
 
@@ -104,7 +103,7 @@ void Login::Register() {
 	json j{ { "type", "register" },
 		    { "name", menu->GetName() },
 		    { "password", menu->GetPassword() } };
-	spdlog::info("Sending: {}", j.dump());
+	jngl::info("Sending: {}", j.dump());
 	socket_->send(j, boost::bind(&Login::HandleRegister1, this));
 	cancel_.setCenter(0, 200);
 	cancel_.SetText("Cancel");
@@ -117,7 +116,7 @@ void Login::HandleRegister1() {
 }
 
 void Login::HandleRegister2(json temp) {
-	spdlog::debug("HandleRegister2");
+	jngl::debug("HandleRegister2");
 	if (temp["type"] == "ok") {
 		GoToLobby(temp["name"]);
 	} else {

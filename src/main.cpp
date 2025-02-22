@@ -2,15 +2,11 @@
 #include "engine/debugoverlay.hpp"
 #include "constants.hpp"
 
-#include <spdlog/spdlog.h>
 #include <jngl.hpp>
 #include <jngl/init.hpp>
 
 jngl::AppParameters jnglInit() {
 	jngl::AppParameters params;
-#ifndef NDEBUG
-	spdlog::set_level(spdlog::level::trace);
-#endif
 	params.displayName = programDisplayName;
 	params.screenSize = { 1280, 720 };
 	params.start = []() {

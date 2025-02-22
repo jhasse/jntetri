@@ -8,7 +8,6 @@
 
 #include <jngl.hpp>
 #include <nlohmann/json.hpp>
-#include <spdlog/spdlog.h>
 
 Lobby::Lobby(std::shared_ptr<Socket> socket, bool quickLogin)
 : socket_(socket), chatText_(""), input_(new Input(-700, 500)) {
@@ -32,7 +31,7 @@ void Lobby::OnLogout() {
 
 void Lobby::OnPlay() {
 	play_->setSensitive(false);
-	socket_->send(json{ { "type", "play" } }, []() { spdlog::info("Successfully sent 'play'."); });
+	socket_->send(json{ { "type", "play" } }, []() { jngl::info("Successfully sent 'play'."); });
 }
 
 void Lobby::step() {
@@ -47,7 +46,7 @@ void Lobby::step() {
 			{ "type", "chat" },
 			{ "text", input_->getText() },
 		};
-		spdlog::debug("Sending: {}", j.dump());
+		jngl::debug("Sending: {}", j.dump());
 		socket_->send(j, [this]() { OnMessageSent(); });
 		input_->setSensitive(false);
 	}
@@ -81,7 +80,7 @@ void Lobby::handleReceive(json buf) {
 		}
 	} else if (buf["type"] == "play") {
 		// Matchmaking was successful and an opponent found. Let's start the game.
-		spdlog::debug("Starting match making");
+		jngl::debug("Starting match making");
 		auto control = std::make_shared<NetworkControl>(socket_);
 		jngl::setWork(std::make_shared<Fade>(
 		    std::make_shared<SplitScreen>(control, buf["seed"].get<int32_t>())));
@@ -90,7 +89,9 @@ void Lobby::handleReceive(json buf) {
 		jngl::setWork<MessageBox>(buf["msg"], std::make_shared<MultiplayerMenu>(false));
 		return;
 	} else {
-		spdlog::warn("Received unknown type: {}", buf);
+		std::ostringstream tmp;
+		tmp << buf;
+		jngl::warn("Received unknown type: {}", tmp.str());
 	}
 	startReceiving();
 }

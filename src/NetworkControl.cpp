@@ -2,13 +2,11 @@
 
 #include "engine/socket.hpp"
 #include "gui/MessageBox.hpp"
-#include "jngl/window.hpp"
-#include "jngl/work.hpp"
 #include "lobby.hpp"
 #include "multiplayermenu.hpp"
 
+#include <jngl.hpp>
 #include <nlohmann/json.hpp>
-#include <spdlog/spdlog.h>
 
 NetworkControl::NetworkControl(std::shared_ptr<Socket> socket) : socket(std::move(socket)) {
 	this->socket->receive([this](json buf) { handleReceive(std::move(buf)); });
@@ -24,7 +22,7 @@ bool NetworkControl::step(const std::function<void(ControlType)>& set) {
 		};
 		socket->send(j, [this]() {
 			sendQueue.pop();
-			// spdlog::info("sent package success. {} to go.", sendQueue.size());
+			// jngl::info("sent package success. {} to go.", sendQueue.size());
 			sendingInProgress = false;
 		});
 	}
@@ -58,10 +56,10 @@ void NetworkControl::handleReceive(json j) {
 		uint8_t time = j["time"].get<uint8_t>();
 		uint8_t control = j["control"].get<uint8_t>();
 		if (control >= static_cast<int>(ControlType::LastValue)) {
-			spdlog::error("invalid control type in package: {}", control);
+			jngl::error("invalid control type in package: {}", control);
 		} else {
 			if (control == static_cast<uint8_t>(ControlType::Null)) {
-				// spdlog::info("Null package received.");
+				// jngl::info("Null package received.");
 				++nullPackagesReceived;
 			}
 			data.push(
@@ -79,7 +77,7 @@ void NetworkControl::handleReceive(json j) {
 		jngl::setWork<MessageBox>(j["msg"], std::make_shared<MultiplayerMenu>(false));
 		return;
 	} else {
-		spdlog::error("Unknown package: {}", j.dump());
+		jngl::error("Unknown package: {}", j.dump());
 	}
 	socket->receive([this](json buf) { handleReceive(std::move(buf)); });
 }
@@ -107,7 +105,7 @@ bool NetworkControl::desync() const {
 }
 
 void NetworkControl::sendQuit() {
-	socket->send(json{ { "type", "quit" } }, []() { spdlog::info("sent quit success."); });
+	socket->send(json{ { "type", "quit" } }, []() { jngl::info("sent quit success."); });
 }
 
 std::shared_ptr<Socket> NetworkControl::getSocket() {

@@ -32,11 +32,6 @@ CPMAddPackage(
 include(FetchContent)
 
 CPMAddPackage(
-	NAME spdlog
-	URL https://github.com/gabime/spdlog/archive/v1.13.0.tar.gz
-	URL_HASH SHA1=2042a47b2076cbdcd33e648b0df031cb03963097)
-
-CPMAddPackage(
 	NAME cereal
 	URL https://github.com/USCiLab/cereal/archive/refs/tags/v1.3.2.tar.gz
 	OPTIONS "SKIP_PORTABILITY_TEST ON" "JUST_INSTALL_CEREAL ON"
@@ -50,7 +45,7 @@ add_executable(jntetri ${SRC})
 find_package(Boost REQUIRED)
 # find_package(Boost CONFIG REQUIRED) Can't get this to work with custom Boost (web)
 
-target_link_libraries(jntetri PRIVATE cereal jngl spdlog nlohmann_json::nlohmann_json Boost::boost)
+target_link_libraries(jntetri PRIVATE cereal jngl nlohmann_json::nlohmann_json Boost::boost)
 set_property(TARGET jntetri PROPERTY CXX_STANDARD 20)
 
 if(MSVC)

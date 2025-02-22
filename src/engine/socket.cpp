@@ -3,7 +3,7 @@
 #include "../../server/NetworkConstants.hpp"
 
 #include <boost/asio/co_spawn.hpp>
-#include <spdlog/spdlog.h>
+#include <jngl.hpp>
 
 Socket::Socket() : socket_(io_) {
 }
@@ -27,7 +27,7 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 				continue;
 			}
 			auto package = buffer.substr(0, pos);
-			// spdlog::trace("received `{}`", package);
+			// jngl::trace("received `{}`", package);
 			buffer = buffer.substr(pos + 1);
 			onReceiveSuccess(json::parse(package));
 		}
@@ -62,7 +62,7 @@ void Socket::connect(const std::string& server, int port, std::function<void()> 
 }
 
 void Socket::send(const std::string& data, std::function<void()> onSuccess) {
-	spdlog::trace("sending {}", data);
+	jngl::trace("sending {}", data);
 	auto buf = std::make_unique<std::string>(data + "\n");
 	auto mutableBuf = boost::asio::buffer(*buf);
 	socket_.async_send(mutableBuf, [this, buf = std::move(buf), onSuccess = std::move(onSuccess)](
