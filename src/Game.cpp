@@ -23,7 +23,7 @@ Game::~Game() {
 	jngl::setMouseVisible(true);
 }
 
-void Game::SetRotateScreen(bool rotateScreen) {
+void Game::setRotateScreen(bool rotateScreen) {
 	rotateScreen_ = rotateScreen;
 }
 

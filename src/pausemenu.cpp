@@ -7,7 +7,8 @@
 
 PauseMenu::PauseMenu(std::shared_ptr<Game> game)
 : work(jngl::getWork()), buttonBox(new ButtonBox), game(std::move(game)) {
-	this->game->SetRotateScreen(false); // Don't rotate the screen so that the buttons work correctly
+	this->game->setRotateScreen(
+	    false); // Don't rotate the screen so that the buttons work correctly
 	buttonBox->add("Resume", [this] { Continue(); });
 	buttonBox->add("Menu", [this] { QuitToMenu(); });
 	if (jngl::canQuit()) {

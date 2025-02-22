@@ -18,7 +18,7 @@ public:
 	GameType getType() const;
 	void DrawTime(int x, int y) const;
 	void StepToRotateScreen();
-	void SetRotateScreen(bool);
+	void setRotateScreen(bool);
 	bool gameOver() const;
 	bool isReplay() const;
 
