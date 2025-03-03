@@ -225,7 +225,7 @@ void Field::drawNextTetromino() const {
 
 void Field::draw() const {
 	bg.draw();
-	if (stepsWithoutPackage > 0) {
+	if (stepsWithoutPackage > 480) {
 		jngl::setFontColor(0x000000_rgb);
 		jngl::print(std::string((stepsWithoutPackage / 20) % 4, '.'), { -60, -100 });
 		return;
