@@ -25,7 +25,6 @@ private:
 	void removeLastCharacter();
 
 	mutable std::string text;
-	int x_, y_;
 	bool password_;
 	int displayCursor_;
 	unsigned int maxWidth = 999;

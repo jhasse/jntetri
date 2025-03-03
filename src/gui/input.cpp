@@ -2,7 +2,8 @@
 
 #include <jngl.hpp>
 
-Input::Input(int x, int y) : x_(x), y_(y), password_(false), displayCursor_(0) {
+Input::Input(int x, int y) : password_(false), displayCursor_(0) {
+	setPos(x, y);
 }
 
 void Input::setMaxWidth(unsigned int width) {
@@ -19,8 +20,8 @@ void Input::onFocusChanged() {
 
 void Input::step() {
 	const auto mousePos = jngl::getMousePos();
-	if (mousePos.x > x_ && mousePos.y > y_ && mousePos.x < x_ + maxWidth &&
-	    mousePos.y < y_ + 94 /* TODO: Do not hardcode */) {
+	if (mousePos.x > position.x && mousePos.y > position.y && mousePos.x < position.x + maxWidth &&
+	    mousePos.y < position.y + 94 /* TODO: Do not hardcode */) {
 		jngl::setCursor(jngl::Cursor::I);
 		if (jngl::mousePressed()) {
 			setFocus(true);
@@ -58,9 +59,11 @@ void Input::draw() const {
 		jngl::setFontColor(150, 150, 150);
 	}
 	if (focus && displayCursor_ > 0) {
-		jngl::print(text + "|", x_, y_);
+		jngl::print(text + "|", static_cast<int>(std::lround(position.x)),
+		            static_cast<int>(std::lround(position.y)));
 	} else {
-		jngl::print(text, x_, y_);
+		jngl::print(text, static_cast<int>(std::lround(position.x)),
+		            static_cast<int>(std::lround(position.y)));
 	}
 	if (password_) {
 		text = temp;
