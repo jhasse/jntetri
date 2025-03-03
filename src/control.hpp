@@ -61,4 +61,8 @@ public:
 
 private:
 	std::shared_ptr<jngl::Controller> controller;
+	int stepsDownLeft = 0;
+	int stepsDownRight = 0;
+	constexpr static int repeatThreshold = 16;
+	constexpr static int repeatRate = 3;
 };

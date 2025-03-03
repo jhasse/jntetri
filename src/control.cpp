@@ -97,12 +97,37 @@ bool GamepadControl::step(const std::function<void(ControlType)>& Set) {
 	if (controller->down(jngl::controller::RightTrigger)) {
 		Set(ControlType::Down);
 	}
+
 	if (controller->pressed(jngl::controller::DpadLeft)) {
+		stepsDownLeft = 1;
 		Set(ControlType::Left);
 	}
+	if (controller->down(jngl::controller::DpadLeft)) {
+		if (stepsDownLeft > 0) {
+			++stepsDownLeft;
+			if (stepsDownLeft > repeatThreshold && stepsDownLeft % repeatRate == 0) {
+				Set(ControlType::Left);
+			}
+		}
+	} else {
+		stepsDownLeft = 0;
+	}
+
 	if (controller->pressed(jngl::controller::DpadRight)) {
+		stepsDownRight = 1;
 		Set(ControlType::Right);
 	}
+	if (controller->down(jngl::controller::DpadRight)) {
+		if (stepsDownRight > 0) {
+			++stepsDownRight;
+			if (stepsDownRight > repeatThreshold && stepsDownRight % repeatRate == 0) {
+				Set(ControlType::Right);
+			}
+		}
+	} else {
+		stepsDownRight = 0;
+	}
+
 	if (controller->pressed(jngl::controller::X)) {
 		Set(ControlType::Rotate);
 	}
