@@ -19,9 +19,8 @@ void MessageBox::step() {
 
 void MessageBox::draw() const {
 	nextWork->draw();
-	jngl::setColor(255, 255, 255, 220);
-	jngl::drawRect(-jngl::getScreenWidth() / 2, -jngl::getScreenHeight() / 2,
-	               jngl::getScreenWidth(), jngl::getScreenHeight());
+	jngl::drawRect(jngl::modelview().translate(-jngl::getScreenSize() / 2), jngl::getScreenSize(),
+	               jngl::Rgba::u8(255, 255, 255, 220));
 	jngl::setFontColor(0, 0, 0);
 	text.draw();
 	DrawWidgets();
