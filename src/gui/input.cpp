@@ -47,7 +47,7 @@ void Input::draw() const {
 	std::string temp;
 	if (password_) {
 		temp = text;
-		size_t size = text.size();
+		size_t size = jngl::utf8Length(text);
 		text.clear();
 		for (size_t i = 0; i < size; ++i) {
 			text += "●";
