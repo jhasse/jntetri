@@ -17,7 +17,7 @@ public:
 
 	void setMaxWidth(unsigned int);
 
-	void SetPassword(bool);
+	void setPassword(bool);
 
 	void onFocusChanged() override;
 
@@ -25,7 +25,7 @@ private:
 	void removeLastCharacter();
 
 	mutable std::string text;
-	bool password_;
+	bool password = false;
 	int displayCursor_;
 	unsigned int maxWidth = 999;
 };

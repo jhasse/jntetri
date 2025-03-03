@@ -2,7 +2,7 @@
 
 #include <jngl.hpp>
 
-Input::Input(int x, int y) : password_(false), displayCursor_(0) {
+Input::Input(int x, int y) : displayCursor_(0) {
 	setPos(x, y);
 }
 
@@ -10,8 +10,8 @@ void Input::setMaxWidth(unsigned int width) {
 	maxWidth = width;
 }
 
-void Input::SetPassword(bool password) {
-	password_ = password;
+void Input::setPassword(bool password) {
+	this->password = password;
 }
 
 void Input::onFocusChanged() {
@@ -45,7 +45,7 @@ void Input::step() {
 
 void Input::draw() const {
 	std::string temp;
-	if (password_) {
+	if (password) {
 		temp = text;
 		size_t size = jngl::utf8Length(text);
 		text.clear();
@@ -65,7 +65,7 @@ void Input::draw() const {
 		jngl::print(text, static_cast<int>(std::lround(position.x)),
 		            static_cast<int>(std::lround(position.y)));
 	}
-	if (password_) {
+	if (password) {
 		text = temp;
 	}
 }

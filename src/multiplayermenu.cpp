@@ -17,7 +17,7 @@ MultiplayerMenu::MultiplayerMenu(const bool quickLogin)
 	addWidget(back_);
 	back_->setCenter(-350, 280);
 	login_->setCenter(350, 280);
-	password_->SetPassword(true);
+	password_->setPassword(true);
 	name_->setText(getOptions().lastLoginName);
 	if (name_->getText() != "") {
 		FocusNext();
