@@ -8,8 +8,8 @@
 
 class Button : public Widget {
 public:
-	Button(const std::string& text, std::function<void()> callback,
-	       const std::string& normal = "button", const std::string& mouseOver = "button_over",
+	Button(std::string text, std::function<void()> callback, const std::string& normal = "button",
+	       const std::string& mouseOver = "button_over",
 	       const std::string& clicked = "button_clicked");
 	void SetText(const std::string&);
 	void draw() const override;

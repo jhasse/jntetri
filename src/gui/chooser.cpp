@@ -10,8 +10,8 @@ Chooser::Chooser(const int x, const int y)
   next_(
       "", [this]() { Next(); }, "chooser_right", "chooser_right_over", "chooser_right_over"),
   sprite_("gfx/chooser") {
-	width = jngl::getWidth(sprite_) * jngl::getScaleFactor();
-	height = jngl::getHeight(sprite_) * jngl::getScaleFactor();
+	setWidth(jngl::getWidth(sprite_));
+	setHeight(jngl::getHeight(sprite_));
 	setCenter(x, y);
 	previous_.setCenter(
 	    x - static_cast<double>(jngl::getWidth(sprite_)) / 2 - previous_.getWidth() / 2, y);
