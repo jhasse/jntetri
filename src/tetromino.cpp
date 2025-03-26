@@ -2,6 +2,8 @@
 
 #include "Field.hpp"
 
+#include <numbers>
+
 Tetromino::Tetromino(int type, Field& field)
 : field_(field),
   shadow(jngl::ScaleablePixels(6 * Block::size), jngl::ScaleablePixels(6 * Block::size)) {
