@@ -27,7 +27,7 @@ public:
 	void drop();
 
 private:
-	void drawBlocks() const;
+	void drawBlocks(jngl::Mat3 modelview) const;
 	void changeX(int);
 	void changeY(int);
 

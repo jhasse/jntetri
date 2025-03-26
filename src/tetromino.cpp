@@ -6,82 +6,89 @@ Tetromino::Tetromino(int type, Field& field)
 : field_(field),
   shadow(jngl::ScaleablePixels(6 * Block::size), jngl::ScaleablePixels(6 * Block::size)) {
 	assert(0 <= type && type < 7);
-	switch(type) {
-		case 0:{
+	switch (type) {
+		case 0: {
 			jngl::Color color(200, 200, 0);
 			blocks_.push_back(Block(-1, 1, color)); // XX
-			blocks_.push_back(Block( 0, 1, color)); // XX
+			blocks_.push_back(Block(0, 1, color));  // XX
 			blocks_.push_back(Block(-1, 0, color));
-			blocks_.push_back(Block( 0, 0, color));
+			blocks_.push_back(Block(0, 0, color));
 			rotationCenterX_.push_back(-0.5);
-			rotationCenterY_.push_back( 0.5);
-		break;}
-		case 1:{
+			rotationCenterY_.push_back(0.5);
+			break;
+		}
+		case 1: {
 			jngl::Color color(200, 0, 0);
 			blocks_.push_back(Block(-1, 0, color)); // 1234
-			blocks_.push_back(Block( 0, 0, color));
-			blocks_.push_back(Block( 1, 0, color));
-			blocks_.push_back(Block( 2, 0, color));
-			rotationCenterX_.push_back( 0);
-			rotationCenterY_.push_back( 0);
-			rotationCenterX_.push_back( 0.5);
+			blocks_.push_back(Block(0, 0, color));
+			blocks_.push_back(Block(1, 0, color));
+			blocks_.push_back(Block(2, 0, color));
+			rotationCenterX_.push_back(0);
+			rotationCenterY_.push_back(0);
+			rotationCenterX_.push_back(0.5);
 			rotationCenterY_.push_back(-0.5);
-		break;}
-		case 2:{
+			break;
+		}
+		case 2: {
 			jngl::Color color(0, 200, 200);
-			blocks_.push_back(Block( 0, 1, color)); //  1
+			blocks_.push_back(Block(0, 1, color));  //  1
 			blocks_.push_back(Block(-1, 0, color)); // 234
-			blocks_.push_back(Block( 0, 0, color));
-			blocks_.push_back(Block( 1, 0, color));
+			blocks_.push_back(Block(0, 0, color));
+			blocks_.push_back(Block(1, 0, color));
 			rotationCenterX_.push_back(-0.5);
-			rotationCenterY_.push_back( 0.5);
-			rotationCenterX_.push_back( 0);
-			rotationCenterY_.push_back( 0);
-		break;}
-		case 3:{
+			rotationCenterY_.push_back(0.5);
+			rotationCenterX_.push_back(0);
+			rotationCenterY_.push_back(0);
+			break;
+		}
+		case 3: {
 			jngl::Color color(0, 0, 200);
-			blocks_.push_back(Block( 0,  1, color)); //  1
-			blocks_.push_back(Block( 0,  0, color)); //  2
-			blocks_.push_back(Block( 0, -1, color)); // 43
+			blocks_.push_back(Block(0, 1, color));  //  1
+			blocks_.push_back(Block(0, 0, color));  //  2
+			blocks_.push_back(Block(0, -1, color)); // 43
 			blocks_.push_back(Block(-1, -1, color));
 			rotationCenterX_.push_back(0);
 			rotationCenterY_.push_back(0);
 			rotationCenterX_.push_back(-0.5);
-			rotationCenterY_.push_back( 0.5);
-		break;}
-		case 4:{
+			rotationCenterY_.push_back(0.5);
+			break;
+		}
+		case 4: {
 			jngl::Color color(200, 100, 0);
-			blocks_.push_back(Block(-1,  1, color)); // 12
-			blocks_.push_back(Block( 0,  1, color)); //  3
-			blocks_.push_back(Block( 0,  0, color)); //  4
-			blocks_.push_back(Block( 0, -1, color));
+			blocks_.push_back(Block(-1, 1, color)); // 12
+			blocks_.push_back(Block(0, 1, color));  //  3
+			blocks_.push_back(Block(0, 0, color));  //  4
+			blocks_.push_back(Block(0, -1, color));
 			rotationCenterX_.push_back(0);
 			rotationCenterY_.push_back(0);
 			rotationCenterX_.push_back(-0.5);
-			rotationCenterY_.push_back( 0.5);
-		break;}
-		case 5:{
+			rotationCenterY_.push_back(0.5);
+			break;
+		}
+		case 5: {
 			jngl::Color color(200, 0, 200);
-			blocks_.push_back(Block( 0, 1, color)); //  12
-			blocks_.push_back(Block( 1, 1, color)); // 34
+			blocks_.push_back(Block(0, 1, color)); //  12
+			blocks_.push_back(Block(1, 1, color)); // 34
 			blocks_.push_back(Block(-1, 0, color));
-			blocks_.push_back(Block( 0, 0, color));
+			blocks_.push_back(Block(0, 0, color));
 			rotationCenterX_.push_back(-0.5);
-			rotationCenterY_.push_back( 0.5);
-			rotationCenterX_.push_back( 0);
-			rotationCenterY_.push_back( 0);
-		break;}
-		case 6:{
+			rotationCenterY_.push_back(0.5);
+			rotationCenterX_.push_back(0);
+			rotationCenterY_.push_back(0);
+			break;
+		}
+		case 6: {
 			jngl::Color color(0, 200, 0);
 			blocks_.push_back(Block(-1, 1, color)); // 12
-			blocks_.push_back(Block( 0, 1, color)); //  34
-			blocks_.push_back(Block( 0, 0, color));
-			blocks_.push_back(Block( 1, 0, color));
+			blocks_.push_back(Block(0, 1, color));  //  34
+			blocks_.push_back(Block(0, 0, color));
+			blocks_.push_back(Block(1, 0, color));
 			rotationCenterX_.push_back(-0.5);
-			rotationCenterY_.push_back( 0.5);
-			rotationCenterX_.push_back( 0);
-			rotationCenterY_.push_back( 0);
-		break;}
+			rotationCenterY_.push_back(0.5);
+			rotationCenterX_.push_back(0);
+			rotationCenterY_.push_back(0);
+			break;
+		}
 	}
 
 	int numberOfRotations = field_.getRandom() % 4;
@@ -211,19 +218,15 @@ void Tetromino::draw(bool withShadow) const {
 		const double STEP_SIZE = 2;
 		for (double y = 1; y < 310; y += STEP_SIZE) {
 			jngl::translate(0, STEP_SIZE);
-			jngl::pushMatrix();
-			drawBlocks();
-			jngl::popMatrix();
+			drawBlocks(jngl::modelview());
 		}
 		jngl::setSpriteAlpha(255);
 	}
-	jngl::pushMatrix();
-	jngl::translate(field_.indexToPixel(x_ + animationX_, y_ + animationY_));
 	assert(!blocks_.empty());
 	blocks_.front().setSpriteColor();
-	drawBlocks();
+	drawBlocks(
+	    jngl::modelview().translate({ field_.indexToPixel(x_ + animationX_, y_ + animationY_) }));
 	jngl::setSpriteColor(255, 255, 255);
-	jngl::popMatrix();
 }
 
 void Tetromino::drawShadow() const {
@@ -244,26 +247,26 @@ void Tetromino::drawShadow() const {
 		extensionHeight = 0;
 	}
 	shadow.drawMesh({
-		// top right triangle
-		jngl::Vertex{ .x = 0,     .y = 0,      .u = 0, .v = 1   },
-		jngl::Vertex{ .x = width, .y = 0,      .u = 1, .v = 1   },
-		jngl::Vertex{ .x = width, .y = height, .u = 1, .v = minV },
+	    // top right triangle
+	    jngl::Vertex{ .x = 0, .y = 0, .u = 0, .v = 1 },
+	    jngl::Vertex{ .x = width, .y = 0, .u = 1, .v = 1 },
+	    jngl::Vertex{ .x = width, .y = height, .u = 1, .v = minV },
 
-		// bottom left triangle
-		jngl::Vertex{ .x = 0,     .y = 0,      .u = 0, .v = 1   },
-		jngl::Vertex{ .x = 0,     .y = height, .u = 0, .v = minV },
-		jngl::Vertex{ .x = width, .y = height, .u = 1, .v = minV },
+	    // bottom left triangle
+	    jngl::Vertex{ .x = 0, .y = 0, .u = 0, .v = 1 },
+	    jngl::Vertex{ .x = 0, .y = height, .u = 0, .v = minV },
+	    jngl::Vertex{ .x = width, .y = height, .u = 1, .v = minV },
 
-		// Now extend the end of the shadow (v == 0) to the bottom of the field:
-		// top right triangle
-		jngl::Vertex{ .x = 0,     .y = height + 0,               .u = 0, .v = 0 },
-		jngl::Vertex{ .x = width, .y = height + 0,               .u = 1, .v = 0 },
-		jngl::Vertex{ .x = width, .y = height + extensionHeight, .u = 1, .v = 0 },
+	    // Now extend the end of the shadow (v == 0) to the bottom of the field:
+	    // top right triangle
+	    jngl::Vertex{ .x = 0, .y = height + 0, .u = 0, .v = 0 },
+	    jngl::Vertex{ .x = width, .y = height + 0, .u = 1, .v = 0 },
+	    jngl::Vertex{ .x = width, .y = height + extensionHeight, .u = 1, .v = 0 },
 
-		// bottom left triangle
-		jngl::Vertex{ .x = 0,     .y = height + 0,               .u = 0, .v = 0 },
-		jngl::Vertex{ .x = 0,     .y = height + extensionHeight, .u = 0, .v = 0 },
-		jngl::Vertex{ .x = width, .y = height + extensionHeight, .u = 1, .v = 0 },
+	    // bottom left triangle
+	    jngl::Vertex{ .x = 0, .y = height + 0, .u = 0, .v = 0 },
+	    jngl::Vertex{ .x = 0, .y = height + extensionHeight, .u = 0, .v = 0 },
+	    jngl::Vertex{ .x = width, .y = height + extensionHeight, .u = 1, .v = 0 },
 	});
 	jngl::setSpriteAlpha(255);
 
@@ -281,23 +284,30 @@ bool Tetromino::Collided() const {
 }
 
 void Tetromino::drop() {
-	while (MoveDown());
+	while (MoveDown())
+		;
 	animationX_ = animationY_ = 0;
 }
 
-void Tetromino::drawBlocks() const {
+void Tetromino::drawBlocks(jngl::Mat3 modelview) const {
 	const int blockSize = field_.getBlockSize();
 	if (rotation_ < 0) { // Clockwise
-		jngl::translate( rotationCenterX_.back() * blockSize, -rotationCenterY_.back() * blockSize);
-		jngl::rotate(rotation_);
-		jngl::translate(-rotationCenterX_.back() * blockSize,  rotationCenterY_.back() * blockSize);
+		modelview
+		    .translate(
+		        { rotationCenterX_.back() * blockSize, -rotationCenterY_.back() * blockSize })
+		    .rotate(rotation_ * std::numbers::pi / 180)
+		    .translate(
+		        { -rotationCenterX_.back() * blockSize, rotationCenterY_.back() * blockSize });
 	} else {
-		jngl::translate( rotationCenterX_.front() * blockSize, -rotationCenterY_.front() * blockSize);
-		jngl::rotate(rotation_);
-		jngl::translate(-rotationCenterX_.front() * blockSize,  rotationCenterY_.front() * blockSize);
+		modelview
+		    .translate(
+		        { rotationCenterX_.front() * blockSize, -rotationCenterY_.front() * blockSize })
+		    .rotate(rotation_ * std::numbers::pi / 180)
+		    .translate(
+		        { -rotationCenterX_.front() * blockSize, rotationCenterY_.front() * blockSize });
 	}
 
 	for (auto& block : blocks_) {
-		block.draw();
+		block.draw(modelview);
 	}
 }

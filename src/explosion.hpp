@@ -8,7 +8,7 @@ class Explosion {
 public:
 	Explosion(const Block&, int numberOfLines);
 	void Step();
-	void Draw() const;
+	void draw(jngl::Mat3 modelview) const;
 	bool isFinished() const;
 private:
 	Block block_;

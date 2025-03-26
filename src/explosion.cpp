@@ -15,13 +15,12 @@ bool Explosion::isFinished() const {
 	return countdown_ < 0;
 }
 
-void Explosion::Draw() const {
-	jngl::setSpriteAlpha(countdown_);
+void Explosion::draw(jngl::Mat3 modelview) const {
 	sprite.draw(
-	    jngl::modelview()
+	    modelview
 	        .translate({ double(block_.getX() * block_.getSize()),
 	                     -(block_.getY() - double(255 - countdown_) / 510 * numberOfLines_) *
 	                         block_.getSize() })
-	        .scale(float(510 - countdown_) / 510));
-	jngl::setSpriteAlpha(255);
+	        .scale(float(510 - countdown_) / 510),
+	    jngl::Alpha::u8(countdown_));
 }

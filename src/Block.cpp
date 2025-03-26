@@ -39,8 +39,8 @@ void Block::setSpriteColor() const {
 	                     static_cast<unsigned char>(color.getBlue() + flashAnimation));
 }
 
-void Block::draw() const {
-	GetScreen().DrawCentered("block", (x + animationX) * size, -(y + animationY) * size);
+void Block::draw(jngl::Mat3 modelview) const {
+	sprite.draw(modelview.translate({ (x + animationX) * size, -(y + animationY) * size }));
 }
 
 void Block::rotate(Direction direction, double rotationCenterX, double rotationCenterY) {

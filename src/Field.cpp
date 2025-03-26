@@ -236,21 +236,19 @@ void Field::draw() const {
 		if (!gameOver_) {
 			tetromino_->drawShadow();
 		}
-		jngl::pushMatrix();
-		jngl::translate(indexToPixel(0, 0));
+		auto mv = jngl::modelview().translate(indexToPixel(0, 0));
 
-		std::vector<Block>::const_iterator end = blocks_.end();
-		for (std::vector<Block>::const_iterator it = blocks_.begin(); it != end; ++it) {
+		auto end = blocks_.end();
+		for (auto it = blocks_.begin(); it != end; ++it) {
 			it->setSpriteColor();
-			it->draw();
+			it->draw(mv);
 		}
 		jngl::setSpriteColor(255, 255, 255);
 
-		std::vector<Explosion>::const_iterator end2 = explosions_.end();
-		for (std::vector<Explosion>::const_iterator it = explosions_.begin(); it != end2; ++it) {
-			it->Draw();
+		auto end2 = explosions_.end();
+		for (auto it = explosions_.begin(); it != end2; ++it) {
+			it->draw(mv);
 		}
-		jngl::popMatrix();
 		if (!gameOver_) {
 			tetromino_->draw(true);
 		}

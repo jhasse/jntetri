@@ -1,6 +1,6 @@
 #pragma once
 
-#include <jngl/Color.hpp>
+#include <jngl.hpp>
 
 enum Direction {
 	CLOCKWISE,
@@ -13,7 +13,7 @@ public:
 	void step();
 
 	void setSpriteColor() const;
-	void draw() const;
+	void draw(jngl::Mat3 modelview) const;
 
 	int getX() const;
 	int getY() const;
@@ -39,4 +39,5 @@ private:
 	double animationY = 0;
 	jngl::Color color;
 	double flashAnimation;
+	jngl::Sprite sprite{ "gfx/block" };
 };
