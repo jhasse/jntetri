@@ -11,20 +11,20 @@ Tetromino::Tetromino(int type, Field& field)
 	switch (type) {
 		case 0: {
 			jngl::Color color(200, 200, 0);
-			blocks_.push_back(Block(-1, 1, color)); // XX
-			blocks_.push_back(Block(0, 1, color));  // XX
-			blocks_.push_back(Block(-1, 0, color));
-			blocks_.push_back(Block(0, 0, color));
+			blocks_.emplace_back(-1, 1, color); // XX
+			blocks_.emplace_back(0, 1, color);  // XX
+			blocks_.emplace_back(-1, 0, color);
+			blocks_.emplace_back(0, 0, color);
 			rotationCenterX_.push_back(-0.5);
 			rotationCenterY_.push_back(0.5);
 			break;
 		}
 		case 1: {
 			jngl::Color color(200, 0, 0);
-			blocks_.push_back(Block(-1, 0, color)); // 1234
-			blocks_.push_back(Block(0, 0, color));
-			blocks_.push_back(Block(1, 0, color));
-			blocks_.push_back(Block(2, 0, color));
+			blocks_.emplace_back(-1, 0, color); // 1234
+			blocks_.emplace_back(0, 0, color);
+			blocks_.emplace_back(1, 0, color);
+			blocks_.emplace_back(2, 0, color);
 			rotationCenterX_.push_back(0);
 			rotationCenterY_.push_back(0);
 			rotationCenterX_.push_back(0.5);
@@ -33,10 +33,10 @@ Tetromino::Tetromino(int type, Field& field)
 		}
 		case 2: {
 			jngl::Color color(0, 200, 200);
-			blocks_.push_back(Block(0, 1, color));  //  1
-			blocks_.push_back(Block(-1, 0, color)); // 234
-			blocks_.push_back(Block(0, 0, color));
-			blocks_.push_back(Block(1, 0, color));
+			blocks_.emplace_back(0, 1, color);  //  1
+			blocks_.emplace_back(-1, 0, color); // 234
+			blocks_.emplace_back(0, 0, color);
+			blocks_.emplace_back(1, 0, color);
 			rotationCenterX_.push_back(-0.5);
 			rotationCenterY_.push_back(0.5);
 			rotationCenterX_.push_back(0);
@@ -45,10 +45,10 @@ Tetromino::Tetromino(int type, Field& field)
 		}
 		case 3: {
 			jngl::Color color(0, 0, 200);
-			blocks_.push_back(Block(0, 1, color));  //  1
-			blocks_.push_back(Block(0, 0, color));  //  2
-			blocks_.push_back(Block(0, -1, color)); // 43
-			blocks_.push_back(Block(-1, -1, color));
+			blocks_.emplace_back(0, 1, color);  //  1
+			blocks_.emplace_back(0, 0, color);  //  2
+			blocks_.emplace_back(0, -1, color); // 43
+			blocks_.emplace_back(-1, -1, color);
 			rotationCenterX_.push_back(0);
 			rotationCenterY_.push_back(0);
 			rotationCenterX_.push_back(-0.5);
@@ -57,10 +57,10 @@ Tetromino::Tetromino(int type, Field& field)
 		}
 		case 4: {
 			jngl::Color color(200, 100, 0);
-			blocks_.push_back(Block(-1, 1, color)); // 12
-			blocks_.push_back(Block(0, 1, color));  //  3
-			blocks_.push_back(Block(0, 0, color));  //  4
-			blocks_.push_back(Block(0, -1, color));
+			blocks_.emplace_back(-1, 1, color); // 12
+			blocks_.emplace_back(0, 1, color);  //  3
+			blocks_.emplace_back(0, 0, color);  //  4
+			blocks_.emplace_back(0, -1, color);
 			rotationCenterX_.push_back(0);
 			rotationCenterY_.push_back(0);
 			rotationCenterX_.push_back(-0.5);
@@ -69,10 +69,10 @@ Tetromino::Tetromino(int type, Field& field)
 		}
 		case 5: {
 			jngl::Color color(200, 0, 200);
-			blocks_.push_back(Block(0, 1, color)); //  12
-			blocks_.push_back(Block(1, 1, color)); // 34
-			blocks_.push_back(Block(-1, 0, color));
-			blocks_.push_back(Block(0, 0, color));
+			blocks_.emplace_back(0, 1, color); //  12
+			blocks_.emplace_back(1, 1, color); // 34
+			blocks_.emplace_back(-1, 0, color);
+			blocks_.emplace_back(0, 0, color);
 			rotationCenterX_.push_back(-0.5);
 			rotationCenterY_.push_back(0.5);
 			rotationCenterX_.push_back(0);
@@ -81,20 +81,22 @@ Tetromino::Tetromino(int type, Field& field)
 		}
 		case 6: {
 			jngl::Color color(0, 200, 0);
-			blocks_.push_back(Block(-1, 1, color)); // 12
-			blocks_.push_back(Block(0, 1, color));  //  34
-			blocks_.push_back(Block(0, 0, color));
-			blocks_.push_back(Block(1, 0, color));
+			blocks_.emplace_back(-1, 1, color); // 12
+			blocks_.emplace_back(0, 1, color);  //  34
+			blocks_.emplace_back(0, 0, color);
+			blocks_.emplace_back(1, 0, color);
 			rotationCenterX_.push_back(-0.5);
 			rotationCenterY_.push_back(0.5);
 			rotationCenterX_.push_back(0);
 			rotationCenterY_.push_back(0);
 			break;
 		}
+		default:
+			assert(false);
 	}
 
-	int numberOfRotations = field_.getRandom() % 4;
-	for (int i = 0; i < numberOfRotations; ++i) {
+	uint32_t numberOfRotations = field_.getRandom() % 4;
+	for (uint32_t i = 0; i < numberOfRotations; ++i) {
 		Rotate(CLOCKWISE, true);
 	}
 	animationX_ = animationY_ = rotation_ = 0; // Clear animation set by Rotate(CLOCKWISE)
@@ -286,8 +288,8 @@ bool Tetromino::Collided() const {
 }
 
 void Tetromino::drop() {
-	while (MoveDown())
-		;
+	while (MoveDown()) {
+	}
 	animationX_ = animationY_ = 0;
 }
 
