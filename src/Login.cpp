@@ -1,32 +1,32 @@
 #include "Login.hpp"
 
 #include "../server/NetworkConstants.hpp"
-#include "engine/screen.hpp"
-#include "engine/fade.hpp"
 #include "engine/Options.hpp"
+#include "engine/fade.hpp"
+#include "engine/screen.hpp"
 #include "gui/Button.hpp"
 #include "lobby.hpp"
 
-#include <jngl.hpp>
 #include <boost/bind/bind.hpp>
+#include <jngl.hpp>
+#include <utility>
 
 #ifdef __EMSCRIPTEN__
 const std::string Login::server_("89.58.48.219"); // boomshine.de
 const int Login::port_ = 9999;
 #else
 // const std::string Login::server_("127.0.0.1");
-const std::string Login::server_("89.58.48.219"); // boomshine.de
-// const std::string Login::server_("85.214.187.23"); // babynamensuche.de
+const std::string Login::server_("185.232.70.178"); // boomshine.de
 const int Login::port_ = 7070;
 #endif
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu, bool quickLogin)
-: menu(multiplayerMenu), text_("connecting ..."), cancel_("Cancel", [this]() { OnCancel(); }),
-  socket_(new Socket), quickLogin(quickLogin) {
+: menu(std::move(multiplayerMenu)), text_("connecting ..."),
+  cancel_("Cancel", [this]() { OnCancel(); }), socket_(new Socket), quickLogin(quickLogin) {
 	jngl::info("Connecting to {}:{}", server_, port_);
 	try {
 		socket_->connect(server_, port_, [this]() { HandleConnect(); });
-	} catch(std::exception& e) {
+	} catch (std::exception& e) {
 		text_ = "Exception: ";
 		text_ += e.what();
 		OnError();
@@ -131,7 +131,7 @@ void Login::step() {
 		if (socket_) {
 			socket_->step();
 		}
-	} catch(std::exception& e) {
+	} catch (std::exception& e) {
 		text_ = "Exception: ";
 		text_ += e.what();
 		OnError();
@@ -143,8 +143,7 @@ void Login::step() {
 void Login::GoToLobby(std::string username) {
 	getOptions().lastLoginName = std::move(username);
 	getOptions().Save();
-	jngl::setWork(std::make_shared<Fade>(
-	    std::make_shared<Lobby>(std::move(socket_), quickLogin)));
+	jngl::setWork(std::make_shared<Fade>(std::make_shared<Lobby>(std::move(socket_), quickLogin)));
 }
 
 void Login::draw() const {

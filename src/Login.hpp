@@ -10,8 +10,8 @@
 class Login : public Work {
 public:
 	Login(std::shared_ptr<MultiplayerMenu>, bool quickLogin);
-	void step();
-	void draw() const;
+	void step() override;
+	void draw() const override;
 	void HandleConnect();
 	void ProtocolCheck1();
 	void ProtocolCheck2(json);
