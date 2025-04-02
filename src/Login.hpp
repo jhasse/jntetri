@@ -6,6 +6,7 @@
 #include "multiplayermenu.hpp"
 
 #include <boost/asio.hpp>
+#include <jngl.hpp>
 
 class Login : public Work {
 public:
@@ -27,10 +28,13 @@ public:
 private:
 	std::shared_ptr<MultiplayerMenu> menu;
 	std::string text_;
-	const static std::string server_;
-	const static int port_;
-	const static std::string protocolVersion_;
 	Button cancel_;
 	std::shared_ptr<Socket> socket_;
 	bool quickLogin;
+
+	struct Settings : jngl::Singleton<Settings> {
+		Settings();
+		std::string server;
+		int port;
+	};
 };

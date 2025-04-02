@@ -2,20 +2,23 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "gdb",
+			"type": "lldb",
 			"request": "launch",
-			"name": "jntetri (GDB)",
-			"target": "./build/Debug/jntetri",
+			"name": "jntetri",
+			"program": "${workspaceRoot}/build/Debug/jntetri",
+			"args": [],
 			"cwd": "${workspaceRoot}",
-			"valuesFormatting": "prettyPrinters",
 			"preLaunchTask": "build"
 		},
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "jntetri (lldb)",
+			"name": "jntetri --server 127.0.0.1",
 			"program": "${workspaceRoot}/build/Debug/jntetri",
-			"args": [],
+			"args": [
+				"--server",
+				"127.0.0.1"
+			],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": "build"
 		}

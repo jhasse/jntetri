@@ -8,24 +8,29 @@
 #include "lobby.hpp"
 
 #include <boost/bind/bind.hpp>
-#include <jngl.hpp>
 #include <utility>
 
+Login::Settings::Settings()
+: server("185.232.70.178"), // boomshine.de
 #ifdef __EMSCRIPTEN__
-const std::string Login::server_("89.58.48.219"); // boomshine.de
-const int Login::port_ = 9999;
+  port(9999)
 #else
-// const std::string Login::server_("127.0.0.1");
-const std::string Login::server_("185.232.70.178"); // boomshine.de
-const int Login::port_ = 7070;
+  port(7070)
 #endif
+{
+	const auto args = jngl::getArgs();
+	if (args.size() == 2 && args[0] == "--server") {
+		server = args[1];
+	}
+}
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu, bool quickLogin)
 : menu(std::move(multiplayerMenu)), text_("connecting ..."),
   cancel_("Cancel", [this]() { OnCancel(); }), socket_(new Socket), quickLogin(quickLogin) {
-	jngl::info("Connecting to {}:{}", server_, port_);
+	jngl::info("Connecting to {}:{}", Settings::handle().server, Settings::handle().port);
 	try {
-		socket_->connect(server_, port_, [this]() { HandleConnect(); });
+		socket_->connect(Settings::handle().server, Settings::handle().port,
+		                 [this]() { HandleConnect(); });
 	} catch (std::exception& e) {
 		text_ = "Exception: ";
 		text_ += e.what();
@@ -86,7 +91,7 @@ void Login::HandleLogin2(json temp) {
 		text_ = "No user with this name found.\nDo you want to register yourself?";
 		cancel_.setCenter(-350, 280);
 		cancel_.SetText("No");
-		Button* yes = new Button("Yes", boost::bind(&Login::Register, this));
+		Button* yes = new Button("Yes", [this] { Register(); });
 		yes->setCenter(350, 280);
 		addWidget(std::shared_ptr<Widget>(yes));
 	} else if (temp["type"] == "wrong password") {
@@ -104,7 +109,7 @@ void Login::Register() {
 		    { "name", menu->GetName() },
 		    { "password", menu->GetPassword() } };
 	jngl::info("Sending: {}", j.dump());
-	socket_->send(j, boost::bind(&Login::HandleRegister1, this));
+	socket_->send(j, [this] { HandleRegister1(); });
 	cancel_.setCenter(0, 200);
 	cancel_.SetText("Cancel");
 	widgets_.clear(); // FIXME: Implement RemoveWidget function
