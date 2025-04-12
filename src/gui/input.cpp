@@ -2,7 +2,7 @@
 
 #include <jngl.hpp>
 
-Input::Input(int x, int y) : displayCursor_(0) {
+Input::Input(int x, int y) : displayCursor(0) {
 	setPos(x, y);
 }
 
@@ -15,7 +15,7 @@ void Input::setPassword(bool password) {
 }
 
 void Input::onFocusChanged() {
-	displayCursor_ = 50;
+	displayCursor = 50;
 }
 
 void Input::step() {
@@ -30,9 +30,9 @@ void Input::step() {
 	if (!sensitive || !focus) {
 		return;
 	}
-	--displayCursor_;
-	if (displayCursor_ < -35 || !jngl::getTextInput().empty()) {
-		displayCursor_ = 35;
+	--displayCursor;
+	if (displayCursor < -35 || !jngl::getTextInput().empty()) {
+		displayCursor = 35;
 	}
 	text += jngl::getTextInput();
 	if (jngl::keyPressed(jngl::key::BackSpace) && !text.empty()) {
@@ -58,7 +58,7 @@ void Input::draw() const {
 	} else {
 		jngl::setFontColor(150, 150, 150);
 	}
-	if (focus && displayCursor_ > 0) {
+	if (focus && displayCursor > 0) {
 		jngl::print(text + "|", static_cast<int>(std::lround(position.x)),
 		            static_cast<int>(std::lround(position.y)));
 	} else {
@@ -79,7 +79,7 @@ void Input::setText(const std::string& text) {
 }
 
 void Input::removeLastCharacter() {
-	displayCursor_ = 50;
+	displayCursor = 50;
 	auto it = text.end();
 	--it;
 	while (*it & 0x80 && !(*it & 0x40)) { // Unicode character?

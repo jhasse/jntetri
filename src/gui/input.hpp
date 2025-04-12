@@ -3,7 +3,6 @@
 #include "widget.hpp"
 
 #include <string>
-#include <vector>
 
 class Input : public Widget {
 public:
@@ -26,6 +25,6 @@ private:
 
 	mutable std::string text;
 	bool password = false;
-	int displayCursor_;
+	int displayCursor;
 	unsigned int maxWidth = 999;
 };
