@@ -2,8 +2,8 @@
 
 #include <jngl.hpp>
 
-Input::Input(int x, int y) : displayCursor(0) {
-	setPos(x, y);
+Input::Input(const jngl::Vec2 position) : displayCursor(0) {
+	setPos(position);
 }
 
 void Input::setMaxWidth(unsigned int width) {

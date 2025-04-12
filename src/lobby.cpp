@@ -10,7 +10,7 @@
 #include <nlohmann/json.hpp>
 
 Lobby::Lobby(std::shared_ptr<Socket> socket, bool quickLogin)
-: socket_(socket), chatText_(""), input_(new Input(-700, 500)) {
+: socket_(std::move(socket)), input_(new Input({ -700, 500 })) {
 	logout_.reset(new Button("Logout", [this]() { OnLogout(); }));
 	play_.reset(new Button("Play!™", [this]() { OnPlay(); }));
 	startReceiving();

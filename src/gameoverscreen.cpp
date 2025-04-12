@@ -8,8 +8,9 @@
 
 #include <jngl.hpp>
 
-GameOverScreen::GameOverScreen(Game* game) : game_(game), blink_(0), highscore_(game_->getType()),
-input_(new Input(-160, 200)), work_(jngl::getWork()) {
+GameOverScreen::GameOverScreen(Game* game)
+: game_(game), blink_(0), highscore_(game_->getType()), input_(new Input({ -160, 200 })),
+  work_(jngl::getWork()) {
 	data_.score = game_->GetField().GetScore();
 	data_.time = game_->GetTime();
 	input_->setText(getOptions().lastHighscoreName);

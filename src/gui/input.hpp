@@ -6,7 +6,7 @@
 
 class Input : public Widget {
 public:
-	Input(int x, int y);
+	explicit Input(jngl::Vec2 position);
 
 	void step() override;
 	void draw() const override;

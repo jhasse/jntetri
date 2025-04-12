@@ -8,7 +8,7 @@
 #include <jngl.hpp>
 
 MultiplayerMenu::MultiplayerMenu(const bool quickLogin)
-: name_(new Input(50, -240)), password_(new Input(50, -100)), quickLogin(quickLogin) {
+: name_(new Input({ 50, -240 })), password_(new Input({ 50, -100 })), quickLogin(quickLogin) {
 	addWidget(name_);
 	addWidget(password_);
 	login_.reset(new Button("Login", [this]() { OnLogin(); }));
