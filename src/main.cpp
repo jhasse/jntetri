@@ -13,7 +13,6 @@ jngl::AppParameters jnglInit() {
 		jngl::setAntiAliasing(true);
 		jngl::setIcon("icon");
 		jngl::setFont("Inter-ExtraLight.ttf");
-		jngl::setFontSize(jngl::getScaleFactor() * 13);
 		jngl::addJob(std::make_shared<DebugOverlay>());
 		return std::make_shared<Intro>();
 	};

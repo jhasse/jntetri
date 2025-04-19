@@ -20,8 +20,8 @@ void Input::onFocusChanged() {
 
 void Input::step() {
 	const auto mousePos = jngl::getMousePos();
-	if (mousePos.x > position.x && mousePos.y > position.y && mousePos.x < position.x + maxWidth &&
-	    mousePos.y < position.y + 94 /* TODO: Do not hardcode */) {
+	if (mousePos.x > getX() && mousePos.y > getY() && mousePos.x < getX() + maxWidth &&
+	    mousePos.y < getY() + 94 /* TODO: Do not hardcode */) {
 		jngl::setCursor(jngl::Cursor::I);
 		if (jngl::mousePressed()) {
 			setFocus(true);
@@ -59,11 +59,9 @@ void Input::draw() const {
 		jngl::setFontColor(150, 150, 150);
 	}
 	if (focus && displayCursor > 0) {
-		jngl::print(text + "|", static_cast<int>(std::lround(position.x)),
-		            static_cast<int>(std::lround(position.y)));
+		jngl::print(text + "|", getPos());
 	} else {
-		jngl::print(text, static_cast<int>(std::lround(position.x)),
-		            static_cast<int>(std::lround(position.y)));
+		jngl::print(text, getPos());
 	}
 	if (password) {
 		text = temp;
