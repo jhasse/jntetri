@@ -21,21 +21,7 @@
 	"tasks": [
 		{
 			"label": "build",
-			"problemMatcher": {
-				"owner": "cpp",
-				"fileLocation": [
-					"autoDetect",
-					"${workspaceRoot}/build"
-				],
-				"pattern": {
-					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error|fatal error):\\s+(.*)$",
-					"file": 1,
-					"line": 2,
-					"column": 3,
-					"severity": 4,
-					"message": 5
-				}
-			},
+			"problemMatcher": [],
 			"group": {
 				"kind": "build",
 				"isDefault": true
