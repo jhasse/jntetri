@@ -19,7 +19,6 @@ void ScanPath(fs::path path, std::deque<std::string>& filesToResize) {
 }
 
 ResizeGraphics::ResizeGraphics() {
-	jngl::setScaleFactor(static_cast<double>(jngl::getWindowHeight()) / 1200.);
 	ScanPath(jngl::getPrefix() + "gfx", filesToResize_);
 }
 
