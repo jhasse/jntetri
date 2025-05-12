@@ -20,7 +20,7 @@ public:
 	void step();
 
 private:
-	boost::asio::io_service io_;
+	boost::asio::io_context io;
 	boost::asio::ip::tcp::socket socket_;
 	void CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess);
 	std::string buffer;

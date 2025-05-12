@@ -5,18 +5,18 @@
 #include <boost/asio/co_spawn.hpp>
 #include <jngl.hpp>
 
-Socket::Socket() : socket_(io_) {
+Socket::Socket() : socket_(io) {
 }
 
 void Socket::step() {
-	io_.poll();
+	io.poll();
 }
 
 void Socket::CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess) {
 	if (err) {
 		throw std::runtime_error("socket error");
 	}
-	boost::asio::co_spawn(io_, [this]() -> boost::asio::awaitable<void> {
+	boost::asio::co_spawn(io, [this]() -> boost::asio::awaitable<void> {
 		while (true) {
 			size_t pos = buffer.find('\n');
 			if (pos == std::string::npos) {
@@ -38,17 +38,27 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 void Socket::connect(const std::string& server, int port, std::function<void()> onSuccess) {
 	using boost::asio::ip::tcp;
 #ifndef __EMSCRIPTEN__
-	auto resolver = std::make_shared<tcp::resolver>(io_);
-	tcp::resolver::query query(server, "http");
-	resolver->async_resolve(query, [this, port, resolver,
-	                                onSuccess](const boost::system::error_code& err,
-	                                           tcp::resolver::iterator endpointIterator) {
+	auto resolver = std::make_shared<tcp::resolver>(io);
+	resolver->async_resolve(
+	    server, "http",
+	    [this, port, resolver, server, onSuccess](const boost::system::error_code& err,
+	                                              const tcp::resolver::results_type& results) {
 		if (err) {
 			std::ostringstream sstream;
 			sstream << "resolve error " << err.value() << " [" << err.category().name() << "]";
 			throw std::runtime_error(sstream.str());
 		}
-		tcp::endpoint endpoint(endpointIterator->endpoint().address(), port);
+		std::optional<boost::asio::ip::address> first_address;
+		for (auto& result : results) {
+			if (!first_address) {
+				first_address = result.endpoint().address();
+			}
+			jngl::trace("resolved {} to {}", server, result.endpoint().address().to_string());
+		}
+		if (!first_address) {
+			throw std::runtime_error(std::format("Could not resolve {}", server));
+		}
+		tcp::endpoint endpoint(*first_address, port); // TODO: Should try all addresses
 		socket_.async_connect(endpoint, [this, onSuccess](const boost::system::error_code& err) {
 			CallbackWrapper(err, onSuccess);
 		});
