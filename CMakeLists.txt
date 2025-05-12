@@ -26,7 +26,7 @@ endif()
 include(subprojects/jngl/cmake/CPM.cmake)
 CPMAddPackage(
 	NAME nlohmann_json
-	URL "https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz"
+	URL "https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz"
 )
 
 include(FetchContent)
