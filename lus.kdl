@@ -1,0 +1,25 @@
+$ export LANG=C.utf-8
+build {
+        $ test -f "build/build.ninja" || lus cmake
+        $ cd build
+        --release {
+            $ ninja -f build-Release.ninja $args
+            $ exit 0
+        }
+        $ ninja $args
+}
+cmake {
+    $ cmake -Bbuild -G "Ninja Multi-Config" $args
+}
+run {
+    --release {
+        $ lus build --release
+        $ "build/Release/jntetri" $args
+        $ exit 0
+    }
+    $ lus build
+    $ "build/Debug/jntetri" $args
+}
+clean {
+    $ rm -rf build
+}
