@@ -1,11 +1,13 @@
-image: fedora:39
+image: fedora:42
 
 linux:
   stage: build
   script:
     - dnf install -y git gcc-c++ fontconfig-devel freetype-devel libvorbis-devel libepoxy-devel libwebp-devel boost-python3-devel python3-devel cmake ninja-build SDL2-devel libatomic
-    - cmake -Bbuild -GNinja
-    - ninja -C build
+    - cmake -Bbuild -G"Ninja Multi-Config"
+    - cd build
+    - ninja
+    - ninja -f build-Release.ninja
 
 server:
   image: ubuntu:20.04
