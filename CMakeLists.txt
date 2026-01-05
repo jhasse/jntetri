@@ -23,6 +23,13 @@ if (TARGET_WASM)
 	add_link_options("SHELL:-s USE_PTHREADS")
 endif()
 
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/subprojects/jngl/CMakeLists.txt")
+	execute_process(
+		COMMAND git submodule update --init subprojects/jngl
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		COMMAND_ERROR_IS_FATAL ANY
+	)
+endif()
 include(subprojects/jngl/cmake/CPM.cmake)
 CPMAddPackage(
 	NAME nlohmann_json
