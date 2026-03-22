@@ -10,7 +10,7 @@ linux:
     - ninja -f build-Release.ninja
 
 server:
-  image: ubuntu:20.04
+  image: ubuntu:24.04
   stage: build
   script:
     - apt-get update && apt-get install -y cmake ninja-build libsoci-dev libsqlite3-dev g++ git libboost-system-dev libboost-coroutine-dev

@@ -4,10 +4,8 @@
 
 #include <boost/asio.hpp>
 #include <boost/asio/spawn.hpp>
-#include <map>
 #include <mutex>
 #include <soci/soci.h>
-#include <thread>
 
 class Client;
 
@@ -32,10 +30,10 @@ private:
 	void printStats(const boost::system::error_code&);
 
 	constexpr static auto JNTETRI_PORT = 7070;
-	boost::asio::io_service context;
+	boost::asio::io_context context;
 	boost::asio::ip::tcp::socket socket;
 	boost::asio::ip::tcp::acceptor acceptor;
-	boost::asio::deadline_timer timer;
+	boost::asio::steady_timer timer;
 
 	std::vector<std::shared_ptr<Client>> clients;
 
