@@ -1,0 +1,38 @@
+$ export LANG=C.UTF-8
+$ test -n $subcommand || lus run $args
+build {
+        $ test -f "build/build.ninja" || lus cmake
+        $ cd build
+        --release {
+            $ ninja -f build-Release.ninja $args
+            $ exit 0
+        }
+        $ ninja $args
+}
+cmake {
+    $ cmake -Bbuild -G "Ninja Multi-Config" $args
+}
+run {
+    --release {
+        $ lus build --release
+        $ "build/Release/jntetri" $args
+        $ exit 0
+    }
+    $ lus build
+    $ "build/Debug/jntetri" $args
+}
+clean {
+    $ rm -rf build
+}
+
+cmake-web {
+	- emcmake cmake -Bbuild-web -G "Ninja Multi-Config" "-DBoost_INCLUDE_DIR=/opt/boost_1_85_0"
+	- cp -r data "build-web/"
+}
+web {
+	- test -f "build-web/build.ninja" || lus cmake-web
+	- cd build-web
+	- ninja
+    - cd Debug
+    - "../../web/server.py"
+}

@@ -1,18 +1,16 @@
 #include "Server.hpp"
 
 #include "Client.hpp"
-#include "NetworkConstants.hpp"
 
-#include <iostream>
+#include <optional>
 #include <soci/sqlite3/soci-sqlite3.h>
 #include <spdlog/spdlog.h>
-#include <optional>
 
 using boost::asio::ip::tcp;
 
 Server::Server()
 : socket(context), acceptor(context, tcp::endpoint(tcp::v4(), JNTETRI_PORT)),
-  timer(context, boost::posix_time::seconds(15)), sql(soci::sqlite3, "jntetri.sqlite") {
+  timer(context, std::chrono::seconds(15)), sql(soci::sqlite3, "jntetri.sqlite") {
 	sql << "CREATE TABLE IF NOT EXISTS users ("
 	       "username VARCHAR(80) UNIQUE NOT NULL,"
 	       "password VARCHAR(256) NOT NULL)";
@@ -154,6 +152,6 @@ std::string Server::loginAndGetWelcomeMessage(boost::asio::yield_context yield, 
 
 void Server::printStats(const boost::system::error_code&) {
 	spdlog::trace("connected clients: {}", clients.size());
-	timer.expires_from_now(boost::posix_time::seconds(15));
+	timer.expires_after(std::chrono::seconds(15));
 	timer.async_wait([this](const auto& e) { printStats(e); });
 }

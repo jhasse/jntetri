@@ -6,11 +6,10 @@
 #include "explosion.hpp"
 #include "tetromino.hpp"
 
-#include <vector>
-#include <random>
-#include <ctime>
 #include <memory>
 #include <optional>
+#include <random>
+#include <vector>
 
 class Field {
 public:
@@ -81,9 +80,9 @@ private:
 	/// >0 when there are network issues i.e. control_->step() hasn't returned any data
 	int stepsWithoutPackage = 0;
 
-	bool delay_;
 	std::shared_ptr<Control> control_;
-	bool downKeyReleased_;
+	bool delayBeforeNewTetrominoActive = false;
+	bool downKeyReleased = true;
 	std::mt19937 random;
 	int randomSeed;
 	int linesCleared;

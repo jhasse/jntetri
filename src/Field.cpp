@@ -82,16 +82,16 @@ void Field::step() {
 		if (counter_ <= 0) {
 			ResetCounter();
 			if (!tetromino_->MoveDown()) {
-				if (delay_) {
+				if (delayBeforeNewTetrominoActive) {
 					NewTetromino();
-					delay_ = false;
+					delayBeforeNewTetrominoActive = false;
 				} else {
 					counter_ = 30; // Wait 0.3 seconds so that it's possible to move blocks
 					               // below others
-					delay_ = true;
+					delayBeforeNewTetrominoActive = true;
 				}
 			} else {
-				delay_ = false;
+				delayBeforeNewTetrominoActive = false;
 			}
 		}
 		tetromino_->Step();
@@ -100,11 +100,11 @@ void Field::step() {
 			NewTetromino();
 		}
 		if (control_->Check(ControlType::Down)) {
-			if (downKeyReleased_ && counter_ > 7) {
+			if (downKeyReleased && counter_ > 7) {
 				counter_ = 7;
 			}
 		} else {
-			downKeyReleased_ = true;
+			downKeyReleased = true;
 		}
 		if (control_->Check(ControlType::AddJunk)) {
 			for (auto& block : blocks_) {
@@ -165,7 +165,7 @@ void Field::CheckLines() {
 }
 
 void Field::NewTetromino() {
-	downKeyReleased_ = false;
+	downKeyReleased = false;
 
 	ResetCounter();
 	score_ += level_;
