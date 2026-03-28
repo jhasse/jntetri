@@ -23,6 +23,12 @@ if (TARGET_WASM)
 	add_link_options("SHELL:-s USE_PTHREADS")
 endif()
 
+option(JNTETRI_SANITIZE_ADDRESS "Enable AddressSanitizer" OFF)
+if(JNTETRI_SANITIZE_ADDRESS AND NOT EMSCRIPTEN)
+	string(APPEND CMAKE_CXX_FLAGS " -fno-omit-frame-pointer -fsanitize=address")
+	string(APPEND CMAKE_LINKER_FLAGS " -fno-omit-frame-pointer -fsanitize=address")
+endif()
+
 include(subprojects/jngl/cmake/CPM.cmake)
 CPMAddPackage(
 	NAME nlohmann_json

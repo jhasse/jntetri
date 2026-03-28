@@ -8,8 +8,8 @@ namespace fs = std::filesystem;
 class ResizeGraphics {
 public:
 	ResizeGraphics();
-	~ResizeGraphics();
 	bool isFinished(float& percentage);
+
 private:
 	std::deque<std::string> filesToResize_;
 };

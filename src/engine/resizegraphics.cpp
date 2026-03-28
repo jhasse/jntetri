@@ -22,9 +22,6 @@ ResizeGraphics::ResizeGraphics() {
 	ScanPath(jngl::getPrefix() + "gfx", filesToResize_);
 }
 
-ResizeGraphics::~ResizeGraphics() {
-}
-
 bool ResizeGraphics::isFinished(float& percentage) {
 	if (filesToResize_.empty()) {
 		return true;

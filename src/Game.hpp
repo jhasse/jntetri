@@ -21,6 +21,7 @@ public:
 	void setRotateScreen(bool);
 	bool gameOver() const;
 	bool isReplay() const;
+	std::unique_ptr<ReplayRecorder> releaseReplayRecorder();
 
 protected:
 	void onQuitEvent() override;

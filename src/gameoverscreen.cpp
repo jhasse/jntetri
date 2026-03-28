@@ -1,6 +1,7 @@
 #include "gameoverscreen.hpp"
 
 #include "Game.hpp"
+#include "ReplayRecorder.hpp"
 #include "engine/Options.hpp"
 #include "engine/fade.hpp"
 #include "engine/screen.hpp"
@@ -16,6 +17,9 @@ GameOverScreen::GameOverScreen(Game* game)
 	input_->setText(getOptions().lastHighscoreName);
 	input_->setMaxWidth(400);
 	addWidget(input_);
+	if (auto replayRecorder = game_->releaseReplayRecorder()) {
+		replayRecorder->save("lastReplay", data_.name, data_.score);
+	}
 }
 
 bool GameOverScreen::isHighscore() const {

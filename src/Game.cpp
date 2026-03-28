@@ -7,6 +7,7 @@
 
 #include <iomanip>
 #include <jngl.hpp>
+#include <memory>
 #include <sstream>
 
 Game::Game(const GameType type, const int seed, const bool replay)
@@ -35,7 +36,7 @@ void Game::step() {
 	} else {
 		field_.step();
 		if (replayRecorder) {
-			replayRecorder->Step();
+			replayRecorder->step();
 		}
 		if (type_ == GameType::FIFTYLINES && field_.GetLines() >= 50) {
 			field_.setGameOver(true);
@@ -130,6 +131,10 @@ bool Game::gameOver() const {
 
 bool Game::isReplay() const {
 	return replayRecorder == nullptr;
+}
+
+std::unique_ptr<ReplayRecorder> Game::releaseReplayRecorder() {
+	return std::move(replayRecorder);
 }
 
 void Game::onLoad() {

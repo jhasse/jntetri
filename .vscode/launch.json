@@ -21,6 +21,18 @@
 			],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": "build"
+		},
+		{
+			"type": "lldb",
+			"request": "launch",
+			"name": "jntetri --replay",
+			"program": "${workspaceRoot}/build/Debug/jntetri",
+			"args": [
+				"--replay",
+				"lastReplay.jtr"
+			],
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": "build"
 		}
 	]
 }

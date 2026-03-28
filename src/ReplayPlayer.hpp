@@ -2,7 +2,7 @@
 
 #include "engine/work.hpp"
 
-#include <fstream>
+#include <sstream>
 #include <memory>
 
 class Game;
@@ -19,7 +19,7 @@ public:
 	void draw() const override;
 
 private:
-	std::ifstream fin_;
+	std::istringstream fin_;
 	std::shared_ptr<Game> game_;
 	int oldStartLevel, oldStartJunk;
 };

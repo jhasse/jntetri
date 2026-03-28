@@ -7,7 +7,7 @@
 
 class ReplayControl : public ControlBase {
 public:
-	ReplayControl(std::ifstream&);
+	explicit ReplayControl(std::istream&);
 	bool step(const std::function<void(ControlType)>&) override;
 
 private:

@@ -17,7 +17,7 @@ bool operator==(const Data& a, const Data& b);
 
 class Highscore {
 public:
-	Highscore(GameType type);
+	explicit Highscore(GameType type);
 	bool isHighscore(Data data) const;
 	void draw() const;
 	void Add(Data);

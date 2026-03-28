@@ -1,10 +1,10 @@
 #include "ReplayControl.hpp"
 
-#include <fstream>
 #include <cassert>
+#include <istream>
 #include <string>
 
-ReplayControl::ReplayControl(std::ifstream& fin) : time_(0) {
+ReplayControl::ReplayControl(std::istream& fin) : time_(0) {
 	while(fin) {
 		int time;
 		int control;

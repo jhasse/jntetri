@@ -5,17 +5,18 @@
 #include "highscore.hpp"
 
 namespace jngl {
-	class Work;
-}
+class Work;
+} // namespace jngl
 
 class Game;
 
 class GameOverScreen : public Work {
 public:
-	GameOverScreen(Game*);
-	void step();
-	void draw() const;
-	void onQuitEvent();
+	explicit GameOverScreen(Game*);
+	void step() override;
+	void draw() const override;
+	void onQuitEvent() override;
+
 private:
 	bool isHighscore() const;
 	Game* const game_;

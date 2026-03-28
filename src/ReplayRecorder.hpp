@@ -3,19 +3,22 @@
 #include "ControlType.hpp"
 #include "gametype.hpp"
 
-#include <fstream>
+#include <sstream>
 
 class Field;
 
 class ReplayRecorder {
 public:
 	ReplayRecorder(Field&, GameType);
-	void Step();
+	void step();
+
+	/// \a key will result in a file named <key>.jtr in config directory
+	void save(std::string_view key, std::string_view playerName, int64_t score) const;
 
 private:
 	void write(ControlType);
 
-	std::ofstream fout;
+	std::ostringstream fout;
 	Field& field_;
 	unsigned char time_;
 };
