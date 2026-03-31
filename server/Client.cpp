@@ -19,6 +19,9 @@ Client::Client(Server& server, boost::asio::ip::tcp::socket socket)
 	commands["login_anonymous"] = {false, std::bind(&Client::login_anonymous, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["chat"] = {true, std::bind(&Client::chat, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["game"] = {true, std::bind(&Client::game, this, std::placeholders::_1, std::placeholders::_2)};
+	commands["gameover"] = { true, [this](auto&& PH1, auto&& PH2) {
+		gameover(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2));
+	} };
 	commands["play"] = {true, std::bind(&Client::play, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["register"] = {false, std::bind(&Client::register_user, this, std::placeholders::_1, std::placeholders::_2)};
 	commands["quit"] = {true, std::bind(&Client::quit, this, std::placeholders::_1, std::placeholders::_2)};
@@ -117,18 +120,30 @@ void Client::game(boost::asio::yield_context yield, nlohmann::json data) {
 	}
 }
 
+void Client::gameover(boost::asio::yield_context yield, nlohmann::json data) {
+	bool won = data["won"].get<bool>();
+	server.recordGameResult(*username, won);
+	sendStats(yield);
+}
+
 void Client::loginAs(boost::asio::yield_context yield, std::string name) {
 	createLogger("client " + name);
 	log().info("logged in, sending \"ok\" ...");
 	const auto msg = server.loginAndGetWelcomeMessage(yield, name);
 	username = std::move(name);
 	okMsg(yield);
+	sendStats(yield);
 	sendChatLine(yield, msg);
 }
 
 void Client::okMsg(boost::asio::yield_context yield) {
 	socket.send(yield, json{ { "type", "ok" }, { "name", *username } }.dump());
 	log().trace("sent \"ok\"");
+}
+
+void Client::sendStats(boost::asio::yield_context yield) {
+	auto [wins, games] = server.getUserStats(*username);
+	socket.send(yield, json{ { "type", "stats" }, { "wins", wins }, { "games", games } }.dump());
 }
 
 void Client::errAndDisconnect(boost::asio::yield_context yield, std::string type, std::string msg,

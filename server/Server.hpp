@@ -22,6 +22,10 @@ public:
 
 	LoginState checkLogin(std::string username, std::string password);
 	bool registerUser(std::string username, std::string password);
+	void recordGameResult(const std::string& username, bool won);
+
+	/// returns {wins, games}
+	std::pair<int, int> getUserStats(const std::string& username);
 
 	/// creates a new user with a random name with no password
 	std::string createAnonymousUser();

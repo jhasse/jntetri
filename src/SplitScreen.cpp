@@ -46,7 +46,10 @@ void SplitScreen::step() {
 		if (freezeCountdown == 1) {
 			if (const auto networkControl =
 			        std::dynamic_pointer_cast<NetworkControl>(opponentControl)) {
-				jngl::setWork<Lobby>(networkControl->getSocket(), false);
+				auto socket = networkControl->getSocket();
+				const bool won = field2->GameOver();
+				socket->send(json{ { "type", "gameover" }, { "won", won } },
+				             [socket]() { jngl::setScene<Lobby>(socket, false); });
 			} else {
 				reset(123); // TODO: Decide on next seed
 			}

@@ -8,9 +8,10 @@ class ControlBase;
 class SplitScreen : public Work {
 public:
 	SplitScreen(std::shared_ptr<ControlBase> opponentControl, int32_t seed);
-	~SplitScreen();
-	void step();
-	void draw() const;
+	~SplitScreen() override;
+	void step() override;
+	void draw() const override;
+
 private:
 	void reset(int32_t seed);
 

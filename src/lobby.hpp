@@ -26,4 +26,6 @@ private:
 	std::shared_ptr<Input> input_;
 	std::shared_ptr<Button> logout_;
 	std::shared_ptr<Button> play_;
+	int wins = 0;
+	int games = 0;
 };

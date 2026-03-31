@@ -13,7 +13,18 @@ Server::Server()
   timer(context, std::chrono::seconds(15)), sql(soci::sqlite3, "jntetri.sqlite") {
 	sql << "CREATE TABLE IF NOT EXISTS users ("
 	       "username VARCHAR(80) UNIQUE NOT NULL,"
-	       "password VARCHAR(256) NOT NULL)";
+	       "password VARCHAR(256) NOT NULL,"
+	       "wins INTEGER NOT NULL DEFAULT 0,"
+	       "games INTEGER NOT NULL DEFAULT 0)";
+	// Add columns if upgrading from an older schema
+	try {
+		sql << "ALTER TABLE users ADD COLUMN wins INTEGER NOT NULL DEFAULT 0";
+	} catch (...) {
+	}
+	try {
+		sql << "ALTER TABLE users ADD COLUMN games INTEGER NOT NULL DEFAULT 0";
+	} catch (...) {
+	}
 	timer.async_wait([this](const auto& e) { printStats(e); });
 }
 
@@ -136,7 +147,8 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 		// Found opponent. Let's send p back to both clients so that the game starts.
 		matchmaking.back()->setOpponent(client);
 		client->setOpponent(matchmaking.back());
-		spdlog::info("matching '{}' and '{}'", matchmaking.back()->getUsername(), client->getUsername());
+		spdlog::info("matching '{}' and '{}'", matchmaking.back()->getUsername(),
+		             client->getUsername());
 		const int32_t seed = rand();
 		matchmaking.back()->sendStartGame(yield, seed);
 		client->sendStartGame(yield, seed);
@@ -144,11 +156,30 @@ void Server::startMatchmaking(boost::asio::yield_context yield, std::shared_ptr<
 	}
 }
 
-std::string Server::loginAndGetWelcomeMessage(boost::asio::yield_context yield, const std::string& username) {
+void Server::recordGameResult(const std::string& username, bool won) {
+	if (won) {
+		sql << "UPDATE users SET wins = wins + 1, games = games + 1 WHERE username = :username",
+		    soci::use(username, "username");
+	} else {
+		sql << "UPDATE users SET games = games + 1 WHERE username = :username",
+		    soci::use(username, "username");
+	}
+}
+
+std::pair<int, int> Server::getUserStats(const std::string& username) {
+	int wins = 0;
+	int games = 0;
+	sql << "SELECT wins, games FROM users WHERE username = :username",
+	    soci::use(username, "username"), soci::into(wins), soci::into(games);
+	return { wins, games };
+}
+
+std::string Server::loginAndGetWelcomeMessage(boost::asio::yield_context yield,
+                                              const std::string& username) {
 	addChatLine(yield, fmt::format("{} joined.", username));
-	size_t loggedIn = std::count_if(clients.begin(), clients.end(),
-	                                [](const auto& client) { return client->isLoggedIn(); }) +
-	                  1 /* the current user doesn't count yet*/;
+	size_t loggedIn = std::count_if(clients.begin(), clients.end(), [](const auto& client) {
+		return client->isLoggedIn();
+	}) + 1 /* the current user doesn't count yet*/;
 	return fmt::format("{} user{} online.", loggedIn, loggedIn == 1 ? "" : "s");
 }
 

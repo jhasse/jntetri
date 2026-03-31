@@ -60,6 +60,7 @@ void Lobby::draw() const {
 	jngl::setFontColor(0, 0, 0);
 	jngl::setFontSize(35);
 	jngl::print(chatText_, -700, -250);
+	jngl::print("Wins: " + std::to_string(wins) + "\nGames: " + std::to_string(games), 770, -470);
 	DrawWidgets();
 }
 
@@ -76,6 +77,10 @@ void Lobby::handleReceive(json buf) {
 			pos = chatText_.find_first_of('\n');
 			chatText_ = chatText_.substr(pos + 1);
 		}
+	} else if (buf["type"] == "stats") {
+		wins = buf["wins"].get<int>();
+		games = buf["games"].get<int>();
+		jngl::info("Received stats: {} wins, {} games", wins, games);
 	} else if (buf["type"] == "play") {
 		// Matchmaking was successful and an opponent found. Let's start the game.
 		jngl::debug("Starting match making");

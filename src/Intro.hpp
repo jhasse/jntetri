@@ -3,9 +3,6 @@
 #include "engine/work.hpp"
 #include "engine/resizegraphics.hpp"
 
-#include <deque>
-#include <string>
-
 class Intro : public Work {
 public:
 	Intro();
