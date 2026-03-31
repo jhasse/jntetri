@@ -22,8 +22,10 @@ Server::~Server() {
 }
 
 void Server::run() {
-	boost::asio::spawn(context, [this](boost::asio::yield_context yield) { doAccept(yield); });
-	spdlog::info("start");
+	boost::asio::spawn(context, [this](boost::asio::yield_context yield) { doAccept(yield); },
+	                   boost::asio::detached);
+	spdlog::info("start listening on {}:{}", acceptor.local_endpoint().address().to_string(),
+	             acceptor.local_endpoint().port());
 	context.run();
 }
 
@@ -52,7 +54,7 @@ void Server::doAccept(boost::asio::yield_context yield) {
 			if (client->isLoggedIn()) {
 				addChatLine(yield, fmt::format("{} left.", client->getUsername()));
 			}
-		});
+		}, boost::asio::detached);
 	}
 }
 

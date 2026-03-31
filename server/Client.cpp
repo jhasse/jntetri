@@ -153,7 +153,7 @@ void Client::run(boost::asio::yield_context yield) {
 		errAndDisconnect(yield, "error", "Protocol version mismatch!");
 		return;
 	}
-	okMsg(yield);
+	socket.send(yield, json{ { "type", "ok" } }.dump());
 
 	while (running) {
 		try {
