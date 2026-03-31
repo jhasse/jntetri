@@ -8,18 +8,20 @@
 
 Options::Options() : filename("options.json") {
 	const int BORDER = 50;
-	const int dpiFactor = std::max(std::min(
-		(jngl::getDesktopWidth() - BORDER) / windowWidth,
-		(jngl::getDesktopHeight() - BORDER) / windowHeight
-	), 1);
+	const int dpiFactor = std::max(std::min((jngl::getDesktopWidth() - BORDER) / windowWidth,
+	                                        (jngl::getDesktopHeight() - BORDER) / windowHeight),
+	                               1);
 	windowWidth *= dpiFactor;
 	windowHeight *= dpiFactor;
 	try {
 		std::istringstream ifs(jngl::readConfig(filename));
 		cereal::JSONInputArchive archive(ifs);
 		archive >> cereal::make_nvp("options", *this);
-	} catch(std::exception& e) {
+	} catch (std::exception& e) {
 		std::cout << "Error loading " << filename << ": " << e.what() << std::endl;
+	}
+	if (auto serverConfig = jngl::readConfig("server.txt"); !serverConfig.empty()) {
+		server = std::move(serverConfig);
 	}
 }
 
@@ -33,5 +35,5 @@ void Options::Save() const {
 }
 
 Options& getOptions() {
-	return *Options::handle();
+	return Options::handle();
 }

@@ -11,7 +11,7 @@
 #include <utility>
 
 Login::Settings::Settings()
-: server("185.232.70.178"), // boomshine.de
+: server(Options::handle().server),
 #ifdef __EMSCRIPTEN__
   port(9999)
 #else
@@ -26,7 +26,8 @@ Login::Settings::Settings()
 
 Login::Login(std::shared_ptr<MultiplayerMenu> multiplayerMenu, bool quickLogin)
 : menu(std::move(multiplayerMenu)), text_("connecting ..."),
-  cancel_("Cancel", [this]() { OnCancel(); }), socket_(new Socket), quickLogin(quickLogin) {
+  cancel_("Cancel", [this]() { jngl::setScene(menu); }), socket_(new Socket),
+  quickLogin(quickLogin) {
 	jngl::info("Connecting to {}:{}", Settings::handle().server, Settings::handle().port);
 	try {
 		socket_->connect(Settings::handle().server, Settings::handle().port,
@@ -148,22 +149,17 @@ void Login::step() {
 void Login::GoToLobby(std::string username) {
 	getOptions().lastLoginName = std::move(username);
 	getOptions().Save();
-	jngl::setWork(std::make_shared<Fade>(std::make_shared<Lobby>(std::move(socket_), quickLogin)));
+	jngl::setScene<Fade>(std::make_shared<Lobby>(std::move(socket_), quickLogin));
 }
 
 void Login::draw() const {
 	menu->draw();
-	jngl::setColor(255, 255, 255, 220);
-	jngl::drawRect(-jngl::getScreenWidth() / 2, -jngl::getScreenHeight() / 2,
-	               jngl::getScreenWidth(), jngl::getScreenHeight());
+	jngl::drawSquare(jngl::modelview().scale(jngl::getScreenSize()),
+	                 jngl::Rgba::u8(255, 255, 255, 220));
 	jngl::setFontColor(0, 0, 0);
 	GetScreen().printCentered(text_, { 0, -150 });
 	cancel_.draw();
 	DrawWidgets();
-}
-
-void Login::OnCancel() {
-	jngl::setWork(menu);
 }
 
 void Login::OnError() {

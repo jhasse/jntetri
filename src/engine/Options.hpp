@@ -1,10 +1,9 @@
 #pragma once
 
-#include "singleton.hpp"
-
 #include <cereal/cereal.hpp>
+#include <jngl/Singleton.hpp>
 
-class Options : public Singleton<Options> {
+class Options : public jngl::Singleton<Options> {
 public:
 	Options();
 	void Save() const;
@@ -16,6 +15,9 @@ public:
 	unsigned int startLevel = 0;
 	std::string lastHighscoreName;
 	std::string lastLoginName;
+
+	// Only for debugging. It isn't saved, only loaded from server.txt if it exists.
+	std::string server{ "185.232.70.178" }; // boomshine.de
 
 private:
 	std::string filename;

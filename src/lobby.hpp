@@ -12,11 +12,10 @@ class Lobby : public Work {
 public:
 	/// if quickLogin is set, immediately starts matchmaking
 	Lobby(std::shared_ptr<Socket>, bool quickLogin);
-	void step();
-	void draw() const;
+	void step() override;
+	void draw() const override;
 	void handleReceive(json);
 	void OnMessageSent();
-	void OnLogout();
 	void OnPlay();
 
 private:

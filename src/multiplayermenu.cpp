@@ -6,14 +6,15 @@
 #include "menu.hpp"
 
 #include <jngl.hpp>
+#include <memory>
 
 MultiplayerMenu::MultiplayerMenu(const bool quickLogin)
 : name_(new Input({ 50, -240 })), password_(new Input({ 50, -100 })), quickLogin(quickLogin) {
 	addWidget(name_);
 	addWidget(password_);
-	login_.reset(new Button("Login", [this]() { OnLogin(); }));
+	login_ = std::make_shared<Button>("Login", [this]() { OnLogin(); });
 	addWidget(login_);
-	back_.reset(new Button("Back", [this]() { OnBack(); }));
+	back_ = std::make_shared<Button>("Back", [this]() { OnBack(); });
 	addWidget(back_);
 	back_->setCenter(-350, 280);
 	login_->setCenter(350, 280);
@@ -40,12 +41,11 @@ void MultiplayerMenu::draw() const {
 }
 
 void MultiplayerMenu::OnBack() const {
-	jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
+	jngl::setScene<Fade>(std::make_shared<Menu>());
 }
 
 void MultiplayerMenu::OnLogin() {
-	jngl::setWork(std::make_shared<Login>(
-	    std::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork()), quickLogin));
+	jngl::setScene<Login>(std::dynamic_pointer_cast<MultiplayerMenu>(jngl::getWork()), quickLogin);
 }
 
 std::string MultiplayerMenu::GetName() const {

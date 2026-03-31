@@ -7,12 +7,14 @@
 #include "multiplayermenu.hpp"
 
 #include <jngl.hpp>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 Lobby::Lobby(std::shared_ptr<Socket> socket, bool quickLogin)
 : socket_(std::move(socket)), input_(new Input({ -700, 500 })) {
-	logout_.reset(new Button("Logout", [this]() { OnLogout(); }));
-	play_.reset(new Button("Play!™", [this]() { OnPlay(); }));
+	logout_ = std::make_shared<Button>(
+	    "Logout", []() { jngl::setScene<Fade>(std::make_shared<MultiplayerMenu>(false)); });
+	play_ = std::make_shared<Button>("Play!™", [this]() { OnPlay(); });
 	startReceiving();
 	input_->setMaxWidth(2500);
 	addWidget(input_);
@@ -25,10 +27,6 @@ Lobby::Lobby(std::shared_ptr<Socket> socket, bool quickLogin)
 	}
 }
 
-void Lobby::OnLogout() {
-	jngl::setWork(std::make_shared<Fade>(std::make_shared<MultiplayerMenu>(false)));
-}
-
 void Lobby::OnPlay() {
 	play_->setSensitive(false);
 	socket_->send(json{ { "type", "play" } }, []() { jngl::info("Successfully sent 'play'."); });
@@ -38,8 +36,8 @@ void Lobby::step() {
 	try {
 		socket_->step();
 	} catch (std::exception& e) {
-		jngl::setWork(std::make_shared<Fade>(
-		    std::make_shared<MessageBox>(e.what(), std::make_shared<MultiplayerMenu>(false))));
+		jngl::setScene<Fade>(
+		    std::make_shared<MessageBox>(e.what(), std::make_shared<MultiplayerMenu>(false)));
 	}
 	if (jngl::keyPressed(jngl::key::Return)) {
 		nlohmann::json j = {
@@ -71,19 +69,18 @@ void Lobby::handleReceive(json buf) {
 		chatText_ += '\n';
 		int lineCount = 0;
 		size_t pos = 0;
-		while ((pos = chatText_.find_first_of("\n", pos + 1)) != std::string::npos) {
+		while ((pos = chatText_.find_first_of('\n', pos + 1)) != std::string::npos) {
 			++lineCount;
 		}
 		if (lineCount > 13) {
-			pos = chatText_.find_first_of("\n");
+			pos = chatText_.find_first_of('\n');
 			chatText_ = chatText_.substr(pos + 1);
 		}
 	} else if (buf["type"] == "play") {
 		// Matchmaking was successful and an opponent found. Let's start the game.
 		jngl::debug("Starting match making");
 		auto control = std::make_shared<NetworkControl>(socket_);
-		jngl::setWork(std::make_shared<Fade>(
-		    std::make_shared<SplitScreen>(control, buf["seed"].get<int32_t>())));
+		jngl::setScene<Fade>(std::make_shared<SplitScreen>(control, buf["seed"].get<int32_t>()));
 		return; // move out of Lobby loop
 	} else if (buf["type"] == "error") {
 		jngl::setWork<MessageBox>(buf["msg"], std::make_shared<MultiplayerMenu>(false));

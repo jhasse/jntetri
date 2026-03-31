@@ -18,7 +18,6 @@ public:
 	void ProtocolCheck2(json);
 	void HandleLogin1();
 	void HandleLogin2(json);
-	void OnCancel();
 	void OnError();
 	void Register();
 	void HandleRegister1();
