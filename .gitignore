@@ -1,4 +1,5 @@
 /build*/
+/build*.ninja
 .DS_Store
 .sconsign.dblite
 bin/
