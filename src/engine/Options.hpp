@@ -17,7 +17,7 @@ public:
 	std::string lastLoginName;
 
 	// Only for debugging. It isn't saved, only loaded from server.txt if it exists.
-	std::string server{ "185.232.70.178" }; // boomshine.de
+	std::string server{ "boomshine.de" };
 
 private:
 	std::string filename;

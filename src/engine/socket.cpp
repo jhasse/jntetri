@@ -1,7 +1,5 @@
 #include "socket.hpp"
 
-#include "../../server/NetworkConstants.hpp"
-
 #include <boost/asio/co_spawn.hpp>
 #include <jngl.hpp>
 
@@ -12,7 +10,8 @@ void Socket::step() {
 	io.poll();
 }
 
-void Socket::CallbackWrapper(const boost::system::error_code& err, std::function<void()> onSuccess) {
+void Socket::CallbackWrapper(const boost::system::error_code& err,
+                             std::function<void()> onSuccess) {
 	if (err) {
 		throw std::runtime_error("socket error");
 	}
@@ -38,30 +37,39 @@ void Socket::CallbackWrapper(const boost::system::error_code& err, std::function
 void Socket::connect(const std::string& server, int port, std::function<void()> onSuccess) {
 	using boost::asio::ip::tcp;
 #ifndef __EMSCRIPTEN__
-	auto resolver = std::make_shared<tcp::resolver>(io);
-	resolver->async_resolve(
-	    server, "http",
-	    [this, port, resolver, server, onSuccess](const boost::system::error_code& err,
-	                                              const tcp::resolver::results_type& results) {
-		if (err) {
-			std::ostringstream sstream;
-			sstream << "resolve error " << err.value() << " [" << err.category().name() << "]";
-			throw std::runtime_error(sstream.str());
-		}
-		std::optional<boost::asio::ip::address> first_address;
-		for (auto& result : results) {
-			if (!first_address) {
-				first_address = result.endpoint().address();
+	boost::asio::co_spawn(io,
+	                      [this, &server, port, onSuccess]() -> boost::asio::awaitable<void> {
+		auto resolver = std::make_shared<tcp::resolver>(io);
+		jngl::debug("Resolving {}:{}", server, port);
+		auto results = co_await resolver->async_resolve(server, "http", boost::asio::use_awaitable);
+
+		for (auto it = results.begin(); it != results.end(); ++it) {
+			auto endpoint = it->endpoint();
+			endpoint.port(static_cast<unsigned short>(port));
+
+			try {
+				jngl::debug("Connecting to {}", endpoint.address().to_string());
+				co_await socket_.async_connect(endpoint, boost::asio::use_awaitable);
+				break; // connected
+			} catch (std::exception& e) {
+				jngl::warn("Failed to connect: {}", e.what());
+				if (std::next(it) == results.end()) {
+					throw; // last endpoint failed
+				}
+				socket_.close();
 			}
-			jngl::trace("resolved {} to {}", server, result.endpoint().address().to_string());
 		}
-		if (!first_address) {
-			throw std::runtime_error(std::format("Could not resolve {}", server));
+		CallbackWrapper(boost::system::error_code{}, onSuccess);
+	}, // Custom completion handler
+	                      [](const std::exception_ptr& eptr) {
+		if (eptr) {
+			try {
+				std::rethrow_exception(eptr); // Rethrow the exception to handle it
+			} catch (const std::exception& e) {
+				jngl::error("Exception in coroutine: {}", e.what());
+				throw; // Rethrow if you want the exception to propagate further
+			}
 		}
-		tcp::endpoint endpoint(*first_address, port); // TODO: Should try all addresses
-		socket_.async_connect(endpoint, [this, onSuccess](const boost::system::error_code& err) {
-			CallbackWrapper(err, onSuccess);
-		});
 	});
 #else
 	tcp::endpoint endpoint(boost::asio::ip::address::from_string(server), port);
