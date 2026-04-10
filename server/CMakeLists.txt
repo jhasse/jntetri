@@ -7,7 +7,7 @@ endif()
 
 include(../subprojects/jngl/cmake/CPM.cmake)
 
-find_package(Boost COMPONENTS context coroutine system thread)
+find_package(Boost COMPONENTS context coroutine thread)
 if(NOT Boost_FOUND)
 	CPMAddPackage(
 		NAME Boost
@@ -29,7 +29,6 @@ target_link_libraries(jntetri-server PRIVATE
 	Boost::headers
 	Boost::context
 	Boost::coroutine
-	Boost::system
 	Threads::Threads
 	nlohmann_json::nlohmann_json
 	soci_core
