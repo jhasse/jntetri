@@ -35,7 +35,6 @@ web:
     - mv jntetri.data ../public/
     - mv jntetri.js ../public/
     - mv jntetri.wasm ../public/
-    - mv jntetri.worker.js ../public/
     - cp ../web/index.html ../public/
   artifacts:
     paths:
