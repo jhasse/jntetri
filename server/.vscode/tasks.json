@@ -5,8 +5,7 @@
 	"tasks": [
 		{
 			"label": "build",
-			"type": "shell",
-			"command": "ja",
+			"command": "ninja",
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",

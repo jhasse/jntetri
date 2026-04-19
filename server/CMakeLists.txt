@@ -11,9 +11,9 @@ find_package(Boost COMPONENTS context coroutine thread)
 if(NOT Boost_FOUND)
 	CPMAddPackage(
 		NAME Boost
-		VERSION 1.82.0
+		VERSION 1.90.0
 		GITHUB_REPOSITORY "boostorg/boost"
-		GIT_TAG "boost-1.82.0"
+		GIT_TAG "boost-1.90.0"
 	)
 endif()
 CPMAddPackage(
