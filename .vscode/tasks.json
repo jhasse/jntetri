@@ -4,18 +4,12 @@
 		"command": ".vscode/build.bat",
 	},
 	"linux": {
-		"args": [
-			"-lc",
-			"clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || cmake -Bbuild -G\"Ninja Multi-Config\" -DCMAKE_BUILD_TYPE=Debug) && ninja -C build && $@"
-		],
-		"command": "/bin/bash"
+		"args": [],
+		"command": "ninja"
 	},
 	"osx": {
-		"args": [
-			"-lc",
-			"clear && cd \"\"${workspaceRoot}\"\" && ([ -d build ] || cmake -Bbuild -G\"Ninja Multi-Config\" -DCMAKE_BUILD_TYPE=Debug) && ninja -C build && $@"
-		],
-		"command": "/bin/bash"
+		"args": [],
+		"command": "ninja"
 	},
 	"options": {
 		"env": {
@@ -38,7 +32,7 @@
 		"echo": true,
 		"panel": "shared",
 		"showReuseMessage": true,
-		"clear": false,
+		"clear": true,
 		"revealProblems": "never"
 	}
 }

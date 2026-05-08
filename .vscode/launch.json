@@ -5,7 +5,7 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "jntetri",
-			"program": "${workspaceRoot}/build/Debug/jntetri",
+			"program": "${workspaceRoot}/build/jntetri",
 			"args": [],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": "build"
@@ -14,7 +14,7 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "jntetri --server 127.0.0.1",
-			"program": "${workspaceRoot}/build/Debug/jntetri",
+			"program": "${workspaceRoot}/build/jntetri",
 			"args": [
 				"--server",
 				"127.0.0.1"
@@ -26,7 +26,7 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "jntetri --replay",
-			"program": "${workspaceRoot}/build/Debug/jntetri",
+			"program": "${workspaceRoot}/build/jntetri",
 			"args": [
 				"--replay",
 				"lastReplay.jtr"
