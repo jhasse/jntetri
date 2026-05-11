@@ -22,6 +22,9 @@ Options::Options() : filename("options.json") {
 	}
 	if (auto serverConfig = jngl::readConfig("server.txt"); !serverConfig.empty()) {
 		server = std::move(serverConfig);
+		while (server.back() == '\n') {
+			server.pop_back();
+		}
 	}
 }
 
