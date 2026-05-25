@@ -6,7 +6,7 @@
 
 MessageBox::MessageBox(const std::string& message, std::shared_ptr<jngl::Work> nextWork)
 : text(message), nextWork(std::move(nextWork)) {
-	auto ok = std::make_shared<Button>("OK", [this]() { jngl::setWork(this->nextWork); });
+	auto ok = std::make_shared<Button>("OK", [this]() { jngl::setScene(this->nextWork); });
 	ok->setCenter(0, 100);
 	addWidget(std::move(ok));
 	text.setFont(fonts::label());

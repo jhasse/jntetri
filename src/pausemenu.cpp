@@ -19,14 +19,14 @@ PauseMenu::PauseMenu(std::shared_ptr<Game> game)
 
 void PauseMenu::step() {
 	if (jngl::keyPressed(jngl::key::Escape)) {
-		jngl::setWork(work);
+		jngl::setScene(work);
 	}
 	StepWidgets();
 	game->StepToRotateScreen();
 }
 
 void PauseMenu::Continue() {
-	jngl::setWork(work);
+	jngl::setScene(work);
 }
 
 void PauseMenu::draw() const {
@@ -35,7 +35,7 @@ void PauseMenu::draw() const {
 }
 
 void PauseMenu::QuitToMenu() const {
-	jngl::setWork(std::make_shared<Fade>(std::make_shared<Menu>()));
+	jngl::setScene<Fade>(std::make_shared<Menu>());
 }
 
 void PauseMenu::onQuitEvent() {

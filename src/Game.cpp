@@ -32,7 +32,7 @@ void Game::step() {
 	StepToRotateScreen();
 	if (field_.GameOver()) {
 		pauseTime_ = jngl::getTime();
-		jngl::setWork(std::make_shared<GameOverScreen>(this));
+		jngl::setScene<GameOverScreen>(this);
 	} else {
 		field_.step();
 		if (replayRecorder) {
@@ -54,10 +54,11 @@ void Game::step() {
 
 void Game::onQuitEvent() {
 	static double lastPauseTime = 0;
-	if (jngl::getTime() - lastPauseTime > 1) { // Don't allow pausing the game more then one time per second
+	if (jngl::getTime() - lastPauseTime >
+	    1) { // Don't allow pausing the game more then one time per second
 		lastPauseTime = pauseTime_ = jngl::getTime();
 		field_.SetPause(true);
-		jngl::setWork(std::make_shared<PauseMenu>(shared_from_this()));
+		jngl::setScene<PauseMenu>(shared_from_this());
 		jngl::cancelQuit();
 	}
 }
