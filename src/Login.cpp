@@ -2,7 +2,6 @@
 
 #include "../server/NetworkConstants.hpp"
 #include "engine/Options.hpp"
-#include "engine/fade.hpp"
 #include "engine/screen.hpp"
 #include "gui/Button.hpp"
 #include "lobby.hpp"
@@ -149,7 +148,7 @@ void Login::step() {
 void Login::GoToLobby(std::string username) {
 	getOptions().lastLoginName = std::move(username);
 	getOptions().Save();
-	jngl::setScene<Fade>(std::make_shared<Lobby>(std::move(socket_), quickLogin));
+	jngl::setScene<jngl::Fade>(std::make_shared<Lobby>(std::move(socket_), quickLogin));
 }
 
 void Login::draw() const {

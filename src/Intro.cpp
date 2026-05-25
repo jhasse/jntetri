@@ -1,7 +1,6 @@
 #include "Intro.hpp"
 
 #include "constants.hpp"
-#include "engine/fade.hpp"
 #include "engine/Options.hpp"
 #include "engine/screen.hpp"
 #include "fonts.hpp"
@@ -66,10 +65,10 @@ void Intro::step() {
 			if (getOptions().lastLoginName.empty()) {
 				jngl::setWork<MultiplayerMenu>(true);
 			} else {
-				jngl::setScene<Fade>(std::make_shared<Menu>());
+				jngl::setScene<jngl::Fade>(std::make_shared<Menu>());
 			}
 		}
-		// jngl::setScene<Fade>(std::make_shared<ReplayPlayer>("test3.jtr"));
+		// jngl::setScene<jngl::Fade>(std::make_shared<ReplayPlayer>("test3.jtr"));
 		// jngl::setScene<Game>(GameType::NORMAL, static_cast<int>(time(0)),
 		// false);
 	}

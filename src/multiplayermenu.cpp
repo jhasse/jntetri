@@ -2,7 +2,6 @@
 
 #include "Login.hpp"
 #include "engine/Options.hpp"
-#include "engine/fade.hpp"
 #include "menu.hpp"
 
 #include <jngl.hpp>
@@ -41,7 +40,7 @@ void MultiplayerMenu::draw() const {
 }
 
 void MultiplayerMenu::OnBack() const {
-	jngl::setScene<Fade>(std::make_shared<Menu>());
+	jngl::setScene<jngl::Fade>(std::make_shared<Menu>());
 }
 
 void MultiplayerMenu::OnLogin() {

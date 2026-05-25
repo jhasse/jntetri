@@ -9,7 +9,6 @@ class PauseMenu : public Work {
 public:
 	explicit PauseMenu(std::shared_ptr<Game>);
 	void Continue();
-	void QuitToMenu() const;
 
 private:
 	void step() override;

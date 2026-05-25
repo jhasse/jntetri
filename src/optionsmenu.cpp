@@ -1,6 +1,5 @@
 #include "optionsmenu.hpp"
 
-#include "engine/fade.hpp"
 #include "engine/Options.hpp"
 #include "engine/screen.hpp"
 #include "menu.hpp"
@@ -42,5 +41,5 @@ void OptionsMenu::OnBack() const {
 	getOptions().startLevel = startLevel_->GetValue();
 	getOptions().startJunks = startJunks_->GetValue();
 	getOptions().Save();
-	jngl::setScene<Fade>(std::make_shared<Menu>());
+	jngl::setScene<jngl::Fade>(std::make_shared<Menu>());
 }

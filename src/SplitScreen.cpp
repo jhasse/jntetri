@@ -3,7 +3,6 @@
 #include "Field.hpp"
 #include "NetworkControl.hpp"
 #include "NetworkRecorder.hpp"
-#include "engine/fade.hpp"
 #include "engine/screen.hpp"
 #include "lobby.hpp"
 
@@ -30,7 +29,7 @@ void SplitScreen::reset(const int32_t seed) {
 		    networkControl));
 		field1->onUserQuit([networkControl]() {
 			networkControl->sendQuit();
-			jngl::setWork<Fade>(std::make_shared<Lobby>(networkControl->getSocket(), false));
+			jngl::setWork<jngl::Fade>(std::make_shared<Lobby>(networkControl->getSocket(), false));
 		});
 	}
 	field2.reset(new Field(seed, wins2, 0));
@@ -56,10 +55,13 @@ void SplitScreen::step() {
 		}
 	} else {
 		const auto penalty = [](const int cleared) {
-			switch(cleared) {
-				case 2: return 1;
-				case 3: return 2;
-				case 4: return 4;
+			switch (cleared) {
+				case 2:
+					return 1;
+				case 3:
+					return 2;
+				case 4:
+					return 4;
 			}
 			return 0;
 		};

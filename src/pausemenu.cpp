@@ -1,7 +1,6 @@
 #include "pausemenu.hpp"
 
 #include "Game.hpp"
-#include "engine/fade.hpp"
 #include "gui/ButtonBox.hpp"
 #include "menu.hpp"
 
@@ -10,7 +9,7 @@ PauseMenu::PauseMenu(std::shared_ptr<Game> game)
 	this->game->setRotateScreen(
 	    false); // Don't rotate the screen so that the buttons work correctly
 	buttonBox->add("Resume", [this] { Continue(); });
-	buttonBox->add("Menu", [this] { QuitToMenu(); });
+	buttonBox->add("Menu", [] { jngl::setScene<jngl::Fade>(std::make_shared<Menu>()); });
 	if (jngl::canQuit()) {
 		buttonBox->add("Quit", jngl::quit);
 	}
@@ -32,10 +31,6 @@ void PauseMenu::Continue() {
 void PauseMenu::draw() const {
 	game->draw();
 	DrawWidgets();
-}
-
-void PauseMenu::QuitToMenu() const {
-	jngl::setScene<Fade>(std::make_shared<Menu>());
 }
 
 void PauseMenu::onQuitEvent() {

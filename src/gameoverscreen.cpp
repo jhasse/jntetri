@@ -3,7 +3,6 @@
 #include "Game.hpp"
 #include "ReplayRecorder.hpp"
 #include "engine/Options.hpp"
-#include "engine/fade.hpp"
 #include "engine/screen.hpp"
 #include "menu.hpp"
 
@@ -40,7 +39,7 @@ void GameOverScreen::step() {
 				highscore_.save();
 				auto menu = std::make_shared<Menu>();
 				menu->BlinkHighscore(data_);
-				jngl::setScene<Fade>(std::move(menu));
+				jngl::setScene<jngl::Fade>(std::move(menu));
 			}
 		} else {
 			blink_ += 4;
@@ -48,7 +47,7 @@ void GameOverScreen::step() {
 				blink_ = 0;
 			}
 			if (jngl::mousePressed() || jngl::keyPressed(jngl::key::Any)) {
-				jngl::setScene<Fade>(std::make_shared<Menu>());
+				jngl::setScene<jngl::Fade>(std::make_shared<Menu>());
 			}
 		}
 	} else if (jngl::keyPressed(jngl::key::Escape)) {

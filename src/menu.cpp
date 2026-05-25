@@ -1,7 +1,6 @@
 #include "menu.hpp"
 
 #include "Game.hpp"
-#include "engine/fade.hpp"
 #include "engine/screen.hpp"
 #include "gui/ButtonBox.hpp"
 #include "multiplayermenu.hpp"
@@ -15,9 +14,9 @@ Menu::Menu()
 	buttonBox_->add("Normal", std::bind(&Menu::Normal, this));
 	buttonBox_->add("50 Lines", std::bind(&Menu::FiftyLines, this));
 	buttonBox_->add("Multiplayer",
-	                []() { jngl::setScene<Fade>(std::make_shared<MultiplayerMenu>(false)); });
+	                []() { jngl::setScene<jngl::Fade>(std::make_shared<MultiplayerMenu>(false)); });
 	// buttonBox_->add("Multiplayer", []() {
-	// 	jngl::setScene<Fade>(std::make_shared<SplitScreen>(std::make_shared<GamepadControl>(1)));
+	// 	jngl::setScene<jngl::Fade>(std::make_shared<SplitScreen>(std::make_shared<GamepadControl>(1)));
 	// });
 	buttonBox_->add("Options", std::bind(&Menu::OptionsMenuCallback, this));
 	if (jngl::canQuit()) {
@@ -54,17 +53,17 @@ void Menu::draw() const {
 }
 
 void Menu::Normal() const {
-	jngl::setScene<Fade>(
+	jngl::setScene<jngl::Fade>(
 	    std::make_shared<Game>(GameType::NORMAL, static_cast<int>(time(nullptr)), false));
 }
 
 void Menu::FiftyLines() const {
-	jngl::setScene<Fade>(
+	jngl::setScene<jngl::Fade>(
 	    std::make_shared<Game>(GameType::FIFTYLINES, static_cast<int>(time(nullptr)), false));
 }
 
 void Menu::OptionsMenuCallback() const {
-	jngl::setScene<Fade>(std::make_shared<OptionsMenu>());
+	jngl::setScene<jngl::Fade>(std::make_shared<OptionsMenu>());
 }
 
 void Menu::QuitGame() const {
