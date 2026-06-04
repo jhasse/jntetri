@@ -10,11 +10,15 @@ if(NOT MSVC)
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
-	set(USE_FLAGS "-s USE_SDL=2 -pthread -s USE_PTHREADS=1 -s USE_FREETYPE=1 -s USE_VORBIS=1 -s DISABLE_EXCEPTION_CATCHING=0")
+	# Must stay in sync with subprojects/jngl/CMakeLists.txt — jngl is SDL3-only,
+	# so linking jntetri with USE_SDL=2 leaves SDL3 symbols undefined.
+	# emcc still flags the SDL3 port as experimental, so -Wno-experimental is required
+	# because web/build.sh enables CMAKE_COMPILE_WARNING_AS_ERROR.
+	set(USE_FLAGS "-sUSE_SDL=3 -pthread -sUSE_PTHREADS=1 -sUSE_FREETYPE=1 -sUSE_VORBIS=1 -sNO_DISABLE_EXCEPTION_CATCHING -Wno-experimental")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
 	string(APPEND CMAKE_EXE_LINKER_FLAGS
-		" ${USE_FLAGS} -s WEBSOCKET_URL=wss://jntetri.boomshine.de -s ASSERTIONS=1 -s FULL_ES3=1 "
+		" ${USE_FLAGS} -sWEBSOCKET_URL=wss://jntetri.boomshine.de -sASSERTIONS=1 -sFULL_ES3=1 "
 		"--pre-js ${CMAKE_CURRENT_SOURCE_DIR}/web/pre.js -lidbfs.js")
 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
 endif()
