@@ -1,4 +1,6 @@
-$ export LANG=C.UTF-8
+set +x
+export LANG=C.UTF-8
+set -x
 $ test -n $subcommand || lus run $args
 build {
         $ test -f "build/build.ninja" || lus cmake

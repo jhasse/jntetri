@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="chrome=1, IE=edge">
-        <title>Hello Image</title>
+        <title>JNTETRI</title>
         <style>
             .fullwindow {
                 position: absolute;
@@ -16,13 +16,133 @@
                 overflow: hidden;
                 display: block;
             }
+
+            body,
+            button {
+                font-family: system-ui;
+                font-size: 24px;
+                text-align: center;
+            }
+
+            button {
+                background-color: #58ccce33;
+                border: 2px solid #444;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 2em 0;
+            }
+
+            button:hover {
+                background-color: #58ccce88;
+            }
+
+            p {
+                max-width: 800px;
+                margin: 1em auto;
+            }
+
+            a {
+                color: #aa1ea3;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            .dim {
+                font-size: 80%;
+                margin-top: 5em;
+                color: #00000099;
+            }
+
+            .dim a {
+                color: #aa1ea399;
+            }
         </style>
     </head>
     <body style="background-color: #FFFFFF;">
         <canvas class = "fullwindow" id="canvas" oncontextmenu="event.preventDefault()"/>
-        <script type="text/javascript">
-            var Module = {};
-            Module.canvas = document.getElementById('canvas');
+        <div class="spinner" id='spinner'></div>
+        <div class="emscripten" id="status"></div>
+
+        <div class="emscripten">
+            <progress value="0" max="100" id="progress" hidden=1></progress>
+        </div>
+
+        <script type='text/javascript'>
+            var statusElement = document.getElementById('status');
+            var progressElement = document.getElementById('progress');
+            var spinnerElement = document.getElementById('spinner');
+
+            var Module = {
+                preRun: [],
+                postRun: [],
+                print: (function () {
+                    var element = document.getElementById('output');
+                    if (element) element.value = ''; // clear browser cache
+                    return function (text) {
+                        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                        // These replacements are necessary if you render to raw HTML
+                        //text = text.replace(/&/g, "&amp;");
+                        //text = text.replace(/</g, "&lt;");
+                        //text = text.replace(/>/g, "&gt;");
+                        //text = text.replace('\n', '<br>', 'g');
+                        console.log(text);
+                        if (element) {
+                            element.value += text + "\n";
+                            element.scrollTop = element.scrollHeight; // focus on bottom
+                        }
+                    };
+                })(),
+                canvas: (function () {
+                    var canvas = document.getElementById('canvas');
+
+                    // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+                    // application robust, you may want to override this behavior before shipping!
+                    // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+                    canvas.addEventListener("webglcontextlost", function (e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+
+                    return canvas;
+                })(),
+                setStatus: function (text) {
+                    if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+                    if (text === Module.setStatus.last.text) return;
+                    var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+                    var now = Date.now();
+                    if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
+                    Module.setStatus.last.time = now;
+                    Module.setStatus.last.text = text;
+                    if (m) {
+                        text = m[1];
+                        progressElement.value = parseInt(m[2]) * 100;
+                        progressElement.max = parseInt(m[4]) * 100;
+                        progressElement.hidden = false;
+                        spinnerElement.hidden = false;
+                    } else {
+                        progressElement.value = null;
+                        progressElement.max = null;
+                        progressElement.hidden = true;
+                        if (!text) {
+                            spinnerElement.style.display = 'none';
+                        }
+                    }
+                    statusElement.innerHTML = text;
+                },
+                totalDependencies: 0,
+                monitorRunDependencies: function (left) {
+                    this.totalDependencies = Math.max(this.totalDependencies, left);
+                    Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+                }
+            };
+            window.onerror = function (event) {
+                // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
+                Module.setStatus('Exception thrown, see JavaScript console');
+                spinnerElement.style.display = 'none';
+                Module.setStatus = function (text) {
+                    if (text) Module.printErr('[post-exception status] ' + text);
+                };
+            };
         </script>
         <script async type="text/javascript" src="./jntetri.js"></script>
     </body>
