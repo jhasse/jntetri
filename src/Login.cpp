@@ -64,7 +64,8 @@ void Login::ProtocolCheck2(json temp) {
 		if (menu->GetName().empty()) {
 			if (!menu->GetPassword().empty()) {
 				text_ = "Name must not be empty!";
-				return OnError();
+				OnError();
+				return;
 			}
 			socket_->send(json{ { "type", "login_anonymous" } }, [this]() {
 				socket_->receive([this](json temp) { HandleLogin2(std::move(temp)); });
@@ -91,7 +92,7 @@ void Login::HandleLogin2(json temp) {
 		text_ = "No user with this name found.\nDo you want to register yourself?";
 		cancel_.setCenter(-350, 280);
 		cancel_.SetText("No");
-		Button* yes = new Button("Yes", [this] { Register(); });
+		auto* yes = new Button("Yes", [this] { Register(); });
 		yes->setCenter(350, 280);
 		addWidget(std::shared_ptr<Widget>(yes));
 	} else if (temp["type"] == "wrong password") {
@@ -173,7 +174,7 @@ void Login::OnError() {
 			}
 			--i;
 		}
-		text_.insert(text_.begin() + i, '\n');
+		text_.insert(text_.begin() + static_cast<long>(i), '\n');
 		pos += 42;
 	}
 
