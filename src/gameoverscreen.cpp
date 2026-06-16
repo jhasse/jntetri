@@ -28,7 +28,6 @@ bool GameOverScreen::isHighscore() const {
 
 void GameOverScreen::step() {
 	game_->GetField().step(); // Show GameOver animation
-	game_->StepToRotateScreen();
 	if (game_->GameOverAnimationFinished()) {
 		if (isHighscore()) {
 			StepWidgets();

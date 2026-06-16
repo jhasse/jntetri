@@ -17,8 +17,6 @@ public:
 	bool GameOverAnimationFinished() const;
 	GameType getType() const;
 	void DrawTime(int x, int y) const;
-	void StepToRotateScreen();
-	void setRotateScreen(bool);
 	bool gameOver() const;
 	bool isReplay() const;
 	std::unique_ptr<ReplayRecorder> releaseReplayRecorder();
@@ -32,8 +30,6 @@ protected:
 	double nextPosition_;
 	double oldNextPosition_;
 	double pauseTime_ = 0;
-	bool rotateScreen_;
-	double rotateDegree_;
 
 	/// If we're owned by a ReplayPlayer, this is nullptr
 	std::unique_ptr<ReplayRecorder> replayRecorder;

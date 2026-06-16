@@ -6,8 +6,6 @@
 
 PauseMenu::PauseMenu(std::shared_ptr<Game> game)
 : work(jngl::getWork()), buttonBox(new ButtonBox), game(std::move(game)) {
-	this->game->setRotateScreen(
-	    false); // Don't rotate the screen so that the buttons work correctly
 	buttonBox->add("Resume", [this] { Continue(); });
 	buttonBox->add("Menu", [] { jngl::setScene<jngl::Fade>(std::make_shared<Menu>()); });
 	if (jngl::canQuit()) {
@@ -21,7 +19,6 @@ void PauseMenu::step() {
 		jngl::setScene(work);
 	}
 	StepWidgets();
-	game->StepToRotateScreen();
 }
 
 void PauseMenu::Continue() {
