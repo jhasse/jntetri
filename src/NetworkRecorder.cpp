@@ -11,8 +11,9 @@ NetworkRecorder::NetworkRecorder(std::initializer_list<std::shared_ptr<ControlBa
 }
 
 bool NetworkRecorder::step() {
-	bool success = Control::step();
+	const bool success = Control::step();
 	assert(success);
+	(void)success;
 	networkControl->stepSend(*this);
 	return true;
 }

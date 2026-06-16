@@ -23,7 +23,8 @@ void ReplayRecorder::step() {
 	}
 }
 
-void ReplayRecorder::save(std::string_view key, std::string_view playerName, int64_t score) const {
+void ReplayRecorder::save(std::string_view key, [[maybe_unused]] std::string_view playerName,
+                          [[maybe_unused]] int64_t score) const {
 	jngl::writeConfig(std::format("{}.jtr", key), fout.str());
 	// TODO: Save in binary format with cereal?
 	// std::ostringstream tmp;
