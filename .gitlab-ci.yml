@@ -19,15 +19,15 @@ server:
     - cmake --build build
 
 web:
-  image: emscripten/emsdk:5.0.6
+  image: emscripten/emsdk:5.0.7
   stage: build
   script:
     - apt-get update && apt-get install -y ninja-build
-    - cd /tmp
+    - cd /opt
     - curl --silent -O -L https://archives.boost.io/release/1.85.0/source/boost_1_85_0.tar.bz2
     - tar --wildcards -xf *.tar.bz2 'boost_1_*_0/boost'
     - cd -
-    - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0 -DBoost_INCLUDE_DIR=/tmp/boost_1_85_0
+    - emcmake cmake -GNinja -Bbuild-web -DCMAKE_BUILD_TYPE=Release -DJNGL_VIDEO=0 -DBoost_INCLUDE_DIR=/opt/boost_1_85_0
     - mv data/ build-web/
     - cd build-web
     - ninja jntetri
