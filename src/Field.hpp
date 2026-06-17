@@ -62,25 +62,25 @@ public:
 private:
 	void CheckLines();
 	void ResetCounter();
-	std::vector<Block> blocks_;
-	std::vector<Explosion> explosions_;
-	std::shared_ptr<Tetromino> nextTetromino_;
-	std::shared_ptr<Tetromino> tetromino_;
-	const static int width_;
-	const static int height_;
-	const int blockSize_;
-	int counter_;
-	bool gameOver_;
-	int score_;
-	int level_;
+	std::vector<Block> blocks;
+	std::vector<Explosion> explosions;
+	std::shared_ptr<Tetromino> nextTetromino;
+	std::shared_ptr<Tetromino> tetromino;
+	const static int width;
+	const static int height;
+	const int blockSize;
+	int counter;
+	bool gameOver;
+	int score;
+	int level;
 	int lines;
 	int maxY;
-	bool pause_;
+	bool pause;
 
-	/// >0 when there are network issues i.e. control_->step() hasn't returned any data
+	/// >0 when there are network issues i.e. control->step() hasn't returned any data
 	int stepsWithoutPackage = 0;
 
-	std::shared_ptr<Control> control_;
+	std::shared_ptr<Control> control;
 	bool delayBeforeNewTetrominoActive = false;
 	bool downKeyReleased = true;
 	std::mt19937 random;
