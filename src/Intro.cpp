@@ -5,7 +5,7 @@
 #include "engine/screen.hpp"
 #include "fonts.hpp"
 #include "menu.hpp"
-#include "multiplayermenu.hpp"
+#include "MultiplayerMenu.hpp"
 
 #include <jngl.hpp>
 

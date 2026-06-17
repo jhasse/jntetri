@@ -3,7 +3,7 @@
 #include "engine/socket.hpp"
 #include "gui/MessageBox.hpp"
 #include "lobby.hpp"
-#include "multiplayermenu.hpp"
+#include "MultiplayerMenu.hpp"
 
 #include <jngl.hpp>
 #include <nlohmann/json.hpp>

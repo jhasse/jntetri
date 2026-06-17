@@ -3,7 +3,7 @@
 #include "Game.hpp"
 #include "engine/screen.hpp"
 #include "gui/ButtonBox.hpp"
-#include "multiplayermenu.hpp"
+#include "MultiplayerMenu.hpp"
 #include "optionsmenu.hpp"
 
 #include <ctime>

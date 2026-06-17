@@ -3,7 +3,7 @@
 #include "engine/work.hpp"
 #include "engine/socket.hpp"
 #include "gui/Button.hpp"
-#include "multiplayermenu.hpp"
+#include "MultiplayerMenu.hpp"
 
 #include <boost/asio.hpp>
 #include <jngl.hpp>
