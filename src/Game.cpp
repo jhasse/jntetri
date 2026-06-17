@@ -11,7 +11,7 @@
 #include <sstream>
 
 Game::Game(const GameType type, const int seed, const bool replay)
-: field_(seed, getOptions().startLevel, getOptions().startJunks), type_(type),
+: field_(seed, getOptions().startLevel, getOptions().startJunks), type_(type), replay_(replay),
   nextPosition_(field_.GetNextPosition()), oldNextPosition_(nextPosition_) {
 	if (!replay) { // Don't record when we're playing back a replay
 		replayRecorder = std::make_unique<ReplayRecorder>(field_, type);
@@ -110,7 +110,7 @@ bool Game::gameOver() const {
 }
 
 bool Game::isReplay() const {
-	return replayRecorder == nullptr;
+	return replay_;
 }
 
 std::unique_ptr<ReplayRecorder> Game::releaseReplayRecorder() {

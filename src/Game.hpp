@@ -27,6 +27,7 @@ protected:
 
 	Field field_;
 	GameType type_;
+	bool replay_;
 	double nextPosition_;
 	double oldNextPosition_;
 	double pauseTime_ = 0;
